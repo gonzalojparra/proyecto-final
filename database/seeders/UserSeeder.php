@@ -13,7 +13,8 @@ use Laravel\Jetstream\Jetstream;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-class UserSeeder extends Seeder {
+class UserSeeder extends Seeder
+{
     /* public function run() {
 
         $rolAdmin = Role::create(['name' => 'Admin']);
@@ -43,8 +44,8 @@ class UserSeeder extends Seeder {
     } */
 
     public function run() {
-    // Seeder para hacer funcionar los teams
-    // Hay que adaptarlo a lo que está comentado arriba
+        // Seeder para hacer funcionar los teams
+        // Hay que adaptarlo a lo que está comentado arriba
         $users = [
             'Admin' => 'admin@votetracker.org',
             'Owner' => 'owner@example.com',
@@ -89,7 +90,7 @@ class UserSeeder extends Seeder {
         );
     }
 
-    
+
     /**
      * Create a personal team for the user.
      *
