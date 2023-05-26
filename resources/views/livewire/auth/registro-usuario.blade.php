@@ -1,5 +1,5 @@
-<x-guest-layout>
-    <!-- <x-authentication-card>
+<div>
+<x-authentication-card>
         <x-slot name="logo">
             <x-authentication-card-logo />
         </x-slot>
@@ -56,8 +56,5 @@
                 </x-button>
             </div>
         </form>
-    </x-authentication-card> -->
-    <div>
-        @livewire('auth.registro-usuario')
-    </div>
-</x-guest-layout>
+    </x-authentication-card>
+</div>
