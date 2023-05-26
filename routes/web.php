@@ -16,14 +16,16 @@ use App\Http\Controllers\Security;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+/*  Route::get('/', function () {
+     return view('welcome');
+ }); */
 
+/* Route::get('/', function () {
+    return view('welcome');
+})->name('home'); */
 Route::get('/', function () {
-    return view('dashboard');
+    return view('/dashboard');
 })->name('dashboard');
-
 Route::get('/resultados', function () {
     return view('resultados');
 })->name('resultados');
@@ -33,6 +35,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
+
+
 
     Route::get('permisos', [Security\PermissionController::class, 'index'])->name('permisos.index');
 
