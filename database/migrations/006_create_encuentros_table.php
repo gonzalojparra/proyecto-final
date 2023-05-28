@@ -24,9 +24,9 @@ return new class extends Migration {
             $table->foreign('id_competencia')->references('id')
               ->on('competencias');
             $table->foreign('id_competidor1')->references('id')
-            ->on('competencias');
+            ->on('competidores');
             $table->foreign('id_competidor2')->references('id')
-            ->on('competencias');
+            ->on('competidores');
         });
     }
 
