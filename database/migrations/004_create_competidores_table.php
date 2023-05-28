@@ -12,30 +12,25 @@ return new class extends Migration {
      */
     public function up(): void {
         Schema::create('competidores', function (Blueprint $table) {
-            $table->id();
+            $table->foreignId('id_user')->constrained('users');
             $table->string('gal')->unique();
-            $table->string('nombre');
-            $table->string('apellido');
             $table->integer('du', false, true);
-            $table->date('fecha_nac');
-            $table->string('email');
             $table->string('genero');
+            $table->unsignedBigInteger('id_colegio');
             $table->string('graduacion');
             $table->float('clasificacion', 5, 2, true)->nullable();
-
-            $table->string('pais_nombre');
-            $table->string('categoria');
-            $table->string('colegio_nombre');
+            $table->unsignedBigInteger('id_categoria');
+            $table->unsignedBigInteger('id_pais');
 
             // agrega campo timestamp de fecha de eliminacion
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('pais_nombre')->references('nombre')
+            $table->foreign('id_pais')->references('id')
               ->on('paises');
-            $table->foreign('categoria')->references('nombre')
+            $table->foreign('id_categoria')->references('id')
               ->on('categorias');
-            $table->foreign('colegio_nombre')->references('nombre')
+            $table->foreign('id_colegio')->references('id')
               ->on('colegios');
         });
     }

@@ -12,6 +12,7 @@ return new class extends Migration {
         Schema::create('paises', function (Blueprint $table) {
             $table->id();
             $table->string('nombre')->unique();
+            $table->string('img')->nullable();
             $table->timestamps();
         });
     }

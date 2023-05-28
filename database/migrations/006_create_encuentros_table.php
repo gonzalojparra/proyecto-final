@@ -11,17 +11,22 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('encuentros', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_competidor1')->constrained('competidores');
-            $table->foreignId('id_competidor2')->constrained('competidores');
             $table->unsignedBigInteger('id_competencia');
+            $table->unsignedBigInteger('id_competidor1');
+            $table->unsignedBigInteger('id_competidor2');
             $table->float('calificacion_competidor1');
             $table->float('calificacion_competidor2');
             $table->string('categoria');
-            $table->integer('num_ronda');
+            $table->integer('ronda');
+            // $table->timestamps('fecha_inicio');
             $table->timestamps();
 
             $table->foreign('id_competencia')->references('id')
               ->on('competencias');
+            $table->foreign('id_competidor1')->references('id')
+            ->on('competencias');
+            $table->foreign('id_competidor2')->references('id')
+            ->on('competencias');
         });
     }
 

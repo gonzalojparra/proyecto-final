@@ -14,7 +14,8 @@ return new class extends Migration {
             $table->string('nombre');
             $table->string('flyer');
             $table->string('bases');
-            $table->date('fecha');
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
             $table->timestamps();
         });
     }
