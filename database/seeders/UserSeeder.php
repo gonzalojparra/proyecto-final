@@ -49,18 +49,14 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Rodri',
                 'lastname' => 'Pepi',
-                'email' => 'rodri@example.com',
-                'password' => Hash::make('secret')
+                'email' => 'rodri@example.com'
             ],
             [
                 'name' => 'Juan',
                 'lastname' => 'Loa',
-                'email' => 'juan@example.com',
-                'password' => Hash::make('secret')
-            ],
+                'email' => 'juan@example.com'
+            ]
         ];
-
-        User::insert($users);
 
 
         // Seeder para hacer funcionar los teams
@@ -73,6 +69,19 @@ class UserSeeder extends Seeder
         //     'Volunteer' => 'volunteer@example.com'
         // ];
 
+        foreach ($users as $u) {
+            $name = $u['name'];
+            $lastname = $u['lastname'];
+            $email = $u['email'];
+            DB::transaction(function () use ($name, $lastname, $email) {
+                return tap(User::create([
+                    'name' => $name,
+                    'lastname' => $lastname,
+                    'email' => $email,
+                    'password' => Hash::make('secret'),
+                ]));
+            });
+        }
 
         // foreach ($users as $name => $email) {
         //     DB::transaction(function () use ($name, $email) {
@@ -87,28 +96,28 @@ class UserSeeder extends Seeder
         // }
 
         // Create one team
-        $team = $this->createBigTeam('owner@example.com');
+        // $team = $this->createBigTeam('owner@example.com');
 
         // assign to team
-        $role = 'manager';
-        $email = 'manager@example.com';
-        $team->users()->attach(
-            Jetstream::findUserByEmailOrFail($email),
-            ['role' => $role]
-        );
-        $role = 'staff';
-        $email = 'staff@example.com';
-        $team->users()->attach(
-            Jetstream::findUserByEmailOrFail($email),
-            ['role' => $role]
-        );
-        $role = 'volunteer';
-        $email = 'volunteer@example.com';
-        $team->users()->attach(
-            Jetstream::findUserByEmailOrFail($email),
-            ['role' => $role]
-        );
-    }
+        //     $role = 'manager';
+        //     $email = 'manager@example.com';
+        //     $team->users()->attach(
+        //         Jetstream::findUserByEmailOrFail($email),
+        //         ['role' => $role]
+        //     );
+        //     $role = 'staff';
+        //     $email = 'staff@example.com';
+        //     $team->users()->attach(
+        //         Jetstream::findUserByEmailOrFail($email),
+        //         ['role' => $role]
+        //     );
+        //     $role = 'volunteer';
+        //     $email = 'volunteer@example.com';
+        //     $team->users()->attach(
+        //         Jetstream::findUserByEmailOrFail($email),
+        //         ['role' => $role]
+        //     );
+        // }
 
 
     /**
@@ -117,27 +126,27 @@ class UserSeeder extends Seeder
      * @param  \App\Models\User  $user
      * @return void
      */
-    protected function createTeam(User $user) {
-        $user->ownedTeams()->save(Team::forceCreate([
-            'user_id' => $user->id,
-            'name' => 'Personal',
-            'personal_team' => true,
-        ]));
-    }
+    // protected function createTeam(User $user) {
+    //     $user->ownedTeams()->save(Team::forceCreate([
+    //         'user_id' => $user->id,
+    //         'name' => 'Personal',
+    //         'personal_team' => true,
+    //     ]));
+    // }
 
     /**
      * @param mixed $email
      * @return Team
      */
-    protected function createBigTeam($email): Team {
-        $user = Jetstream::findUserByEmailOrFail($email);
-        $team = Team::forceCreate([
-            'user_id' => $user->id,
-            'name' => "Big Company",
-            'personal_team' => false,
-        ]);
-        $user->ownedTeams()->save($team);
-        return $team;
+    // protected function createBigTeam($email): Team {
+    //     $user = Jetstream::findUserByEmailOrFail($email);
+    //     $team = Team::forceCreate([
+    //         'user_id' => $user->id,
+    //         'name' => "Big Company",
+    //         'personal_team' => false,
+    //     ]);
+    //     $user->ownedTeams()->save($team);
+    //     return $team;
+    // }
     }
-
 }
