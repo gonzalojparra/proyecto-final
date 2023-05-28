@@ -44,27 +44,47 @@ class UserSeeder extends Seeder
     } */
 
     public function run() {
-        // Seeder para hacer funcionar los teams
-        // Hay que adaptarlo a lo que está comentado arriba
+
         $users = [
-            'Admin' => 'admin@votetracker.org',
-            'Owner' => 'owner@example.com',
-            'Manager' => 'manager@example.com',
-            'Staff' => 'staff@example.com',
-            'Volunteer' => 'volunteer@example.com'
+            [
+                'name' => 'Rodri',
+                'lastname' => 'Pepi',
+                'email' => 'rodri@example.com',
+                'password' => Hash::make('secret')
+            ],
+            [
+                'name' => 'Juan',
+                'lastname' => 'Loa',
+                'email' => 'juan@example.com',
+                'password' => Hash::make('secret')
+            ],
         ];
 
-        foreach ($users as $name => $email) {
-            DB::transaction(function () use ($name, $email) {
-                return tap(User::create([
-                    'name' => $name,
-                    'email' => $email,
-                    'password' => Hash::make('secret'),
-                ]), function (User $user) {
-                    $this->createTeam($user);
-                });
-            });
-        }
+        User::insert($users);
+
+
+        // Seeder para hacer funcionar los teams
+        // Hay que adaptarlo a lo que está comentado arriba
+        // $users = [
+        //     'Admin' => 'admin@votetracker.org',
+        //     'Owner' => 'owner@example.com',
+        //     'Manager' => 'manager@example.com',
+        //     'Staff' => 'staff@example.com',
+        //     'Volunteer' => 'volunteer@example.com'
+        // ];
+
+
+        // foreach ($users as $name => $email) {
+        //     DB::transaction(function () use ($name, $email) {
+        //         return tap(User::create([
+        //             'name' => $name,
+        //             'email' => $email,
+        //             'password' => Hash::make('secret'),
+        //         ]), function (User $user) {
+        //             $this->createTeam($user);
+        //         });
+        //     });
+        // }
 
         // Create one team
         $team = $this->createBigTeam('owner@example.com');
