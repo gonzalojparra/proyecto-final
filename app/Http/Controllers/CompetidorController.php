@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Competidor;
 use Illuminate\Http\Request;
 use App\Models\Pais;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -44,6 +45,7 @@ class CompetidorController extends Controller
         return view('competidores.create');
     }
 
+    // Buscar pais precargado en la base de datos
     public function buscarPaises(Request $request)
     {
 
@@ -58,6 +60,29 @@ class CompetidorController extends Controller
         return response()->json($paises);
     }
 
+    // Buscar colegios 
+    public function buscarColegio(Request $request)
+    {
+        $search = $request->search;
+
+        if ($search == '') {
+            $paises = DB::table('pais')
+                ->orderBy('nombre', 'asc')
+                ->limit(5)
+                ->pluck('nombre');
+        } else {
+            $paises = DB::table('pais')
+                ->orderBy('nombre', 'asc')
+                ->where('nombre', 'like', '%' . $search . '%')
+                ->limit(5)
+                ->pluck('nombre');
+        }
+
+        return response()->json($paises);
+    }
+
+
+    // Si ya esta cargado el competidor, se autocompleta el formulario
     public function buscarCompetidor(Request $request)
     {
 
@@ -77,7 +102,7 @@ class CompetidorController extends Controller
         return response()->json($competidor);
     }
 
-    // Guardamos el competidor del formulario en la bd.
+    // Guardamos al competidor del formulario en la bd.
     public function store(Request $request)
     {
         $request->validate([
