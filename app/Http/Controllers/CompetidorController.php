@@ -41,22 +41,9 @@ class CompetidorController extends Controller
     // Mostramos la vista del formulario con create.
     public function create()
     {
-        if (isset(auth()->user()->rol)) {
-            $userRol = auth()->user()->rol;
-        } else {
-            $userRol = null;
-        }
-
-        if ($userRol == NULL) {
-            return view('competidores.create');
-        } else {
-            return redirect('/')->withErrors('Debe ser un competidor para ingresar.');
-        }
+        return view('competidores.create');
     }
 
-    /*
-   AJAX request
-   */
     public function buscarPaises(Request $request)
     {
 
@@ -70,34 +57,33 @@ class CompetidorController extends Controller
 
         return response()->json($paises);
     }
-
     // Guardamos el competidor del formulario en la bd.
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => ['required'],
-            'apellido' => ['required'],
+            'id_user' => ['required'],
+            'gal' => ['required', 'unique:competidores'],
             'du' => ['required'],
-            'fecha-nacimiento' => ['required'],
-            'pais' => ['required'],
-            'email' => ['required'],
-            'genero' => ['required', 'min:4'],
-            'gal' => ['required', 'unique:competidores,legajo'],
+            'genero' => ['required'],
+            'id_colegio' => ['required'],
             'graduacion' => ['required'],
             'clasificacion' => ['required'],
+            'id_categoria' => ['required'],
+            'id_pais' => ['required'],
+            //'fecha_nac' => ['required'],
         ]);
 
         Competidor::create([
-            'legajo' => $request->get('gal'),
-            'nombre' => $request->get('nombre'),
-            'apellido' => $request->get('apellido'),
+            'id_user' => $request->get('id_user'),
+            'gal' => $request->get('gal'),
             'du' => $request->get('du'),
-            'fecha_nac' => $request->get('fecha-nacimiento'),
-            'pais_nombre' => $request->get('pais'),
-            'email' => $request->get('email'),
             'genero' => $request->get('genero'),
+            'id_colegio' => $request->get('id_colegio'),
             'graduacion' => $request->get('graduacion'),
             'clasificacion' => $request->get('clasificacion'),
+            'id_categoria' => $request->get('pais'),
+            'id_pais' => $request->get('pais'),
+            // 'fecha_nac' => $request->get('fecha_nac'),
         ]);
 
         return to_route('competidores.index')->with('success', 'El competidor se creo correctamente');
@@ -113,28 +99,29 @@ class CompetidorController extends Controller
     public function update(Request $request, Competidor $competidor)
     {
         $request->validate([
-            'nombre' => ['required'],
-            'apellido' => ['required'],
+            'id_user' => ['required'],
+            'gal' => ['required', 'unique:competidores'],
             'du' => ['required'],
-            'fecha-nacimiento' => ['required'],
-            'pais' => ['required'],
-            'email' => ['required'],
-            'genero' => ['required', 'min:4'],
-            'gal' => ['required', 'unique:competidores,legajo'],
+            'genero' => ['required'],
+            'id_colegio' => ['required'],
             'graduacion' => ['required'],
             'clasificacion' => ['required'],
+            'id_categoria' => ['required'],
+            'id_pais' => ['required'],
+            //'fecha_nac' => ['required'],
         ]);
 
         $competidor->update([
-            'legajo' => $request->get('gal'),
-            'nombre' => $request->get('nombre'),
-            'apellido' => $request->get('apellido'),
+            'id_user' => $request->get('id_user'),
+            'gal' => $request->get('gal'),
             'du' => $request->get('du'),
-            'fecha_nac' => $request->get('fecha-nacimiento'),
-            'pais_nombre' => $request->get('pais'),
-            'email' => $request->get('email'),
             'genero' => $request->get('genero'),
+            'id_colegio' => $request->get('id_colegio'),
+            'graduacion' => $request->get('graduacion'),
             'clasificacion' => $request->get('clasificacion'),
+            'id_categoria' => $request->get('pais'),
+            'id_pais' => $request->get('pais'),
+            // 'fecha_nac' => $request->get('fecha_nac'),
         ]);
 
         return to_route('competidores.show', $competidor)->with('success', 'El competidor se actualizo correctamente.');
@@ -152,23 +139,5 @@ class CompetidorController extends Controller
     {
         $competidores = Competidor::all();
         return $competidores;
-    }
-
-    public function find(Request $request, Competidor $competidor)
-    {
-        $columnName = 'du';
-        $valor = $request->get('du');
-
-        $competidorEncontrado = $competidor->whereRaw("`$columnName` = ?", [$valor])->get();
-
-        $sql = $competidor->toSql();
-
-        if ($competidorEncontrado->count() > 0) {
-            // Hay resultados en la base de datos
-            return response()->json($competidorEncontrado);
-        } else {
-            // No se encontraron resultados en la base de datos
-            return response()->json($valor);
-        }
     }
 }
