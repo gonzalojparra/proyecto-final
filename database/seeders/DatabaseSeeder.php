@@ -16,10 +16,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class
         ]);
-        \App\Models\User::factory(100)->create();
+        // \App\Models\User::factory(100)->create();
 
         $this->call(PaisesSeeder::class);
         $this->call(RoleSeeder::class);
+        $this->call(TeamsSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
