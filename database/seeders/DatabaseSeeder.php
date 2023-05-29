@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(PaisesSeeder::class);
         $this->call(RoleSeeder::class);
+        $this->call(TeamsSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
