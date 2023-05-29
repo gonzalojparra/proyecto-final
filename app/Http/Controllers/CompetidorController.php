@@ -57,6 +57,26 @@ class CompetidorController extends Controller
 
         return response()->json($paises);
     }
+
+    public function buscarCompetidor(Request $request)
+    {
+
+        $columnName = 'du';
+        $data = $request->input('du');
+
+        $competidor = Competidor::where($columnName, $data)->get();
+
+        if ($competidor->count() > 0) {
+            // Hay resultados en la base de datos
+            return response()->json($competidor);
+        } else {
+            // No se encontraron resultados en la base de datos
+            return response()->json(['error' => 'Modelo no encontrado'], 404);
+        }
+
+        return response()->json($competidor);
+    }
+
     // Guardamos el competidor del formulario en la bd.
     public function store(Request $request)
     {

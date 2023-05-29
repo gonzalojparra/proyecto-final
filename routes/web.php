@@ -45,5 +45,5 @@ Route::middleware([
 
 Route::resource('competidores', CompetidorController::class);
 
-Route::post('/competidores/create', [CompetidorController::class, 'find'])->name('competidores.find');
+Route::post('/competidores/create', [CompetidorController::class, 'buscarCompetidor'])->name('competidores.buscarCompetidor');
 

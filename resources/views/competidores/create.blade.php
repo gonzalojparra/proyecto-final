@@ -118,7 +118,7 @@
 
         console.log(valor);
         $.ajax({
-          url: "{{route('competidores.find')}}",
+          url: "{{route('competidores.buscarCompetidor')}}",
           method: 'POST',
           dataType: "json",
           data: {
