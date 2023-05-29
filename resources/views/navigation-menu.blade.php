@@ -216,9 +216,7 @@
                 </div>
 
                 <!-- Team Settings -->
-                <x-responsive-nav-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}" :active="request()->routeIs('teams.show')">
-                    {{ __('Configuración de escuela') }}
-                </x-responsive-nav-link>
+                
 
                 @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
                 <x-responsive-nav-link href="{{ route('teams.create') }}" :active="request()->routeIs('teams.create')">
