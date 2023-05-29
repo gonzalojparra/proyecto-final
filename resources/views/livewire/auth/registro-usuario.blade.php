@@ -18,9 +18,9 @@
                 @enderror
             </div>
 
-            <div>
+            <div class="mt-4">
                 <x-label for="lastname" value="{{ __('Apellido') }}" />
-                <x-input  wire:model.lazy="apellidoUsuario" id="apellidoUsuario" class="block mt-1 w-full" type="text" name="lastname" :value="old('lastname')"  autofocus autocomplete="lastname"  wire:model='apellidoUsuario' />
+                <x-input  wire:model.lazy="apellidoUsuario" id="apellidoUsuario" class="block mt-1 w-full" type="text" name="apellido" :value="old('lastname')"  autofocus autocomplete="lastname"  wire:model='apellidoUsuario' />
                 <!-- <input type="text" class="input-text" placeholder="Nombre"> -->
                 @error('apellidoUsuario')
                 <span class="text-red-500 py-3">  </span>

@@ -20,7 +20,7 @@ class RoleSeeder extends Seeder {
         $juez = Role::create(['name' => 'Juez']);
         $competidor = Role::create(['name' => 'Competidor']);
 
-        $permisos = [
+        $permisosProfesor = [
             'competidores.index',
             'competidores.create',
             'competidores.edit',
@@ -33,7 +33,7 @@ class RoleSeeder extends Seeder {
             'teams.update-team-name-form',
         ];
 
-        foreach( $permisos as $permiso ){
+        foreach( $permisosProfesor as $permiso ){
             Permission::create(['name' => $permiso])->assignRole($profesor);
         };
 
