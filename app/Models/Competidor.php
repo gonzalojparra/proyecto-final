@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Pais;
 
 
-class Competidor extends Model {
+class Competidor extends Model
+{
     use HasFactory;
     use SoftDeletes;
 
@@ -28,8 +29,20 @@ class Competidor extends Model {
 
     protected $dates = ['deleted_at'];
 
-    public function pais() {
+    public function pais()
+    {
         return $this->belongsTo(Pais::class, 'pais_nombre', 'nombre');
     }
 
+    /**
+     * Buscar un modelo por el valor de una columna específica.
+     *
+     * @param string $column
+     * @param mixed $value
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function findByColumn($column, $value)
+    {
+        return static::where($column, '=', $value)->get();
+    }
 }

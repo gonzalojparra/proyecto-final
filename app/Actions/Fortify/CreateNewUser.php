@@ -37,6 +37,8 @@ class CreateNewUser implements CreatesNewUsers
                 'password' => Hash::make($input['password']),
             ]), function (User $user) {
                 $this->createTeam($user);
+                $user->assignRole('Profesor');
+                //$user->ownedTeams()->save($team);
             });
         });
     }
@@ -44,12 +46,12 @@ class CreateNewUser implements CreatesNewUsers
     /**
      * Create a personal team for the user.
      */
-    protected function createTeam(User $user): void
-    {
+    protected function createTeam(User $user): void {
         $user->ownedTeams()->save(Team::forceCreate([
             'user_id' => $user->id,
-            'name' => explode(' ', $user->name, 2)[0]."'s Team",
+            'name' => $user->lastname,
             'personal_team' => true,
         ]));
     }
+
 }
