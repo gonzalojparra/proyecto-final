@@ -1,73 +1,26 @@
 <div class="container items-center p-5 inline">
-        <div class="flex flex-row flex-wrap lg:flex-nowrap justify-center items-center">
+    <div class="flex flex-row flex-wrap lg:flex-nowrap justify-center items-center">
 
-            <div class="border rounded-lg border-green-300 m-3">
-                <div class="px-5 pb-5 basis-6/12">
-                    <div class="p-3">
-                        <h3 class="text-4xl">Invitacion</h3>
-                    </div>
-                    <div class="flex items-center mt-2.5 mb-5">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga nostrum hic magnam debitis, amet quo saepe architecto quos consequuntur dolor corporis officiis. Et, aliquid corrupti. Tempore accusamus aliquid vero adipisci ad suscipit eius ducimus odit dicta ab tenetur reprehenderit sed rerum maxime omnis sunt aspernatur asperiores optio, quo nisi in! Odit quas tempore sapiente nemo reiciendis qui rerum esse doloribus vitae dolore quae temporibus inventore, sit cum, explicabo laboriosam ducimus consequatur debitis at consectetur ipsa numquam itaque officia. Nostrum aspernatur, quam magni quasi et dignissimos deserunt nulla cum temporibus nihil rem dolor nemo nam laboriosam veritatis ab distinctio consequuntur ex!
-                    </div>
-                    <div class="flex items-center justify-end">
-                        <div class="w-full md:hidden">
-                            <button class="w-full hover:border border-red-300 p-2 rounded ">Descargar</button>
-                        </div>
-                        <button class="hidden md:inline hover:border border-red-300 p-1 rounded">
-                            <svg class="text-red-500" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" />
-                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
-                                <polyline points="7 11 12 16 17 11" />
-                                <line x1="12" y1="4" x2="12" y2="16" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
 
-            <div class="border rounded-lg shadow border-blue-300 m-3 ">
-                <div class="basis-6/12">
-                    <div class="flex items-center mt-2.5 mb-5">
-                        <img class="w-full h-full" src="{{asset('image/flyerLiga.jpeg')}}" alt="">
-                    </div>
-                    <div class="flex items-center justify-end float-right mb-3 w-full">
-                        <div class="w-full md:hidden">
-                            <button class="w-full hover:border border-red-300 p-2 rounded ">Descargar</button>
-                        </div>
-                        <button class="hidden md:inline hover:border border-red-300 p-1 rounded ">
-                            <svg class="text-red-500" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" />
-                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
-                                <polyline points="7 11 12 16 17 11" />
-                                <line x1="12" y1="4" x2="12" y2="16" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class=" border rounded-lg shadow border-yellow-300 m-3">
-            <div class="px-5 pb-5">
-                <div class="p-3">
-                    <h3 class="text-4xl">Bases y Condiciones</h3>
-                </div>
-                <div class="flex items-center mt-2.5 mb-5">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga nostrum hic magnam debitis, amet quo saepe architecto quos consequuntur dolor corporis officiis. Et, aliquid corrupti. Tempore accusamus aliquid vero adipisci ad suscipit eius ducimus odit dicta ab tenetur reprehenderit sed rerum maxime omnis sunt aspernatur asperiores optio, quo nisi in! Odit quas tempore sapiente nemo reiciendis qui rerum esse doloribus vitae dolore quae temporibus inventore, sit cum, explicabo laboriosam ducimus consequatur debitis at consectetur ipsa numquam itaque officia. Nostrum aspernatur, quam magni quasi et dignissimos deserunt nulla cum temporibus nihil rem dolor nemo nam laboriosam veritatis ab distinctio consequuntur ex!
-                </div>
-                <div class="flex items-center justify-end">
-                    <div class="w-full md:hidden">
-                        <button class="w-full hover:border border-red-300 p-2 rounded ">Descargar</button>
-                    </div>
-                    <button class="hidden md:inline hover:border border-red-300 p-1 rounded">
-                        <svg class="text-red-500" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" />
-                            <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
-                            <polyline points="7 11 12 16 17 11" />
-                            <line x1="12" y1="4" x2="12" y2="16" />
-                        </svg>
-                    </button>
+        <div class="w-full p-4 text-center flex flex-col bg-white rounded-lg lg:flex-row">
+            <img class=" w-full rounded-t-lg  lg:h-auto lg:w-60 lg:rounded-none lg:rounded-l-lg" src="{{asset('image/flyerLiga.jpeg')}}" alt="">
+            <div class="flex flex-col justify-between p-4 leading-normal">
+                <h5 class="mb-2 text-3xl font-bold">Liga Provincial 2023</h5>
+                <p class="mb-5 text-base  sm:text-lg ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga nostrum hic magnam debitis, amet quo saepe architecto quos consequuntur dolor corporis officiis. Et, aliquid corrupti. Tempore accusamus aliquid vero adipisci ad suscipit eius ducimus odit dicta ab tenetur reprehenderit sed rerum maxime omnis sunt aspernatur asperiores optio, quo nisi in! Odit quas tempore sapiente nemo reiciendis qui rerum esse doloribus vitae dolore quae temporibus inventore, sit cum, explicabo laboriosam ducimus consequatur debitis at consectetur ipsa numquam itaque officia. Nostrum aspernatur, quam magni quasi et dignissimos deserunt nulla cum temporibus nihil rem dolor nemo nam laboriosam veritatis ab distinctio consequuntur ex!</p>
+                <div class="mt-5 items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
+                    <a href="#" class="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
+                        Invitacion a la Liga
+                    </a>
+                    <a href="#" class="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
+                        Bases y Condiciones
+                    </a>
+                    <a href="#" class="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
+                        Imagen de la Liga
+                    </a>
                 </div>
             </div>
         </div>
+
     </div>
+
+</div>

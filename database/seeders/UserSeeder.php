@@ -58,45 +58,32 @@ class UserSeeder extends Seeder
             ]
         ];
 
+        User::create([
+            'name' => 'Pepe',
+            'apellido' => 'Argento',
+            'email' => 'pepe@example.com',
+            'password' => Hash::make('123')
+        ])->assignRole('Juez');
+        // PARA REALIZAR REGISTROS DE LA TABLA COMPETENCIA_JUEZ
+        // Nos traemos todos los registros que tengan rol_id 4 de la tabla model_has_roles
+        // Tenemos la lista de todos los jueces, obtenemos el id del usuario
+
 
         // Seeder para hacer funcionar los teams
         // Hay que adaptarlo a lo que está comentado arriba
-        // $users = [
-        //     'Admin' => 'admin@votetracker.org',
-        //     'Owner' => 'owner@example.com',
-        //     'Manager' => 'manager@example.com',
-        //     'Staff' => 'staff@example.com',
-        //     'Volunteer' => 'volunteer@example.com'
-        // ];
 
-        foreach ($users as $u) {
-            $name = $u['name'];
-            $lastname = $u['lastname'];
-            $email = $u['email'];
-            DB::transaction(function () use ($name, $lastname, $email) {
-                return tap(User::create([
-                    'name' => $name,
-                    'lastname' => $lastname,
-                    'email' => $email,
-                    'password' => Hash::make('secret'),
-                ]));
-            });
-        }
-
-        // foreach ($users as $name => $email) {
-        //     DB::transaction(function () use ($name, $email) {
-        //         return tap(User::create([
-        //             'name' => $name,
-        //             'email' => $email,
-        //             'password' => Hash::make('secret'),
-        //         ]), function (User $user) {
-        //             $this->createTeam($user);
-        //         });
-        //     });
-        // }
+        foreach ($users as $name => $email) {
+            DB::transaction(function () use ($name, $email) {
+                 return tap(User::create([
+                     'name' => $name,
+                     'email' => $email,
+                     'password' => Hash::make('secret'),
+                 ]));
+             });
+         }
 
         // Create one team
-        // $team = $this->createBigTeam('owner@example.com');
+        // $team = $this->createBigTeam('Equipo algo');
 
         // assign to team
         //     $role = 'manager';

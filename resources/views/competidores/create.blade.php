@@ -1,4 +1,5 @@
 <x-app-layout>
+  <link rel="stylesheet" type="text/css" href="{{ asset('jqueryui/jquery-ui.min.css') }}">
   <div class="container mx-auto">
     <div class="flex justify-center">
       <form id="formulario" action="{{ route('competidores.store') }}" method="POST" class="border m-2 p-3 fs-5 bg-white sm:w-1/2 lg:w-1/3">
@@ -7,43 +8,56 @@
 
         <!-- DNI -->
         <div class="mb-3">
-          <label for="du" class="block mb-1">DU</label>
+          <label for="du" class="block mb-1">DU(*)</label>
           <input type="text" class="form-input w-full" id="du" name="du" />
         </div>
         <!-- Nombre competidor -->
-        <div class="mb-3">
-          <label for="nombre" class="block mb-1">Nombre</label>
+        <!-- <div class="mb-3">
+          <label for="nombre" class="block mb-1">Nombre(*)</label>
           <input type="text" class="form-input w-full" id="nombre" name="nombre" />
-        </div>
+        </div> -->
 
         <!-- Apellido Competidor -->
-        <div class="mb-3">
-          <label for="apellido" class="block mb-1">Apellido</label>
+        <!-- <div class="mb-3">
+          <label for="apellido" class="block mb-1">Apellido(*)</label>
           <input type="text" class="form-input w-full" id="apellido" name="apellido" />
-        </div>
+        </div> -->
 
         <!-- Nacimiento -->
-        <div class="mb-3">
-          <label for="fecha-nacimiento" class="block mb-1">Fecha de nacimiento</label>
+        <!-- <div class="mb-3">
+          <label for="fecha-nacimiento" class="block mb-1">Fecha de nacimiento(*)</label>
           <input type="date" class="form-input w-full" id="fecha-nacimiento" name="fecha-nacimiento" min="1960-01-01" />
+        </div> -->
+
+        <!-- Colegio -->
+        <div class="mb-3">
+          <label for="colegio" class="block mb-1">Colegio(*)</label>
+          <input class="form-input w-full" id="colegio" name="colegio" />
+          <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
         </div>
 
         <!-- Pais -->
         <div class="mb-3">
-          <label for="pais" class="block mb-1">País de origen</label>
+          <label for="pais" class="block mb-1">País de origen(*)</label>
           <input class="form-input w-full" id="pais" name="pais" />
           <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
         </div>
 
-        <!-- Email -->
+        <!-- Categoria -->
         <div class="mb-3">
-          <label for="email" class="block mb-1">Email de contacto</label>
-          <input type="email" class="form-input w-full" id="email" name="email" />
+          <label for="categoria" class="block mb-1">Categoria(*)</label>
+          <input class="form-input w-full" id="categoria" name="categoria" />
+          <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
         </div>
+        <!-- Email -->
+        <!-- <div class="mb-3">
+          <label for="email" class="block mb-1">Email de contacto(*)</label>
+          <input type="email" class="form-input w-full" id="email" name="email" />
+        </div> -->
 
         <!-- Genero -->
         <div class="mb-3">
-          <label class="block mb-1">Género</label>
+          <label class="block mb-1">Género(*)</label>
           <div>
             <label for="femenino" class="inline-flex items-center mr-4">
               <input class="form-radio" type="radio" name="genero" id="femenino" value="Femenino" />
@@ -58,13 +72,13 @@
 
         <!-- GAL: Primary Key -->
         <div class="mb-3">
-          <label for="gal" class="block mb-1">GAL</label>
+          <label for="gal" class="block mb-1">GAL(*)</label>
           <input type="text" class="form-input w-full" id="gal" name="gal" placeholder="Ej: ABC1234567" />
         </div>
 
         <!-- Graduacion -->
         <div class="mb-3">
-          <label for="graduacion" class="block mb-1">Graduación</label>
+          <label for="graduacion" class="block mb-1">Graduación(*)</label>
           <select class="form-select" id="graduacion" name="graduacion">
             <option value="">Seleccione una graduación</option>
             <option value="1ro GUP">1ro GUP</option>
@@ -87,11 +101,13 @@
             <option value="8vo DAN">8vo DAN</option>
             <option value="9no DAN">9no DAN</option>
           </select>
+          <label for="comentario" class="block mb-1 mt-2">Comentario</label>
+          <input class="form-input w-full" type="text" name="Comentario" id="comentario">
         </div>
 
         <!-- Clasificacion en el ranking -->
         <div class="mb-3">
-          <label for="clasificacion" class="block mb-1">Clasificación general del ranking nacional</label>
+          <label for="clasificacion" class="block mb-1">Clasificación general del ranking nacional(*)</label>
           <input type="text" class="form-input w-full" id="clasificacion" name="clasificacion" placeholder="Ingrese su posición en el ranking nacional" pattern="^\S+$" required />
         </div>
         <!-- Agrega el campo _token manualmente -->
@@ -110,6 +126,8 @@
     <!-- Mensajes de error de la bd -->
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  <!--  <script src="{{ asset('jquery-3.7.0.min.js') }}" type="text/javascript"></script> -->
+  <script src="{{ asset('jqueryui/jquery-ui.min.js') }}" type="text/javascript"></script>
   <script>
     $(document).ready(function() {
       $('#du').on('blur', function() {
@@ -148,6 +166,66 @@
         });
 
       });
+    });
+
+    $(document).ready(function() {
+
+      $("#pais").autocomplete({
+        source: function(request, response) {
+          // Fetch data
+          $.ajax({
+            url: "{{route('competidores.buscarPaises')}}",
+            type: 'post',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: "json",
+            data: {
+              search: request.term
+            },
+            success: function(data) {
+              response(data);
+            }
+          });
+        },
+        select: function(event, ui) {
+          // Set selection
+          $('#pais').val(ui.item.label); // display the selected text
+          // $('#employeeid').val(ui.item.value); // save selected id to input
+          return false;
+        }
+      });
+
+    });
+
+    $(document).ready(function() {
+
+      $("#colegio").autocomplete({
+        source: function(request, response) {
+          // Fetch data
+          $.ajax({
+            url: "{{route('competidores.buscarColegio')}}",
+            type: 'post',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: "json",
+            data: {
+              search: request.term
+            },
+            success: function(data) {
+              response(data);
+            }
+          });
+        },
+        select: function(event, ui) {
+          // Set selection
+          $('#colegio').val(ui.item.label); // display the selected text
+          // $('#employeeid').val(ui.item.value); // save selected id to input
+          return false;
+        }
+      });
+
     });
   </script>
 </x-app-layout>
