@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-mark class="block h-9 w-auto" />
+                        <x-logo class="block h-auto w-auto" />
                     </a>
                 </div>
 
@@ -169,6 +169,11 @@
             </x-responsive-nav-link>
         </div>
 
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link href="{{ route('resultados') }}" :active="request()->routeIs('resultados')">
+                {{ __('Resultados') }}
+            </x-responsive-nav-link>
+        </div>
         @if(Auth::check())
 
         <!-- Responsive Settings Options -->
