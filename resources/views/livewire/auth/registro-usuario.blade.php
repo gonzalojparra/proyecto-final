@@ -11,10 +11,10 @@
 
             <div>
                 <x-label for="nombreUsuario" value="{{ __('Nombre') }}" />
-                <x-input  wire:model.lazy="nombreUsuario" id="nombreUsuario" class="block mt-1 w-full" type="text" name="name" :value="old('name')"  autofocus autocomplete="name"  wire:model='nombreUsuario' />
+                <x-input  wire:model.lazy="nombreUsuario" id="nombreUsuario" class="block mt-1 w-full" type="text" name="name" :value="old('nombreUsuario')"  autofocus autocomplete="name"  wire:model='nombreUsuario' />
                 <!-- <input type="text" class="input-text" placeholder="Nombre"> -->
                 @error('nombreUsuario')
-                <span class="text-red-500 py-3"> </span>
+                <span class="text-red-500 py-3">{{$messages}}</span>
                 @enderror
             </div>
 
@@ -29,7 +29,7 @@
 
             <div class=" mt-4">
                 <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" autocomplete="username"  wire:model='email'/>
+                <x-input id="email" class="block mt-1 w-full" type="text" name="email" :value="old('email')" autocomplete="username"  wire:model='email'/>
             </div>
 
             <div class="mt-4">
