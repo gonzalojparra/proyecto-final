@@ -11,26 +11,35 @@
 
             <div>
                 <x-label for="nombreUsuario" value="{{ __('Nombre') }}" />
-                <x-input  wire:model.lazy="nombreUsuario" id="nombreUsuario" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+                <x-input  wire:model.lazy="nombreUsuario" id="nombreUsuario" class="block mt-1 w-full" type="text" name="name" :value="old('nombreUsuario')"  autofocus autocomplete="name"  wire:model='nombreUsuario' />
                 <!-- <input type="text" class="input-text" placeholder="Nombre"> -->
                 @error('nombreUsuario')
-                <span class="text-red-500 py-3"> Complete este campo </span>
+                <span class="text-red-500 py-3">{{$messages}}</span>
+                @enderror
+            </div>
+
+            <div class="mt-4">
+                <x-label for="lastname" value="{{ __('Apellido') }}" />
+                <x-input  wire:model.lazy="apellidoUsuario" id="apellidoUsuario" class="block mt-1 w-full" type="text" name="apellido" :value="old('lastname')"  autofocus autocomplete="lastname"  wire:model='apellidoUsuario' />
+                <!-- <input type="text" class="input-text" placeholder="Nombre"> -->
+                @error('apellidoUsuario')
+                <span class="text-red-500 py-3">  </span>
                 @enderror
             </div>
 
             <div class=" mt-4">
                 <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+                <x-input id="email" class="block mt-1 w-full" type="text" name="email" :value="old('email')" autocomplete="username"  wire:model='email'/>
             </div>
 
             <div class="mt-4">
                 <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
+                <x-input id="password" class="block mt-1 w-full" type="password" name="password"  autocomplete="new-password" />
             </div>
 
             <div class="mt-4">
                 <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
+                <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" autocomplete="new-password" />
             </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
@@ -55,7 +64,7 @@
                     {{ __('Already registered?') }}
                 </a>
 
-                <x-button class="ml-4">
+                <x-button class="ml-4" wire:click='validar' wire:target='validar'>  
                     {{ __('Register') }}
                 </x-button>
             </div>

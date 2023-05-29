@@ -14,12 +14,33 @@ class RoleSeeder extends Seeder {
      */
     public function run(): void {
         //
+        $superAdmin = Role::create(['name' => 'Super Admin']);
         $admin = Role::create(['name' => 'Admin']);
+        $profesor = Role::create(['name' => 'Profesor']);
         $juez = Role::create(['name' => 'Juez']);
         $competidor = Role::create(['name' => 'Competidor']);
 
+        $permisosProfesor = [
+            'competidores.index',
+            'competidores.create',
+            'competidores.edit',
+            'competidores.show',
+            'teams.create-team-form',
+            'teams.create',
+            'teams.delete-team-form',
+            'teams.show',
+            'teams.team-member-manager',
+            'teams.update-team-name-form',
+        ];
+
+        foreach( $permisosProfesor as $permiso ){
+            Permission::create(['name' => $permiso])->assignRole($profesor);
+        };
+
+
+
         // Creo un permiso y se lo asigno a un solo rol
-        Permission::create(['name' => 'competidores.index'])->assignRole($admin);
+        // Permission::create(['name' => 'competidores.index'])->assignRole($admin);
         // Creo un permiso y se lo asigno a dos roles (admin y juez)
         // Permission::create(['name' => 'ver reloj'])->syncRoles([$admin, $juez]);
         // Permission::create(['name' => 'ver form inscripcion'])->syncRoles([$competidor]);

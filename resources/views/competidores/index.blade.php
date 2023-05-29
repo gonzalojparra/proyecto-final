@@ -148,12 +148,18 @@
 
             </div>
         </div>
+
+        <div class="container max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="mt-4 sm:w-1/4 md:w-1/4">
+                <a href="{{ route('competidores.create') }}" class="block  h-30 px-3 py-1 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 text-center">
+                    {{ __('Agregar Competidores') }}
+                </a>
+            </div>
+        </div>
     </div>
+
+
 </x-app-layout>
-
-
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/paginationjs@2.1.5/dist/pagination.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
