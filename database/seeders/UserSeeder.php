@@ -81,6 +81,15 @@ class UserSeeder extends Seeder
             ]));
         };
         
+        /* foreach ($users as $name => $email) {
+            DB::transaction(function () use ($name, $email) {
+                 return tap(User::create([
+                     'name' => $name,
+                     'email' => $email,
+                     'password' => Hash::make('secret'),
+                 ]));
+             });
+         } */
 
         // Create one team
         // $team = $this->createBigTeam('Equipo algo');

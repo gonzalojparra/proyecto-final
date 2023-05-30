@@ -3,7 +3,7 @@
   <div class="container mx-auto">
     <div class="flex justify-center">
       <form id="formulario" action="{{ route('competidores.store') }}" method="POST" class="border m-2 p-3 fs-5 bg-white sm:w-1/2 lg:w-1/3">
-        <h1 class="text-2xl font-bold mb-4">Inscribir Competidor</h1>
+        <h1 class="text-2xl font-bold mb-4">Informacion de competidor</h1>
         @csrf
 
         <!-- DNI -->
