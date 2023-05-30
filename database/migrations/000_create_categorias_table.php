@@ -14,7 +14,9 @@ return new class extends Migration {
             $table->string('nombre')->unique();
             $table->integer('edad_desde'); // incluído
             $table->integer('edad_hasta'); // incluído
-            $table->string('descripcion');
+            $table->string('genero');
+            $table->string('graduacion');
+            $table->string('clasificacion');
             $table->string('img');
             $table->timestamps();
         });
