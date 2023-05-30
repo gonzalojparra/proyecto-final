@@ -11,8 +11,8 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('poomsaes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('competencia_competidor_poomsae')->references('competencia_competidor');
-            $table->unsignedBigInteger('competencia_juez_poomsae')->references('competencia_juez');
+            $table->unsignedBigInteger('competencia_competidor_poomsae');
+            $table->unsignedBigInteger('competencia_juez_poomsae');
             $table->foreignId('id_categoria')->constrained('categorias');
             $table->timestamps();
 
