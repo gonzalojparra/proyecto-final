@@ -72,7 +72,7 @@
 
    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
 	
-    <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet"> -->
 
 
 
@@ -218,7 +218,7 @@
                         Pais
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Colegio
+                        Escuela Federada
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Clasificacion
