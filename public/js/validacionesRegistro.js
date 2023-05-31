@@ -251,21 +251,22 @@ inputEdad.addEventListener('blur', function () {
   }
 })
 
+//no logro que ande 
 inputCategoria.addEventListener('blur', function () {
   categoriaValida = validarCampo(inputCategoria)
-  // if (categoriaValida) {
-    if (validarSelect(inputCategoria)) {
-      inputCategoria.style.borderColor = 'red';
-      categoriaFeedback.style.color = 'red'
-      // categoriaFeedback.innerHTML = 'La categoria debe ser seleccionada'
-    }else{
-      inputCategoria.style.borderColor = 'green';
-      // categoriaFeedback.innerHTML = ' &nbsp;'
-    }
-  // }else{
-  //   categoriaFeedback.style.color = 'red'
-  //   categoriaFeedback.innerHTML = 'Complete este campo'
-  // }
+  if (categoriaValida) {
+    // if (validarSelect(inputCategoria)) {
+    //   inputCategoria.style.borderColor = 'red';
+    //   categoriaFeedback.style.color = 'red'
+    //   categoriaFeedback.innerHTML = 'La categoria debe ser seleccionada'
+    // }else{
+    //   inputCategoria.style.borderColor = 'green';
+    //   categoriaFeedback.innerHTML = ' &nbsp;'
+    // }
+  }else{
+    categoriaFeedback.style.color = 'red'
+    categoriaFeedback.innerHTML = 'Complete este campo'
+  }
 })
 
 inputGraduacion.addEventListener('click', function () {
@@ -278,14 +279,15 @@ inputGraduacion.addEventListener('click', function () {
   }
 })
 
+//me lo muestra aunque no sea de la categoria que necesita gal 
 inputGal.addEventListener('blur', function () {
   galValido = validarCampo(inputGal)
-  if(galValido){
-    galValido = validarGal()
-  }else{
-    galFeedback.style.color = 'red'
-    galFeedback.innerHTML = 'Complete este campo'
-  }
+  // if(galValido){
+    galValido = validarGal(inputGal)
+  // }else{
+  //   galFeedback.style.color = 'red'
+  //   galFeedback.innerHTML = 'Complete este campo'
+  // }
 
 })
 
