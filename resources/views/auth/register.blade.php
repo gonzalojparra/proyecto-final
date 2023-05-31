@@ -15,6 +15,11 @@
             </div>
 
             <div class="mt-4">
+                <x-label for="apellido" value="{{ __('Lastname') }}" />
+                <x-input id="apellidoUsuario" class="block mt-1 w-full" type="text" name="apellido" :value="old('Apellido')" required autocomplete="lastname" />
+            </div>
+
+            <div class="mt-4">
                 <x-label for="email" value="{{ __('Email') }}" />
                 <x-input id="emailUsuario" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             </div>
@@ -57,9 +62,7 @@
             </div>
         </form>
     </x-authentication-card>
-    <!-- <div>
-        @livewire('auth.registro-usuario')
-    </div> -->
+
 
 
     <script src="{{ asset('js/validacionesRegistro.js') }}"></script>

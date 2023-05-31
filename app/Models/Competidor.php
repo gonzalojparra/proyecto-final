@@ -13,7 +13,7 @@ class Competidor extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'competidores'; // Especifica el nombre de la tabla
+    protected $table = 'users'; // Especifica el nombre de la tabla
     protected $fillable = [
         'legajo',
         'nombre',
@@ -43,6 +43,7 @@ class Competidor extends Model
      */
     public static function findByColumn($column, $value)
     {
+        
         return static::where($column, '=', $value)->get();
     }
 }
