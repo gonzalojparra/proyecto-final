@@ -67,12 +67,6 @@ class UserSeeder extends Seeder
             ])->assignRole('Competidor');
         };
 
-        User::create([
-            'name' => 'Pepe',
-            'apellido' => 'Argento',
-            'email' => 'pepe@example.com',
-            'password' => Hash::make('123')
-        ])->assignRole('Admin');
         // PARA REALIZAR REGISTROS DE LA TABLA COMPETENCIA_JUEZ
         // Nos traemos todos los registros que tengan rol_id 4 de la tabla model_has_roles
         // Tenemos la lista de todos los jueces, obtenemos el id del usuario
@@ -82,16 +76,18 @@ class UserSeeder extends Seeder
             'name' => 'Pepe',
             'apellido' => 'Argento',
             'email' => 'pepa@example.com',
-            'password' => Hash::make('123')
-        ])->assignRole('Competidor' );
+            'password' => Hash::make('123'),
+            'verificado' => 1
+        ])->assignRole('Juez');
         
 
         User::create([
             'name' => 'Admin',
             'apellido' => 'Admin',
             'email' => 'admin@admin.com',
-            'password' => Hash::make('admin')
-        ])->assignRole('Admin' );
+            'password' => Hash::make('admin'),
+            'verificado' => 1
+        ])->assignRole('Admin');
 
 
         // Seeder para hacer funcionar los teams

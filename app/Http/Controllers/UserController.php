@@ -62,7 +62,7 @@ class UserController extends Controller {
             'du' => $input['documento'],
             'fecha_nac' => $input['fechaNac'],
             'gal' => $input['gal'],
-            //'genero' => $input['genero'],
+            'genero' => $input['genero'],
             'id_categoria' => $categoriaFinal[0]['id'],
             'graduacion' => $categoriaFinal[0]['graduacion'],
             'id_escuela' => $escuela[0]->id,
@@ -76,6 +76,8 @@ class UserController extends Controller {
                 Jetstream::findUserByEmailOrFail($input['email']),
                 ['role' => $input['rol']]
             );
+            $usuario->switchTeam($escuela[0]);
+            $usuario->ownedTeams()->save($escuela[0]);
             return view('auth.login');
         } else {
             return view('auth.register');
@@ -90,10 +92,11 @@ class UserController extends Controller {
     {
         $User = User::where('id', $user)->get();
         /* var_dump($User); */
+
         $usuario = [
             'nombre' => $User[0]->name,
             'apellido' => $User[0]->apellido,
-            'email' => $User[0]->email
+            'email' => $User[0]->email,
         ];
         return $usuario;
     }

@@ -89,13 +89,13 @@
                     <div>Genero</div>
                     <div class="checks" id="generoChecks" required>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="genero" id="femenino" value="femenino">
+                            <input class="form-check-input" type="radio" name="genero" id="femenino" value="Femenino">
                             <label class="form-check-label" for="femenino">
                                 Femenino
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="genero" id="masculino" value="masculino">
+                            <input class="form-check-input" type="radio" name="genero" id="masculino" value="Masculino">
                             <label class="form-check-label" for="masculino">
                                 Masculino
                             </label>
