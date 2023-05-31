@@ -64,6 +64,7 @@ let tipoGraduacion = ''
 let galValidado = false
 
 window.addEventListener('load', function () {
+  botonSubmit.disabled = true
   formInscripcion.style.display = 'none'
   divGal.style.display = 'none'
   console.log(inputCategoria)
