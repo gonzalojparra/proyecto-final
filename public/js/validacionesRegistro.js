@@ -8,42 +8,43 @@ const inputContrasenia = document.querySelector('#contrasenia')
 const inputContraseniaConfirmada = document.querySelector('#contraseniaConfirmada')
 const botonSubmit = document.querySelector('#botonSubmit')
 
-// const formulario = document.querySelector('#formularioRegistro')
+const formulario = document.querySelector('#formularioRegistro')
 
-// const checkRolCompetidor = document.querySelector('#competidor')
-// const checkRolJuez = document.querySelector('#juez')
-// const divChecks = document.querySelector('#checks');
+const checkRolCompetidor = document.querySelector('#competidor')
+const checkRolJuez = document.querySelector('#juez')
+const divChecks = document.querySelector('#checks')
 
 
 //acá recupero todos los divs donde irán los mensajes de feedback
-// const usuarioFeedback = document.querySelector('#usuarioFeedback')
-// const nombreFeedback = document.querySelector('#nombreFeedback')
-// const apellidoFeedback = document.querySelector('#apellidoFeedback')
-// const emailFeedback = document.querySelector('#emailFeedback')
-// const contraseniaFeedback = document.querySelector('#contraseniaFeedback')
-// const contraseniaConfirmadaFeedback = document.querySelector('#repiteContraseniaFeedback')
-// const checksFeedback = document.querySelector('#checksFeedback')
+
+const nombreFeedback = document.querySelector('#nombreFeedback')
+const apellidoFeedback = document.querySelector('#apellidoFeedback')
+const emailFeedback = document.querySelector('#emailFeedback')
+const contraseniaFeedback = document.querySelector('#contraseniaFeedback')
+const contraseniaConfirmadaFeedback = document.querySelector('#contraseniaConfirmadaFeedback')
+const checksFeedback = document.querySelector('#checksFeedback')
 
 let nombreValido = false;
 let apellidoValido = false;
 let emailValido = false;
 let contraseniasValidas = false;
-// let formularioValido = false;
+let formularioValido = false;
 
 window.addEventListener('load', function(){
     console.log('js anda')
+    botonSubmit.disabled = true 
 })
 
-//esto está para los console log, no es importante
-// formulario.addEventListener('click', function () {
-//   formularioValido = validarFormulario()
-//   if (!formularioValido) {
-//     botonSubmit.disabled = true;
-//   } else {
-//     console.log('entra al else')
-//     botonSubmit.disabled = false;
-//   }
-// })
+
+formulario.addEventListener('click', function () {
+  formularioValido = validarFormulario()
+  if (!formularioValido) {
+    botonSubmit.disabled = true;
+  } else {
+    console.log('entra al else')
+    botonSubmit.disabled = false;
+  }
+})
 
 
 //los blur no me los saquen, que son los que hacen que se verifique en seguida si es válido el campo
@@ -141,20 +142,18 @@ inputContraseniaConfirmada.addEventListener('blur', function () {
   }
 })
 
-// divChecks.addEventListener('click', function () {
-//   checksValidos=validarChecks(checkRolCompetidor, checkRolJuez)
-//   if(checksValidos){
-//     checksFeedback.innerHTML = ' &nbsp;'
-//   } else {
-//     checksFeedback.style.color = 'red'
-//     checksFeedback.innerHTML = 'Seleccione una opción'
-//   }
-// })
+divChecks.addEventListener('click', function () {
+  checksValidos=validarChecks(checkRolCompetidor, checkRolJuez)
+  if(checksValidos){
+    checksFeedback.innerHTML = ' &nbsp;'
+  } else {
+    checksFeedback.style.color = 'red'
+    checksFeedback.innerHTML = 'Seleccione una opción'
+  }
+})
 
 function validarFormulario() {
   formularioValido = false;
-  if (usuarioValido) {
-    console.log('1 usuario es valido')
     if (nombreValido) {
       console.log('2 nombre es valido')
       if (apellidoValido) {
@@ -175,7 +174,6 @@ function validarFormulario() {
         }
       }
     }
-  }
   return formularioValido
 }
 
