@@ -61,20 +61,15 @@
 
                                 <!-- Team Settings -->
                                 <x-dropdown-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}">
-                                    {{ __('Configuración de escuela') }}
+                                    {{ __('Información de escuela') }}
                                 </x-dropdown-link>
-                                @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
-                                <x-dropdown-link href="{{ route('teams.create') }}">
-                                    {{ __('Crear nueva escuela') }}
-                                </x-dropdown-link>
-                                @endcan
 
                                 <!-- Team Switcher -->
                                 @if (Auth::user()->allTeams()->count() > 1)
                                 <div class="border-t border-gray-200"></div>
 
                                 <div class="block px-4 py-2 text-xs text-gray-400">
-                                    {{ __('Cambiar escuela') }}
+                                    {{ __('Cambiar de escuela') }}
                                 </div>
 
                                 @foreach (Auth::user()->allTeams() as $team)
@@ -99,6 +94,10 @@
                             <span class="inline-flex rounded-md">
                                 <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                                     {{ Auth::user()->name }}
+
+                                    @if( Auth::user()->verificado == 0 )
+                                    | CUENTA NO VERIFICADA 
+                                    @endif
 
                                     <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -231,13 +230,6 @@
                 </div>
 
                 <!-- Team Settings -->
-                
-
-                @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
-                <x-responsive-nav-link href="{{ route('teams.create') }}" :active="request()->routeIs('teams.create')">
-                    {{ __('Crear nueva escuela') }}
-                </x-responsive-nav-link>
-                @endcan
 
                 <!-- Team Switcher -->
                 @if (Auth::user()->allTeams()->count() > 1)
