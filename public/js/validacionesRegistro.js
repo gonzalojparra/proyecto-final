@@ -97,10 +97,9 @@ window.addEventListener('load', function () {
 formulario.addEventListener('click', function () {
   formularioValido = validarFormulario()
   if (!formularioValido) {
-    // botonSubmit.disabled = true;
+    botonSubmit.disabled = true;
   } else {
-    console.log('entra al else')
-    // botonSubmit.disabled = false;
+    botonSubmit.disabled = false;
   }
 })
 

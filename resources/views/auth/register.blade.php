@@ -171,9 +171,14 @@
                     {{ __('¿Ya tienes una cuenta?') }}
                 </a>
 
-                <x-button class="ml-4" id="botonSubmit" class="boton-submit">
+                <!-- <x-button class="ml-4" id="botonSubmit" class="boton-submit">
                     {{ __('Registrarse') }}
-                </x-button>
+                </x-button> -->
+                <x-button type="submit" class="..." :disabled="true">{{ __('Registrarse') }}</x-button>
+                @props(['disabled'=>false])
+                <button {{ $attributes->merge(['type' => 'submit', 'class' => '...']) }} {{ $formularioValido ?? false ? ' disabled' :'' }}>
+
+                </button>
             </div>
         </form>
     </x-authentication-card>
