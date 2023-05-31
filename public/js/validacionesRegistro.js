@@ -51,6 +51,7 @@ let formularioValido = false;
 window.addEventListener('load', function () {
   formInscripcion.style.display = 'none'
   divGal.style.display = 'none'
+  inputGal.disabled = true;
   console.log(inputCategoria)
   // console.log('js anda')
   // botonSubmit.disabled = true 
