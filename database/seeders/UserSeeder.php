@@ -53,17 +53,26 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Juan',
-                'lastname' => 'Loa',
+                'apellido' => 'Loa',
                 'email' => 'juan@example.com'
             ]
         ];
+
+        foreach ($users as $user) {
+            User::create([
+                'name' => $user['name'],
+                'apellido' => $user['apellido'],
+                'email' => $user['email'],
+                'password' => Hash::make('secret'),
+            ])->assignRole('Competidor');
+        };
 
         User::create([
             'name' => 'Pepe',
             'apellido' => 'Argento',
             'email' => 'pepe@example.com',
             'password' => Hash::make('123')
-        ])->assignRole('Juez');
+        ])->assignRole('Admin');
         // PARA REALIZAR REGISTROS DE LA TABLA COMPETENCIA_JUEZ
         // Nos traemos todos los registros que tengan rol_id 4 de la tabla model_has_roles
         // Tenemos la lista de todos los jueces, obtenemos el id del usuario
@@ -72,14 +81,7 @@ class UserSeeder extends Seeder
         // Seeder para hacer funcionar los teams
         // Hay que adaptarlo a lo que está comentado arriba
 
-        foreach ($users as $user) {
-            return tap(User::create([
-                'name' => $user['name'],
-                'apellido' => $user['apellido'],
-                'email' => $user['email'],
-                'password' => Hash::make('secret'),
-            ]));
-        };
+        
         
         /* foreach ($users as $name => $email) {
             DB::transaction(function () use ($name, $email) {
@@ -145,4 +147,5 @@ class UserSeeder extends Seeder
     //     return $team;
     // }
     }
+
 }
