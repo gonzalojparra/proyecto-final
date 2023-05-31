@@ -66,9 +66,9 @@ let galValidado = false
 window.addEventListener('load', function () {
   formInscripcion.style.display = 'none'
   divGal.style.display = 'none'
-  inputGal.disabled = true;
+  // inputGal.disabled = true;
   console.log(inputCategoria)
-  botonSubmit.disabled=true
+  // botonSubmit.disabled = true
   // console.log('js anda')
   // botonSubmit.disabled = true 
   // fetch("{{route('auth.showTeams')}}")
@@ -97,10 +97,10 @@ window.addEventListener('load', function () {
 formulario.addEventListener('click', function () {
   formularioValido = validarFormulario()
   if (!formularioValido) {
-    botonSubmit.disabled = true;
+    // botonSubmit.disabled = true;
   } else {
     console.log('entra al else')
-    botonSubmit.disabled = false;
+    // botonSubmit.disabled = false;
   }
 })
 
@@ -147,21 +147,11 @@ inputApellido.addEventListener('blur', function () {
   }
 })
 
-inputEscuela.addEventListener('blur', function () {
-  campoCompleto = validarCampo(inputEscuela)
-  if (campoCompleto) {
-    escuelaValida = validarString(inputEscuela)
-    if (escuelaValida) {
-      escuelaValidada=true
-      escuelaFeedback.innerHTML = ' &nbsp;'
-    } else {
-      escuelaFeedback.style.color = 'red'
-      escuelaFeedback.innerHTML = 'Ha ingresado números y/o demasiados caracteres'
-    }
-  } else {
-    escuelaFeedback.style.color = 'red'
-    escuelaFeedback.innerHTML = 'Complete este campo'
-  }
+inputEscuela.addEventListener('click', function () {
+
+ validarEscuela(inputEscuela) 
+
+
 })
 
 inputEmail.addEventListener('blur', function () {
@@ -241,14 +231,20 @@ inputDU.addEventListener('blur', function () {
   campoCompleto = validarCampo(inputDU)
   if (campoCompleto) {
     // duValido = validarDu(inputDU)
-    if (isNaN(inputDU.value) && inputDU.length != 8) {
+    if (isNaN(inputDU.value)) {
       inputDU.style.borderColor = 'red';
       duFeedback.style.color = 'red'
       duFeedback.innerHTML = 'El du ingresado no es válido'
     } else {
+      if ( inputDU.value.length === 8){
+        inputDU.style.borderColor = 'green';
+        duFeedback.innerHTML = ' &nbsp;'
 
-      inputDU.style.borderColor = 'green';
-      duFeedback.innerHTML = ' &nbsp;'
+      } else {
+        inputDU.style.borderColor = 'red';
+        duFeedback.style.color = 'red'
+        duFeedback.innerHTML = 'El du ingresado no es válido'
+      }
     }
   } else {
     duFeedback.style.color = 'red'
@@ -282,7 +278,7 @@ divGenero.addEventListener('click', function () {
   }
 })
 
-inputCategoria.addEventListener('blur', function () {
+inputCategoria.addEventListener('click', function () {
   if (validarSelect(inputCategoria)) {
     categoriaFeedback.style.color = 'red'
     categoriaFeedback.innerHTML = 'La categoria debe ser seleccionada'
@@ -309,10 +305,10 @@ inputGraduacion.addEventListener('click', function () {
 //me lo muestra aunque no sea de la categoria que necesita gal 
 inputGal.addEventListener('blur', function () {
   console.log(validarCampo(inputGal))
-  if(validarCampo(inputGal)){
+  if (validarCampo(inputGal)) {
     galValido = validarGal(inputGal)
   } else {
-    galFeedback.style.color='red';
+    galFeedback.style.color = 'red';
     galFeedback.innerHTML = 'Complete este campo'
   }
 
@@ -326,16 +322,16 @@ function validarFormulario() {
       if (emailValidado) {
         if (contraseniasValidas) {
           if (checkRolValido) {
-            if(selectedRol === 'competidor'){
-              if (duValidado){
-                if(edadValidada){
-                  if(generoValidado){
-                    if(categoriaValidada){
-                      if(graduacionValidada){
-                        if (tipoGraduacion==='elite'){
-                          if(galValidado){
+            if (selectedRol === 'competidor') {
+              if (duValidado) {
+                if (edadValidada) {
+                  if (generoValidado) {
+                    if (categoriaValidada) {
+                      if (graduacionValidada) {
+                        if (tipoGraduacion === 'elite') {
+                          if (galValidado) {
                             formularioValido = true
-                          } 
+                          }
                         } else {
                           formularioValido = true
                         }
@@ -395,6 +391,17 @@ function validarSelect(select) {
     return false;
   } else {
     return true;
+  }
+}
+
+function validarEscuela(){
+  if (inputEscuela.value === 'escuela'){
+    escuelaValidada = false
+    escuelaFeedback.style.color = 'red'
+    escuelaFeedback.innerHTML = 'Debe elegir una escuela'
+  } else {
+    escuelaValidada = true
+    escuelaFeedback.innerHTML = ' &nbsp;'
   }
 }
 
@@ -471,10 +478,10 @@ function cinturonNegro(select) {
       tipoGraduacion = 'elite'
       showGal = true;
       break;
-      default:
-        tipoGraduacion = ''
-        showGal = false
-        break;
+    default:
+      tipoGraduacion = ''
+      showGal = false
+      break;
   }
   return showGal;
 }
