@@ -64,35 +64,11 @@ let tipoGraduacion = ''
 let galValidado = false
 
 window.addEventListener('load', function () {
+  botonSubmit.disabled = true
   formInscripcion.style.display = 'none'
   divGal.style.display = 'none'
-  // inputGal.disabled = true;
   console.log(inputCategoria)
-  // botonSubmit.disabled = true
-  // console.log('js anda')
-  // botonSubmit.disabled = true 
-  // fetch("{{route('auth.showTeams')}}")
-  // .then(response => response.json())
-  // .then(data => {
-  //    console.log(data)
-  // })
-  // .catch(error => console.error(error));
-  // console.log(generarArrayEscuelas())
 })
-
-// function generarArrayEscuelas() {
-//   var escuelasObtenidas;
-//   $.ajax({
-//     url: 'http://localhost:8000/obtenerEscuelas',
-//     dataType: 'json',
-//     async: false, // Hacer la solicitud AJAX de manera síncrona
-//     success: function (response) {
-//       console.log(response)
-//       escuelasObtenidas = response;
-//     }
-//   });
-//   return escuelasObtenidas;
-// } 
 
 formulario.addEventListener('click', function () {
   formularioValido = validarFormulario()
@@ -102,12 +78,6 @@ formulario.addEventListener('click', function () {
     botonSubmit.disabled = false;
   }
 })
-
-//FORMULARIO INSCRIPCION
-//Documento
-//Edad
-//Graduación (traer de la bd)
-//Categoría (traer de la bd)
 
 
 //los blur no me los saquen, que son los que hacen que se verifique en seguida si es válido el campo
@@ -121,10 +91,12 @@ inputNombre.addEventListener('blur', function () {
       nombreFeedback.innerHTML = ' &nbsp;'
     } else {
       nombreFeedback.style.color = 'red'
+      nombreFeedback.style.fontSize = '12px'
       nombreFeedback.innerHTML = 'Ha ingresado números y/o demasiados caracteres'
     }
   } else {
     nombreFeedback.style.color = 'red'
+    nombreFeedback.style.fontSize = '12px'
     nombreFeedback.innerHTML = 'Complete este campo'
   }
 })
@@ -138,10 +110,12 @@ inputApellido.addEventListener('blur', function () {
       apellidoFeedback.innerHTML = ' &nbsp;'
     } else {
       apellidoFeedback.style.color = 'red'
+      apellidoFeedback.style.fontSize = '12px'
       apellidoFeedback.innerHTML = 'Ha ingresado números y/o demasiados caracteres'
     }
   } else {
     apellidoFeedback.style.color = 'red'
+    apellidoFeedback.style.fontSize = '12px'
     apellidoFeedback.innerHTML = 'Complete este campo'
   }
 })
@@ -162,10 +136,12 @@ inputEmail.addEventListener('blur', function () {
       emailValidado = true
     } else {
       emailFeedback.style.color = 'red'
+      emailFeedback.style.fontSize = '12px'
       emailFeedback.innerHTML = 'El email ingresado no es válido'
     }
   } else {
     emailFeedback.style.color = 'red'
+    emailFeedback.style.fontSize = '12px'
     emailFeedback.innerHTML = 'Complete este campo'
   }
 })
@@ -181,14 +157,17 @@ inputContrasenia.addEventListener('blur', function () {
         contraseniaConfirmadaFeedback.innerHTML = ' &nbsp;'
       } else {
         contraseniaFeedback.style.color = 'red'
+        contraseniaFeedback.style.fontSize = '12px'
         contraseniaFeedback.innerHTML = 'Las contraseñas no son iguales'
       }
     } else {
       contraseniaFeedback.style.color = 'red'
+      contraseniaFeedback.style.fontSize = '12px'
       contraseniaFeedback.innerHTML = 'La contraseña debe tener un mínimo de 8 caracteres'
     }
   } else {
     contraseniaFeedback.style.color = 'red'
+    contraseniaFeedback.style.fontSize = '12px'
     contraseniaFeedback.innerHTML = 'Complete este campo'
   }
 })
@@ -203,14 +182,17 @@ inputContraseniaConfirmada.addEventListener('blur', function () {
         contraseniaConfirmadaFeedback.innerHTML = ' &nbsp;'
       } else {
         contraseniaConfirmadaFeedback.style.color = 'red'
+        contraseniaConfirmadaFeedback.style.fontSize = '12px'
         contraseniaConfirmadaFeedback.innerHTML = 'Las contraseñas no son iguales'
       }
     } else {
       contraseniaConfirmadaFeedback.style.color = 'red'
+      contraseniaConfirmadaFeedback.style.fontSize = '12px'
       contraseniaConfirmadaFeedback.innerHTML = 'La contraseña debe tener un mínimo de 8 caracteres'
     }
   } else {
     contraseniaConfirmadaFeedback.style.color = 'red'
+    contraseniaConfirmadaFeedback.style.fontSize = '12px'
     contraseniaConfirmadaFeedback.innerHTML = 'Complete este campo'
   }
 })
@@ -221,6 +203,7 @@ divChecks.addEventListener('click', function () {
     checksFeedback.innerHTML = ' &nbsp;'
   } else {
     checksFeedback.style.color = 'red'
+    checksFeedback.style.fontSize = '12px'
     checksFeedback.innerHTML = 'Seleccione una opción'
   }
 })
@@ -233,6 +216,7 @@ inputDU.addEventListener('blur', function () {
     if (isNaN(inputDU.value)) {
       inputDU.style.borderColor = 'red';
       duFeedback.style.color = 'red'
+      duFeedback.style.fontSize = '12px'
       duFeedback.innerHTML = 'El du ingresado no es válido'
     } else {
       if ( inputDU.value.length === 8){
@@ -242,11 +226,13 @@ inputDU.addEventListener('blur', function () {
       } else {
         inputDU.style.borderColor = 'red';
         duFeedback.style.color = 'red'
+        duFeedback.style.fontSize = '12px'
         duFeedback.innerHTML = 'El du ingresado no es válido'
       }
     }
   } else {
     duFeedback.style.color = 'red'
+    duFeedback.style.fontSize = '12px'
     duFeedback.innerHTML = 'Complete este campo'
   }
 
@@ -263,6 +249,7 @@ inputEdad.addEventListener('blur', function () {
     }
   } else {
     fechaNacFeedback.style.color = 'red'
+    fechaNacFeedback.style.fontSize = '12px'
     fechaNacFeedback.innerHTML = 'Complete este campo'
   }
 })
@@ -273,6 +260,7 @@ divGenero.addEventListener('click', function () {
     generoFeedback.innerHTML = ' &nbsp;'
   } else {
     generoFeedback.style.color = 'red'
+    generoFeedback.style.fontSize = '12px'
     generoFeedback.innerHTML = 'Seleccione una opción'
   }
 })
@@ -280,6 +268,7 @@ divGenero.addEventListener('click', function () {
 inputCategoria.addEventListener('click', function () {
   if (validarSelect(inputCategoria)) {
     categoriaFeedback.style.color = 'red'
+    categoriaFeedback.style.fontSize = '12px'
     categoriaFeedback.innerHTML = 'La categoria debe ser seleccionada'
   } else {
     categoriaFeedback.innerHTML = ' &nbsp;'
@@ -290,6 +279,7 @@ inputGraduacion.addEventListener('click', function () {
   console.log(inputGraduacion.value)
   if (validarSelect(inputGraduacion)) {
     categoriaFeedback.style.color = 'red'
+    categoriaFeedback.style.fontSize = '12px'
     categoriaFeedback.innerHTML = 'La categoria debe ser seleccionada'
   } else {
     categoriaFeedback.innerHTML = ' &nbsp;'
@@ -314,6 +304,7 @@ inputGal.addEventListener('blur', function () {
 
 })
 
+//hacer una variable con un array de los valores
 function validarFormulario() {
   formularioValido = false;
   if (nombreValidado) {
@@ -352,7 +343,7 @@ function validarFormulario() {
 
 //funcion que comprueba que el campo no esté vacío
 function validarCampo(input) {
-  if (input.value === "") {
+  if (input.value === null) {
     input.style.borderColor = 'red';
     input.innerHTML = 'Complete este campo'
     return false;
@@ -397,6 +388,7 @@ function validarEscuela(){
   if (inputEscuela.value === 'escuela'){
     escuelaValidada = false
     escuelaFeedback.style.color = 'red'
+    escuelaFeedback.style.fontSize = '12px'
     escuelaFeedback.innerHTML = 'Debe elegir una escuela'
   } else {
     escuelaValidada = true
@@ -409,6 +401,7 @@ function validarGal() {
   if (!regexGal.test(inputGal.value.toUpperCase())) {
     inputGal.style.borderColor = "red";
     galFeedback.style.color = 'red'
+    galFeedback.style.fontSize = '12px'
     galFeedback.innerHTML = 'Ingrese 3 letras y 7 números'
     return false;
   } else {
@@ -429,6 +422,7 @@ function validarEdad(fecha) {
   if (edad < 6) {
     // edadInput.style.borderColor = "red";
     fechaNacFeedback.style.color = 'red';
+    fechaNacFeedback.style.fontSize = '12px';
     fechaNacFeedback.innerHTML = 'Debe tener al menos 6 años de edad'
     return false;
   } else if (edad > 6) {
@@ -494,7 +488,6 @@ function validarLongitud(input, type) {
     }
     else {
       input.style.borderColor = "red";
-      console.log('entra al else')
     }
   } else {
     if (input.value.length > 100) {
@@ -518,6 +511,7 @@ function contraseniasIguales(contrasenia, contraseniaRepetida) {
   } else {
     console.log('entra al else')
     contrasenia.style.borderColor = "red";
+    contrasenia.style.fontSize = "12px";
     contraseniaRepetida.style.borderColor = "red";
     return false
   }
