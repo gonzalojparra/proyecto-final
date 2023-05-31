@@ -54,7 +54,10 @@
                 </x-button>
             </div>
         </form>
+
     </x-authentication-card>
+
     <script src="{{ asset('js/validacionesLogin.js') }}"></script>
+    
 </x-app-layout>
 
