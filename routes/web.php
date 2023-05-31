@@ -24,8 +24,8 @@ use App\Http\Controllers\Security;
     return view('welcome');
 })->name('home'); */
 Route::get('/', function () {
-    return view('/dashboard');
-})->name('dashboard');
+    return view('/index');
+})->name('index');
 
 Route::get('/resultados', function () {
     return view('resultados');
@@ -44,6 +44,7 @@ Route::middleware([
     Route::get('permisos', [Security\PermissionController::class, 'index'])->name('permisos.index');
 
     Route::get('roles', [Security\RolesController::class, 'index'])->name('roles.index');
+    Route::view('/roles/show','roles.show')->name('roles');
 });
 
 Route::resource('competidores', CompetidorController::class);

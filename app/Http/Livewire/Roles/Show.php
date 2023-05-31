@@ -9,11 +9,14 @@ use App\Http\Controllers\UsuarioController;
 class Show extends Component
 { 
     protected $competidor = "";
-    
+    public $filtro;
 
-    public function render()
-    {        
-        $usuarios = User::all();
+    public function render() {        
+        /* $usuarios = User::all(); */
+        $usuarios = User::where('name','like','%'.$this->filtro.'%')->
+                            orWhere('apellido','like','%'.$this->filtro.'%')->
+                            orWhere('email','like','%'.$this->filtro.'%')
+                            ->get();
         return view('livewire.roles.show', compact('usuarios'));
     }
 

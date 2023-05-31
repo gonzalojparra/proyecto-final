@@ -8,12 +8,110 @@
   <h1>Inscribir Competidor</h1>
   @csrf
 
-    <!-- Nombre competidor -->
-    <div class="row mb-3">
-      <label for="nombre" class="col-sm-4 col-form-label">Nombre</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control" id="nombre" name="nombre" />
-      </div>
+        <!-- Nacimiento -->
+        <!-- <div class="mb-3">
+          <label for="fecha-nacimiento" class="block mb-1">Fecha de nacimiento(*)</label>
+          <input type="date" class="form-input w-full" id="fecha-nacimiento" name="fecha-nacimiento" min="1960-01-01" />
+        </div> -->
+
+        <!-- Colegio -->
+        <div class="mb-3">
+          <label for="colegio" class="block mb-1">Colegio(*)</label>
+          <input class="form-input w-full" id="colegio" name="colegio" />
+          <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
+        </div>
+
+        <!-- Pais -->
+        <!-- <div class="mb-3">
+          <label for="pais" class="block mb-1">País de origen(*)</label>
+          <input class="form-input w-full" id="pais" name="pais" />
+          <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
+        </div> -->
+
+        <!-- Categoria -->
+        <!-- <div class="mb-3">
+          <label for="categoria" class="block mb-1">Categoria(*)</label>
+          <input class="form-input w-full" id="categoria" name="categoria" />
+          <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
+        </div> -->
+        <!-- Email -->
+        <!-- <div class="mb-3">
+          <label for="email" class="block mb-1">Email de contacto(*)</label>
+          <input type="email" class="form-input w-full" id="email" name="email" />
+        </div> -->
+
+        <!-- Genero -->
+        <!-- <div class="mb-3">
+          <label class="block mb-1">Género(*)</label>
+          <div>
+            <label for="femenino" class="inline-flex items-center mr-4">
+              <input class="form-radio" type="radio" name="genero" id="femenino" value="Femenino" />
+              <span class="ml-2">Femenino</span>
+            </label>
+            <label for="masculino" class="inline-flex items-center">
+              <input class="form-radio" type="radio" name="genero" id="masculino" value="Masculino" />
+              <span class="ml-2">Masculino</span>
+            </label>
+          </div>
+        </div> -->
+
+        <!-- GAL: Primary Key -->
+        <div class="mb-3">
+          <label for="gal" class="block mb-1">GAL(*)</label>
+          <input type="text" class="form-input w-full" id="gal" name="gal" placeholder="Ej: ABC1234567" value="{{ $competidor->gal }}" />
+        </div>
+
+        <!-- Graduacion -->
+        <div class="mb-3">
+          @php
+          $graduaciones = [
+          '1ro GUP',
+          '2do GUP',
+          '3ro GUP',
+          '4to GUP',
+          '5to GUP',
+          '6to GUP',
+          '7mo GUP',
+          '8vo GUP',
+          '9no GUP',
+          '10mo GUP',
+          '1ro DAN',
+          '2do DAN',
+          '3ro DAN',
+          '4to DAN',
+          '5to DAN',
+          '6to DAN',
+          '7mo DAN',
+          '8vo DAN',
+          '9no DAN',
+          ];
+          @endphp
+
+          <label for="graduacion" class="block mb-1">Graduación(*)</label>
+          <select class="form-select" id="graduacion" name="graduacion">
+            <option value="">Seleccione una graduación</option>
+            @foreach ($graduaciones as $graduacion)
+            <option value="{{ $graduacion }}" {{ $competidor->graduacion === $graduacion ? 'selected' : '' }}>
+              {{ $graduacion }}
+            </option>
+            @endforeach
+          </select>
+          <label for="comentario" class="block mb-1 mt-2">Comentario</label>
+          <input class="form-input w-full" type="text" name="Comentario" id="comentario">
+        </div>
+
+        <!-- Clasificacion en el ranking -->
+        <!-- <div class="mb-3">
+          <label for="clasificacion" class="block mb-1">Clasificación general del ranking nacional(*)</label>
+          <input type="text" class="form-input w-full" id="clasificacion" name="clasificacion" placeholder="Ingrese su posición en el ranking nacional" pattern="^\S+$" required />
+        </div> -->
+        <!-- Agrega el campo _token manualmente -->
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+        <div class="mb-3">
+          <input type="submit" value="Pedir actualización" class="bg-[#070830] text-[white] border rounded py-2 px-4">
+        </div>
+      </form>
     </div>
 
     <!-- Apellido Competidor -->
