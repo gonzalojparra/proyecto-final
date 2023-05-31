@@ -72,7 +72,7 @@
     </div>
 </footer>
 
-
+<script src="{{ asset('jquery-3.7.0.min.js') }}" type="text/javascript"></script>
 </body>
 
 </html>

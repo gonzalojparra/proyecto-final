@@ -49,3 +49,4 @@ Route::post('/competidores/create', [CompetidorController::class, 'buscarCompeti
 Route::post('/competidores/buscarPaises', [CompetidorController::class, 'buscarPaises'])->name('competidores.buscarPaises');
 Route::post('/competidores/buscarColegio', [CompetidorController::class, 'buscarColegio'])->name('competidores.buscarColegio');
 
+Route::post('/obtenerEscuelas',)->name('acciones.obtenerEscuelas');

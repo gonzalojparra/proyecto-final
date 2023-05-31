@@ -23,7 +23,7 @@
 
             <div>
                 <x-label for="escuela" value="{{ __('Escuela') }}" />
-                <x-input id="escuelaUsuario" class="block mt-1 w-full" type="escuela" name="escuela" :value="old('escuela')" required autocomplete="escuela" />
+                <x-input id="escuelaUsuario" class="block mt-1 w-full" type="text" name="escuela" :value="old('escuela')" required autofocus autocomplete="escuela" />
                 <div id="escuelaFeedback" for="escuelaUsuario">&nbsp;</div>
             </div>
 
@@ -64,6 +64,38 @@
                 </div>
             </div>
 
+            
+            <div>
+                <x-label for="duCompetidor" value="{{ __('Documento') }}" />
+                <x-input id="duCompetidor" class="block mt-1 w-full" type="text" name="documento" :value="old('documento')" required autofocus autocomplete="documento" />
+                <div id="duFeedback" for="duCompetidor">&nbsp;</div>
+            </div>
+
+            <div>
+                <x-label for="fechaNacCompetidor" value="{{ __('Fecha de nacimiento') }}" />
+                <x-input id="fechaNacCompetidor" class="block mt-1 w-full" type="text" name="fechaNac" :value="old('fechaNac')" required autofocus autocomplete="fechaNac" />
+                <div id="fechaNacFeedback" for="fechaNacCompetidor">&nbsp;</div>
+            </div>
+
+            <div>
+                <x-label for="categoríaCompetidor" value="{{ __('Categoria') }}" />
+                <x-input id="categoríaCompetidor" class="block mt-1 w-full" type="text" name="categoria" :value="old('categoria')" required autofocus autocomplete="categoria" />
+                <div id="categoríaFeedback" for="categoríaCompetidor">&nbsp;</div>
+            </div>
+
+            <div>
+                <x-label for="graduacionCompetidor" value="{{ __('Graduacion') }}" />
+                <x-select id="graduacionCompetidor" class="block mt-1 w-full" type="text" name="graduacion" :value="old('graduacion')" required autofocus autocomplete="graduacion" />
+                <div id="graduacionFeedback" for="graduacionCompetidor">&nbsp;</div>
+            </div>
+
+            <div>
+                <x-label for="galCompetidor" value="{{ __('GAL') }}" />
+                <x-input id="galCompetidor" class="block mt-1 w-full" type="text" name="gal" :value="old('gal')" required autofocus autocomplete="gal" />
+                <div id="galFeedback" for="galCompetidor">&nbsp;</div>
+            </div>
+
+            
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
             <div class="mt-4">
                 <x-label for="terms">

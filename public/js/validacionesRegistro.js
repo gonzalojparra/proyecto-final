@@ -3,6 +3,7 @@
 //acá recupero todos los input del formulario
 const inputNombre = document.querySelector('#nombreUsuario')
 const inputApellido = document.querySelector('#apellidoUsuario')
+const inputEscuela = document.querySelector('#escuelaUsuario')
 const inputEmail = document.querySelector('#emailUsuario')
 const inputContrasenia = document.querySelector('#contrasenia')
 const inputContraseniaConfirmada = document.querySelector('#contraseniaConfirmada')
@@ -19,6 +20,7 @@ const divChecks = document.querySelector('#checks')
 
 const nombreFeedback = document.querySelector('#nombreFeedback')
 const apellidoFeedback = document.querySelector('#apellidoFeedback')
+const escuelaFeedback = document.querySelector('#escuelaFeedback')
 const emailFeedback = document.querySelector('#emailFeedback')
 const contraseniaFeedback = document.querySelector('#contraseniaFeedback')
 const contraseniaConfirmadaFeedback = document.querySelector('#contraseniaConfirmadaFeedback')
@@ -31,10 +33,30 @@ let contraseniasValidas = false;
 let formularioValido = false;
 
 window.addEventListener('load', function(){
-    console.log('js anda')
-    botonSubmit.disabled = true 
+    // console.log('js anda')
+    // botonSubmit.disabled = true 
+    // fetch("{{route('auth.showTeams')}}")
+    // .then(response => response.json())
+    // .then(data => {
+    //    console.log(data)
+    // })
+    // .catch(error => console.error(error));
+    console.log(generarArrayEscuelas())
 })
 
+function generarArrayEscuelas() {
+  var escuelasObtenidas;
+  $.ajax({
+    url: 'http://localhost:8000/obtenerEscuelas',
+    dataType: 'json',
+    async: false, // Hacer la solicitud AJAX de manera síncrona
+    success: function (response) {
+      console.log(response)
+      escuelasObtenidas = response;
+    }
+  });
+  return escuelasObtenidas;
+} 
 
 formulario.addEventListener('click', function () {
   formularioValido = validarFormulario()
@@ -45,6 +67,12 @@ formulario.addEventListener('click', function () {
     botonSubmit.disabled = false;
   }
 })
+
+//FORMULARIO INSCRIPCION
+//Documento
+//Edad
+//Graduación (traer de la bd)
+//Categoría (traer de la bd)
 
 
 //los blur no me los saquen, que son los que hacen que se verifique en seguida si es válido el campo
@@ -66,6 +94,22 @@ inputNombre.addEventListener('blur', function () {
 })
 
 inputApellido.addEventListener('blur', function () {
+  campoCompleto = validarCampo(inputApellido)
+  if (campoCompleto) {
+    apellidoValido = validarString(inputApellido)
+    if (apellidoValido){
+      apellidoFeedback.innerHTML = ' &nbsp;'
+    } else {
+      apellidoFeedback.style.color = 'red'
+      apellidoFeedback.innerHTML = 'Ha ingresado números y/o demasiados caracteres'
+    }
+  } else {
+    apellidoFeedback.style.color = 'red'
+    apellidoFeedback.innerHTML = 'Complete este campo'
+  }
+})
+
+inputEscuela.addEventListener('blur', function () {
   campoCompleto = validarCampo(inputApellido)
   if (campoCompleto) {
     apellidoValido = validarString(inputApellido)
