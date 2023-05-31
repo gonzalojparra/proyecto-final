@@ -15,6 +15,15 @@ const checkRolCompetidor = document.querySelector('#competidor')
 const checkRolJuez = document.querySelector('#juez')
 const divChecks = document.querySelector('#checks')
 
+//validaciones del formulario de inscripción
+const formInscripcion = document.querySelector('#formularioInscripcion')
+const divGal = document.querySelector('#cinturonNegro')
+const inputDU = document.querySelector('#duCompetidor')
+const inputEdad = document.querySelector('#fechaNacCompetidor')
+const inputCategoria = document.querySelector('#categoriaCompetidor')
+const inputGraduacion = document.querySelector('#graduacionCompetidor')
+const inputGal = document.querySelector('#galCompetidor')
+
 
 //acá recupero todos los divs donde irán los mensajes de feedback
 
@@ -26,37 +35,47 @@ const contraseniaFeedback = document.querySelector('#contraseniaFeedback')
 const contraseniaConfirmadaFeedback = document.querySelector('#contraseniaConfirmadaFeedback')
 const checksFeedback = document.querySelector('#checksFeedback')
 
+const duFeedback = document.querySelector('#duFeedback')
+const edadFeedback = document.querySelector('#edadFeedback')
+const categoriaFeedback = document.querySelector('#categoriaFeedback')
+const graduacionFeedback = document.querySelector('#graduacionFeedback')
+const galFeedback = document.querySelector('#galFeedback')
+
+
 let nombreValido = false;
 let apellidoValido = false;
 let emailValido = false;
 let contraseniasValidas = false;
 let formularioValido = false;
 
-window.addEventListener('load', function(){
-    // console.log('js anda')
-    // botonSubmit.disabled = true 
-    // fetch("{{route('auth.showTeams')}}")
-    // .then(response => response.json())
-    // .then(data => {
-    //    console.log(data)
-    // })
-    // .catch(error => console.error(error));
-    console.log(generarArrayEscuelas())
+window.addEventListener('load', function () {
+  formInscripcion.style.display = 'none'
+  divGal.style.display = 'none'
+  console.log(inputCategoria)
+  // console.log('js anda')
+  // botonSubmit.disabled = true 
+  // fetch("{{route('auth.showTeams')}}")
+  // .then(response => response.json())
+  // .then(data => {
+  //    console.log(data)
+  // })
+  // .catch(error => console.error(error));
+  // console.log(generarArrayEscuelas())
 })
 
-function generarArrayEscuelas() {
-  var escuelasObtenidas;
-  $.ajax({
-    url: 'http://localhost:8000/obtenerEscuelas',
-    dataType: 'json',
-    async: false, // Hacer la solicitud AJAX de manera síncrona
-    success: function (response) {
-      console.log(response)
-      escuelasObtenidas = response;
-    }
-  });
-  return escuelasObtenidas;
-} 
+// function generarArrayEscuelas() {
+//   var escuelasObtenidas;
+//   $.ajax({
+//     url: 'http://localhost:8000/obtenerEscuelas',
+//     dataType: 'json',
+//     async: false, // Hacer la solicitud AJAX de manera síncrona
+//     success: function (response) {
+//       console.log(response)
+//       escuelasObtenidas = response;
+//     }
+//   });
+//   return escuelasObtenidas;
+// } 
 
 formulario.addEventListener('click', function () {
   formularioValido = validarFormulario()
@@ -81,7 +100,7 @@ inputNombre.addEventListener('blur', function () {
   campoCompleto = validarCampo(inputNombre)
   if (campoCompleto) {
     nombreValido = validarString(inputNombre)
-    if (nombreValido){
+    if (nombreValido) {
       nombreFeedback.innerHTML = ' &nbsp;'
     } else {
       nombreFeedback.style.color = 'red'
@@ -97,7 +116,7 @@ inputApellido.addEventListener('blur', function () {
   campoCompleto = validarCampo(inputApellido)
   if (campoCompleto) {
     apellidoValido = validarString(inputApellido)
-    if (apellidoValido){
+    if (apellidoValido) {
       apellidoFeedback.innerHTML = ' &nbsp;'
     } else {
       apellidoFeedback.style.color = 'red'
@@ -110,18 +129,18 @@ inputApellido.addEventListener('blur', function () {
 })
 
 inputEscuela.addEventListener('blur', function () {
-  campoCompleto = validarCampo(inputApellido)
+  campoCompleto = validarCampo(inputEscuela)
   if (campoCompleto) {
-    apellidoValido = validarString(inputApellido)
-    if (apellidoValido){
-      apellidoFeedback.innerHTML = ' &nbsp;'
+    escuelaValida = validarString(inputEscuela)
+    if (escuelaValida) {
+      escuelaFeedback.innerHTML = ' &nbsp;'
     } else {
-      apellidoFeedback.style.color = 'red'
-      apellidoFeedback.innerHTML = 'Ha ingresado números y/o demasiados caracteres'
+      escuelaFeedback.style.color = 'red'
+      escuelaFeedback.innerHTML = 'Ha ingresado números y/o demasiados caracteres'
     }
   } else {
-    apellidoFeedback.style.color = 'red'
-    apellidoFeedback.innerHTML = 'Complete este campo'
+    escuelaFeedback.style.color = 'red'
+    escuelaFeedback.innerHTML = 'Complete este campo'
   }
 })
 
@@ -129,7 +148,7 @@ inputEmail.addEventListener('blur', function () {
   campoCompleto = validarCampo(inputEmail)
   if (campoCompleto) {
     emailValido = validarEmail(inputEmail)
-    if (emailValido){
+    if (emailValido) {
       emailFeedback.innerHTML = ' &nbsp;'
     } else {
       emailFeedback.style.color = 'red'
@@ -147,7 +166,7 @@ inputContrasenia.addEventListener('blur', function () {
     if (validarLongitud(inputContrasenia, 'contrasenia')) {
       //esto validarlo cuando se envíe el formulario
       contraseniasValidas = contraseniasIguales(inputContrasenia, inputContraseniaConfirmada);
-      if (contraseniasValidas){
+      if (contraseniasValidas) {
         contraseniaFeedback.innerHTML = ' &nbsp;'
         contraseniaConfirmadaFeedback.innerHTML = ' &nbsp;'
       } else {
@@ -169,7 +188,7 @@ inputContraseniaConfirmada.addEventListener('blur', function () {
   if (campoCompleto) {
     if (validarLongitud(inputContraseniaConfirmada, 'contrasenia')) {
       contraseniasValidas = contraseniasIguales(inputContrasenia, inputContraseniaConfirmada);
-      if (contraseniasValidas){
+      if (contraseniasValidas) {
         contraseniaFeedback.innerHTML = ' &nbsp;'
         contraseniaConfirmadaFeedback.innerHTML = ' &nbsp;'
       } else {
@@ -187,8 +206,8 @@ inputContraseniaConfirmada.addEventListener('blur', function () {
 })
 
 divChecks.addEventListener('click', function () {
-  checksValidos=validarChecks(checkRolCompetidor, checkRolJuez)
-  if(checksValidos){
+  checksValidos = validarChecks(checkRolCompetidor, checkRolJuez)
+  if (checksValidos) {
     checksFeedback.innerHTML = ' &nbsp;'
   } else {
     checksFeedback.style.color = 'red'
@@ -196,28 +215,54 @@ divChecks.addEventListener('click', function () {
   }
 })
 
+inputDU.addEventListener('blur', function () {
+  duValido = validarCampo(inputDU)
+})
+
+inputEdad.addEventListener('blur', function () {
+  edadValida = validarCampo(inputEdad)
+})
+
+inputCategoria.addEventListener('blur', function () {
+  // categoriaValida = validarCampo(inputCategoria)
+})
+
+inputGraduacion.addEventListener('click', function () {
+  // graduacionValida = validarCampo(inputGraduacion)
+  showGal = cinturonNegro(inputGraduacion);
+  if (showGal){
+    divGal.style.display = 'inline'
+  } else {
+    divGal.style.display = 'none'
+  }
+})
+
+inputGal.addEventListener('blur', function () {
+  galValido = validarCampo(inputGal)
+})
+
 function validarFormulario() {
   formularioValido = false;
-    if (nombreValido) {
-      console.log('2 nombre es valido')
-      if (apellidoValido) {
-        console.log('3 apellido es valido')
-        if (emailValido) {
-          console.log('4 email es valido')
-          if (contraseniasValidas) {
-            console.log('5 contrasenias son validas')
-            checksValidos=validarChecks(checkRolCompetidor, checkRolJuez)
-            if(checksValidos){
-              checksFeedback.innerHTML = ' &nbsp;'
-              formularioValido = true;
-            } else {
-              checksFeedback.style.color = 'red'
-              checksFeedback.innerHTML = 'Seleccione una opción'
-            }
+  if (nombreValido) {
+    console.log('2 nombre es valido')
+    if (apellidoValido) {
+      console.log('3 apellido es valido')
+      if (emailValido) {
+        console.log('4 email es valido')
+        if (contraseniasValidas) {
+          console.log('5 contrasenias son validas')
+          checksValidos = validarChecks(checkRolCompetidor, checkRolJuez)
+          if (checksValidos) {
+            checksFeedback.innerHTML = ' &nbsp;'
+            formularioValido = true;
+          } else {
+            checksFeedback.style.color = 'red'
+            checksFeedback.innerHTML = 'Seleccione una opción'
           }
         }
       }
     }
+  }
   return formularioValido
 }
 
@@ -237,10 +282,52 @@ function validarChecks(checkRolCompetidor, checkRolJuez) {
   checkValidado = false;
   if (checkRolCompetidor.checked) {
     checkValidado = true;
+    formInscripcion.style.display = 'inline'
   } else if (checkRolJuez.checked) {
     checkValidado = true;
+    formInscripcion.style.display = 'none'
   }
   return checkValidado;
+}
+
+function validarSelect(select) {
+  if (select.value != '') {
+
+  }
+}
+
+function cinturonNegro(select) {
+  let showGal = false
+  switch (select.value) {
+    case '1er DAN':
+      showGal = true;
+      break;
+    case '2do DAN':
+      showGal = true;
+      break;
+    case '3er DAN':
+      showGal = true;
+      break;
+    case '4to DAN':
+      showGal = true;
+      break;
+    case '5to DAN':
+      showGal = true;
+      break;
+    case '6to DAN':
+      showGal = true;
+      break;
+    case '7mo DAN':
+      showGal = true;
+      break;
+    case '8vo DAN':
+      showGal = true;
+      break;
+    case '9no DAN':
+      showGal = true;
+      break;
+  }
+  return showGal;
 }
 
 function validarLongitud(input, type) {
@@ -268,17 +355,17 @@ function validarLongitud(input, type) {
 
 function contraseniasIguales(contrasenia, contraseniaRepetida) {
   // if (validarCampo(contrasenia) && validarCampo(contraseniaRepetida)) {
-    if (contrasenia.value === contraseniaRepetida.value) {
-      console.log('entra al if')
-      contrasenia.style.borderColor = "green";
-      contraseniaRepetida.style.borderColor = "green";
-      return true
-    } else {
-      console.log('entra al else')
-      contrasenia.style.borderColor = "red";
-      contraseniaRepetida.style.borderColor = "red";
-      return false
-    }
+  if (contrasenia.value === contraseniaRepetida.value) {
+    console.log('entra al if')
+    contrasenia.style.borderColor = "green";
+    contraseniaRepetida.style.borderColor = "green";
+    return true
+  } else {
+    console.log('entra al else')
+    contrasenia.style.borderColor = "red";
+    contraseniaRepetida.style.borderColor = "red";
+    return false
+  }
   // } else {
 
   // }
