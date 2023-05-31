@@ -1,4 +1,3 @@
-
 @role('Admin')
 <x-app-layout>
     @livewire('roles.show')

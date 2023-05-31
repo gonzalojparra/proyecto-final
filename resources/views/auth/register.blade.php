@@ -91,30 +91,30 @@
                     <x-label for="graduacionCompetidor" value="{{ __('Graduacion') }}" />
                     <select id="graduacionCompetidor" class="block mt-1 w-full" type="text" name="graduacion" :value="old('graduacion')" class="'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'" required autofocus autocomplete="graduacion">
                         <option value="">Seleccione una graduación</option>
-                        <option value="1ro GUP">1ro GUP</option>
-                        <option value="2do GUP">2do GUP</option>
-                        <option value="3ro GUP">3ro GUP</option>
-                        <option value="4to GUP">4to GUP</option>
-                        <option value="5to GUP">5to GUP</option>
-                        <option value="6to GUP">6to GUP</option>
-                        <option value="7mo GUP">7mo GUP</option>
-                        <option value="8vo GUP">8vo GUP</option>
-                        <option value="9no GUP">9no GUP</option>
-                        <option value="10mo GUP">10mo GUP</option>
-                        <option value="1er DAN">1er DAN</option>
-                        <option value="2do DAN">2do DAN</option>
-                        <option value="3er DAN">3er DAN</option>
-                        <option value="4to DAN">4to DAN</option>
-                        <option value="5to DAN">5to DAN</option>
-                        <option value="6to DAN">6to DAN</option>
-                        <option value="7mo DAN">7mo DAN</option>
-                        <option value="8vo DAN">8vo DAN</option>
-                        <option value="9no DAN">9no DAN</option>
+                        <option value="1 GUP, Rojo borde negro">1ro GUP</option>
+                        <option value="2 GUP, Rojo">2do GUP</option>
+                        <option value="3 GUP, Azul borde rojo">3ro GUP</option>
+                        <option value="4 GUP, Azul">4to GUP</option>
+                        <option value="5 GUP, Verde borde azul">5to GUP</option>
+                        <option value="6 GUP, Verde">6to GUP</option>
+                        <option value="7 GUP, Amarillo borde verde">7mo GUP</option>
+                        <option value="8 GUP, Amarillo">8vo GUP</option>
+                        <option value="9 GUP, Blanco borde amarillo">9no GUP</option>
+                        <option value="10 GUP, Blanco">10mo GUP</option>
+                        <option value="1 DAN, Negro">1er DAN</option>
+                        <option value="2 DAN, Negro">2do DAN</option>
+                        <option value="3 DAN, Negro">3er DAN</option>
+                        <option value="4 DAN, Negro">4to DAN</option>
+                        <option value="5 DAN, Negro">5to DAN</option>
+                        <option value="6 DAN, Negro">6to DAN</option>
+                        <option value="7 DAN, Negro">7mo DAN</option>
+                        <option value="8 DAN, Negro">8vo DAN</option>
+                        <option value="9 DAN, Negro">9no DAN</option>
                     </select>
                     <div id="graduacionFeedback"  class="input-feedback"  for="graduacionCompetidor">&nbsp;</div>
                 </div>
 
-                <div id="cinturonNegro">
+                <div >
                     <x-label for="galCompetidor" value="{{ __('GAL') }}" />
                     <x-input id="galCompetidor" class="block mt-1 w-full" type="text" name="gal" :value="old('gal')" required autofocus autocomplete="gal" />
                     <div id="galFeedback"  class="input-feedback"  for="galCompetidor">&nbsp;</div>

@@ -26,8 +26,8 @@ use App\Http\Controllers\Security;
 })->name('home'); */
 
 Route::get('/', function () {
-    return view('/dashboard');
-})->name('dashboard');
+    return view('/index');
+})->name('index');
 
 Route::get('/resultados', function () {
     return view('resultados');
@@ -42,6 +42,7 @@ Route::middleware([
 ])->group(function () {
     Route::get('permisos', [Security\PermissionController::class, 'index'])->name('permisos.index');
     Route::get('roles', [Security\RolesController::class, 'index'])->name('roles.index');
+    Route::view('/roles/show','roles.show')->name('roles');
 });
 
 Route::get('/registrar', [UserController::class, 'create'])
