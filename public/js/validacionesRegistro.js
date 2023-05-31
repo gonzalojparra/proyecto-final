@@ -254,14 +254,15 @@ inputEdad.addEventListener('blur', function () {
 
 inputCategoria.addEventListener('blur', function () {
     if (validarSelect(inputCategoria)) {
-      categoriaFeedback.style.color = 'red'
+    categoriaFeedback.style.color = 'red'
       categoriaFeedback.innerHTML = 'La categoria debe ser seleccionada'
     }else{
       categoriaFeedback.innerHTML = ' &nbsp;'
-    }
+  }
 })
 
 inputGraduacion.addEventListener('click', function () {
+  console.log(inputGraduacion.value)
   // graduacionValida = validarCampo(inputGraduacion)
   showGal = cinturonNegro(inputGraduacion);
   if (showGal){
@@ -334,10 +335,10 @@ function validarChecks(checkRolCompetidor, checkRolJuez) {
 
 function validarSelect(select) {
   if (select.value != '') {
-    // select.style.borderColor = 'red'
+    select.style.borderColor = 'red'
     return false;
   }else{
-    // select.style.borderColor = 'green'
+    select.style.borderColor = 'green'
     return true;
   }
 }
@@ -379,31 +380,31 @@ function validarEdad(fecha) {
 function cinturonNegro(select) {
   let showGal = false
   switch (select.value) {
-    case '1er DAN':
+    case '1 DAN, Negro':
       showGal = true;
       break;
-    case '2do DAN':
+    case '2 DAN, Negro':
       showGal = true;
       break;
-    case '3er DAN':
+    case '3 DAN, Negro':
       showGal = true;
       break;
-    case '4to DAN':
+    case '4 DAN, Negro':
       showGal = true;
       break;
-    case '5to DAN':
+    case '5 DAN, Negro':
       showGal = true;
       break;
-    case '6to DAN':
+    case '6 DAN, Negro':
       showGal = true;
       break;
-    case '7mo DAN':
+    case '7 DAN, Negro':
       showGal = true;
       break;
-    case '8vo DAN':
+    case '8 DAN, Negro':
       showGal = true;
       break;
-    case '9no DAN':
+    case '9 DAN, Negro':
       showGal = true;
       break;
   }
