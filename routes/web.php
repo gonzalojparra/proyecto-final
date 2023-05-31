@@ -45,7 +45,7 @@ Route::middleware([
     Route::view('/roles/show','roles.show')->name('roles');
 });
 
-Route::get('/registrar', [UserController::class, 'create'])
+Route::get('/register', [UserController::class, 'create'])
     ->middleware(['guest'])
     ->name('registrar');
 

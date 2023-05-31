@@ -23,8 +23,14 @@
 
             <div>
                 <x-label for="escuela" value="{{ __('Escuela') }}" />
-                <x-input id="escuelaUsuario" class="block mt-1 w-full" type="text" name="escuela" :value="old('escuela')" required autofocus autocomplete="escuela" />
+                <select id="escuelaUsuario" name="escuela" class="block mt-1 w-full" required autofocus autocomplete="escuela">
+                    <option value="">Seleccione una escuela</option>
+                    @foreach($escuelas as $escuela)
+                    <option>{{ $escuela->name }}</option>
+                    @endforeach
+                </select>
                 <div id="escuelaFeedback" class="input-feedback" for="escuelaUsuario">&nbsp;</div>
+
             </div>
 
             <div class="mt-4">
@@ -114,7 +120,7 @@
                     <div id="graduacionFeedback" class="input-feedback" for="graduacionCompetidor">&nbsp;</div>
                 </div>
 
-                <div >
+                <div>
                     <x-label for="galCompetidor" value="{{ __('GAL') }}" />
                     <x-input id="galCompetidor" class="block mt-1 w-full" type="text" name="gal" :value="old('gal')" required autofocus autocomplete="gal" />
                     <div id="galFeedback" class="input-feedback" for="galCompetidor">&nbsp;</div>

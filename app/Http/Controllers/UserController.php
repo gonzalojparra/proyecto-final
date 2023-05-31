@@ -26,7 +26,9 @@ class UserController extends Controller {
      */
     public function create(Request $request)
     {
-        return view('auth.register');
+        $escuelas = Team::all();
+
+        return view('auth.register', compact('escuelas'));
     }
 
     /**
