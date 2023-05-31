@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompetidorController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Security;
@@ -23,6 +24,7 @@ use App\Http\Controllers\Security;
 /* Route::get('/', function () {
     return view('welcome');
 })->name('home'); */
+
 Route::get('/', function () {
     return view('/dashboard');
 })->name('dashboard');
@@ -43,9 +45,18 @@ Route::middleware([
     Route::get('roles', [Security\RolesController::class, 'index'])->name('roles.index');
 });
 
+Route::get('/registrar', [UserController::class, 'create'])
+    ->middleware(['guest'])
+    ->name('registrar');
+
+Route::post('/register', [UserController::class, 'store'])
+    ->middleware(['guest'])
+    ->name('register');
+
+
+
 Route::resource('competidores', CompetidorController::class);
 
 Route::post('/competidores/create', [CompetidorController::class, 'buscarCompetidor'])->name('competidores.buscarCompetidor');
 Route::post('/competidores/buscarPaises', [CompetidorController::class, 'buscarPaises'])->name('competidores.buscarPaises');
 Route::post('/competidores/buscarColegio', [CompetidorController::class, 'buscarColegio'])->name('competidores.buscarColegio');
-
