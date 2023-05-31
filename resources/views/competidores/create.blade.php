@@ -129,10 +129,10 @@
       </form>
     </div>
 
-        <!-- Colegio -->
+        <!-- Escuela -->
         <div class="mb-3">
-          <label for="colegio" class="block mb-1">Colegio(*)</label>
-          <input class="form-input w-full" id="colegio" name="colegio" value="{{ $escuela->name }}"/>
+          <label for="escuela" class="block mb-1">Escuela(*)</label>
+          <input class="form-input w-full" id="escuela" name="escuela" value="{{ $escuela->name }}"/>
           <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
         </div>
 

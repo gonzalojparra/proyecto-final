@@ -26,7 +26,7 @@
             <div>
                 <x-label for="escuela" value="{{ __('Escuela') }}" />
                 <select id="escuelaUsuario" name="escuela" class="block mt-1 w-full" required autofocus autocomplete="escuela">
-                    <option value="">Seleccione una escuela</option>
+                    <option value="escuela">Seleccione una escuela</option>
                     @foreach($escuelas as $escuela)
                     <option>{{ $escuela->name }}</option>
                     @endforeach
