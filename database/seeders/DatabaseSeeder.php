@@ -5,19 +5,19 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
-{
+class DatabaseSeeder extends Seeder {
     /**
      * Seed the application's database.
      */
-    public function run(): void
-    {
+    public function run(): void {
 
         $this->call([
             RoleSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
+            zTeamsSeeder::class,
+            CategoriasSeeder::class,
+            CompetenciasSeeder::class
         ]);
-        $this->call(TeamsSeeder::class);
         // \App\Models\User::factory(100)->create();
 
         // \App\Models\User::factory(10)->create();
@@ -30,4 +30,5 @@ class DatabaseSeeder extends Seeder
         
         
     }
+
 }
