@@ -2,15 +2,15 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('jqueryui/jquery-ui.min.css') }}">
   <div class="container mx-auto">
     <div class="flex justify-center">
-      <form id="formulario" action="{{ route('competidores.store') }}" method="POST" class="border m-2 p-3 fs-5 bg-white sm:w-1/2 lg:w-1/3">
-        <h1 class="text-2xl font-bold mb-4">Inscribir Competidor</h1>
+      <form id="formulario" action="{{ route('competidores.store') }}" method="POST" class="border m-2 p-3 fs-5 bg-white sm:w-3/4 lg:w-2/3">
+        <h1 class="text-2xl font-bold mb-4">Informacion de competidor</h1>
         @csrf
 
         <!-- DNI -->
-        <div class="mb-3">
+        <!-- <div class="mb-3">
           <label for="du" class="block mb-1">DU(*)</label>
           <input type="text" class="form-input w-full" id="du" name="du" />
-        </div>
+        </div> -->
         <!-- Nombre competidor -->
         <!-- <div class="mb-3">
           <label for="nombre" class="block mb-1">Nombre(*)</label>
@@ -32,23 +32,23 @@
         <!-- Colegio -->
         <div class="mb-3">
           <label for="colegio" class="block mb-1">Colegio(*)</label>
-          <input class="form-input w-full" id="colegio" name="colegio" />
+          <input class="form-input w-full" id="colegio" name="colegio" value="{{ $escuela->name }}"/>
           <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
         </div>
 
         <!-- Pais -->
-        <div class="mb-3">
+        <!-- <div class="mb-3">
           <label for="pais" class="block mb-1">País de origen(*)</label>
           <input class="form-input w-full" id="pais" name="pais" />
           <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
-        </div>
+        </div> -->
 
         <!-- Categoria -->
-        <div class="mb-3">
+        <!-- <div class="mb-3">
           <label for="categoria" class="block mb-1">Categoria(*)</label>
           <input class="form-input w-full" id="categoria" name="categoria" />
           <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
-        </div>
+        </div> -->
         <!-- Email -->
         <!-- <div class="mb-3">
           <label for="email" class="block mb-1">Email de contacto(*)</label>
@@ -56,7 +56,7 @@
         </div> -->
 
         <!-- Genero -->
-        <div class="mb-3">
+        <!-- <div class="mb-3">
           <label class="block mb-1">Género(*)</label>
           <div>
             <label for="femenino" class="inline-flex items-center mr-4">
@@ -68,53 +68,63 @@
               <span class="ml-2">Masculino</span>
             </label>
           </div>
-        </div>
+        </div> -->
 
         <!-- GAL: Primary Key -->
         <div class="mb-3">
           <label for="gal" class="block mb-1">GAL(*)</label>
-          <input type="text" class="form-input w-full" id="gal" name="gal" placeholder="Ej: ABC1234567" />
+          <input type="text" class="form-input w-full" id="gal" name="gal" placeholder="Ej: ABC1234567" value="{{ $competidor->gal }}" />
         </div>
 
         <!-- Graduacion -->
         <div class="mb-3">
+          @php
+          $graduaciones = [
+          '1ro GUP',
+          '2do GUP',
+          '3ro GUP',
+          '4to GUP',
+          '5to GUP',
+          '6to GUP',
+          '7mo GUP',
+          '8vo GUP',
+          '9no GUP',
+          '10mo GUP',
+          '1ro DAN',
+          '2do DAN',
+          '3ro DAN',
+          '4to DAN',
+          '5to DAN',
+          '6to DAN',
+          '7mo DAN',
+          '8vo DAN',
+          '9no DAN',
+          ];
+          @endphp
+
           <label for="graduacion" class="block mb-1">Graduación(*)</label>
           <select class="form-select" id="graduacion" name="graduacion">
             <option value="">Seleccione una graduación</option>
-            <option value="1ro GUP">1ro GUP</option>
-            <option value="2do GUP">2do GUP</option>
-            <option value="3ro GUP">3ro GUP</option>
-            <option value="4to GUP">4to GUP</option>
-            <option value="5to GUP">5to GUP</option>
-            <option value="6to GUP">6to GUP</option>
-            <option value="7mo GUP">7mo GUP</option>
-            <option value="8vo GUP">8vo GUP</option>
-            <option value="9no GUP">9no GUP</option>
-            <option value="10mo GUP">10mo GUP</option>
-            <option value="1er DAN">1er DAN</option>
-            <option value="2do DAN">2do DAN</option>
-            <option value="3er DAN">3er DAN</option>
-            <option value="4to DAN">4to DAN</option>
-            <option value="5to DAN">5to DAN</option>
-            <option value="6to DAN">6to DAN</option>
-            <option value="7mo DAN">7mo DAN</option>
-            <option value="8vo DAN">8vo DAN</option>
-            <option value="9no DAN">9no DAN</option>
+            @foreach ($graduaciones as $graduacion)
+            <option value="{{ $graduacion }}" {{ $competidor->graduacion === $graduacion ? 'selected' : '' }}>
+              {{ $graduacion }}
+            </option>
+            @endforeach
           </select>
           <label for="comentario" class="block mb-1 mt-2">Comentario</label>
           <input class="form-input w-full" type="text" name="Comentario" id="comentario">
         </div>
 
         <!-- Clasificacion en el ranking -->
-        <div class="mb-3">
+        <!-- <div class="mb-3">
           <label for="clasificacion" class="block mb-1">Clasificación general del ranking nacional(*)</label>
           <input type="text" class="form-input w-full" id="clasificacion" name="clasificacion" placeholder="Ingrese su posición en el ranking nacional" pattern="^\S+$" required />
-        </div>
+        </div> -->
         <!-- Agrega el campo _token manualmente -->
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
         <div class="mb-3">
-          <input type="submit" value="Registrar" class="bg-[#070830] text-[white] border rounded py-2 px-4">
+          <input type="submit" value="Pedir actualización" class="bg-[#070830] text-[white] border rounded py-2 px-4">
         </div>
       </form>
     </div>
