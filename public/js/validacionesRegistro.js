@@ -221,6 +221,9 @@ inputDU.addEventListener('blur', function () {
 
 inputEdad.addEventListener('blur', function () {
   edadValida = validarCampo(inputEdad)
+  if (edadValida){
+    validarEdad()
+  }
 })
 
 inputCategoria.addEventListener('blur', function () {
@@ -239,6 +242,10 @@ inputGraduacion.addEventListener('click', function () {
 
 inputGal.addEventListener('blur', function () {
   galValido = validarCampo(inputGal)
+  if(galValido){
+    galValido = validarGal()
+  }
+
 })
 
 function validarFormulario() {
@@ -293,6 +300,40 @@ function validarChecks(checkRolCompetidor, checkRolJuez) {
 function validarSelect(select) {
   if (select.value != '') {
 
+  }
+}
+
+function validarGal() {
+  const regexGal = /^[A-Z]{3}\d{7}$/;
+  if (!regexGal.test(inputGal.value)) {
+    inputGal.style.borderColor = "red";
+    galFeedback.style.color = 'red'
+    galFeedback.innerHTML = 'Ingrese 3 letras mayúsculas y 7 números'
+    return false;
+  } else {
+    inputGal.style.borderColor = "green";
+    galFeedback.innerHTML = '&nbsp;'
+    return true;
+  }
+
+}
+
+
+function validarEdad(fecha) {
+  const fechaNac = new Date(fecha); //se crea la clase de fecha con el valor pasado por parametro 
+  const anioNac = fechaNac.getFullYear(); //se obtiene el año de la fecha pasada por parametro
+  const fechaActual = new Date(); //se obtiene la clase date para saber el año actual
+  const anioActual = fechaActual.getFullYear(); // devuelve el año actual  
+  const edad = anioActual - anioNac;
+  if (edad < 6) {
+    edadInput.style.borderColor = "red";
+    edadFeedback.style.color = 'red';
+    edadFeedback.innerHTML ='Debe tener al menos 6 años de edad'
+    return false;
+  } else if (edad > 6) {
+    edadInput.style.borderColor = "green";
+    edadFeedback.innerHTML ='&nbsp'
+    return true;
   }
 }
 
