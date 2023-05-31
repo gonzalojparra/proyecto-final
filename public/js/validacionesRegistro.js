@@ -251,22 +251,14 @@ inputEdad.addEventListener('blur', function () {
   }
 })
 
-//no logro que ande 
+
 inputCategoria.addEventListener('blur', function () {
-  categoriaValida = validarCampo(inputCategoria)
-  if (categoriaValida) {
-    // if (validarSelect(inputCategoria)) {
-    //   inputCategoria.style.borderColor = 'red';
-    //   categoriaFeedback.style.color = 'red'
-    //   categoriaFeedback.innerHTML = 'La categoria debe ser seleccionada'
-    // }else{
-    //   inputCategoria.style.borderColor = 'green';
-    //   categoriaFeedback.innerHTML = ' &nbsp;'
-    // }
-  }else{
-    categoriaFeedback.style.color = 'red'
-    categoriaFeedback.innerHTML = 'Complete este campo'
-  }
+    if (validarSelect(inputCategoria)) {
+      categoriaFeedback.style.color = 'red'
+      categoriaFeedback.innerHTML = 'La categoria debe ser seleccionada'
+    }else{
+      categoriaFeedback.innerHTML = ' &nbsp;'
+    }
 })
 
 inputGraduacion.addEventListener('click', function () {
@@ -342,10 +334,10 @@ function validarChecks(checkRolCompetidor, checkRolJuez) {
 
 function validarSelect(select) {
   if (select.value != '') {
-    select.style.borderColor = 'red'
+    // select.style.borderColor = 'red'
     return false;
   }else{
-    select.style.borderColor = 'green'
+    // select.style.borderColor = 'green'
     return true;
   }
 }
