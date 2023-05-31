@@ -52,8 +52,6 @@ Route::post('/register', [UserController::class, 'store'])
     ->middleware(['guest'])
     ->name('register');
 
-
-
 Route::resource('competidores', CompetidorController::class);
 
 Route::post('/competidores/create', [CompetidorController::class, 'buscarCompetidor'])->name('competidores.buscarCompetidor');

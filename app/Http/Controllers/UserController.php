@@ -5,61 +5,61 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index() {
         //
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
-    {
+    public function create(Request $request) {
         return view('auth.register');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         dd( $request->all());
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
-    {
-        //
+    public function show($user) {
+        $User = User::where('id', $user)->get();
+        /* var_dump($User); */
+        $usuario = [
+            'nombre' => $User[0]->name,
+            'apellido' => $User[0]->apellido,
+            'email' => $User[0]->email
+        ];
+        return $usuario;
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
-    {
+    public function edit(User $user) {
         //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
-    {
+    public function update(Request $request, User $user) {
         //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
-    {
+    public function destroy(User $user) {
         //
     }
+
 }

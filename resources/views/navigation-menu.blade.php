@@ -143,7 +143,7 @@
                 <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900   focus:rounded-sm">Ingresar</a>
 
                 @if (Route::has('register'))
-                <a href="{{ route('registrar') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 focus:rounded-sm">Registrarse</a>
+                <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 focus:rounded-sm">Registrarse</a>
                 @endif
                 @endauth
             </div>
