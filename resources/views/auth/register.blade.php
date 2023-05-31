@@ -25,8 +25,14 @@
 
             <div>
                 <x-label for="escuela" value="{{ __('Escuela') }}" />
-                <input id="escuelaUsuario" class="block mt-1 w-full" type="text" name="escuela" :value="old('escuela')" required autofocus autocomplete="escuela">
+                <select id="escuelaUsuario" name="escuela" class="block mt-1 w-full" required autofocus autocomplete="escuela">
+                    <option value="escuela">Seleccione una escuela</option>
+                    @foreach($escuelas as $escuela)
+                    <option>{{ $escuela->name }}</option>
+                    @endforeach
+                </select>
                 <div id="escuelaFeedback" class="input-feedback" for="escuelaUsuario">&nbsp;</div>
+
             </div>
 
             <div class="mt-4">
@@ -63,7 +69,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="input-feedback" class="input-feedback" id="rolChecksFeedback" for="checks">&nbsp;</div>
+                <div class="input-feedback" class="input-feedback" id="checksFeedback" for="checks">&nbsp;</div>
             </div>
 
             <div id="formularioInscripcion">
@@ -107,7 +113,6 @@
                         <option value="Juveniles">Juveniles</option>
                     </select>
                     <div id="categoriaFeedback" class="input-feedback" for="categoriaCompetidor">&nbsp;</div>
-
                 </div>
 
                 <div>
@@ -137,7 +142,7 @@
                     <div id="graduacionFeedback" class="input-feedback" for="graduacionCompetidor">&nbsp;</div>
                 </div>
 
-                <div id="cinturonNegro">
+                <div>
                     <x-label for="galCompetidor" value="{{ __('GAL') }}" />
                     <x-input id="galCompetidor" class="block mt-1 w-full" type="text" name="gal" :value="old('gal')" required autofocus autocomplete="gal" />
                     <div id="galFeedback" class="input-feedback" for="galCompetidor">&nbsp;</div>
@@ -174,5 +179,4 @@
     </x-authentication-card>
 
     <script src="{{ asset('js/validacionesRegistro.js') }}"></script>
-
 </x-app-layout>
