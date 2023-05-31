@@ -69,7 +69,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="input-feedback" class="input-feedback" id="rolChecksFeedback" for="checks">&nbsp;</div>
+                <div class="input-feedback" class="input-feedback" id="checksFeedback" for="checks">&nbsp;</div>
             </div>
 
             <div id="formularioInscripcion">
@@ -142,7 +142,7 @@
                     <div id="graduacionFeedback" class="input-feedback" for="graduacionCompetidor">&nbsp;</div>
                 </div>
 
-                <div>
+                <div id="cinturonNegro">
                     <x-label for="galCompetidor" value="{{ __('GAL') }}" />
                     <x-input id="galCompetidor" class="block mt-1 w-full" type="text" name="gal" :value="old('gal')" required autofocus autocomplete="gal" />
                     <div id="galFeedback" class="input-feedback" for="galCompetidor">&nbsp;</div>
@@ -171,7 +171,7 @@
                     {{ __('¿Ya tienes una cuenta?') }}
                 </a>
 
-                <x-button class="ml-4" id="botonSubmit">
+                <x-button class="ml-4" id="botonSubmit" class="boton-submit">
                     {{ __('Registrarse') }}
                 </x-button>
             </div>
