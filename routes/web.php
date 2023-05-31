@@ -41,6 +41,10 @@ Route::middleware([
     'verified'
 ])->group(function () {
     Route::get('permisos', [Security\PermissionController::class, 'index'])->name('permisos.index');
+});
+
+// Middleware Admin
+Route::group(['middleware' => ['role:Admin']], function() {
     Route::get('roles', [Security\RolesController::class, 'index'])->name('roles.index');
     Route::view('/roles/show','roles.show')->name('roles');
 });
