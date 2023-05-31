@@ -13,7 +13,7 @@ const formulario = document.querySelector('#formularioRegistro')
 
 const checkRolCompetidor = document.querySelector('#competidor')
 const checkRolJuez = document.querySelector('#juez')
-const divChecks = document.querySelector('#checks')
+const divChecks = document.querySelector('#rolChecks')
 
 //validaciones del formulario de inscripción
 const formInscripcion = document.querySelector('#formularioInscripcion')
@@ -23,8 +23,9 @@ const inputEdad = document.querySelector('#fechaNacCompetidor')
 const inputCategoria = document.querySelector('#categoriaCompetidor')
 const inputGraduacion = document.querySelector('#graduacionCompetidor')
 const inputGal = document.querySelector('#galCompetidor')
-
-
+const checkFemenino = document.querySelector('#femenino')
+const checkMasculino = document.querySelector('#masculino')
+const divGenero = document.querySelector('#generoChecks')
 //acá recupero todos los divs donde irán los mensajes de feedback
 
 const nombreFeedback = document.querySelector('#nombreFeedback')
@@ -33,26 +34,41 @@ const escuelaFeedback = document.querySelector('#escuelaFeedback')
 const emailFeedback = document.querySelector('#emailFeedback')
 const contraseniaFeedback = document.querySelector('#contraseniaFeedback')
 const contraseniaConfirmadaFeedback = document.querySelector('#contraseniaConfirmadaFeedback')
-const checksFeedback = document.querySelector('#checksFeedback')
+const checksFeedback = document.querySelector('#rolChecksFeedback')
+
 
 const duFeedback = document.querySelector('#duFeedback')
 const edadFeedback = document.querySelector('#edadFeedback')
 const categoriaFeedback = document.querySelector('#categoriaFeedback')
 const graduacionFeedback = document.querySelector('#graduacionFeedback')
 const galFeedback = document.querySelector('#galFeedback')
+const generoFeedback = document.querySelector('#generoChecksFeedback')
 
-
-let nombreValido = false;
-let apellidoValido = false;
-let emailValido = false;
+let nombreValidado = false;
+let apellidoValidado = false;
+let emailValidado = false;
 let contraseniasValidas = false;
 let formularioValido = false;
+let checkRolValido = false
+let escuelaValidada = false
+
+let selectedRol = ''
+
+let duValidado = false
+let edadValidada = false
+let generoValidado = false
+let categoriaValidada = false
+let graduacionValidada = false
+let tipoGraduacion = ''
+
+let galValidado = false
 
 window.addEventListener('load', function () {
   formInscripcion.style.display = 'none'
   divGal.style.display = 'none'
   inputGal.disabled = true;
   console.log(inputCategoria)
+  botonSubmit.disabled=true
   // console.log('js anda')
   // botonSubmit.disabled = true 
   // fetch("{{route('auth.showTeams')}}")
@@ -102,6 +118,7 @@ inputNombre.addEventListener('blur', function () {
   if (campoCompleto) {
     nombreValido = validarString(inputNombre)
     if (nombreValido) {
+      nombreValidado = true
       nombreFeedback.innerHTML = ' &nbsp;'
     } else {
       nombreFeedback.style.color = 'red'
@@ -118,6 +135,7 @@ inputApellido.addEventListener('blur', function () {
   if (campoCompleto) {
     apellidoValido = validarString(inputApellido)
     if (apellidoValido) {
+      apellidoValidado = true
       apellidoFeedback.innerHTML = ' &nbsp;'
     } else {
       apellidoFeedback.style.color = 'red'
@@ -134,6 +152,7 @@ inputEscuela.addEventListener('blur', function () {
   if (campoCompleto) {
     escuelaValida = validarString(inputEscuela)
     if (escuelaValida) {
+      escuelaValidada=true
       escuelaFeedback.innerHTML = ' &nbsp;'
     } else {
       escuelaFeedback.style.color = 'red'
@@ -151,6 +170,7 @@ inputEmail.addEventListener('blur', function () {
     emailValido = validarEmail(inputEmail)
     if (emailValido) {
       emailFeedback.innerHTML = ' &nbsp;'
+      emailValidado = true
     } else {
       emailFeedback.style.color = 'red'
       emailFeedback.innerHTML = 'El email ingresado no es válido'
@@ -207,7 +227,7 @@ inputContraseniaConfirmada.addEventListener('blur', function () {
 })
 
 divChecks.addEventListener('click', function () {
-  checksValidos = validarChecks(checkRolCompetidor, checkRolJuez)
+  checksValidos = validarChecksRol(checkRolCompetidor, checkRolJuez)
   if (checksValidos) {
     checksFeedback.innerHTML = ' &nbsp;'
   } else {
@@ -218,90 +238,115 @@ divChecks.addEventListener('click', function () {
 
 
 inputDU.addEventListener('blur', function () {
-    campoCompleto = validarCampo(inputDU)
-    if (campoCompleto) {
-      // duValido = validarDu(inputDU)
-      if (isNaN(inputDU.value) && inputDU.length != 8) {
-        inputDU.style.borderColor = 'red';
-        duFeedback.style.color = 'red'
-        duFeedback.innerHTML = 'El du ingresado no es válido'
-      } else {
-       
-        inputDU.style.borderColor = 'green';
-        duFeedback.innerHTML = ' &nbsp;'
-      }
-    } else {
+  campoCompleto = validarCampo(inputDU)
+  if (campoCompleto) {
+    // duValido = validarDu(inputDU)
+    if (isNaN(inputDU.value) && inputDU.length != 8) {
+      inputDU.style.borderColor = 'red';
       duFeedback.style.color = 'red'
-      duFeedback.innerHTML = 'Complete este campo'
+      duFeedback.innerHTML = 'El du ingresado no es válido'
+    } else {
+
+      inputDU.style.borderColor = 'green';
+      duFeedback.innerHTML = ' &nbsp;'
     }
+  } else {
+    duFeedback.style.color = 'red'
+    duFeedback.innerHTML = 'Complete este campo'
+  }
 
 })
 
 
 inputEdad.addEventListener('blur', function () {
   edadValida = validarCampo(inputEdad)
-  if (edadValida){
-    if(validarEdad(inputEdad.value)){
+  if (edadValida) {
+    if (validarEdad(inputEdad.value)) {
       inputEdad.style.borderColor = "green";
-    }else{
+    } else {
       inputEdad.style.borderColor = "red";
     }
-  }else {
+  } else {
     fechaNacFeedback.style.color = 'red'
     fechaNacFeedback.innerHTML = 'Complete este campo'
   }
 })
 
+divGenero.addEventListener('click', function () {
+  checksValidos = validarChecksGenero(checkMasculino, checkFemenino)
+  if (checksValidos) {
+    generoFeedback.innerHTML = ' &nbsp;'
+  } else {
+    generoFeedback.style.color = 'red'
+    generoFeedback.innerHTML = 'Seleccione una opción'
+  }
+})
 
 inputCategoria.addEventListener('blur', function () {
-    if (validarSelect(inputCategoria)) {
+  if (validarSelect(inputCategoria)) {
     categoriaFeedback.style.color = 'red'
-      categoriaFeedback.innerHTML = 'La categoria debe ser seleccionada'
-    }else{
-      categoriaFeedback.innerHTML = ' &nbsp;'
+    categoriaFeedback.innerHTML = 'La categoria debe ser seleccionada'
+  } else {
+    categoriaFeedback.innerHTML = ' &nbsp;'
   }
 })
 
 inputGraduacion.addEventListener('click', function () {
   console.log(inputGraduacion.value)
-  // graduacionValida = validarCampo(inputGraduacion)
-  showGal = cinturonNegro(inputGraduacion);
-  if (showGal){
-    divGal.style.display = 'inline'
+  if (validarSelect(inputGraduacion)) {
+    categoriaFeedback.style.color = 'red'
+    categoriaFeedback.innerHTML = 'La categoria debe ser seleccionada'
   } else {
-    divGal.style.display = 'none'
+    categoriaFeedback.innerHTML = ' &nbsp;'
+    if (cinturonNegro(inputGraduacion)) {
+      divGal.style.display = 'inline'
+    } else {
+      divGal.style.display = 'none'
+    }
   }
 })
 
 //me lo muestra aunque no sea de la categoria que necesita gal 
 inputGal.addEventListener('blur', function () {
-  galValido = validarCampo(inputGal)
-  // if(galValido){
+  console.log(validarCampo(inputGal))
+  if(validarCampo(inputGal)){
     galValido = validarGal(inputGal)
-  // }else{
-  //   galFeedback.style.color = 'red'
-  //   galFeedback.innerHTML = 'Complete este campo'
-  // }
+  } else {
+    galFeedback.style.color='red';
+    galFeedback.innerHTML = 'Complete este campo'
+  }
+
 
 })
 
 function validarFormulario() {
   formularioValido = false;
-  if (nombreValido) {
-    console.log('2 nombre es valido')
-    if (apellidoValido) {
-      console.log('3 apellido es valido')
-      if (emailValido) {
-        console.log('4 email es valido')
+  if (nombreValidado) {
+    if (apellidoValidado) {
+      if (emailValidado) {
         if (contraseniasValidas) {
-          console.log('5 contrasenias son validas')
-          checksValidos = validarChecks(checkRolCompetidor, checkRolJuez)
-          if (checksValidos) {
-            checksFeedback.innerHTML = ' &nbsp;'
-            formularioValido = true;
-          } else {
-            checksFeedback.style.color = 'red'
-            checksFeedback.innerHTML = 'Seleccione una opción'
+          if (checkRolValido) {
+            if(selectedRol === 'competidor'){
+              if (duValidado){
+                if(edadValidada){
+                  if(generoValidado){
+                    if(categoriaValidada){
+                      if(graduacionValidada){
+                        if (tipoGraduacion==='elite'){
+                          if(galValidado){
+                            formularioValido = true
+                          } 
+                        } else {
+                          formularioValido = true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            } else {
+              formularioValido = true;
+            }
           }
         }
       }
@@ -322,34 +367,43 @@ function validarCampo(input) {
   }
 }
 
-function validarChecks(checkRolCompetidor, checkRolJuez) {
-  checkValidado = false;
+function validarChecksRol(checkRolCompetidor, checkRolJuez) {
   if (checkRolCompetidor.checked) {
-    checkValidado = true;
+    checkRolValido = true
     formInscripcion.style.display = 'inline'
+    selectedRol = checkRolCompetidor.value
   } else if (checkRolJuez.checked) {
-    checkValidado = true;
+    checkRolValido = true
     formInscripcion.style.display = 'none'
+    selectedRol.checkRolJuez.value
+  }
+  return checkValidado;
+}
+
+function validarChecksGenero(checkMasculino, checkFemenino) {
+  checkValidado = false;
+  if (checkMasculino.checked) {
+    checkValidado = true;
+  } else if (checkFemenino.checked) {
+    checkValidado = true;
   }
   return checkValidado;
 }
 
 function validarSelect(select) {
   if (select.value != '') {
-    select.style.borderColor = 'red'
     return false;
-  }else{
-    select.style.borderColor = 'green'
+  } else {
     return true;
   }
 }
 
 function validarGal() {
   const regexGal = /^[A-Z]{3}\d{7}$/;
-  if (!regexGal.test(inputGal.value)) {
+  if (!regexGal.test(inputGal.value.toUpperCase())) {
     inputGal.style.borderColor = "red";
     galFeedback.style.color = 'red'
-    galFeedback.innerHTML = 'Ingrese 3 letras mayúsculas y 7 números'
+    galFeedback.innerHTML = 'Ingrese 3 letras y 7 números'
     return false;
   } else {
     inputGal.style.borderColor = "green";
@@ -369,11 +423,11 @@ function validarEdad(fecha) {
   if (edad < 6) {
     // edadInput.style.borderColor = "red";
     fechaNacFeedback.style.color = 'red';
-    fechaNacFeedback.innerHTML ='Debe tener al menos 6 años de edad'
+    fechaNacFeedback.innerHTML = 'Debe tener al menos 6 años de edad'
     return false;
   } else if (edad > 6) {
     // edadInput.style.borderColor = "green";
-    fechaNacFeedback.innerHTML ='&nbsp'
+    fechaNacFeedback.innerHTML = '&nbsp'
     return true;
   }
 }
@@ -382,32 +436,45 @@ function cinturonNegro(select) {
   let showGal = false
   switch (select.value) {
     case '1 DAN, Negro':
+      tipoGraduacion = 'elite'
       showGal = true;
       break;
     case '2 DAN, Negro':
+      tipoGraduacion = 'elite'
       showGal = true;
       break;
     case '3 DAN, Negro':
+      tipoGraduacion = 'elite'
       showGal = true;
       break;
     case '4 DAN, Negro':
+      tipoGraduacion = 'elite'
       showGal = true;
       break;
     case '5 DAN, Negro':
+      tipoGraduacion = 'elite'
       showGal = true;
       break;
     case '6 DAN, Negro':
+      tipoGraduacion = 'elite'
       showGal = true;
       break;
     case '7 DAN, Negro':
+      tipoGraduacion = 'elite'
       showGal = true;
       break;
     case '8 DAN, Negro':
+      tipoGraduacion = 'elite'
       showGal = true;
       break;
     case '9 DAN, Negro':
+      tipoGraduacion = 'elite'
       showGal = true;
       break;
+      default:
+        tipoGraduacion = ''
+        showGal = false
+        break;
   }
   return showGal;
 }

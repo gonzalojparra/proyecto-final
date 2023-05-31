@@ -55,7 +55,7 @@
 
             <div>
                 <div>Tipo de cuenta requerida</div>
-                <div class="checks" id="checks" required>
+                <div class="checks" id="rolChecks" required>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="rol" id="competidor" value="Competidor">
                         <label class="form-check-label" for="competidor">
@@ -69,7 +69,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="input-feedback" class="input-feedback" id="checksFeedback" for="checks">&nbsp;</div>
+                <div class="input-feedback" class="input-feedback" id="rolChecksFeedback" for="checks">&nbsp;</div>
             </div>
 
             <div id="formularioInscripcion">
@@ -86,23 +86,24 @@
                 </div>
 
                 <div>
-                <div>Genero</div>
-                <div class="checks" id="checks" required>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="genero" id="femenino" value="Femenino">
-                        <label class="form-check-label" for="femenino">
-                            Femenino
-                        </label>
+                    <div>Genero</div>
+                    <div class="checks" id="generoChecks" required>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="genero" id="femenino" value="femenino">
+                            <label class="form-check-label" for="femenino">
+                                Femenino
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="genero" id="masculino" value="masculino">
+                            <label class="form-check-label" for="masculino">
+                                Masculino
+                            </label>
+                        </div>
+                        <div class="input-feedback" class="input-feedback" id="generoChecksFeedback" for="checks">&nbsp;</div>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="genero" id="masculino" value="Masculino">
-                        <label class="form-check-label" for="masculino">
-                            Masculino
-                        </label>
-                    </div>
+
                 </div>
-                <div class="input-feedback"  class="input-feedback"  id="checksFeedback" for="checks">&nbsp;</div>
-                 </div>
 
                 <div>
                     <x-label for="categoriaCompetidor" value="{{ __('Categoria') }}" />
