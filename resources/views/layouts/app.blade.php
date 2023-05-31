@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     @livewireStyles
+    <link rel="stylesheet" href="{{ asset('css/estilosLayout.css') }}">
 </head>
 
 <body class="font-sans antialiased">

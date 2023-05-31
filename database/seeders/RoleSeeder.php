@@ -14,28 +14,24 @@ class RoleSeeder extends Seeder {
      */
     public function run(): void {
         //
-        $superAdmin = Role::create(['name' => 'Super Admin']);
         $admin = Role::create(['name' => 'Admin']);
-        $profesor = Role::create(['name' => 'Profesor']);
         $juez = Role::create(['name' => 'Juez']);
         $competidor = Role::create(['name' => 'Competidor']);
 
-        $permisosProfesor = [
-            'competidores.index',
-            'competidores.create',
-            'competidores.edit',
-            'competidores.show',
-            'teams.create-team-form',
-            'teams.create',
-            'teams.delete-team-form',
-            'teams.show',
-            'teams.team-member-manager',
-            'teams.update-team-name-form',
-        ];
-
-        foreach( $permisosProfesor as $permiso ){
-            Permission::create(['name' => $permiso])->assignRole($profesor);
-        };
+        Permission::create(['name' => 'competidores.index']);
+        Permission::create(['name' => 'competidores.create']);
+        Permission::create(['name' => 'competidores.edit']);
+        Permission::create(['name' => 'competidores.show']);
+        Permission::create(['name' => 'roles.index'])->assignRole($admin);
+        Permission::create(['name' => 'roles.create'])->assignRole($admin);
+        Permission::create(['name' => 'roles.edit'])->assignRole($admin);
+        Permission::create(['name' => 'roles.show'])->assignRole($admin);
+        Permission::create(['name' => 'teams.show']);
+        Permission::create(['name' => 'teams.create']);
+        Permission::create(['name' => 'teams.create-team-form']);
+        Permission::create(['name' => 'teams.delete-team-form']);
+        Permission::create(['name' => 'teams.team-member-manager']);
+        Permission::create(['name' => 'teams.update-team-name-form']);
 
 
 

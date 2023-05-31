@@ -9,7 +9,7 @@ use App\Models\Team;
 use App\Models\User;
 use Laravel\Jetstream\Jetstream;
 
-class TeamsSeeder extends Seeder {
+class zTeamsSeeder extends Seeder {
     /**
      * Run the database seeds.
      */
@@ -28,10 +28,6 @@ class TeamsSeeder extends Seeder {
         ]);
         Team::forceCreate([
             'name' => "Asociación Club Amigos del Tang Soo Doo y el Taekwondo 'A.C.A.T.T'",
-            'personal_team' => false,
-        ]);
-        Team::forceCreate([
-            'name' => "Asociación Civil Bom Do Kwan Taekwondo Tigres Neuquinos",
             'personal_team' => false,
         ]);
         Team::forceCreate([
@@ -74,10 +70,21 @@ class TeamsSeeder extends Seeder {
             'name' => "Asociación Taekwondo Comahue",
             'personal_team' => false,
         ]);
-        Team::forceCreate([
+        $teamX = Team::forceCreate([
             'name' => "Club San Francisco San Martín",
             'personal_team' => false,
         ]);
+        
+        /**
+         * Asignarle una escuela a un usuario
+         * Primero se busca el email del usuario a ingresar
+         * Luego se lo añade
+         */
+        $rodriPepi = Jetstream::findUserByEmailOrFail('rodri@example.com');
+        $teamX->users()->attach(
+            $rodriPepi
+        );
+        
         //
         //Team::create(['user_id' => 1], ['name' => 'Los Capos'], ['personal_team' => false]);
 

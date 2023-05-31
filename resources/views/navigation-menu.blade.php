@@ -110,6 +110,9 @@
                             <x-dropdown-link href="{{ route('profile.show') }}">
                                 {{ __('Perfil') }}
                             </x-dropdown-link>
+                            <x-dropdown-link href="{{ route('competidores.create') }}">
+                                {{ __('Informacion Competidor') }}
+                            </x-dropdown-link>
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                             <x-dropdown-link href="{{ route('api-tokens.index') }}">
@@ -135,12 +138,12 @@
             @if (Route::has('login'))
             <div class="sm:flex sm:top-0 sm:right-0 p-6 text-right z-10">
                 @auth
-                <a href="{{ url('/dashboard') }}" class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
+                <a href="{{ url('/dashboard') }}" class="font-semibold text-gray-600 hover:text-gray-900  focus:rounded-sm focus:outline-red-500">Dashboard</a>
                 @else
-                <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Ingresar</a>
+                <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900   focus:rounded-sm">Ingresar</a>
 
                 @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Registrarse</a>
+                <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 focus:rounded-sm">Registrarse</a>
                 @endif
                 @endauth
             </div>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Pais;
 use Illuminate\Support\Facades\DB;
 
+
 use Illuminate\Support\Facades\Auth;
 
 use Spatie\Permission\Models\Role; // Spatie
@@ -42,7 +43,17 @@ class CompetidorController extends Controller
     // Mostramos la vista del formulario con create.
     public function create()
     {
-        return view('competidores.create');
+        $competidor = DB::table('users')
+            ->select('id', 'gal', 'graduacion', 'id_escuela') // Especifica las columnas que deseas seleccionar
+            ->where('id', 3)    // Agrega tus condiciones de filtrado
+            ->first();
+
+            $escuela = DB::table('teams')
+            ->select('id', 'name') // Especifica las columnas que deseas seleccionar
+            ->where('id', $competidor->id_escuela)    // Agrega tus condiciones de filtrado
+            ->first();
+        
+        return view('competidores.create', compact('competidor', 'escuela'));
     }
 
     // Buscar pais precargado en la base de datos
@@ -91,7 +102,7 @@ class CompetidorController extends Controller
 
         $competidor = Competidor::where($columnName, $data)->get();
 
-        if ($competidor->count() > 0) {
+        /*  if ($competidor->count() > 0) {
             // Hay resultados en la base de datos
             return response()->json($competidor);
         } else {
@@ -99,7 +110,9 @@ class CompetidorController extends Controller
             return response()->json(['error' => 'Modelo no encontrado'], 404);
         }
 
-        return response()->json($competidor);
+        return response()->json($competidor); */
+        dd($competidor);
+        return $competidor;
     }
 
     // Guardamos al competidor del formulario en la bd.
