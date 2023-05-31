@@ -59,6 +59,22 @@ class UserSeeder extends Seeder
         ];
 
 
+        User::create([
+            'name' => 'Pepe',
+            'apellido' => 'Argento',
+            'email' => 'pepa@example.com',
+            'password' => Hash::make('123')
+        ])->assignRole('Competidor' );
+        
+
+        User::create([
+            'name' => 'Admin',
+            'apellido' => 'Admin',
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('admin')
+        ])->assignRole('Admin' );
+
+
         // Seeder para hacer funcionar los teams
         // Hay que adaptarlo a lo que está comentado arriba
         // $users = [

@@ -26,9 +26,12 @@ use App\Http\Controllers\Security;
 Route::get('/', function () {
     return view('/dashboard');
 })->name('dashboard');
+
 Route::get('/resultados', function () {
     return view('resultados');
 })->name('resultados');
+
+Route::view('/roles/show','roles.show')->name('roles');
 
 Route::middleware([
     'auth:sanctum',
