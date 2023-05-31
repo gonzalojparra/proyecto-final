@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Laravel\Jetstream\Jetstream;
+use Illuminate\Support\Facades\Hash;
+use App\Actions\Fortify\PasswordValidationRules;
+use App\Models\Categoria;
+use App\Models\Team;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
+    use PasswordValidationRules;
     /**
      * Display a listing of the resource.
      */
@@ -27,38 +32,53 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        // dd($request->all());
-        /* $request->validate([
-            'id_user' => ['required'],
-            'gal' => ['required', 'unique:competidores'],
-            'du' => ['required'],
-            'genero' => ['required'],
-            'id_colegio' => ['required'],
-            'graduacion' => ['required'],
-            'clasificacion' => ['required'],
-            'id_categoria' => ['required'],
-            'id_pais' => ['required'],
-            //'fecha_nac' => ['required'],
-        ]); */
+    public function store(Request $request) {
+        $input = $request->all();
 
-        User::create([
-            'name' => $request->get('name'),
-            'apellido' => $request->get('apellido'),
-            'email' => $request->get('email'),
-            'password' => $request->get('password'),
-            'fecha_nac' => $request->get('fecha_nac'),
-            'id_escuela' => $request->get('escuela'),
-            'gal' => $request->get('gal'),
-            'du' => $request->get('documento'),
-            // 'clasificacion' => $request->get('clasificacion'),
-            'graduacion' => $request->get('graduacion'),
-            'id_categoria' => $request->get('categoria'),
-            'genero' => $request->get('genero'),
+        Validator::make($input, [
+            'name' => ['required', 'string', 'max:255'],
+            'apellido' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => $this->passwordRules(),
+            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
+        ])->validate();
+
+        // Buscar categoría
+        $catNombre = $input['categoria'];
+        $catGraduacion = $input['graduacion'];
+
+        $categoriaFinal = Categoria::where([['nombre', '=', $catNombre], ['graduacion', '=', $catGraduacion]])->get();
+
+        // Buscar escuela
+        $escuela = Team::where('name', $input['escuela'])->get();
+
+        $usuario = User::create([
+            'name' => $input['name'],
+            'apellido' => $input['apellido'],
+            'email' => $input['email'],
+            'password' => Hash::make($input['password']),
+            'du' => $input['documento'],
+            'fecha_nac' => $input['fechaNac'],
+            'gal' => $input['gal'],
+            //'genero' => $input['genero'],
+            'id_categoria' => $categoriaFinal[0]['id'],
+            'graduacion' => $categoriaFinal[0]['graduacion'],
+            'id_escuela' => $escuela[0]->id,
         ]);
-
-        return to_route('competidores.index')->with('success', 'El competidor se creo correctamente');
+        
+        if( $escuela !== null ){
+            // Asignar rol en tabla de spatie
+            $usuario->assignRole($input['rol']);
+            // Asignar usuario a la escuela en tabla de team
+            $escuela[0]->users()->attach(
+                Jetstream::findUserByEmailOrFail($input['email']),
+                ['role' => $input['rol']]
+            );
+            return view('auth.login');
+        } else {
+            return view('auth.register');
+        }
+        
     }
 
     /**

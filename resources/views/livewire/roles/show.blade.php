@@ -15,13 +15,13 @@
             @if ($usuarios->count()>0)
             <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
 
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead class="text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" class="px-6 py-3">
+                        <!-- <th scope="col" class="px-6 py-3">
                             <span class="cursor-pointer">
                                 ID
                             </span>
-                        </th>
+                        </th> -->
                         <th scope="col" class="px-6 py-3">
                             <span class="cursor-pointer">
                                 Nombre
@@ -51,9 +51,9 @@
                 <tbody>
                     @foreach ($usuarios as $usuario )
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <!-- <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{$usuario->id}}
-                        </th>
+                        </th> -->
                         <td class="px-6 py-4">
                             {{$usuario->name}}
                         </td>
@@ -79,9 +79,9 @@
                 </tbody>
             </table>
             @else
-            <div class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 px-6 py-3 text-white">
+            <div class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 px-6 py-3 text-dark">
                 <h3>
-                    No se encuentran registros
+                    No se encuentran solicitudes
                 </h3>
             </div>
 

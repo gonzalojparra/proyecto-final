@@ -18,7 +18,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '10 Gup, Blanco',
+                'graduacion' => '10 GUP, Blanco',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -27,7 +27,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '9 Gup, Blanco borde amarillo',
+                'graduacion' => '9 GUP, Blanco borde amarillo',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -36,7 +36,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '8 Gup, Amarillo',
+                'graduacion' => '8 GUP, Amarillo',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -45,7 +45,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '7 Gup, Amarillo borde verde',
+                'graduacion' => '7 GUP, Amarillo borde verde',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -54,7 +54,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '6 Gup, Verde',
+                'graduacion' => '6 GUP, Verde',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -63,7 +63,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '5 Gup, Verde borde azul',
+                'graduacion' => '5 GUP, Verde borde azul',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -72,7 +72,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '4 Gup, Azul',
+                'graduacion' => '4 GUP, Azul',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -81,7 +81,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '3 Gup, Azul borde rojo',
+                'graduacion' => '3 GUP, Azul borde rojo',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -90,7 +90,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '2 Gup, Rojo',
+                'graduacion' => '2 GUP, Rojo',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -99,7 +99,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '1 Gup, Rojo borde negro',
+                'graduacion' => '1 GUP, Rojo borde negro',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -108,7 +108,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '10 Dan, Negro',
+                'graduacion' => '10 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -117,7 +117,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '9 Dan, Negro',
+                'graduacion' => '9 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -126,7 +126,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '8 Dan, Negro',
+                'graduacion' => '8 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -135,7 +135,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '7 Dan, Negro',
+                'graduacion' => '7 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -144,7 +144,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '6 Dan, Negro',
+                'graduacion' => '6 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -153,7 +153,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '5 Dan, Negro',
+                'graduacion' => '5 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -162,7 +162,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '4 Dan, Negro',
+                'graduacion' => '4 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -171,7 +171,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '3 Dan, Negro',
+                'graduacion' => '3 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -180,7 +180,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '2 Dan, Negro',
+                'graduacion' => '2 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -189,7 +189,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 12,
                 'edad_hasta' => 14,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '1 Dan, Negro',
+                'graduacion' => '1 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -198,7 +198,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '10 Gup, Blanco',
+                'graduacion' => '10 GUP, Blanco',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -207,7 +207,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '9 Gup, Blanco borde amarillo',
+                'graduacion' => '9 GUP, Blanco borde amarillo',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -216,7 +216,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '8 Gup, Amarillo',
+                'graduacion' => '8 GUP, Amarillo',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -225,7 +225,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '7 Gup, Amarillo borde verde',
+                'graduacion' => '7 GUP, Amarillo borde verde',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -234,7 +234,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '6 Gup, Verde',
+                'graduacion' => '6 GUP, Verde',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -243,7 +243,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '5 Gup, Verde borde azul',
+                'graduacion' => '5 GUP, Verde borde azul',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -252,7 +252,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '4 Gup, Azul',
+                'graduacion' => '4 GUP, Azul',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -261,7 +261,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '3 Gup, Azul borde rojo',
+                'graduacion' => '3 GUP, Azul borde rojo',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -270,7 +270,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '2 Gup, Rojo',
+                'graduacion' => '2 GUP, Rojo',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -279,7 +279,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '1 Gup, Rojo borde negro',
+                'graduacion' => '1 GUP, Rojo borde negro',
                 'clasificacion' => 'Promocional',
                 'img' => 'inserte link de imagen'
             ],
@@ -288,7 +288,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '10 Dan, Negro',
+                'graduacion' => '10 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -297,7 +297,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '9 Dan, Negro',
+                'graduacion' => '9 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -306,7 +306,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '8 Dan, Negro',
+                'graduacion' => '8 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -315,7 +315,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '7 Dan, Negro',
+                'graduacion' => '7 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -324,7 +324,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '6 Dan, Negro',
+                'graduacion' => '6 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -333,7 +333,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '5 Dan, Negro',
+                'graduacion' => '5 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -342,7 +342,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '4 Dan, Negro',
+                'graduacion' => '4 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -351,7 +351,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '3 Dan, Negro',
+                'graduacion' => '3 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -360,7 +360,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '2 Dan, Negro',
+                'graduacion' => '2 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
@@ -369,7 +369,7 @@ class CategoriasSeeder extends Seeder {
                 'edad_desde' => 15,
                 'edad_hasta' => 17,
                 'genero' => 'Masculino y Femenino',
-                'graduacion' => '1 Dan, Negro',
+                'graduacion' => '1 DAN, Negro',
                 'clasificacion' => 'Elite',
                 'img' => 'inserte link de imagen'
             ],
