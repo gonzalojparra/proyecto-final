@@ -75,13 +75,13 @@
             <div id="formularioInscripcion">
                 <div>
                     <x-label for="duCompetidor" value="{{ __('Documento') }}" />
-                    <x-input id="duCompetidor" class="block mt-1 w-full" type="text" name="documento" :value="old('documento')" required autofocus autocomplete="documento" />
+                    <x-input id="duCompetidor" class="block mt-1 w-full" type="text" name="documento" :value="old('documento')"  autocomplete="documento" />
                     <div id="duFeedback" class="input-feedback" for="duCompetidor">&nbsp;</div>
                 </div>
 
                 <div>
                     <x-label for="fechaNacCompetidor" value="{{ __('Fecha de nacimiento') }}" />
-                    <x-input id="fechaNacCompetidor" class="block mt-1 w-full" type="date" name="fechaNac" :value="old('fechaNac')" required autofocus autocomplete="fechaNac" />
+                    <x-input id="fechaNacCompetidor" class="block mt-1 w-full" type="date" name="fechaNac" :value="old('fechaNac')" autocomplete="fechaNac" min="1960-01-01" />
                     <div id="fechaNacFeedback" class="input-feedback" for="fechaNacCompetidor">&nbsp;</div>
                 </div>
 
@@ -107,7 +107,7 @@
 
                 <div>
                     <x-label for="categoriaCompetidor" value="{{ __('Categoria') }}" />
-                    <select id="categoriaCompetidor" class="block mt-1 w-full" type="text" name="categoria" :value="old('categoria')" required autofocus autocomplete="categoria">
+                    <select id="categoriaCompetidor" class="block mt-1 w-full" type="text" name="categoria" :value="old('categoria')"  autocomplete="categoria">
                         <option value="">Seleccione una categoría</option>
                         <option value="Cadetes">Cadetes</option>
                         <option value="Juveniles">Juveniles</option>
@@ -117,7 +117,7 @@
 
                 <div>
                     <x-label for="graduacionCompetidor" value="{{ __('Graduacion') }}" />
-                    <select id="graduacionCompetidor" class="block mt-1 w-full" type="text" name="graduacion" :value="old('graduacion')" class="'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'" required autofocus autocomplete="graduacion">
+                    <select id="graduacionCompetidor" class="block mt-1 w-full" type="text" name="graduacion" :value="old('graduacion')" class="'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'"  autocomplete="graduacion">
                         <option value="">Seleccione una graduación</option>
                         <option value="1 GUP, Rojo borde negro">1ro GUP</option>
                         <option value="2 GUP, Rojo">2do GUP</option>
@@ -144,7 +144,7 @@
 
                 <div id="cinturonNegro">
                     <x-label for="galCompetidor" value="{{ __('GAL') }}" />
-                    <x-input id="galCompetidor" class="block mt-1 w-full" type="text" name="gal" :value="old('gal')" required autofocus autocomplete="gal" />
+                    <x-input id="galCompetidor" class="block mt-1 w-full" type="text" name="gal" :value="old('gal')"  autocomplete="gal" />
                     <div id="galFeedback" class="input-feedback" for="galCompetidor">&nbsp;</div>
                 </div>
             </div>
@@ -171,17 +171,17 @@
                     {{ __('¿Ya tienes una cuenta?') }}
                 </a>
 
-                <!-- <x-button class="ml-4" id="botonSubmit" class="boton-submit">
+                <button class="ml-4" id="botonSubmit" class="boton-submit">
                     {{ __('Registrarse') }}
-                </x-button> -->
-                <x-button type="submit" class="..." :disabled="true">{{ __('Registrarse') }}</x-button>
-                @props(['disabled'=>false])
-                <button {{ $attributes->merge(['type' => 'submit', 'class' => '...']) }} {{ $formularioValido ?? false ? ' disabled' :'' }}>
-
                 </button>
             </div>
         </form>
     </x-authentication-card>
-
     <script src="{{ asset('js/validacionesRegistro.js') }}"></script>
+    <script>
+        Livewire.on('postAdded', postId => {
+            alert('A post was added with the id of: ' + postId);
+        })
+    </script>
+
 </x-app-layout>

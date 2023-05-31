@@ -48,12 +48,18 @@ class UserController extends Controller {
         // Buscar categoría
         $catNombre = $input['categoria'];
         $catGraduacion = $input['graduacion'];
-
-        $categoriaFinal = Categoria::where([['nombre', '=', $catNombre], ['graduacion', '=', $catGraduacion]])->get();
+        if($catNombre == null && $catGraduacion == null){
+            $categoriaFinalId = null;
+            $categoriaFinalGr = null;
+        } else {
+            $categoriaFinal = Categoria::where([['nombre', '=', $catNombre], ['graduacion', '=', $catGraduacion]])->get();
+            $categoriaFinalId =$categoriaFinal[0]['id'];
+            $categoriaFinalGr = $categoriaFinal[0]['graduacion'];
+        }
+   
 
         // Buscar escuela
         $escuela = Team::where('name', $input['escuela'])->get();
-
         $usuario = User::create([
             'name' => $input['name'],
             'apellido' => $input['apellido'],
@@ -63,8 +69,8 @@ class UserController extends Controller {
             'fecha_nac' => $input['fechaNac'],
             'gal' => $input['gal'],
             //'genero' => $input['genero'],
-            'id_categoria' => $categoriaFinal[0]['id'],
-            'graduacion' => $categoriaFinal[0]['graduacion'],
+            'id_categoria' => $categoriaFinalId,
+            'graduacion' => $categoriaFinalGr,
             'id_escuela' => $escuela[0]->id,
         ]);
         
