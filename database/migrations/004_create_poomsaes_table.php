@@ -9,12 +9,12 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('competencia_juez', function (Blueprint $table) {
-            $table->foreignId('id_juez')->constrained('users');
+        Schema::create('poomsaes', function (Blueprint $table) {
+            $table->id();
+            $table->integer('ronda');
             $table->foreignId('id_competencia')->constrained('competencias');
-            $table->foreignId('id_competencias')->constrained('competencias');
-            $table->foreignId('id_poomsae')->constrained('poomsaes');
-            $table->timestamp('inscripto')->nullable();
+            $table->foreignId('id_categoria')->constrained('categorias');
+
             $table->timestamps();
         });
     }
@@ -23,7 +23,7 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void {
-        Schema::dropIfExists('competencia_juez');
+        Schema::dropIfExists('poomsaes');
     }
 
 };
