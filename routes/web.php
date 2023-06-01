@@ -64,3 +64,11 @@ Route::post('/competidores/buscarPaises', [CompetidorController::class, 'buscarP
 Route::post('/competidores/buscarColegio', [CompetidorController::class, 'buscarColegio'])->name('competidores.buscarColegio');
 
 Route::post('/obtenerEscuelas',)->name('acciones.obtenerEscuelas');
+
+
+
+
+
+
+// TESTEOS
+Route::get('/test', [UserController::class, 'mostrarPendientes']);

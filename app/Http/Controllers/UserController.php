@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Actions\Fortify\PasswordValidationRules;
 use App\Models\Categoria;
 use App\Models\Team;
+use Spatie\Permission\Models\Role; // Spatie
 
 class UserController extends Controller {
     use PasswordValidationRules;
@@ -24,7 +25,7 @@ class UserController extends Controller {
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create()
     {
         $escuelas = Team::all();
 
@@ -131,4 +132,22 @@ class UserController extends Controller {
         //
     }
 
+
+    // Metodos personalizados
+
+    // Devuelve un json con todos los usuarios pendientes a registrar e incluimos el rol a asignar.
+    // Accedemos al rol con la clave 'rol';
+    public function mostrarPendientes(){
+        $usuarios = User::get();
+        $usuariosPendientes = array();
+        foreach ($usuarios as $usuario) {
+            if ($usuario['verificado'] == 0) {
+                $roles = $usuario->roles()->pluck('name');
+                $nombreRol = $roles[0];
+                $usuario['rol'] = $nombreRol;
+                $usuariosPendientes[] = $usuario;
+            }
+        }
+        return $usuariosPendientes;
+    }
 }
