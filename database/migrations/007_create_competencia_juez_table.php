@@ -11,7 +11,12 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('competencia_juez', function (Blueprint $table) {
             $table->foreignId('id_juez')->constrained('users');
+<<<<<<< Updated upstream:database/migrations/007_create_competencia_juez_table.php
             $table->foreignId('id_competencias')->constrained('competencias');
+=======
+            $table->foreignId('id_poomsae')->constrained('poomsaes');
+            $table->timestamp('inscripto')->nullable();
+>>>>>>> Stashed changes:database/migrations/005_create_competencia_juez_table.php
             $table->timestamps();
         });
     }
