@@ -8,6 +8,7 @@ use App\Models\Pais;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Competencia;
+use App\Models\Categoria;
 use Spatie\Permission\Models\Role; // Spatie
 
 class CompetidorController extends Controller
@@ -116,17 +117,28 @@ class CompetidorController extends Controller
 
     // Inscribir competidor
 
-    public function inscripcion(){
-        $competencia = Competencia::all();
-
-        return view('/competidores/inscripcion', compact('competencia'));
+    public function inscripcion()
+    {
+        $user = Auth::user();
+        $competencia_categoria = DB::table('competencia_categoria')
+            ->select('id_competencia', 'id_categoria')->get();
+        $competencia = Competencia::find($competencia_categoria[0]->id_competencia);
+        // $categorias = Categoria::find($competencia_categoria[1]->id_categoria)->get();
+        foreach ($competencia_categoria as $clave => $valorId) {
+            foreach (Categoria::all() as $categoria => $valor) {
+                if ($valor->id == $valorId->id_categoria) {
+                    $categorias[] = Categoria::find($valorId->id_categoria);
+                    
+                }
+            }
+        }
+        return view('/competidores/inscripcion', compact('competencia', 'categorias'));
     }
 
     public function inscribir(Request $request, Competidor $competidor)
     {
         $user = Auth::user();
-        dd($user->du);
-        
+        dd($user->id_categoria);
     }
 
     // Guardamos al competidor del formulario en la bd.
