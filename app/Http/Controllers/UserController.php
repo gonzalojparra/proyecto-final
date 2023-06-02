@@ -12,6 +12,7 @@ use App\Models\Categoria;
 use App\Models\Team;
 use App\Models\Competencia;
 use Spatie\Permission\Models\Role; // Spatie
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller {
     use PasswordValidationRules;
@@ -26,8 +27,7 @@ class UserController extends Controller {
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
+    public function create(Request $request) {
         $escuelas = Team::all();
 
         return view('auth.register', compact('escuelas'));
@@ -50,6 +50,11 @@ class UserController extends Controller {
         // Buscar categoría
         $catNombre = $input['categoria'];
         $catGraduacion = $input['graduacion'];
+
+        $genero = null;
+        if(array_key_exists('genero',$input)) {
+            $genero = $input['genero'];
+        }
         if($catNombre == null && $catGraduacion == null){
             $categoriaFinalId = null;
             $categoriaFinalGr = null;
@@ -70,7 +75,7 @@ class UserController extends Controller {
             'du' => $input['documento'],
             'fecha_nac' => $input['fechaNac'],
             'gal' => $input['gal'],
-            'genero' => $input['genero'],
+            'genero' => $genero,
             'id_categoria' => $categoriaFinalId,
             'graduacion' => $categoriaFinalGr,
             'id_escuela' => $escuela[0]->id,
@@ -96,15 +101,28 @@ class UserController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show($user)
-    {
-        $User = User::where('id', $user)->get();
-        /* var_dump($User); */
+    public function show($user) {
+        $User = DB::table('team_user')
+        ->join('users','team_user.user_id','=','users.id')
+        ->join('teams','team_user.team_id','=','teams.id')
+        ->select('users.*','teams.name')
+        ->where('users.id',$user)
+        ->get();
+
 
         $usuario = [
-            'nombre' => $User[0]->name,
-            'apellido' => $User[0]->apellido,
-            'email' => $User[0]->email,
+            'id' => (empty($User[0]->id))? null : $User[0]->id,
+            'nombre' => (empty($User[0]->nombre))? null : $User[0]->nombre,
+            'apellido' => (empty($User[0]->apellido))? null : $User[0]->apellido,
+            'email' => (empty($User[0]->email))? null : $User[0]->email,
+            'fecha_nac'=>(empty($User[0]->fecha_nac))? null : $User[0]->fecha_nac,
+            'gal'=>(empty($User[0]->gal))? null : $User[0]->gal,
+            'du'=>(empty($User[0]->du))? null : $User[0]->du,
+            'clasificacion'=>(empty($User[0]->clasificacion))? null : $User[0]->clasificacion,
+            'graduacion'=>(empty($User[0]->graduacion))? null : $User[0]->graduacion,
+            'genero'=>(empty($User[0]->genero))? null : $User[0]->genero,
+            'verificado'=>(empty($User[0]->verificado))? null : $User[0]->verificado,
+            'escuela'=> (empty($User[0]->name))? null : $User[0]->name,
         ];
         return $usuario;
     }
