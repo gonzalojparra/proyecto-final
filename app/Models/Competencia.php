@@ -13,6 +13,7 @@ class Competencia extends Model {
      *
      * @var array<int, string>
      */
+    protected $table = 'competencias';
     protected $fillable = [
         'titulo', 'flyer', 'bases', 'descripcion',
         'fecha_inicio', 'fecha_fin'
