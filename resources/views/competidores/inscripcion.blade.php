@@ -1,36 +1,41 @@
 <x-app-layout>
     <form id="inscripcion" action="{{route('competidores.inscripcion')}}" method="POST">
         @csrf
-        <!-- <input type="text" name="competencia" value="{{$competencia[0]->titulo}}" readonly>
-        <input type="text" name="competencia" value="{{$competencia[0]->bases}}" readonly>
-        <input type="text" name="competencia" value="{{$competencia[0]->descripcion}}" readonly>
-        <input type="text" name="competencia" value="{{$competencia[0]->fecha_inicio}}" readonly>
-        <input type="text" name="competencia" value="{{$competencia[0]->fecha_fin}}" readonly> -->
+
 
         <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 bg-white m-3 p-3">
             <div class="w-full md:w-1/5">
                 <label for="campo1" class="block text-sm font-medium text-gray-700">Titulo</label>
-                <p id="campo1" class="form-text">{{$competencia[0]->titulo}}</p>
+                <p id="campo1" class="form-text">{{$competencia->titulo}}</p>
             </div>
 
             <div class="w-full md:w-1/5">
                 <label for="campo2" class="block text-sm font-medium text-gray-700">Bases</label>
-                <p id="campo2" class="form-text">{{$competencia[0]->bases}}</p>
+                <p id="campo2" class="form-text">{{$competencia->bases}}</p>
             </div>
 
             <div class="w-full md:w-1/5">
                 <label for="campo2" class="block text-sm font-medium text-gray-700">Descripción</label>
-                <p id="campo2" class="form-text">{{$competencia[0]->descripcion}}</p>
+                <p id="campo2" class="form-text">{{$competencia->descripcion}}</p>
             </div>
 
             <div class="w-full md:w-1/5">
                 <label for="campo2" class="block text-sm font-medium text-gray-700">Fecha Inicio</label>
-                <p id="campo2" class="form-text">{{$competencia[0]->fecha_inicio}}</p>
+                <p id="campo2" class="form-text">{{$competencia->fecha_inicio}}</p>
             </div>
 
             <div class="w-full md:w-1/5">
                 <label for="campo2" class="block text-sm font-medium text-gray-700">Fecha fin</label>
-                <p id="campo2" class="form-text">{{$competencia[0]->fecha_fin}}</p>
+                <p id="campo2" class="form-text">{{$competencia->fecha_fin}}</p>
+            </div>
+
+            <div class="w-full md:w-1/5">
+                <label for="campo2" class="block text-sm font-medium text-gray-700">Categorias</label>
+                @foreach ($categorias as $categoria)
+                <p id="campo2" class="form-text">{{ $categoria->nombre }}</p>
+                <p id="campo2" class="form-text">{{ $categoria->graduacion }}</p>
+
+                @endforeach
             </div>
             <!-- Agrega los otros campos de información aquí -->
 

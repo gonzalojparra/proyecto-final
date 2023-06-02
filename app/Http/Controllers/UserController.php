@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Actions\Fortify\PasswordValidationRules;
 use App\Models\Categoria;
 use App\Models\Team;
+use App\Models\Competencia;
 use Spatie\Permission\Models\Role; // Spatie
 
 class UserController extends Controller {
@@ -152,6 +153,14 @@ class UserController extends Controller {
         }
         return $usuariosPendientes;
     }
+
+    /**
+     * Permite cargar una competencia y las categorias que participan en ella.
+     * Se crea una instancia de competencia_categoria
+     */
+   /*  public function cargarCompetencia(){
+        $competenciaId = Competencia::where
+    } */
 
     /**
      * Cuando el admin acepte o rechace la solicitud llama a este metodo
