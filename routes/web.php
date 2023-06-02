@@ -71,4 +71,4 @@ Route::post('/obtenerEscuelas',)->name('acciones.obtenerEscuelas');
 
 
 // TESTEOS
-Route::get('/test', [UserController::class, 'mostrarPendientes']);
+Route::get('/test/{user}.{estado}', [UserController::class, 'verificarUsuario']);
