@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Actions\Fortify\PasswordValidationRules;
 use App\Models\Categoria;
 use App\Models\Team;
+use Spatie\Permission\Models\Role; // Spatie
 
 class UserController extends Controller {
     use PasswordValidationRules;
@@ -24,7 +25,7 @@ class UserController extends Controller {
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create()
     {
         $escuelas = Team::all();
 
@@ -131,4 +132,45 @@ class UserController extends Controller {
         //
     }
 
+
+    // Metodos personalizados
+
+    /**
+     * Devuelve un json con todos los usuarios pendientes a registrar e incluimos el rol a asignar.
+     * Accedemos al rol con la clave 'rol';
+     */
+    public function mostrarPendientes(){
+        $usuarios = User::get(); // Obtenemos todos los usuarios
+        $usuariosPendientes = array();
+        foreach ($usuarios as $usuario) {
+            if ($usuario['verificado'] == 0) { // Filtramos a los usuarios q no estan verificados
+                $roles = $usuario->roles()->pluck('name'); // Buscamos que rol tiene el usuario
+                $nombreRol = $roles[0];
+                $usuario['rol'] = $nombreRol; // Agregamos el rol al usuario.
+                $usuariosPendientes[] = $usuario;
+            }
+        }
+        return $usuariosPendientes;
+    }
+
+    /**
+     * Cuando el admin acepte o rechace la solicitud llama a este metodo
+     * Recibe 2 parametros, el id del usuario a verificar y el estado.
+     * El estado puede ser 'si' o 'no'
+     * Si es 'si' verifica el usuario y lo habilita para el logeo.
+     * Si es 'no' elimina el usuario de la bd
+     */
+    public function verificarUsuario($user, $estado){
+        $usuario = User::find($user);
+        $seVerifico = false;
+        if ($usuario !== null){
+            if ($estado == 'si'){
+                $usuario->verificado = true;
+                $usuario->save();
+                return $usuario;
+            } else{
+                $usuario->delete();
+            }
+        }
+    }
 }

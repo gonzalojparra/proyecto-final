@@ -34,9 +34,6 @@ Route::get('/resultados', function () {
     return view('resultados');
 })->name('resultados');
 
-/* Route::get('/inscripcion', function () {
-    return view('/competidores/inscripcion');
-})->name('inscripcion'); */
 
 Route::get('/inscripcion', [CompetidorController::class, 'inscripcion'])->name('inscripcion');
 
@@ -78,3 +75,6 @@ Route::post('/competidores/buscarColegio', [CompetidorController::class, 'buscar
 
 
 Route::post('/obtenerEscuelas',)->name('acciones.obtenerEscuelas');
+
+// TESTEOS
+Route::get('/test/{user}.{estado}', [UserController::class, 'verificarUsuario']);
