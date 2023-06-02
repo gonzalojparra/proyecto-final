@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Roles;
 
+use App\Models\User;
 use Livewire\Component;
 
 class Create extends Component {
@@ -31,6 +32,19 @@ class Create extends Component {
 
     public function render() {
         return view('livewire.roles.create');
+    }
+
+    public function aceptarSolicitud($user) {
+        $usuario = User::find($user);
+        $seVerifico = false;
+        if ($usuario !== null){
+            if( $usuario->verificado == false ){
+                $usuario->verificado = true;
+                $usuario->save();
+                $seVerifico = true;
+            }
+        }
+        return $seVerifico;
     }
 
 }
