@@ -64,7 +64,7 @@
                             {{$usuario->email}}
                         </td>
                         <td class="px-6 py-4">
-                            Rol solicitado
+                            {{$usuario->name}}
                         </td>
                         
                         <td class="px-6 py-4">
