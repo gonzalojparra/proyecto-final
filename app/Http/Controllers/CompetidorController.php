@@ -6,10 +6,8 @@ use App\Models\Competidor;
 use Illuminate\Http\Request;
 use App\Models\Pais;
 use Illuminate\Support\Facades\DB;
-
-
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\Competencia;
 use Spatie\Permission\Models\Role; // Spatie
 
 class CompetidorController extends Controller
@@ -45,14 +43,15 @@ class CompetidorController extends Controller
     {
         $competidor = DB::table('users')
             ->select('id', 'gal', 'graduacion', 'id_escuela') // Especifica las columnas que deseas seleccionar
-            ->where('id', 3)    // Agrega tus condiciones de filtrado
+            ->where('id', 10)    // Agrega tus condiciones de filtrado
             ->first();
 
-            $escuela = DB::table('teams')
+        $escuela = DB::table('teams')
             ->select('id', 'name') // Especifica las columnas que deseas seleccionar
             ->where('id', $competidor->id_escuela)    // Agrega tus condiciones de filtrado
             ->first();
-        
+
+
         return view('competidores.create', compact('competidor', 'escuela'));
     }
 
@@ -113,6 +112,21 @@ class CompetidorController extends Controller
         return response()->json($competidor); */
         dd($competidor);
         return $competidor;
+    }
+
+    // Inscribir competidor
+
+    public function inscripcion(){
+        $competencia = Competencia::all();
+
+        return view('/competidores/inscripcion', compact('competencia'));
+    }
+
+    public function inscribir(Request $request, Competidor $competidor)
+    {
+        $user = Auth::user();
+        dd($user->du);
+        
     }
 
     // Guardamos al competidor del formulario en la bd.

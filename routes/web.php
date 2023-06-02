@@ -25,6 +25,7 @@ use App\Http\Controllers\Security;
     return view('welcome');
 })->name('home'); */
 
+// Navegacion
 Route::get('/', function () {
     return view('/index');
 })->name('index');
@@ -32,6 +33,12 @@ Route::get('/', function () {
 Route::get('/resultados', function () {
     return view('resultados');
 })->name('resultados');
+
+/* Route::get('/inscripcion', function () {
+    return view('/competidores/inscripcion');
+})->name('inscripcion'); */
+
+Route::get('/inscripcion', [CompetidorController::class, 'inscripcion'])->name('inscripcion');
 
 Route::view('/roles/show','roles.show')->name('roles');
 
@@ -49,6 +56,7 @@ Route::group(['middleware' => ['role:Admin']], function() {
     Route::view('/roles/show','roles.show')->name('roles');
 });
 
+// Registro
 Route::get('/register', [UserController::class, 'create'])
     ->middleware(['guest'])
     ->name('registrar');
@@ -57,10 +65,16 @@ Route::post('/register', [UserController::class, 'store'])
     ->middleware(['guest'])
     ->name('register');
 
+// Competidores
 Route::resource('competidores', CompetidorController::class);
 
+Route::post('/competidores/inscripcion', [CompetidorController::class, 'inscribir'])->name('competidores.inscripcion');
+
 Route::post('/competidores/create', [CompetidorController::class, 'buscarCompetidor'])->name('competidores.buscarCompetidor');
+
 Route::post('/competidores/buscarPaises', [CompetidorController::class, 'buscarPaises'])->name('competidores.buscarPaises');
+
 Route::post('/competidores/buscarColegio', [CompetidorController::class, 'buscarColegio'])->name('competidores.buscarColegio');
+
 
 Route::post('/obtenerEscuelas',)->name('acciones.obtenerEscuelas');
