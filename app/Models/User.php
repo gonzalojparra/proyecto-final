@@ -60,4 +60,12 @@ class User extends Authenticatable {
     protected $appends = [
         'profile_photo_url',
     ];
+<<<<<<< Updated upstream
+=======
+
+    public function roles()
+    {
+        return $this->hasMany(Roles::class);
+    }
+>>>>>>> Stashed changes
 }

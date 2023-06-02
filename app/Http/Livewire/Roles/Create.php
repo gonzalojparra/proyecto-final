@@ -8,16 +8,30 @@ class Create extends Component
 {
 
     public $open = false;
-    public $nombre, $apellido, $email;
+    public $iduser,$nombre, $apellido, $email,$fecha_nac,$gal,$du,$clasificacion,$graduacion,$genero,$verificado,$escuela;
 
     protected $listeners = ['openModal' => 'mostrarUsuario'];
 
+<<<<<<< Updated upstream
     public function mostrarUsuario($user)
     {
 
         $this->nombre = $user['nombre'];
+=======
+    public function mostrarUsuario($user) {
+        $this->iduser=$user['id'];
+        /* $this->nombre = $user['nombre']; */
+>>>>>>> Stashed changes
         $this->apellido = $user['apellido'];
         $this->email = $user['email'];
+        $this->fecha_nac = $user['fecha_nac'];
+        $this->gal= $user['gal'];
+        $this->du=$user['du'];
+        $this->clasificacion=$user['clasificacion'];
+        $this->graduacion=$user['graduacion'];
+        $this->genero=$user['genero'];
+        $this->verificado=$user['verificado'];
+        $this->escuela=$user['escuela'];
 
         $this->open = true;
     }
