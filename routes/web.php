@@ -76,4 +76,4 @@ Route::post('/competidores/buscarColegio', [CompetidorController::class, 'buscar
 Route::post('/obtenerEscuelas',)->name('acciones.obtenerEscuelas');
 
 // TESTEOS
-Route::get('/test/{user}.{estado}', [UserController::class, 'verificarUsuario']);
+Route::get('/test', [UserController::class, 'mostrarPendientes']);

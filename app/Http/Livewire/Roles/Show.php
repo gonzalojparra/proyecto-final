@@ -6,6 +6,7 @@ use App\Models\User;
 use Livewire\Component;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 
 class Show extends Component {

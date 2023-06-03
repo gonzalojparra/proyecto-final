@@ -11,30 +11,34 @@
                 <x-input class="w-25" wire:model='filtro' type='text' />
                 @livewire('roles.create')
             </div>
-
-            @if (count($usuariosArray) > 0)
+            @if (count($usuariosPendientes) > 0)
             <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
 
                 <thead class="text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <!-- <th scope="col" class="px-6 py-3">
-                            <span class="cursor-pointer">
-                                ID
-                            </span>
-                        </th> -->
                         <th scope="col" class="px-6 py-3">
                             <span class="cursor-pointer">
-                                Rol solicitado
+                                ID
                             </span>
                         </th>
                         <th scope="col" class="px-6 py-3">
                             <span class="cursor-pointer">
-                                apellido Competidor
+                                Nombre
+                            </span>
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            <span class="cursor-pointer">
+                                Apellido Competidor
                             </span>
                         </th>
                         <th scope="col" class="px-6 py-3">
                             <span class="cursor-pointer">
                                 Correo Competidor
+                            </span>
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            <span class="cursor-pointer">
+                                Rol Solicitado
                             </span>
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -49,11 +53,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($usuariosArray as $usuario )
+                    @foreach ($usuariosPendientes as $usuario )
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <!-- <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{$usuario->id}}
-                        </th> -->
+                        </th>
                         <td class="px-6 py-4">
                             {{$usuario->name}}
                         </td>
@@ -64,18 +68,16 @@
                             {{$usuario->email}}
                         </td>
                         <td class="px-6 py-4">
-                            @if($usuario->verificado == 0)
-                                No habilitado
-                            @else
-                                Habilitado
-                            @endif
+                            {{$usuario->rol}}
+                        </td>
+                        <td class="px-6 py-4">
+                            No Habilitado
                         </td>
 
                         <td class="px-6 py-4">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" wire:click="mostrarCompetidor('{{$usuario->email}}')">Ver Perfil</a>
+                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" wire:click="mostrarCompetidor({{$usuario->id}})">Ver Perfil</a>
                         </td>
                     </tr>
-
                     @endforeach
 
 

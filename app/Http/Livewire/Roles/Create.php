@@ -14,7 +14,7 @@ class Create extends Component {
 
     public function mostrarUsuario($user) {
         $this->iduser = $user['id'];
-        /* $this->nombre = $user['nombre']; */
+        $this->nombre = $user['nombre'];
         $this->apellido = $user['apellido'];
         $this->email = $user['email'];
         $this->fecha_nac = $user['fecha_nac'];
