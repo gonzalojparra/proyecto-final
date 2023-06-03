@@ -1,67 +1,111 @@
+@media only screen and (max-width: 420px) {
+    .pantalla-grande{
+        display: none;
+    }
+    .boton-puntuador {
+        display: flex;
+        flex-direction: column;
+        transform: rotate(90deg);
+        height: 100px !important;
+        width: 100px;
+        font-size: 40px;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        border-radius: 100px;
+        background-color: silver;
+        border: 5px solid rgb(156, 155, 155);
+    }
+    
+    .enviar{
+       margin-left: auto;
+       margin-right: auto;
+    }
+    
+    .boton-envio{
+        position: relative;
+        color: white;
+        font-size: 20px;
+        background-color: silver;
+        width: fit-content;
+        border-radius: 5px;
+        transform: rotate(90deg);
+        padding: 5px;
+    }
+    
+    
+    .puntuador {
+        display: grid;
+        grid-template-columns: 70% 30%;
+        margin-top: 25%;
+        margin-bottom: 25%;
+    }
+    
+    .boton-deduccion {
+        height: 300px;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .puntaje {
+        display: flex;
+        transform: rotate(90deg);
+        font-size: 90px;
+        color: white;
+    }
+    
+    .div-puntaje {
+        display: flex;
+        align-content: bottom;
+        flex-direction: column-reverse;
+        justify-content: center;
+    }
+    
+    
+    #uno {
+        display: flex;
+        vertical-align: top;
+    }
+    
+    #tres {
+        display: flex;
+        vertical-align: bottom;
+    }
+}
+
+@media only screen and (min-width: 421px) {
+   .puntuador{
+    display: none;
+   }
+   .pantalla-grande{
+    display: block;
+    height: 100%;
+   }
+
+   .div-mensaje{
+    height: 200px;
+    width: 80%;
+    background-color: aliceblue;
+    border-radius: 10px;
+    border: 5px solid rgb(188, 194, 199);
+    margin-left: auto;
+    margin-right: auto;
+   }
+
+   .mensaje{
+    display: flex;
+    vertical-align: middle;
+    justify-content: center;
+    position: relative;
+    font-size: 30px;
+    color: black;
+   }
+
+   .mensaje{
+
+   }
+}
+
 .puntuador-body {
     background-color: rgb(39, 33, 85);
-}
-
-.boton-puntuador {
-    display: flex;
-    flex-direction: column;
-    transform: rotate(90deg);
-    height: 100px !important;
-    width: 100px;
-    font-size: 40px;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    border-radius: 100px;
-    background-color: silver;
-    border: 5px solid rgb(156, 155, 155);
-}
-
-.boton-reseteo{
-    position: relative;
-    color: white;
-    font-size: 20px;
-    background-color: silver;
-    width: fit-content;
-    border-radius: 5px;
-    transform: rotate(90deg);
-    padding: 5px;
-}
-
-.puntuador {
-    display: grid;
-    grid-template-columns: 70% 30%;
-    margin-top: 25%;
-    margin-bottom: 25%;
-}
-
-.boton-deduccion {
-    height: 300px;
-    align-items: center;
-    justify-content: center;
-}
-
-.puntaje {
-    display: flex;
-    transform: rotate(90deg);
-    font-size: 90px;
-    color: white;
-}
-
-.div-puntaje {
-    display: flex;
-    align-content: bottom;
-    flex-direction: column-reverse;
-    justify-content: center;
-}
-
-
-#uno {
-    display: flex;
-    vertical-align: top;
-}
-
-#tres {
-    display: flex;
-    vertical-align: bottom;
 }

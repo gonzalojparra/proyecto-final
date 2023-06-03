@@ -1,5 +1,6 @@
 const divPuntaje = document.querySelector('.puntaje')
-const botonReseteo = document.querySelector('.boton-reseteo')
+// const botonReseteo = document.querySelector('.boton-reseteo')
+const botonEnviar = document.querySelector('.boton-envio')
 const botonUno = document.querySelector('#uno')
 const botonTres = document.querySelector('#tres')
 
@@ -30,6 +31,6 @@ botonTres.addEventListener('touchstart', function(){
     }
 })
 
-botonReseteo.addEventListener('touchstart', function(){
-    divPuntaje.innerHTML = localStorage.getItem('puntaje')
-})
+// botonReseteo.addEventListener('touchstart', function(){
+//     divPuntaje.innerHTML = localStorage.getItem('puntaje')
+// })

@@ -28,16 +28,26 @@
         </div>
 
         <div class="div-puntaje">
-            <div class="resetear">
-            <button type="button" class="boton-reseteo">
-                Resetear
-            </button>
-            </div>
+
             <div class="ver-puntaje">
-            <h1 class="puntaje"></h1>
+                <h1 class="puntaje"></h1>
             </div>
         </div>
+        <div class="acciones">
+            <div class="enviar">
+                <button type="button" class="boton-envio">
+                    Enviar
+                </button>
+            </div>
+        </div>
+    </div>
 
+    <div class="pantalla-grande">
+        <div class="div-mensaje">
+            <div class="mensaje">
+                <h1>UTILICE SU TELEFONO PARA ESTA VISTA</h1>
+            </div>
+        </div>
     </div>
 </body>
 <script src="{{ asset('js/puntuador.js') }}"></script>
