@@ -101,28 +101,28 @@ class UserController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show($user) {
-        $User = DB::table('team_user')
-        ->join('users','team_user.user_id','=','users.id')
-        ->join('teams','team_user.team_id','=','teams.id')
-        ->select('users.*','teams.name')
-        ->where('users.id',$user)
+    public function show($userEmail) {
+        $userQuery = DB::table('team_user')
+        ->join('users', 'team_user.user_id', '=', 'users.id')
+        ->join('teams', 'team_user.team_id', '=', 'teams.id')
+        ->select('users.*', 'teams.name')
+        ->where('users.email', '=', $userEmail)
         ->get();
 
-
+        $User = $userQuery->toArray();
         $usuario = [
-            'id' => (empty($User[0]->id))? null : $User[0]->id,
-            'nombre' => (empty($User[0]->nombre))? null : $User[0]->nombre,
-            'apellido' => (empty($User[0]->apellido))? null : $User[0]->apellido,
-            'email' => (empty($User[0]->email))? null : $User[0]->email,
-            'fecha_nac'=>(empty($User[0]->fecha_nac))? null : $User[0]->fecha_nac,
-            'gal'=>(empty($User[0]->gal))? null : $User[0]->gal,
-            'du'=>(empty($User[0]->du))? null : $User[0]->du,
-            'clasificacion'=>(empty($User[0]->clasificacion))? null : $User[0]->clasificacion,
-            'graduacion'=>(empty($User[0]->graduacion))? null : $User[0]->graduacion,
-            'genero'=>(empty($User[0]->genero))? null : $User[0]->genero,
-            'verificado'=>(empty($User[0]->verificado))? null : $User[0]->verificado,
-            'escuela'=> (empty($User[0]->name))? null : $User[0]->name,
+            'id' => (empty($User[0]->id)) ? null : $User[0]->id,
+            'nombre' => (empty($User[0]->nombre)) ? null : $User[0]->nombre,
+            'apellido' => (empty($User[0]->apellido)) ? null : $User[0]->apellido,
+            'email' => (empty($User[0]->email)) ? null : $User[0]->email,
+            'fecha_nac'=> (empty($User[0]->fecha_nac)) ? null : $User[0]->fecha_nac,
+            'gal'=> (empty($User[0]->gal)) ? null : $User[0]->gal,
+            'du'=> (empty($User[0]->du)) ? null : $User[0]->du,
+            'clasificacion'=> (empty($User[0]->clasificacion)) ? null : $User[0]->clasificacion,
+            'graduacion'=> (empty($User[0]->graduacion)) ? null : $User[0]->graduacion,
+            'genero'=> (empty($User[0]->genero)) ? null : $User[0]->genero,
+            'verificado'=> (empty($User[0]->verificado)) ? null : $User[0]->verificado,
+            'escuela'=> (empty($User[0]->name)) ? null : $User[0]->name,
         ];
         return $usuario;
     }
@@ -130,24 +130,21 @@ class UserController extends Controller {
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
-    {
+    public function edit(User $user) {
         //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
-    {
+    public function update(Request $request, User $user) {
         //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
-    {
+    public function destroy(User $user) {
         //
     }
 
@@ -158,7 +155,7 @@ class UserController extends Controller {
      * Devuelve un json con todos los usuarios pendientes a registrar e incluimos el rol a asignar.
      * Accedemos al rol con la clave 'rol';
      */
-    public function mostrarPendientes(){
+    public function mostrarPendientes() {
         $usuarios = User::get(); // Obtenemos todos los usuarios
         $usuariosPendientes = array();
         foreach ($usuarios as $usuario) {
@@ -200,4 +197,5 @@ class UserController extends Controller {
             }
         }
     }
+
 }

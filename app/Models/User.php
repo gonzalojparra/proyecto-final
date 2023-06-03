@@ -63,8 +63,8 @@ class User extends Authenticatable {
         'profile_photo_url',
     ];
 
-    public function roles() {
+    /* public function roles() {
         return $this->hasMany(Roles::class);
-    }
+    } */
 
 }
