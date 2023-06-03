@@ -28,10 +28,18 @@
         </div>
 
         <div class="div-puntaje">
-            <h1 class="puntaje">10</h1>
+            <div class="resetear">
+            <button type="button" class="boton-reseteo">
+                Resetear
+            </button>
+            </div>
+            <div class="ver-puntaje">
+            <h1 class="puntaje"></h1>
+            </div>
         </div>
 
     </div>
 </body>
+<script src="{{ asset('js/puntuador.js') }}"></script>
 
 </html>
