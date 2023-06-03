@@ -17,7 +17,8 @@ class Show extends Component {
     protected $listeners = ['render'=>'render'];
 
     public function render() {
-        $usuarios = User::get(); // Obtenemos todos los usuarios
+        $usuarios = User::where('name', 'like', '%' . $this->filtro . '%')->orWhere('apellido', 'like', '%' . $this->filtro . '%')->orWhere('email', 'like', '%' . $this->filtro . '%')
+        ->get(); // Obtenemos todos los usuarios
         $usuariosPendientes = array();
         foreach ($usuarios as $usuario) {
             if ($usuario['verificado'] == 0) { // Filtramos a los usuarios q no estan verificados
