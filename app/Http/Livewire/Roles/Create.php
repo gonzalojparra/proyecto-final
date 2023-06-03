@@ -35,16 +35,16 @@ class Create extends Component {
     }
 
     public function aceptarSolicitud($user) {
-        $usuario = User::find($user);
-        $seVerifico = false;
+        $usuario = User::find($user);        
         if ($usuario !== null){
             if( $usuario->verificado == false ){
                 $usuario->verificado = true;
                 $usuario->save();
-                $seVerifico = true;
+                $this->emit('render');
+                $this->open=false;
             }
         }
-        return $seVerifico;
+        
     }
 
 }

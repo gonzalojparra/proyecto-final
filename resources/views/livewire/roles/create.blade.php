@@ -64,7 +64,7 @@
                 <x-secondary-button wire:click="$set('open',false)">
                     Rechazar
                 </x-secondary-button>
-                <x-danger-button wire:click="aceptarSolicitud('{{$iduser}})'">
+                <x-danger-button wire:click="aceptarSolicitud({{$iduser}})">
                     Aceptar
                 </x-danger-button>
             </div>
