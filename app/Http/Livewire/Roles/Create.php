@@ -12,16 +12,10 @@ class Create extends Component
 
     protected $listeners = ['openModal' => 'mostrarUsuario'];
 
-<<<<<<< Updated upstream
     public function mostrarUsuario($user)
     {
-
+        $this->iduser = $user['id'];
         $this->nombre = $user['nombre'];
-=======
-    public function mostrarUsuario($user) {
-        $this->iduser=$user['id'];
-        /* $this->nombre = $user['nombre']; */
->>>>>>> Stashed changes
         $this->apellido = $user['apellido'];
         $this->email = $user['email'];
         $this->fecha_nac = $user['fecha_nac'];
@@ -38,7 +32,22 @@ class Create extends Component
 
 
     public function render()
+   
     {
         return view('livewire.roles.create');
     }
+
+    public function aceptarSolicitud($user) {
+        $usuario = User::find($user);
+        $seVerifico = false;
+        if ($usuario !== null){
+            if( $usuario->verificado == false ){
+                $usuario->verificado = true;
+                $usuario->save();
+                $seVerifico = true;
+            }
+        }
+        return $seVerifico;
+    }
+
 }

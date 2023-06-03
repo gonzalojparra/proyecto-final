@@ -12,24 +12,36 @@
                 @livewire('roles.create')     
             </div>
 
+<<<<<<< Updated upstream
             @if ($usuarios->count()>0)
+=======
+            @if (count($usuariosPendientes) > 0)
+>>>>>>> Stashed changes
             <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
 
                 <thead class="text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <!-- <th scope="col" class="px-6 py-3">
-                            <span class="cursor-pointer">
-                                ID
-                            </span>
-                        </th> -->
                         <th scope="col" class="px-6 py-3">
                             <span class="cursor-pointer">
+<<<<<<< Updated upstream
+                                Nombre
+=======
+                                ID
+>>>>>>> Stashed changes
+                            </span>
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            <span class="cursor-pointer">
+<<<<<<< Updated upstream
+                                apellido
+=======
                                 Nombre
                             </span>
                         </th>
                         <th scope="col" class="px-6 py-3">
                             <span class="cursor-pointer">
-                                apellido
+                                Apellido Competidor
+>>>>>>> Stashed changes
                             </span>
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -39,7 +51,16 @@
                         </th>
                         <th scope="col" class="px-6 py-3">
                             <span class="cursor-pointer">
+<<<<<<< Updated upstream
                                 Rol Solicitado
+=======
+                                Rol solicitado
+                            </span>
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            <span class="cursor-pointer">
+                                Estado de cuenta
+>>>>>>> Stashed changes
                             </span>
                         </th>
 
@@ -49,11 +70,15 @@
                     </tr>
                 </thead>
                 <tbody>
+<<<<<<< Updated upstream
                     @foreach ($usuarios as $usuario )
+=======
+                    @foreach ($usuariosPendientes as $usuario )
+>>>>>>> Stashed changes
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <!-- <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{$usuario->id}}
-                        </th> -->
+                        </th>
                         <td class="px-6 py-4">
                             {{$usuario->name}}
                         </td>
@@ -64,12 +89,27 @@
                             {{$usuario->email}}
                         </td>
                         <td class="px-6 py-4">
+<<<<<<< Updated upstream
                             {{$usuario->name}}
+=======
+                            {{$usuario->rol}}
+                        </td>
+                        <td class="px-6 py-4">
+                            @if($usuario->verificado == 0)
+                            No habilitado
+                            @else
+                            Habilitado
+                            @endif
+>>>>>>> Stashed changes
                         </td>
                         
                         <td class="px-6 py-4">
+<<<<<<< Updated upstream
                            
                             <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" wire:click="mostrarCompetidor({{$usuario->id}})" >Ver Perfil</a>
+=======
+                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" wire:click="mostrarCompetidor({{$usuario->id}})">Ver Perfil</a>
+>>>>>>> Stashed changes
                         </td>
                     </tr>
 

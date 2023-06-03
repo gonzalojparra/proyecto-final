@@ -48,3 +48,19 @@ Route::middleware([
 });
 
 Route::resource('competidores', CompetidorController::class);
+<<<<<<< Updated upstream
+=======
+
+Route::post('/competidores/inscripcion', [CompetidorController::class, 'inscribir'])->name('competidores.inscripcion');
+
+Route::post('/competidores/create', [CompetidorController::class, 'buscarCompetidor'])->name('competidores.buscarCompetidor');
+
+Route::post('/competidores/buscarPaises', [CompetidorController::class, 'buscarPaises'])->name('competidores.buscarPaises');
+
+Route::post('/competidores/buscarColegio', [CompetidorController::class, 'buscarColegio'])->name('competidores.buscarColegio');
+
+Route::post('/obtenerEscuelas',)->name('acciones.obtenerEscuelas');
+
+// TESTEOS
+Route::get('/test', [UserController::class, 'mostrarPendientes']);
+>>>>>>> Stashed changes

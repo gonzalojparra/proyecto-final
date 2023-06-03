@@ -12,7 +12,8 @@ use App\Models\Categoria;
 use App\Models\Team;
 use Illuminate\Support\Facades\DB;
 
-class UserController extends Controller {
+class UserController extends Controller
+{
     use PasswordValidationRules;
     /**
      * Display a listing of the resource.
@@ -35,7 +36,8 @@ class UserController extends Controller {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $input = $request->all();
 
         Validator::make($input, [
@@ -51,19 +53,18 @@ class UserController extends Controller {
         $catGraduacion = $input['graduacion'];
 
         $genero = null;
-        if(array_key_exists('genero',$input))
-        {
+        if (array_key_exists('genero', $input)) {
             $genero = $input['genero'];
         }
-        if($catNombre == null && $catGraduacion == null){
+        if ($catNombre == null && $catGraduacion == null) {
             $categoriaFinalId = null;
             $categoriaFinalGr = null;
         } else {
             $categoriaFinal = Categoria::where([['nombre', '=', $catNombre], ['graduacion', '=', $catGraduacion]])->get();
-            $categoriaFinalId =$categoriaFinal[0]['id'];
+            $categoriaFinalId = $categoriaFinal[0]['id'];
             $categoriaFinalGr = $categoriaFinal[0]['graduacion'];
         }
-   
+
 
         // Buscar escuela
         $escuela = Team::where('name', $input['escuela'])->get();
@@ -80,8 +81,8 @@ class UserController extends Controller {
             'graduacion' => $categoriaFinalGr,
             'id_escuela' => $escuela[0]->id,
         ]);
-        
-        if( $escuela !== null ){
+
+        if ($escuela !== null) {
             // Asignar rol en tabla de spatie
             $usuario->assignRole($input['rol']);
             // Asignar usuario a la escuela en tabla de team
@@ -95,36 +96,35 @@ class UserController extends Controller {
         } else {
             return view('auth.register');
         }
-        
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($user)
+    public function show($userId)
     {
-        $User = DB::table('team_user')
-        ->join('users','team_user.user_id','=','users.id')
-        ->join('teams','team_user.team_id','=','teams.id')
-        ->select('users.*','teams.name')
-        ->where('users.id',$user)
-        ->get();
+
+        $userQuery = User::where('id', $userId)->get();
+        $User = $userQuery->toArray();
+        $escuela = $userQuery[0]->teams()->pluck('name');
+
 
 
         $usuario = [
-            'id' => (empty($User[0]->id))? null : $User[0]->id,
-            'nombre' => (empty($User[0]->nombre))? null : $User[0]->nombre,
-            'apellido' => (empty($User[0]->apellido))? null : $User[0]->apellido,
-            'email' => (empty($User[0]->email))? null : $User[0]->email,
-            'fecha_nac'=>(empty($User[0]->fecha_nac))? null : $User[0]->fecha_nac,
-            'gal'=>(empty($User[0]->gal))? null : $User[0]->gal,
-            'du'=>(empty($User[0]->du))? null : $User[0]->du,
-            'clasificacion'=>(empty($User[0]->clasificacion))? null : $User[0]->clasificacion,
-            'graduacion'=>(empty($User[0]->graduacion))? null : $User[0]->graduacion,
-            'genero'=>(empty($User[0]->genero))? null : $User[0]->genero,
-            'verificado'=>(empty($User[0]->verificado))? null : $User[0]->verificado,
-            'escuela'=> (empty($User[0]->name))? null : $User[0]->name,
+            'id' => (empty($User[0]['id'])) ? null : $User[0]['id'],
+            'nombre' => (empty($User[0]['name'])) ? null : $User[0]['name'],
+            'apellido' => (empty($User[0]['apellido'])) ? null : $User[0]['apellido'],
+            'email' => (empty($User[0]['email'])) ? null : $User[0]['email'],
+            'fecha_nac' => (empty($User[0]['fecha_nac'])) ? null : $User[0]['fecha_nac'],
+            'gal' => (empty($User[0]['gal'])) ? null : $User[0]['gal'],
+            'du' => (empty($User[0]['du'])) ? null : $User[0]['du'],
+            'clasificacion' => (empty($User[0]['clasificacion'])) ? null : $User[0]['clasificacion'],
+            'graduacion' => (empty($User[0]['graduacion'])) ? null : $User[0]['graduacion'],
+            'genero' => (empty($User[0]['genero'])) ? null : $User[0]['genero'],
+            'verificado' => (empty($User[0]['verificado'])) ? null : $User[0]['verificado'],
+            'escuela' => $escuela[0],
         ];
+
         return $usuario;
     }
 
@@ -152,4 +152,55 @@ class UserController extends Controller {
         //
     }
 
+
+    // Metodos personalizados
+
+    /**
+     * Devuelve un json con todos los usuarios pendientes a registrar e incluimos el rol a asignar.
+     * Accedemos al rol con la clave 'rol';
+     */
+    public function mostrarPendientes()
+    {
+        $usuarios = User::get(); // Obtenemos todos los usuarios
+        $usuariosPendientes = array();
+        foreach ($usuarios as $usuario) {
+            if ($usuario['verificado'] == 0) { // Filtramos a los usuarios q no estan verificados
+                $roles = $usuario->roles()->pluck('name'); // Buscamos que rol tiene el usuario
+                $nombreRol = $roles[0];
+                $usuario['rol'] = $nombreRol; // Agregamos el rol al usuario.
+                $usuariosPendientes[] = $usuario;
+            }
+        }
+        return $usuariosPendientes;
+    }
+
+    /**
+     * Permite cargar una competencia y las categorias que participan en ella.
+     * Se crea una instancia de competencia_categoria
+     */
+    /*  public function cargarCompetencia(){
+        $competenciaId = Competencia::where
+    } */
+
+    /**
+     * Cuando el admin acepte o rechace la solicitud llama a este metodo
+     * Recibe 2 parametros, el id del usuario a verificar y el estado.
+     * El estado puede ser 'si' o 'no'
+     * Si es 'si' verifica el usuario y lo habilita para el logeo.
+     * Si es 'no' elimina el usuario de la bd
+     */
+    public function verificarUsuario($user, $estado)
+    {
+        $usuario = User::find($user);
+        $seVerifico = false;
+        if ($usuario !== null) {
+            if ($estado == 'si') {
+                $usuario->verificado = true;
+                $usuario->save();
+                return $usuario;
+            } else {
+                $usuario->delete();
+            }
+        }
+    }
 }
