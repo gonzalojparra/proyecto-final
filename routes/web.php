@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Security;
+use Whoops\Run;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,7 @@ Route::middleware([
 Route::group(['middleware' => ['role:Admin']], function() {
     Route::get('roles', [Security\RolesController::class, 'index'])->name('roles.index');
     Route::view('/roles/show','roles.show')->name('roles');
+    Route::view('/timer', 'timer')->name('timer');
 });
 
 Route::get('/register', [UserController::class, 'create'])

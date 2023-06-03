@@ -21,10 +21,16 @@
                         {{ __('Ranking') }}
                     </x-nav-link>
                 </div>
+                
                 @role('Admin')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('roles') }}" :active="request()->routeIs('roles')">
                         {{ __('Usuarios') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link href="{{ route('timer') }}" :active="request()->routeIs('timer')">
+                        {{ __('Temporizador') }}
                     </x-nav-link>
                 </div>
                 @endrole
@@ -117,9 +123,9 @@
                             <x-dropdown-link href="{{ route('profile.show') }}">
                                 {{ __('Perfil') }}
                             </x-dropdown-link>
-                            <x-dropdown-link href="{{ route('competidores.create') }}">
+                            <!-- <x-dropdown-link href="{{ route('competidores.create') }}">
                                 {{ __('Informacion Competidor') }}
-                            </x-dropdown-link>
+                            </x-dropdown-link> -->
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                             <x-dropdown-link href="{{ route('api-tokens.index') }}">
@@ -184,6 +190,13 @@
                 {{ __('Resultados') }}
             </x-responsive-nav-link>
         </div>
+        @role('Admin')
+                <div class="pt-2 pb-3 space-y-1">
+                    <x-responsive-nav-link href="{{ route('roles') }}" :active="request()->routeIs('roles')">
+                        {{ __('Usuarios') }}
+                    </x-responsive-nav-link>
+                </div>
+                @endrole
         @if(Auth::check())
 
         <!-- Responsive Settings Options -->
