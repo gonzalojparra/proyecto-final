@@ -12,6 +12,9 @@ return new class extends Migration {
         Schema::create('competencia_juez', function (Blueprint $table) {
             $table->foreignId('id_juez')->constrained('users');
             $table->foreignId('id_competencia')->constrained('competencias');
+            $table->foreignId('id_competencias')->constrained('competencias');
+            $table->foreignId('id_poomsae')->constrained('poomsaes');
+            $table->timestamp('inscripto')->nullable();
             $table->timestamps();
         });
     }

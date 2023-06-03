@@ -11,15 +11,11 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('poomsaes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('competencia_competidor_poomsae');
-            $table->unsignedBigInteger('competencia_juez_poomsae');
+            $table->integer('ronda');
+            $table->foreignId('id_competencia')->constrained('competencias');
             $table->foreignId('id_categoria')->constrained('categorias');
-            $table->timestamps();
 
-            $table->foreign('competencia_competidor_poomsae')->references('id')
-              ->on('users');
-            $table->foreign('competencia_juez_poomsae')->references('id')
-              ->on('users');
+            $table->timestamps();
         });
     }
 

@@ -6,16 +6,14 @@ use App\Models\Competidor;
 use Illuminate\Http\Request;
 use App\Models\Pais;
 use Illuminate\Support\Facades\DB;
-
-
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\Competencia;
+use App\Models\Categoria;
 use Spatie\Permission\Models\Role; // Spatie
 
-class CompetidorController extends Controller
-{
-    public function __construct()
-    {
+class CompetidorController extends Controller {
+
+    public function __construct() {
         // Para proteger todas las rutas(index, show, create...) de los roles que no tienen permisos:
         // $this->middleware('can:competidores.index');
 
@@ -28,37 +26,34 @@ class CompetidorController extends Controller
     }
 
     // Mostramos todos los competidores que estan en la bd.
-    public function index()
-    {
+    public function index() {
         $competidores = Competidor::get();
         return view('competidores.index', ['competidores' => $competidores]);
     }
 
     // Mostramos el competidor recibido en el parametro.
-    public function show(Competidor $competidor)
-    {
+    public function show(Competidor $competidor) {
         return view('competidores.show', ['competidor' => $competidor]);
     }
 
     // Mostramos la vista del formulario con create.
-    public function create()
-    {
+    public function create() {
         $competidor = DB::table('users')
             ->select('id', 'gal', 'graduacion', 'id_escuela') // Especifica las columnas que deseas seleccionar
-            ->where('id', 3)    // Agrega tus condiciones de filtrado
+            ->where('id', 10)    // Agrega tus condiciones de filtrado
             ->first();
 
-            $escuela = DB::table('teams')
+        $escuela = DB::table('teams')
             ->select('id', 'name') // Especifica las columnas que deseas seleccionar
             ->where('id', $competidor->id_escuela)    // Agrega tus condiciones de filtrado
             ->first();
-        
+
+
         return view('competidores.create', compact('competidor', 'escuela'));
     }
 
     // Buscar pais precargado en la base de datos
-    public function buscarPaises(Request $request)
-    {
+    public function buscarPaises(Request $request) {
 
         $search = $request->search;
 
@@ -72,8 +67,7 @@ class CompetidorController extends Controller
     }
 
     // Buscar colegios 
-    public function buscarColegio(Request $request)
-    {
+    public function buscarColegio(Request $request) {
         $search = $request->search;
 
         if ($search == '') {
@@ -94,8 +88,7 @@ class CompetidorController extends Controller
 
 
     // Si ya esta cargado el competidor, se autocompleta el formulario
-    public function buscarCompetidor(Request $request)
-    {
+    public function buscarCompetidor(Request $request) {
 
         $columnName = 'du';
         $data = $request->input('du');
@@ -115,9 +108,30 @@ class CompetidorController extends Controller
         return $competidor;
     }
 
+    // Inscribir competidor
+    public function inscripcion() {
+        $user = Auth::user();
+        $competencia_categoria = DB::table('competencia_categoria')
+            ->select('id_competencia', 'id_categoria')->get();
+        $competencia = Competencia::find($competencia_categoria[0]->id_competencia);
+        // $categorias = Categoria::find($competencia_categoria[1]->id_categoria)->get();
+        foreach ($competencia_categoria as $clave => $valorId) {
+            foreach (Categoria::all() as $categoria => $valor) {
+                if ($valor->id == $valorId->id_categoria) {
+                    $categorias[] = Categoria::find($valorId->id_categoria);
+                }
+            }
+        }
+        return view('/competidores/inscripcion', compact('competencia', 'categorias'));
+    }
+
+    public function inscribir(Request $request, Competidor $competidor) {
+        $user = Auth::user();
+        dd($user->id_categoria);
+    }
+
     // Guardamos al competidor del formulario en la bd.
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
             'id_user' => ['required'],
             'gal' => ['required', 'unique:competidores'],
@@ -148,14 +162,12 @@ class CompetidorController extends Controller
     }
 
     // Mostramos el formulario de edicion.
-    public function edit(Competidor $competidor)
-    {
+    public function edit(Competidor $competidor) {
         return view('competidores.edit', ['competidor' => $competidor]);
     }
 
     // Actualizamos el elemento en la bd.
-    public function update(Request $request, Competidor $competidor)
-    {
+    public function update(Request $request, Competidor $competidor) {
         $request->validate([
             'id_user' => ['required'],
             'gal' => ['required', 'unique:competidores'],
@@ -186,16 +198,18 @@ class CompetidorController extends Controller
     }
 
     // Eliminar competidor de la bd.
-    public function destroy(Competidor $competidor)
-    {
+    public function destroy(Competidor $competidor) {
         $competidor->delete();
         return to_route('competidores.index')->with('success', 'Competidor eliminado correctamente.');
     }
 
+
     // Metodos personalizados.
-    public function imprimirDatos()
-    {
+
+    public function imprimirDatos() {
         $competidores = Competidor::all();
         return $competidores;
     }
+
+
 }

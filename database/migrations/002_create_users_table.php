@@ -28,7 +28,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('id_categoria')->nullable(); // Se calcula por edad de fecha nac
             $table->string('genero')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->timestamp('verificado')->nullable();
+            $table->boolean('verificado')->default(false);
             $table->timestamps();
 
             $table->foreign('id_escuela')->references('id')

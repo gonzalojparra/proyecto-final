@@ -8,7 +8,7 @@
 
     <!--Titulo de pestañas - logo  -->
     <title>@yield('title','PWA')</title>
-    <link rel="icon" type="image/png" href="{{ asset('/image/Logo.png') }}">
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/2534/2534518.png">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
