@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Roles;
 
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Create extends Component {
@@ -45,6 +46,16 @@ class Create extends Component {
             }
         }
         
+    }
+
+    public function rechazarSolicitud($user){
+        
+        if (DB::table('model_has_roles')->where('model_id','=',$user)->get()){
+            DB::table('model_has_roles')->where('model_id','=',$user)->delete();
+            DB::table('users')->where('id','=',$user)->delete();
+            $this->emit('render');
+            $this->open=false;           
+        }
     }
 
 }

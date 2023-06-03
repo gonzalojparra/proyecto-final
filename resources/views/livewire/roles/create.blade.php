@@ -61,7 +61,7 @@
         </x-slot>
         <x-slot name='footer'>
             <div>
-                <x-secondary-button wire:click="$set('open',false)">
+                <x-secondary-button wire:click="rechazarSolicitud({{$iduser}})">
                     Rechazar
                 </x-secondary-button>
                 <x-danger-button wire:click="aceptarSolicitud({{$iduser}})">
