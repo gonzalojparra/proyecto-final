@@ -208,6 +208,11 @@
                         {{ __('Usuarios') }}
                     </x-responsive-nav-link>
                 </div>
+                <div class="pt-2 pb-3 space-y-1">
+                    <x-responsive-nav-link href="{{ route('timer') }}" :active="request()->routeIs('timer')">
+                        {{ __('Temporizador') }}
+                    </x-responsive-nav-link>
+                </div>
                 @endrole
         @if(Auth::check())
 
@@ -243,7 +248,7 @@
                     @csrf
 
                     <x-responsive-nav-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
-                        {{ __('Log out') }}
+                        {{ __('Salir') }}
                     </x-responsive-nav-link>
                 </form>
 
