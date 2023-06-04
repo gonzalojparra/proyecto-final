@@ -80,10 +80,10 @@ class zTeamsSeeder extends Seeder {
          * Primero se busca el email del usuario a ingresar
          * Luego se lo añade
          */
-        $rodriPepi = Jetstream::findUserByEmailOrFail('rodri@example.com');
-        $teamX->users()->attach(
-            $rodriPepi
-        );
+        // $rodriPepi = Jetstream::findUserByEmailOrFail('rodri@example.com');
+        // $teamX->users()->attach(
+        //     $rodriPepi
+        // );
         
         //
         //Team::create(['user_id' => 1], ['name' => 'Los Capos'], ['personal_team' => false]);

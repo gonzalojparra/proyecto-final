@@ -9,6 +9,11 @@
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="py-3 flex justify-between al ">
                 <x-input class="w-25" wire:model='filtro' type='text' placeholder='Buscar...' />
+                <select wire:model='filtroRol'>
+                    <option value="todos" selected>Todos</option>
+                    <option value="competidor">Competidores</option>
+                    <option value="juez">Jueces</option>
+                </select>
                 @livewire('roles.create')
             </div>
             @if (count($usuariosPendientes) > 0)
@@ -28,12 +33,12 @@
                         </th>
                         <th scope="col" class="px-6 py-3">
                             <span class="cursor-pointer">
-                                Apellido Competidor
+                                Apellido
                             </span>
                         </th>
                         <th scope="col" class="px-6 py-3">
                             <span class="cursor-pointer">
-                                Correo Competidor
+                                Correo
                             </span>
                         </th>
                         <th scope="col" class="px-6 py-3">

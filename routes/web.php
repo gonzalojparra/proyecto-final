@@ -82,4 +82,4 @@ Route::group(['middleware' => ['role:Juez']], function() {
 });
 
 // TESTEOS
-Route::get('/test', [UserController::class, 'mostrarPendientes']);
+Route::get('/test.{id}', [UserController::class, 'show']);

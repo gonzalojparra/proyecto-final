@@ -49,12 +49,14 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Rodri',
                 'apellido' => 'Pepi',
-                'email' => 'rodri@example.com'
+                'email' => 'rodri@example.com',
+                'id_escuela' => 2
             ],
             [
                 'name' => 'Juan',
                 'apellido' => 'Loa',
-                'email' => 'juan@example.com'
+                'email' => 'juan@example.com',
+                'id_escuela' => 4
             ]
         ];
 
@@ -64,6 +66,7 @@ class UserSeeder extends Seeder
                 'apellido' => $user['apellido'],
                 'email' => $user['email'],
                 'password' => Hash::make('secret'),
+                'id_escuela' => $user['id_escuela']
             ])->assignRole('Competidor');
         };
 
@@ -77,6 +80,7 @@ class UserSeeder extends Seeder
             'apellido' => 'Argento',
             'email' => 'pepa@example.com',
             'password' => Hash::make('123'),
+            'id_escuela' => 3,
             'verificado' => 1
         ])->assignRole('Juez');
         
@@ -86,6 +90,7 @@ class UserSeeder extends Seeder
             'apellido' => 'Admin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('admin'),
+            'id_escuela' => 4,
             'verificado' => 1
         ])->assignRole('Admin');
 

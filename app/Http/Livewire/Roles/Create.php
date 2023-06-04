@@ -15,7 +15,7 @@ class Create extends Component {
 
     public function mostrarUsuario($user) {
         $this->iduser = $user['id'];
-        $this->nombre = $user['nombre'];
+        $this->nombre = $user['name'];
         $this->apellido = $user['apellido'];
         $this->email = $user['email'];
         $this->fecha_nac = $user['fecha_nac'];
@@ -45,7 +45,6 @@ class Create extends Component {
                 $this->open=false;
             }
         }
-        
     }
 
     public function rechazarSolicitud($user){
@@ -54,7 +53,7 @@ class Create extends Component {
             DB::table('model_has_roles')->where('model_id','=',$user)->delete();
             DB::table('users')->where('id','=',$user)->delete();
             $this->emit('render');
-            $this->open=false;           
+            $this->open=false;
         }
     }
 
