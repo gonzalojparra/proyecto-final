@@ -40,6 +40,13 @@
                     </x-nav-link>
                 </div>
                 @endrole
+                @role('Juez')
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link href="{{ route('puntuador') }}" :active="request()->routeIs('timer')">
+                        {{ __('Puntuador') }}
+                    </x-nav-link>
+                </div>
+                @endrole
 <!-- 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('competidores.index') }}" :active="request()->routeIs('competidores.index')">

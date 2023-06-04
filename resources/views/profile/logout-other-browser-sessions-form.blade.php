@@ -1,10 +1,10 @@
 <x-action-section>
     <x-slot name="title">
-        {{ __('Sesiones del navegador') }}
+        <span class="text-slate-100">{{ __('Sesiones del navegador') }}</span>
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Administre y finalice las sesiones iniciadas en otros navegadores y dispositivos.') }}
+        <span class="text-slate-100">{{ __('Administre y finalice las sesiones iniciadas en otros navegadores y dispositivos.') }}</span>
     </x-slot>
 
     <x-slot name="content">
