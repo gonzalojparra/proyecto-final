@@ -19,7 +19,9 @@
 
     <!-- Styles -->
     @livewireStyles
-    <link rel="stylesheet" href="{{ asset('css/estilosLayout.css') }}">
+    <!-- <link rel="stylesheet" href="{{ asset('css/estilosLayout.css') }}"> -->
+    <link rel="stylesheet" href="{{ asset('css/timer.css') }}">
+
 </head>
 
 <body class="font-sans antialiased">
