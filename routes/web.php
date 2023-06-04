@@ -77,5 +77,8 @@ Route::post('/competidores/buscarColegio', [CompetidorController::class, 'buscar
 
 Route::post('/obtenerEscuelas',)->name('acciones.obtenerEscuelas');
 
+//Puntuador
+Route::view('/competencia/puntuador','competencia.puntuador')->name('puntuador');
+
 // TESTEOS
 Route::get('/test', [UserController::class, 'mostrarPendientes']);
