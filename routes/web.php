@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Security;
+use Whoops\Run;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,8 +38,6 @@ Route::get('/resultados', function () {
 
 Route::get('/inscripcion', [CompetidorController::class, 'inscripcion'])->name('inscripcion');
 
-Route::view('/roles/show','roles.show')->name('roles');
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -50,7 +49,8 @@ Route::middleware([
 // Middleware Admin
 Route::group(['middleware' => ['role:Admin']], function() {
     Route::get('roles', [Security\RolesController::class, 'index'])->name('roles.index');
-    Route::view('/roles/show','roles.show')->name('roles');
+    Route::view('/roles','roles.show')->name('roles');
+    Route::view('/timer', 'timer')->name('timer');
 });
 
 // Registro
@@ -76,5 +76,11 @@ Route::post('/competidores/buscarColegio', [CompetidorController::class, 'buscar
 
 Route::post('/obtenerEscuelas',)->name('acciones.obtenerEscuelas');
 
+// Middleware Juez
+//Puntuador
+Route::group(['middleware' => ['role:Juez']], function() {
+    Route::view('/competencia/puntuador','competencia.puntuador')->name('puntuador');
+});
+
 // TESTEOS
-Route::get('/test/{user}.{estado}', [UserController::class, 'verificarUsuario']);
+Route::get('/test.{id}', [UserController::class, 'show']);

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Roles;
 
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Create extends Component {
@@ -14,7 +15,7 @@ class Create extends Component {
 
     public function mostrarUsuario($user) {
         $this->iduser = $user['id'];
-        /* $this->nombre = $user['nombre']; */
+        $this->nombre = $user['name'];
         $this->apellido = $user['apellido'];
         $this->email = $user['email'];
         $this->fecha_nac = $user['fecha_nac'];
@@ -35,16 +36,25 @@ class Create extends Component {
     }
 
     public function aceptarSolicitud($user) {
-        $usuario = User::find($user);
-        $seVerifico = false;
+        $usuario = User::find($user);        
         if ($usuario !== null){
             if( $usuario->verificado == false ){
                 $usuario->verificado = true;
                 $usuario->save();
-                $seVerifico = true;
+                $this->emit('render');
+                $this->open=false;
             }
         }
-        return $seVerifico;
+    }
+
+    public function rechazarSolicitud($user){
+        
+        if (DB::table('model_has_roles')->where('model_id','=',$user)->get()){
+            DB::table('model_has_roles')->where('model_id','=',$user)->delete();
+            DB::table('users')->where('id','=',$user)->delete();
+            $this->emit('render');
+            $this->open=false;
+        }
     }
 
 }

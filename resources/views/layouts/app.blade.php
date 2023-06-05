@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
- 
+    <!--Titulo de pestañas - logo  -->
     <title>@yield('title','PWA')</title>
     <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/2534/2534518.png">
 
@@ -19,7 +19,9 @@
 
     <!-- Styles -->
     @livewireStyles
-    <link rel="stylesheet" href="{{ asset('css/estilosLayout.css') }}">
+    <!-- <link rel="stylesheet" href="{{ asset('css/estilosLayout.css') }}"> -->
+    <link rel="stylesheet" href="{{ asset('css/timer.css') }}">
+
 </head>
 
 <body class="font-sans antialiased">
