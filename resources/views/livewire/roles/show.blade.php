@@ -7,9 +7,9 @@
 
     <div class='max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8'>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <div class="py-3 flex justify-between al ">
+            <div class="py-3 flex justify-between">
                 <x-input class="w-25" wire:model='filtro' type='text' placeholder='Buscar...' />
-                <select wire:model='filtroRol'>
+                <select class="w-25 rounded-md border-gray-300" wire:model='filtroRol'>
                     <option value="todos" selected>Todos</option>
                     <option value="competidor">Competidores</option>
                     <option value="juez">Jueces</option>
