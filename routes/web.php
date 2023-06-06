@@ -70,6 +70,8 @@ Route::resource('competidores', CompetidorController::class);
 
 Route::post('/competidores/inscripcion', [CompetidorController::class, 'inscribir'])->name('competidores.inscripcion');
 
+Route::post('/competidores/actualizar', [CompetidorController::class, 'actualizarEscuela'])->name('competidores.actualizarEscuela');
+
 Route::post('/competidores/create', [CompetidorController::class, 'buscarCompetidor'])->name('competidores.buscarCompetidor');
 
 Route::post('/competidores/buscarPaises', [CompetidorController::class, 'buscarPaises'])->name('competidores.buscarPaises');
