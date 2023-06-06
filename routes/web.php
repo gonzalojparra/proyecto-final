@@ -35,6 +35,14 @@ Route::get('/resultados', function () {
     return view('resultados');
 })->name('resultados');
 
+// Registro
+Route::get('/register', [UserController::class, 'create'])
+    ->middleware(['guest'])
+    ->name('registrar');
+
+Route::post('/register', [UserController::class, 'store'])
+    ->middleware(['guest'])
+    ->name('register');
 
 Route::get('/inscripcion', [CompetidorController::class, 'inscripcion'])->name('inscripcion');
 
@@ -54,19 +62,16 @@ Route::group(['middleware' => ['role:Admin']], function() {
     Route::view('/verCompetidores','competidores.tablaCompetidores')->name('tablaCompetidores');
 });
 
-// Registro
-Route::get('/register', [UserController::class, 'create'])
-    ->middleware(['guest'])
-    ->name('registrar');
+// Competencias
+Route::view('competencias', 'competencias.index')->name('competencias.index');
 
-Route::post('/register', [UserController::class, 'store'])
-    ->middleware(['guest'])
-    ->name('register');
 
 // Competidores
 Route::resource('competidores', CompetidorController::class);
 
 Route::post('/competidores/inscripcion', [CompetidorController::class, 'inscribir'])->name('competidores.inscripcion');
+
+Route::post('/competidores/actualizar', [CompetidorController::class, 'actualizarEscuela'])->name('competidores.actualizarEscuela');
 
 Route::post('/competidores/create', [CompetidorController::class, 'buscarCompetidor'])->name('competidores.buscarCompetidor');
 
@@ -74,12 +79,13 @@ Route::post('/competidores/buscarPaises', [CompetidorController::class, 'buscarP
 
 Route::post('/competidores/buscarColegio', [CompetidorController::class, 'buscarColegio'])->name('competidores.buscarColegio');
 
+
 Route::post('/obtenerEscuelas',)->name('acciones.obtenerEscuelas');
 
 // Middleware Juez
 //Puntuador
 Route::group(['middleware' => ['role:Juez']], function() {
-    Route::view('/competencia/puntuador','competencia.puntuador')->name('puntuador');
+    Route::view('/competencias/puntuador','competencias.puntuador')->name('puntuador');
 });
 
 // TESTEOS

@@ -21,6 +21,11 @@
                         {{ __('Ranking') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link href="{{ route('competencias.index') }}" :active="request()->routeIs('competencias')">
+                        {{ __('Competencias') }}
+                    </x-nav-link>
+                </div>
                 @role('Competidor')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('inscripcion') }}" :active="request()->routeIs('inscripcion')">
