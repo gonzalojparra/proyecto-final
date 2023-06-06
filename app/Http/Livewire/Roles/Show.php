@@ -41,34 +41,13 @@ class Show extends Component {
                     $usuariosPendientes[] = $usuario;
                 }
             }
-        }
-        
-        /* dd($usuariosArray); */
-            
-        /* $usuarios = User::where('name', 'like', '%' . $this->filtro . '%')->orWhere('apellido', 'like', '%' . $this->filtro . '%')->orWhere('email', 'like', '%' . $this->filtro . '%')
-            ->get(); */
-            
+        }         
         return view('livewire.roles.show', compact('usuariosPendientes'));
     }
-
-    public function todosPendientes($usuarios){
-        $usuariosPendientes = array();
-        foreach ($usuarios as $usuario) {
-            if ($usuario['verificado'] == 0) { // Filtramos a los usuarios q no estan verificados
-                $roles = $usuario->roles()->pluck('name'); // Buscamos que rol tiene el usuario
-                $nombreRol = $roles[0];
-                $usuario['rol'] = $nombreRol; // Agregamos el rol al usuario.
-                $usuariosPendientes[] = $usuario;
-            }
-        }
-    }
-
-
 
     public function mostrarCompetidor($id) {
         $users = new UserController();
         $user = $users->show($id);
         $this->emit('openModal', $user);
     }
-
 }
