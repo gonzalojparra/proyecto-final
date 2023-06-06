@@ -35,6 +35,8 @@ Route::get('/resultados', function () {
     return view('resultados');
 })->name('resultados');
 
+
+
 // Registro
 Route::get('/register', [UserController::class, 'create'])
     ->middleware(['guest'])
@@ -59,12 +61,12 @@ Route::group(['middleware' => ['role:Admin']], function() {
     Route::get('roles', [Security\RolesController::class, 'index'])->name('roles.index');
     Route::view('/roles','roles.show')->name('roles');
     Route::view('/timer', 'timer')->name('timer');
-    Route::view('/verCompetidores','competidores.tablaCompetidores')->name('tablaCompetidores');
+
 });
 
 // Competencias
 Route::view('competencias', 'competencias.index')->name('competencias.index');
-
+Route::view('/verCompetidores','competidores.tablaCompetidores')->name('tablaCompetidores');
 
 // Competidores
 Route::resource('competidores', CompetidorController::class);
