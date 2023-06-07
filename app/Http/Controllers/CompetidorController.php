@@ -121,13 +121,31 @@ class CompetidorController extends Controller
     // Inscribir competidor
     public function inscripcion()
     {
+        // Obtener el usuario autenticado
         $user = Auth::user();
+
+        $solicitudExistente = SolicitudActualizacion::where('usuario_id', $user->id)
+            ->whereIn('aprobada', [0, 1])
+            ->orderBy('aprobada', 'asc')
+            ->first();
+            
+        // Obtener todos los equipos
         $teams = Team::all();
+
+        // Obtener la categoria del usuario
         $userCategoria = Categoria::find($user->id_categoria);
+
+        // Obtener el equipo del usuario
         $userTeam = Team::find($user->id_escuela);
+
+        // Obtener las competencias y categorias asociadas
         $competencia_categoria = DB::table('competencia_categoria')
             ->select('id_competencia', 'id_categoria')->get();
+
+        // Obtener la competencia actual
         $competencia = Competencia::find($competencia_categoria[0]->id_competencia);
+
+        // Obtener las categorias asociadas a las competencias
         foreach ($competencia_categoria as $clave => $valorId) {
             foreach (Categoria::all() as $categoria => $valor) {
                 if ($valor->id == $valorId->id_categoria) {
@@ -135,7 +153,7 @@ class CompetidorController extends Controller
                 }
             }
         }
-        return view('/competidores/inscripcion', compact('competencia', 'categorias', 'userTeam', 'userCategoria', 'user', 'teams'));
+        return view('/competidores/inscripcion', compact('competencia', 'categorias', 'userTeam', 'userCategoria', 'user', 'teams', 'solicitudExistente'));
     }
 
     public function inscribir(Request $request, Competidor $competidor)
@@ -156,6 +174,15 @@ class CompetidorController extends Controller
         $descripcion = 'Cambio de escuela';
         // Crear un array con los datos a devolver
 
+        // Verificar si el usuario ya tiene una solicitud de actualización de colegio activa
+        $solicitudExistente = SolicitudActualizacion::where('usuario_id', $user->id)
+            ->where('aprobada', '0')
+            ->first();
+
+        if ($solicitudExistente) {
+            // Si el usuario ya tiene una solicitud activa, devolver un mensaje de error
+            return response()->json(['error' => 'Ya tienes una solicitud de actualización de colegio pendiente'], 422);
+        }
 
         // Crear una nueva instancia del modelo SolicitudActualizacion
         $solicitud = new SolicitudActualizacion();
@@ -177,7 +204,6 @@ class CompetidorController extends Controller
 
         // Devolver una respuesta exitosa
         return response()->json(['message' => 'Solicitud de actualización creada correctamente']);
-        
     }
 
     // Guardamos al competidor del formulario en la bd.
