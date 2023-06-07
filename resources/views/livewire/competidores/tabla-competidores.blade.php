@@ -10,19 +10,19 @@
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <div class="py-3 flex justify-between">
                     <x-input class="w-25 mr-1" wire:model='filtro' type='text' placeholder='Buscar...' />
-                    <select id="escuelas" class="mx-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select wire:model='escuelaElegida' id="escuelas" class="mx-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="ninguna" selected>Elija una escuela</option>
                         @foreach($escuelas as $escuela)
                         <option>{{ $escuela->name }}</option>
                         @endforeach
                     </select>
-                    <select id="categorias" class="mx-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select wire:model='categoriaElegida' id="categorias" class="mx-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="ninguna" selected>Elija una categoría</option>
                         @foreach($categorias as $categoria)
-                        <option>{{ $categoria }}</option>
+                        <option (click)="$categoriaElegida = $categoria">{{ $categoria }}</option>
                         @endforeach
                     </select>
-                    <select id="graduaciones" class="mx-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select wire:model='graduacionElegida' id="graduaciones" class="mx-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="ninguna" selected>Elija una graduación</option>
                         @foreach($graduaciones as $graduacion)
                         <option>{{ $graduacion }}</option>
@@ -31,7 +31,7 @@
 
 
                 </div>
-                @if (count($competidoresVerificados) > 0)
+                @if (count($competidores) > 0)
                 <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
 
                     <thead class="text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -79,7 +79,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($competidoresVerificados as $usuario )
+                        @foreach ($competidores as $usuario )
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$usuario->id}}
