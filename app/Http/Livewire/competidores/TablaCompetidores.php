@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
+//FALTA: traer escuelas para filtrar por escuela y poder ordenar por escuela y categoria (agregar columna escuela)
 
 class TablaCompetidores extends Component
 {
