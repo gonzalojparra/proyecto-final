@@ -37,42 +37,42 @@
                     <thead class="text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="px-6 py-3">
-                                <span class="cursor-pointer">
+                                <span class="cursor-pointer" wire:click="ordenar('id')">
                                     ID
                                 </span>
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                <span class="cursor-pointer">
+                                <span class="cursor-pointer" wire:click="ordenar('name')">
                                     Nombre
                                 </span>
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                <span class="cursor-pointer">
+                                <span class="cursor-pointer" wire:click="ordenar('apellido')">
                                     Apellido
                                 </span>
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                <span class="cursor-pointer">
+                                <span class="cursor-pointer" wire:click="ordenar('genero')">
                                     Genero
                                 </span>
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                <span class="cursor-pointer">
+                                <span >
                                     Graduación
                                 </span>
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                <span class="cursor-pointer">
+                                <span >
                                     Categoría
                                 </span>
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                <span class="cursor-pointer">
+                                <span >
                                     Gal
                                 </span>
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                <span class="cursor-pointer">
+                                <span class="cursor-pointer" wire:click="ordenar('clasificacion')">
                                     Clasificación
                                 </span>
                             </th>
