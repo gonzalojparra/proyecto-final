@@ -15,8 +15,7 @@ class Competencias extends Component {
     public $filtro;
     public $filtroFecha = "Todos";
 
-
-    //protected $listeners = ['abrirModal'=>'agregarCompetencia'];
+    // protected $listeners = ['render'=>'render'];
 
     public function render() {
         $competencias = Competencia::where('titulo', 'like', '%' . $this->filtro . '%')->get();
@@ -49,11 +48,5 @@ class Competencias extends Component {
         }
 
         return view('livewire.competencias.index', ['competencias' => $competenciasPedidas]);
-    }
-
-    public function agregarCompetencia()
-    {
-        $this->emit('abrirModal');
-
     }
 }
