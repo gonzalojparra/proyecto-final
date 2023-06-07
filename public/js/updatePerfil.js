@@ -3,6 +3,7 @@ const inputApellido = document.querySelector('#apellido')
 const inputEmail = document.querySelector('#email')
 const inputDU = document.querySelector('#du')
 const inputEdad = document.querySelector('#fechaNacCompetidor')
+const inputGal = document.querySelector('#galCompetidor')
 
 
 //funcion que comprueba que el campo no esté vacío
@@ -77,6 +78,23 @@ function validarLongitud(input, type) {
       fechaNacFeedback.innerHTML = '&nbsp'
       return true;
     }
+  }
+
+  //funcion que valida el gal de un competidor 
+  function validarGal() {
+    const regexGal = /^[A-Z]{3}\d{7}$/;
+    if (!regexGal.test(inputGal.value.toUpperCase())) {
+      inputGal.style.borderColor = "red";
+      galFeedback.style.color = 'red'
+      galFeedback.style.fontSize = '12px'
+      galFeedback.innerHTML = 'Ingrese 3 letras y 7 números'
+      return false;
+    } else {
+      inputGal.style.borderColor = "green";
+      galFeedback.innerHTML = '&nbsp;'
+      return true;
+    }
+  
   }
 
 //validacion del nombre
@@ -182,3 +200,17 @@ inputDU.addEventListener('blur', function () {
       fechaNacFeedback.innerHTML = 'Complete este campo'
     }
   })
+
+ //validacion del gal
+ inputGal.addEventListener('blur', function () {
+  console.log(validarCampo(inputGal))
+  if (validarCampo(inputGal)) {
+    galValido = validarGal(inputGal)
+  } else {
+    galFeedback.style.color = 'red';
+    galFeedback.innerHTML = 'Complete este campo'
+  }
+
+
+})
+ 
