@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Home;
 
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 
 class Descarga extends Component
@@ -11,7 +12,9 @@ class Descarga extends Component
 
     protected $listeners=['openArchivo'=>'abrirModal'];
 
-    public function abrirModal(){
+    public function abrirModal($path){
+        $this->archivo = $path;
+        
         $this->open = true;
     }
 
