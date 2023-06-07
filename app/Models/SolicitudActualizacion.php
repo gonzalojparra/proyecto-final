@@ -11,13 +11,9 @@ class SolicitudActualizacion extends Model
     protected $table = 'actualizaciones';
 
     protected $fillable = [
-        'id',
-        'usuario_id',
-        'descripcion',
-        'informacion_actual',
-        'informacion_nueva',
-        'fecha_solicitud',
-        'aprobada',
+        'id_user',
+        'id_colegio_nuevo',
+        'graduacion_nueva',
         // Agrega aquí los nombres de los campos adicionales
     ];
 
