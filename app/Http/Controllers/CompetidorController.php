@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Competencia;
 use App\Models\Categoria;
+use App\Models\Team;
+use App\Models\SolicitudActualizacion;
 use Spatie\Permission\Models\Role; // Spatie
 
 class CompetidorController extends Controller
@@ -120,6 +122,10 @@ class CompetidorController extends Controller
     public function inscripcion()
     {
         $user = Auth::user();
+        $teams = Team::all();
+        $userCategoria = Categoria::find($user->id_categoria);
+        $userTeam = Team::find($user->id_escuela);
+        
         $competencia_categoria = DB::table('competencia_categoria') //a la variable $competencia_categoria se le asigna el id de las categorias y el id de la competencia
             ->select('id_competencia', 'id_categoria')->get();
         
@@ -138,14 +144,49 @@ class CompetidorController extends Controller
                 }
             }
         }
-
-        return view('/competidores/inscripcion', compact('competencia', 'categorias'));
+        return view('/competidores/inscripcion', compact('competencia', 'categorias', 'userTeam', 'userCategoria', 'user', 'teams'));
     }
-    
+
     public function inscribir(Request $request, Competidor $competidor)
     {
         $user = Auth::user();
-        dd($user->id_categoria);
+        $userCategoria = Categoria::find($user->id_categoria);
+        $userTeam = Team::find($user->id_escuela);
+        dd($user);
+    }
+
+    public function actualizarEscuela(Request $request)
+    {
+        $user = Auth::user();
+        // Obtener los valores del formulario
+        $usuarioId = $user->id;
+        $informacionActual = $request->input('informacion_actual');
+        $informacionNueva = $request->input('informacion_nueva');
+        $descripcion = 'Cambio de escuela';
+        // Crear un array con los datos a devolver
+
+
+        // Crear una nueva instancia del modelo SolicitudActualizacion
+        $solicitud = new SolicitudActualizacion();
+        $solicitud->usuario_id = $usuarioId;
+        $solicitud->descripcion = $descripcion;
+        $solicitud->informacion_actual = $informacionActual;
+        $solicitud->informacion_nueva = $informacionNueva;
+
+        // Intentar guardar la solicitud en la base de datos
+        try {
+            $solicitud->save();
+        } catch (\Exception $e) {
+            // Obtener el mensaje completo del error
+            $errorMessage = $e->getMessage();
+
+            // Devolver una respuesta de error con el mensaje completo del error
+            return response()->json(['error' => 'Error al guardar la solicitud: ' . $errorMessage], 500);
+        }
+
+        // Devolver una respuesta exitosa
+        return response()->json(['message' => 'Solicitud de actualización creada correctamente']);
+        
     }
 
     // Guardamos al competidor del formulario en la bd.

@@ -49,14 +49,112 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Rodri',
                 'apellido' => 'Pepi',
+                'genero' => 'Masculino',
                 'email' => 'rodri@example.com',
-                'id_escuela' => 2
+                'id_escuela' => 2,
+                'graduacion' => '10 GUP, Blanco',
+                'gal' => NULL,
+                'fecha_nac' => '2003-04-25',
+                'clasificacion' => 1
             ],
             [
                 'name' => 'Juan',
                 'apellido' => 'Loa',
+                'genero' => 'Masculino',
                 'email' => 'juan@example.com',
-                'id_escuela' => 4
+                'id_escuela' => 4,
+                'graduacion' => '10 GUP, Blanco',
+                'gal' => NULL,
+                'fecha_nac' => '2003-07-19',
+                'clasificacion' => 15
+            ],
+            [
+                'name' => 'Vanesa',
+                'apellido' => 'Rodriguez',
+                'genero' => 'Femenino',
+                'email' => 'vane@example.com',
+                'id_escuela' => 3,
+                'graduacion' => '4 GUP, Azul',
+                'gal' => NULL,
+                'fecha_nac' => '2003-12-19',
+                'clasificacion' => 16
+            ],
+            [
+                'name' => 'Juan',
+                'apellido' => 'Larrilla',
+                'genero' => 'Masculino',
+                'email' => 'juanL@example.com',
+                'id_escuela' => 2,
+                'graduacion' => '2 GUP, Rojo',
+                'gal' => NULL,
+                'fecha_nac' => '1998-07-19',
+                'clasificacion' => 3
+            ],
+            [
+                'name' => 'Marcia',
+                'apellido' => 'Morales',
+                'genero' => 'Femenino',
+                'email' => 'M&M@example.com',
+                'id_escuela' => 5,
+                'graduacion' => '10 DAN, Negro',
+                'gal' => 'ASD1658974',
+                'fecha_nac' => '1998-06-28',
+                'clasificacion' => 5
+            ],
+            [
+                'name' => 'Juana',
+                'apellido' => 'Martinez',
+                'genero' => 'Femenino',
+                'email' => 'juanita@example.com',
+                'id_escuela' => 8,
+                'graduacion' => '10 DAN, Negro',
+                'gal' => 'FGH2365855',
+                'fecha_nac' => '1998-07-22',
+                'clasificacion' => 4
+            ],
+            [
+                'name' => 'Isidro',
+                'apellido' => 'Loa',
+                'genero' => 'Masculino',
+                'email' => 'ysy@example.com',
+                'id_escuela' => 12,
+                'graduacion' => '10 GUP, Blanco',
+                'gal' => NULL,
+                'fecha_nac' => '2015-10-19',
+                'clasificacion' => 6
+            ],
+            [
+                'name' => 'Milagros',
+                'apellido' => 'Padilla',
+                'genero' => 'Femenino',
+                'email' => 'mili.p@example.com',
+                'id_escuela' => 6,
+                'graduacion' => '10 GUP, Blanco',
+                'gal' => NULL,
+                'fecha_nac' => '2015-07-02',
+                'clasificacion' => 9
+            ],
+            [
+                'name' => 'Paloma',
+                'apellido' => 'Padilla',
+                'genero' => 'Femenino',
+                'email' => 'palo.p@example.com',
+                'id_escuela' => 6,
+                'graduacion' => '6 GUP, Verde',
+                'gal' => NULL,
+                'fecha_nac' => '2003-07-19',
+                'clasificacion' => 12
+            ],
+            [
+                'name' => 'Daniela',
+                'apellido' => 'Martinez',
+                'genero' => 'Femenino',
+                'email' => 'dani@example.com',
+                'id_escuela' => 4,
+                'graduacion' => '4 GUP, Azul',
+                'gal' => NULL,
+                'fecha_nac' => '2003-09-28',
+                'clasificacion' => 8
             ]
         ];
 
@@ -64,9 +162,15 @@ class UserSeeder extends Seeder
             User::create([
                 'name' => $user['name'],
                 'apellido' => $user['apellido'],
+                'genero' => $user['genero'],
                 'email' => $user['email'],
                 'password' => Hash::make('secret'),
-                'id_escuela' => $user['id_escuela']
+                'id_escuela' => $user['id_escuela'],
+                'graduacion' => $user['graduacion'],
+                'gal' => $user['gal'],
+                'fecha_nac' => $user['fecha_nac'],
+                'clasificacion' => $user['clasificacion'],
+                'verificado' => 1
             ])->assignRole('Competidor');
         };
 

@@ -36,6 +36,16 @@ Route::get('/resultados', function () {
 })->name('resultados');
 
 
+
+// Registro
+Route::get('/register', [UserController::class, 'create'])
+    ->middleware(['guest'])
+    ->name('registrar');
+
+Route::post('/register', [UserController::class, 'store'])
+    ->middleware(['guest'])
+    ->name('register');
+
 Route::get('/inscripcion', [CompetidorController::class, 'inscripcion'])->name('inscripcion');
 
 Route::middleware([
@@ -51,21 +61,19 @@ Route::group(['middleware' => ['role:Admin']], function() {
     Route::get('roles', [Security\RolesController::class, 'index'])->name('roles.index');
     Route::view('/roles','roles.show')->name('roles');
     Route::view('/timer', 'timer')->name('timer');
+
 });
 
-// Registro
-Route::get('/register', [UserController::class, 'create'])
-    ->middleware(['guest'])
-    ->name('registrar');
-
-Route::post('/register', [UserController::class, 'store'])
-    ->middleware(['guest'])
-    ->name('register');
+// Competencias
+Route::view('competencias', 'competencias.index')->name('competencias.index');
+Route::view('/verCompetidores','competidores.tablaCompetidores')->name('tablaCompetidores');
 
 // Competidores
 Route::resource('competidores', CompetidorController::class);
 
 Route::post('/competidores/inscripcion', [CompetidorController::class, 'inscribir'])->name('competidores.inscripcion');
+
+Route::post('/competidores/actualizar', [CompetidorController::class, 'actualizarEscuela'])->name('competidores.actualizarEscuela');
 
 Route::post('/competidores/create', [CompetidorController::class, 'buscarCompetidor'])->name('competidores.buscarCompetidor');
 
@@ -73,12 +81,13 @@ Route::post('/competidores/buscarPaises', [CompetidorController::class, 'buscarP
 
 Route::post('/competidores/buscarColegio', [CompetidorController::class, 'buscarColegio'])->name('competidores.buscarColegio');
 
+
 Route::post('/obtenerEscuelas',)->name('acciones.obtenerEscuelas');
 
 // Middleware Juez
 //Puntuador
 Route::group(['middleware' => ['role:Juez']], function() {
-    Route::view('/competencia/puntuador','competencia.puntuador')->name('puntuador');
+    Route::view('/competencias/puntuador','competencias.puntuador')->name('puntuador');
 });
 
 // TESTEOS
