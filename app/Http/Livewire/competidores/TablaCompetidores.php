@@ -22,6 +22,8 @@ class TablaCompetidores extends Component
     public $categoriaElegida = 'ninguna';
     public $graduacionElegida ='ninguna';
     public $escuelaElegida = 'ninguna';
+    public $orden = 'id';
+    public $direccion = 'asc';
 
     protected $listeners = ['render' => 'render'];
 
@@ -30,7 +32,7 @@ class TablaCompetidores extends Component
         // dd($this->categoriaElegida);
         $usuarios = User::where('name', 'like', '%' . $this->filtro . '%')
             ->orWhere('apellido', 'like', '%' . $this->filtro . '%')
-            ->orWhere('email', 'like', '%' . $this->filtro . '%')
+            ->orderBy($this->orden, $this->direccion)
             ->get(); // Obtenemos todos los usuarios
 
         $competidoresVerificados = array();
@@ -62,6 +64,20 @@ class TablaCompetidores extends Component
             ->get(); */
 
         return view('livewire.competidores.tabla-competidores', compact('competidores'));
+    }
+
+    public function ordenar($filtroOrden){
+        if($this->orden == $filtroOrden){
+
+            if($this->direccion == 'asc'){
+                $this->direccion = 'desc';
+            } else {
+                $this->direccion = 'asc';
+            }
+        } else {
+            $this->orden = $filtroOrden;
+            $this->direccion = 'asc';
+        }
     }
 
     public function obtenerCategoría($competidor)
