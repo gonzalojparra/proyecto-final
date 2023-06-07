@@ -16,6 +16,9 @@ class TablaCompetidores extends Component
     public $filtro;
     public $filtroCategoria;
     public $filtroGraduacion;
+    public $categorias = [];
+    public $graduaciones = [];
+    public $escuelas = [];
 
     protected $listeners = ['render'=>'render'];
 
@@ -38,6 +41,14 @@ class TablaCompetidores extends Component
                     if ($usuario['rol'] == 'Competidor'){
                         $competidoresVerificados[] = $usuario;
                     }
+                $idCategoria =  array_keys($this->categorias, $usuario['categoria']);
+                $idGraduacion = array_keys($this->graduaciones, $usuario['graduacion']);
+                if(count($idCategoria)==0){
+                   array_push( $this->categorias, $usuario['categoria']);
+                }
+                if(count($idGraduacion)==0){
+                    array_push( $this->graduaciones, $usuario['graduacion']);
+                 }
             }
         }
         
