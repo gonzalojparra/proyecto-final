@@ -10,7 +10,7 @@
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <div class="py-3 flex justify-between">
                     <x-input class="w-25 mr-1" wire:model='filtro' type='text' placeholder='Buscar...' />
-                    <select wire:model='escuelaElegida' id="escuelas" class="mx-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select wire:model='escuelaElegida'  id="escuelas" class="mx-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="ninguna" selected>Elija una escuela</option>
                         @foreach($escuelas as $escuela)
                         <option>{{ $escuela->name }}</option>
@@ -113,7 +113,7 @@
                 </table>
 
                 @else
-                <div class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 px-6 py-3 text-dark">
+                <div class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 px-6 py-3 dark:text-gray-400">
                     <h3>
                         No se encuentran solicitudes
                     </h3>

@@ -19,15 +19,15 @@ class TablaCompetidores extends Component
     public $categorias = [];
     public $graduaciones = [];
     public $escuelas = [];
-    public $categoriaElegida;
-    public $graduacionElegida;
-    public $escuelaElegida;
+    public $categoriaElegida = 'ninguna';
+    public $graduacionElegida ='ninguna';
+    public $escuelaElegida = 'ninguna';
 
     protected $listeners = ['render' => 'render'];
 
     public function render()
     {
-            // dd($this->categoriaElegida);
+        // dd($this->categoriaElegida);
         $usuarios = User::where('name', 'like', '%' . $this->filtro . '%')
             ->orWhere('apellido', 'like', '%' . $this->filtro . '%')
             ->orWhere('email', 'like', '%' . $this->filtro . '%')
@@ -58,7 +58,6 @@ class TablaCompetidores extends Component
         }
         $competidores = $this->filtrarCompetidores($this->categoriaElegida, $this->graduacionElegida, $this->escuelaElegida, $competidoresVerificados);
         //    dd($usuarios);
-
         /* $usuarios = User::where('name', 'like', '%' . $this->filtro . '%')->orWhere('apellido', 'like', '%' . $this->filtro . '%')->orWhere('email', 'like', '%' . $this->filtro . '%')
             ->get(); */
 
@@ -97,9 +96,31 @@ class TablaCompetidores extends Component
     {
         $listaUsuarios = $competidores;
         $usuariosFiltrados = [];
-        foreach ($listaUsuarios as $usuario) {
-            if ($categoria != 'ninguna') {
-                if ($usuario['categoria'] == $categoria) {
+        if ($this->categoriaElegida != 'ninguna'|| $this->graduacionElegida != 'ninguna' || $this->escuelaElegida != 'ninguna') {
+            foreach ($listaUsuarios as $usuario) {
+                if ($categoria != 'ninguna') {
+                    if ($usuario['categoria'] == $categoria) {
+                        if ($graduacion != 'ninguna') {
+                            if ($usuario['graduacion'] == $graduacion) {
+                                if ($escuela != 'ninguna') {
+                                    if ($usuario['escuela'] == $escuela) {
+                                        array_push($usuariosFiltrados, $usuario);
+                                    }
+                                } else {
+                                    array_push($usuariosFiltrados, $usuario);
+                                }
+                            }
+                        } else {
+                            if ($escuela != 'ninguna') {
+                                if ($usuario['escuela'] == $escuela) {
+                                    array_push($usuariosFiltrados, $usuario);
+                                }
+                            } else {
+                                array_push($usuariosFiltrados, $usuario);
+                            }
+                        }
+                    }
+                } else {
                     if ($graduacion != 'ninguna') {
                         if ($usuario['graduacion'] == $graduacion) {
                             if ($escuela != 'ninguna') {
@@ -120,27 +141,10 @@ class TablaCompetidores extends Component
                         }
                     }
                 }
-            } else {
-                if ($graduacion != 'ninguna') {
-                    if ($usuario['graduacion'] == $graduacion) {
-                        if ($escuela != 'ninguna') {
-                            if ($usuario['escuela'] == $escuela) {
-                                array_push($usuariosFiltrados, $usuario);
-                            }
-                        } else {
-                            array_push($usuariosFiltrados, $usuario);
-                        }
-                    }
-                } else {
-                    if ($escuela != 'ninguna') {
-                        if ($usuario['escuela'] == $escuela) {
-                            array_push($usuariosFiltrados, $usuario);
-                        }
-                    } else {
-                        array_push($usuariosFiltrados, $usuario);
-                    }
-                }
             }
+
+        }else {
+            $usuariosFiltrados = $competidores;
         }
         return $usuariosFiltrados;
     }
