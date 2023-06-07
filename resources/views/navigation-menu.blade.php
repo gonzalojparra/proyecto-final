@@ -25,6 +25,10 @@
                     <x-nav-link href="{{ route('competencias.index') }}" :active="request()->routeIs('competencias')">
                         {{ __('Competencias') }}
                     </x-nav-link>
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link href="{{ route('tablaCompetidores') }}" :active="request()->routeIs('verCompetidores')">
+                        {{ __('Competidores') }}
+                    </x-nav-link>
                 </div>
                 @role('Competidor')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">

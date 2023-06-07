@@ -1,32 +1,8 @@
 <div>
+
+
     @livewire('home.descarga')
-    <!-- <div class="container items-center p-5 inline">
-        <div class="flex flex-row flex-wrap lg:flex-nowrap justify-center items-center">
-            <div class="w-full p-4 text-center flex flex-col bg-white rounded-lg lg:flex-row">
-                <img class=" w-full rounded-t-lg  lg:h-auto lg:w-60 lg:rounded-none lg:rounded-l-lg" src="{{asset('image/flyerLiga.jpeg')}}" alt="">
-                <div class="flex flex-col justify-between p-4 leading-normal">
-                    <h5 class="mb-2 text-3xl font-bold">Liga Provincial 2023</h5>
-                    <p class="mb-5 text-base  sm:text-lg ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga nostrum hic magnam debitis, amet quo saepe architecto quos consequuntur dolor corporis officiis. Et, aliquid corrupti. Tempore accusamus aliquid vero adipisci ad suscipit eius ducimus odit dicta ab tenetur reprehenderit sed rerum maxime omnis sunt aspernatur asperiores optio, quo nisi in! Odit quas tempore sapiente nemo reiciendis qui rerum esse doloribus vitae dolore quae temporibus inventore, sit cum, explicabo laboriosam ducimus consequatur debitis at consectetur ipsa numquam itaque officia. Nostrum aspernatur, quam magni quasi et dignissimos deserunt nulla cum temporibus nihil rem dolor nemo nam laboriosam veritatis ab distinctio consequuntur ex!</p>
-                    <div class="mt-5 items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
-                        <div>
-                            <a wire:click="mostrarArchivo()" href="#" class="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
-                                Invitacion a la Liga
-                            </a>
 
-                        </div>
-                        <a href="#" class="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
-                            Bases y Condiciones
-                        </a>
-                        <a href="#" class="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
-                            Imagen de la Liga
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-    </div> -->
     <section class="bg-white dark:bg-gray-900">
         <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
             <a href="{{ route('inscripcion') }}" class="inline-flex justify-between items-center py-1 px-1 pr-4 mb-7 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700" role="alert">
@@ -55,21 +31,21 @@
                 <div class="flex flex-wrap justify-center items-center mt-8 text-gray-500 sm:justify-between">
                     <a href="#" class="mr-5 mb-5 lg:mb-0 hover:text-gray-800 dark:hover:text-gray-400">
                         <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                            <span wire:click="mostrarArchivo()" class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                            <span wire:click="$emit('mostrarArchivo',{{$invitacion}})" class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                 Invitación a la liga
                             </span>
                         </button>
                     </a>
                     <a href="#" class="mr-5 mb-5 lg:mb-0 hover:text-gray-800 dark:hover:text-gray-400">
                         <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                            <span wire:click="$emit('mostrarArchivo',{{$bases}})" class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                 Bases y condiciones
                             </span>
                         </button>
                     </a>
                     <a href="#" class="mr-5 mb-5 lg:mb-0 hover:text-gray-800 dark:hover:text-gray-400">
                         <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                            <span wire:click="$emit('mostrarArchivo',{{$flyer}})" class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                 Imagen de la liga
                             </span>
                         </button>
@@ -99,4 +75,5 @@
             </div>
         </div>
     </section>
+    <script src="{{ asset('js/funcionDescarga.js') }}"></script>
 </div>
