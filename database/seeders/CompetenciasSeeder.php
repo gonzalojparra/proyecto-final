@@ -19,7 +19,8 @@ class CompetenciasSeeder extends Seeder {
             'bases' => 'ni idea',
             'descripcion' => 'Compe complicadisima, no se anoten',
             'fecha_inicio' => '2023-06-20',
-            'fecha_fin' => '2023-06-30'
+            'fecha_fin' => '2023-06-30',
+            'estado' => 1
         ]);
 
         DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 1)");
