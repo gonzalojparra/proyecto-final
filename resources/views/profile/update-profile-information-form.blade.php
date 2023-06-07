@@ -36,9 +36,8 @@
         <div class="col-span-6 sm:col-span-4">
             <x-label for="name" value="{{ __('Nombre') }}" />
             <x-input id="name" type="text" class="mt-1 block w-full" require wire:model.defer="state.name" autocomplete="name" />
-            <div id="nameFeedback" class="input-feedback" for="name">&nbsp;</div>
             <x-input-error for="name" class="mt-2" />
-
+            <div id="nombreFeedback" class="input-feedback" for="name">&nbsp;</div>
         </div>
 
         <!-- Apellido -->
@@ -49,36 +48,36 @@
             <x-input-error for="apellido" class="mt-2" />
         </div>
 
-        @role('Juez')
+        <!-- @role('Juez') -->
         <!-- Escuelas -->
         <!-- Team Name SI PONIA EL FOREACH DEL REGISTRO ME SALTABA UN ERROR -->
-        <div class="col-span-6 sm:col-span-4">
+        <!-- <div class="col-span-6 sm:col-span-4">
             <x-label for="escuela" value="{{ __('Escuela') }}" />
-            <select id="escuelaUsuario" name="escuela" class="block mt-1 w-full" required autofocus autocomplete="escuela" wire:model.defer="state.escuela">
+            <select id="escuelaUsuario" name="escuela" class="block mt-1 w-full" required autocomplete="escuela" wire:model.defer="state.escuela">
                 <option value="escuela">{{$this->user->nombre}}</option>
             </select>
             <div id="escuelaFeedback" class="input-feedback" for="escuelaUsuario">&nbsp;</div>
             <x-input-error for="escuela" class="mt-2" />
-        </div>
-        @endrole
+        </div> -->
+        <!-- @endrole -->
 
         @role('Competidor')
         <!-- Escuelas -->
         <!-- Team Name SI PONIA EL FOREACH DEL REGISTRO ME SALTABA UN ERROR-->
-        <div class="col-span-6 sm:col-span-4">
+        <!-- <div class="col-span-6 sm:col-span-4">
             <x-label for="escuela" value="{{ __('Escuela') }}" />
-            <select id="escuelaUsuario" name="escuela" class="block mt-1 w-full" required autofocus autocomplete="escuela" wire:model.defer="state.escuela">
+            <select id="escuelaUsuario" name="escuela" class="block mt-1 w-full" required autocomplete="escuela" wire:model.defer="state.escuela">
                 <option value="escuela"></option>
             </select>
             <div id="escuelaFeedback" class="input-feedback" for="escuelaUsuario">&nbsp;</div>
             <x-input-error for="escuela" class="mt-2" />
-        </div>
+        </div> -->
 
         <!-- DU -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="du" value="{{ __('DU') }}" />
-            <x-input id="du" type="text" class="mt-1 block w-full" require wire:model.defer="state.du" autocomplete="du" />
-            <div id="du" class="input-feedback" for="du">&nbsp;</div>
+            <x-input id="du" type="text" class="mt-1 block w-full" min="1960-01-01" require wire:model.defer="state.du" autocomplete="du" />
+            <div id="duFeedback" class="input-feedback" for="du">&nbsp;</div>
             <x-input-error for="du" class="mt-2" />
         </div>
 
@@ -173,9 +172,10 @@
         <div class="col-span-6 sm:col-span-4">
             <x-label for="email" value="{{ __('Email') }}" />
             <x-input id="email" type="email" class="mt-1 block w-full" require wire:model.defer="state.email" autocomplete="email" />
-            <x-input-error for="email" class="mt-2" />
+            <x-input-error for="email" class="mt-2" /> 
+            <div id="emailFeedback" class="input-feedback" for="email">&nbsp;</div>
 
-            @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user->hasVerifiedEmail())
+            <!-- @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user->hasVerifiedEmail())
             <p class="text-sm mt-2">
                 {{ __('Tu dirección email no está verificada.') }}
 
@@ -189,17 +189,21 @@
                 {{ __('Un nuevo link de verificación se ha enviado a su correo!') }}
             </p>
             @endif
-            @endif
+            @endif -->
         </div>
+
     </x-slot>
 
     <x-slot name="actions">
-        <x-action-message class="close cursor-pointer rounded flex items-center justify-between w-full p-2 bg-green-500 shadow text-white" role="alert" on="saved">
+        
+        <x-action-message class="close cursor-pointer rounded flex items-center my-3 justify-between w-full p-2 border border-green-500 bg-green-100 shadow text-green-500" role="alert" on="saved">
             {{ __('Guardado.') }}
         </x-action-message>
 
+        
         <x-button wire:loading.attr="disabled" wire:target="photo">
             {{ __('Guardar') }}
         </x-button>
     </x-slot>
 </x-form-section>
+<script src="{{ asset('js/updatePerfil.js') }}"></script>
