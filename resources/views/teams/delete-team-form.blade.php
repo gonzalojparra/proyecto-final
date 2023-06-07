@@ -1,10 +1,10 @@
 <x-action-section>
     <x-slot name="title">
-        {{ __('Delete Team') }}
+        <span class="text-slate-100">{{ __('Delete Team') }}</span>
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Permanently delete this team.') }}
+        <span class="text-slate-100">{{ __('Permanently delete this team.') }}</span>
     </x-slot>
 
     <x-slot name="content">

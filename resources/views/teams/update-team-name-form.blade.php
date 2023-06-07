@@ -1,10 +1,10 @@
 <x-form-section submit="updateTeamName">
-    <x-slot name="title">
-        {{ __('Team Name') }}
+    <x-slot name="title" class="text-white">
+        <span class="text-slate-100">{{ __('Nombre de la escuela') }}</span>
     </x-slot>
 
-    <x-slot name="description">
-        {{ __('The team\'s name and owner information.') }}
+    <x-slot name="description" class="text-white">
+        <span class="text-slate-100">{{ __('Información del dueño de la escuela.') }}</span>
     </x-slot>
 
     <x-slot name="form">
@@ -39,11 +39,11 @@
     @if (Gate::check('update', $team))
         <x-slot name="actions">
             <x-action-message class="mr-3" on="saved">
-                {{ __('Saved.') }}
+                {{ __('Guardado.') }}
             </x-action-message>
 
             <x-button>
-                {{ __('Save') }}
+                {{ __('Guardar') }}
             </x-button>
         </x-slot>
     @endif

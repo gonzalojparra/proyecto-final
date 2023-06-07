@@ -100,29 +100,36 @@ class UserController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show($userId) {
+    // public function show($userId) {
 
-        $userQuery = User::where('id', $userId)->get();
-        $User = $userQuery->toArray();
-        $escuela = $userQuery[0]->teams()->pluck('name');
+    //     $userQuery = User::where('id', $userId)->get();
+    //     $User = $userQuery->toArray();
+    //     $escuela = $userQuery[0]->teams()->pluck('name');
 
 
-        $User = $userQuery->toArray();
-        $usuario = [
-            'id' => (empty($User[0]['id'])) ? null : $User[0]['id'],
-            'nombre' => (empty($User[0]['name'])) ? null : $User[0]['name'],
-            'apellido' => (empty($User[0]['apellido'])) ? null : $User[0]['apellido'],
-            'email' => (empty($User[0]['email'])) ? null : $User[0]['email'],
-            'fecha_nac' => (empty($User[0]['fecha_nac'])) ? null : $User[0]['fecha_nac'],
-            'gal' => (empty($User[0]['gal'])) ? null : $User[0]['gal'],
-            'du' => (empty($User[0]['du'])) ? null : $User[0]['du'],
-            'clasificacion' => (empty($User[0]['clasificacion'])) ? null : $User[0]['clasificacion'],
-            'graduacion' => (empty($User[0]['graduacion'])) ? null : $User[0]['graduacion'],
-            'genero' => (empty($User[0]['genero'])) ? null : $User[0]['genero'],
-            'verificado' => (empty($User[0]['verificado'])) ? null : $User[0]['verificado'],
-            'escuela' => $escuela[0],
-        ];
+    //     $User = $userQuery->toArray();
+    //     $usuario = [
+    //         'id' => (empty($User[0]['id'])) ? null : $User[0]['id'],
+    //         'nombre' => (empty($User[0]['name'])) ? null : $User[0]['name'],
+    //         'apellido' => (empty($User[0]['apellido'])) ? null : $User[0]['apellido'],
+    //         'email' => (empty($User[0]['email'])) ? null : $User[0]['email'],
+    //         'fecha_nac' => (empty($User[0]['fecha_nac'])) ? null : $User[0]['fecha_nac'],
+    //         'gal' => (empty($User[0]['gal'])) ? null : $User[0]['gal'],
+    //         'du' => (empty($User[0]['du'])) ? null : $User[0]['du'],
+    //         'clasificacion' => (empty($User[0]['clasificacion'])) ? null : $User[0]['clasificacion'],
+    //         'graduacion' => (empty($User[0]['graduacion'])) ? null : $User[0]['graduacion'],
+    //         'genero' => (empty($User[0]['genero'])) ? null : $User[0]['genero'],
+    //         'verificado' => (empty($User[0]['verificado'])) ? null : $User[0]['verificado'],
+    //         'escuela' => $escuela[0],
+    //     ];
 
+    //     return $usuario;
+    // }
+
+    public function show($id){
+        $usuario = User::find($id);
+        $escuela = Team::find($usuario['id_escuela']);
+        $usuario['escuela'] = $escuela['name'];
         return $usuario;
     }
 
