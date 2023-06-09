@@ -13,11 +13,11 @@ return new class extends Migration {
             $table->id();
             $table->string('titulo');
             $table->string('flyer');
-            $table->string('bases');
+            $table->string('bases'); // Tipo de dato que guarda archivo PDF en binario...
             $table->string('descripcion');
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
-            $table->integer('estado'); // 1 = inscripcion de jueces / 2 = inscripcion de competidores / 3 = inscripcion cerrada y competencia en curso / 4 = competencia finalizada
+            $table->integer('estado')->default(1); // 1 = inscripcion de jueces / 2 = inscripcion de competidores / 3 = inscripcion cerrada y competencia en curso / 4 = competencia finalizada
             $table->timestamps();
         });
     }
