@@ -10,7 +10,7 @@ use Spatie\Permission\Models\Role;
 use Livewire\WithFileUploads;
 
 
-class Competencias extends Component {
+class _Competencias extends Component {
 
     use WithFileUploads;
 

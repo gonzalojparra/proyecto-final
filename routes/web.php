@@ -67,6 +67,7 @@ Route::group(['middleware' => ['role:Admin']], function() {
 // Competencias
 Route::view('competencias', 'competencias.index')->name('competencias.index');
 Route::view('/verCompetidores','competidores.tablaCompetidores')->name('tablaCompetidores');
+Route::view('/competenciaIndex','competencias.verUnaCompetencia')->name('verUnaCompetencia');
 
 // Competidores
 Route::resource('competidores', CompetidorController::class);
