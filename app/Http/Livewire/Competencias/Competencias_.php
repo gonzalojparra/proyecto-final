@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 
-class Competencias extends Component {
+class _Competencias extends Component {
 
     protected $competencias = "";
     public $filtro;
