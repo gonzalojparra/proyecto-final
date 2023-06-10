@@ -4,9 +4,6 @@ namespace App\Http\Livewire\Competencias;
 
 use App\Models\Competencia;
 use Livewire\Component;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
 use Livewire\WithFileUploads;
 
 
@@ -16,14 +13,15 @@ class Competencias extends Component {
 
     protected $competencias;
     public $competencia;
-    public $filtro;
-    public $filtroFecha = "Todos";
-    public $titulo, $flyer, $bases, $descripcion, $fecha_inicio, $fecha_fin;
+    public $filtro;// filtro de la tabla
+    public $filtroFecha = "Todos";//filtro de la tabla por fecha
+    /* public $titulo, $flyer, $bases, $descripcion, $fecha_inicio, $fecha_fin; *///variables para el manejo de los datos del form
 
 
-    //protected $listeners = ['abrirModal'=>'agregarCompetencia'];
+    protected $listeners = ['recarga'=>'render'];
 
     public function render() {
+        //metodo de renderizar la tabla de competencias
         $competencias = Competencia::where('titulo', 'like', '%' . $this->filtro . '%')->get();
         $fechaActual = date("Y-m-d");
         $competenciasPedidas = $competencias;
@@ -53,48 +51,16 @@ class Competencias extends Component {
             }
         }
 
-        return view('livewire.competencias.create', ['competencias' => $competenciasPedidas]);
+        return view('livewire.competencias.index', ['competencias' => $competenciasPedidas]);
     }
 
+    // metodo que abre el modal con el formulario para agregar/editar una competencia
     public function agregarCompetencia()
     {
         $this->emit('abrirModal');
     }
 
-    public function create()
-    {
-        $validate = $this->validate([
-            'titulo' => ['required', 'max:120', 'unique:competencias'],
-            'flyer' => ['required', 'image', 'max:2048'],
-            'bases' => ['required', 'mimes:pdf,docx'],
-            'descripcion' => ['required', 'max:120'],
-            'fecha_inicio' => ['required', 'date', 'after_or_equal:today'],
-            'fecha_fin' => ['required', 'date', 'after:fecha_inicio'],
-        ]);
-
-        $urlImagen = $this->flyer->store('competencias', 'public');
-        $urlPdf = $this->bases->store('competencias', 'public');
-
-        Competencia::create([
-            'titulo' => $validate['titulo'],
-            'flyer' => $urlImagen,
-            'bases' => $urlPdf,
-            'descripcion' => $validate['descripcion'],
-            'fecha_inicio' => $validate['fecha_inicio'],
-            'fecha_fin' => $validate['fecha_fin'],
-        ]);
-
-        session()->flash('msj', 'Competencia creada exitosamente.');
-        $this->reset();
-    }
-
-    
-    public function show($id)
-    {
-        $competencia = Competencia::find($id);
-        $this->competencia = $competencia;
-    }
-
+    //metodo para eliminar una competencia
     public function delete($id)
     {
         Competencia::destroy($id);
