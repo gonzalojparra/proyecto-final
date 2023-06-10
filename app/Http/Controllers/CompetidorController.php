@@ -145,7 +145,7 @@ class CompetidorController extends Controller
                 }
             }
         }
-        return view('/competidores/inscripcion', compact('competencia', 'categorias', 'userTeam', 'userCategoria', 'user', 'teams'));
+        return view('livewire.competencias.ver-una-competencia', compact('competencia', 'categorias', 'userTeam', 'userCategoria', 'user', 'teams'));
     }
 
     public function inscribir(Request $request, Competidor $competidor)

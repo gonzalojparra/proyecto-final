@@ -7,7 +7,14 @@ const actualizacionEscuelaButton = document.getElementById('actualizarEscuela');
 const actualizarGraduacionButton = document.getElementById('actualizarGraduacion');
 const confirmModalEscuelaButton = document.getElementById('confirmModalEscuela')
 const closeModalEscuelaButton = document.getElementById('closeModalEscuela');
+const modalGraduacion = document.getElementById('modalGraduacion');
+const actualizacionGraduacionButton = document.getElementById('actualizarGraduacionBtn');
+const confirmModalGraduacionButton = document.getElementById('confirmModalGraduacion');
+const closeModalGraduacionButton = document.getElementById('closeModalGraduacion');
 
+window.addEventListener('load', () =>{
+    
+})
 
 openModalButton.addEventListener('click', () => {
     modal.classList.remove('hidden');
@@ -68,3 +75,133 @@ confirmModalEscuelaButton.addEventListener('click', function(event) {
             console.log(error);
         });
 });
+
+
+
+        openModalButton.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+        });
+
+        closeModalButton.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        if (btnDisabled) {
+            btnDisabled.addEventListener('click', () => {
+
+                mensajeSpan.classList.remove('hidden');
+                setTimeout(function() {
+                    // mensajeSpan.classList.add('hidden');
+                    mensajeSpan.classList.add('hidden');
+                }, 3000);
+            })
+        }
+
+        actualizacionGraduacionButton.addEventListener('click', () => {
+            modalGraduacion.classList.remove('hidden');
+        })
+
+        closeModalGraduacionButton.addEventListener('click', () => {
+            modalGraduacion.classList.add('hidden');
+        });
+
+        actualizacionEscuelaButton.addEventListener('click', () => {
+            modalEscuela.classList.remove('hidden');
+        })
+
+        closeModalEscuelaButton.addEventListener('click', () => {
+            modalEscuela.classList.add('hidden');
+        });
+
+
+
+        confirmModalEscuelaButton.addEventListener('click', function(event) {
+            // Obtener los valores de los campos
+            const nuevaEscuela = document.getElementById('escuela');
+            let selectedValue = nuevaEscuela.value;
+
+            // Crear objeto de datos
+            var datos = {
+                informacion_nueva: selectedValue
+            };
+
+            console.log(datos);
+            // Realizar la petición AJAX
+            fetch('competidores/actualizar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(datos)
+                })
+                .then(function(response) {
+                    if (response.ok) {
+                        return response.json(); // Convertir la respuesta a JSON
+                    } else {
+                        throw new Error('Error en la petición');
+                    }
+                })
+                .then(function(data) {
+                    console.log('hecho');
+                })
+                .catch(function(error) {
+                    mensajes.classList.remove('hidden');
+                    mensajes.textContent = error;
+                    setTimeout(function() {
+                        mensajes.classList.add('hidden');
+                    }, 5000);
+                });
+        });
+
+        confirmModalGraduacionButton.addEventListener('click', function(event) {
+
+            // Obtener los valores de los campos
+            const nuevaGraduacion = document.getElementById('graduacionNueva');
+            let selectedValue = nuevaGraduacion.value;
+
+            // Crear objeto de datos
+            var datos = {
+                informacion_nueva: selectedValue
+            };
+
+            console.log(datos);
+            // Realizar la petición AJAX
+            fetch('competidores/actualizarGraduacion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(datos)
+                })
+                .then(function(response) {
+                    if (response.ok) {
+                        return response.json(); // Convertir la respuesta a JSON
+                    } else {
+                        throw new Error('Error en la petición');
+                    }
+                })
+                .then(function(data) {
+                    mensajes.classList.remove('hidden');
+                    mensajes.textContent = 'Pedido de actualizacion exitoso';
+
+                    setTimeout(function() {
+                        modalEscuela.classList.add('hidden');
+                    }, 5000);
+                    setTimeout(function() {
+                        mensajes.classList.add('hidden');
+                    }, 5000);
+
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                })
+                .catch(function(error) {
+                    mensajes.classList.remove('hidden');
+                    mensajes.textContent = error;
+                    setTimeout(function() {
+                        mensajes.classList.add('hidden');
+                    }, 5000);
+                });
+        });

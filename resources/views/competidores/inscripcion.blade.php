@@ -1,6 +1,6 @@
 <x-app-layout>
     <form id="inscripcion" class="bg-white dark:bg-gray-900" action="{{route('competidores.inscripcion')}}" method="POST">
-        @csrf
+        <!-- @csrf
         <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 ">
             <div class="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
                 <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Inscripción a competencias</h2>
@@ -18,10 +18,11 @@
                         </h3>
                         <span class="text-gray-500 dark:text-gray-400">{{ $competencia->fecha_inicio }} | {{ $competencia->fecha_fin }}</span>
                         <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400">{{ $competencia->descripcion }}</p>
+                        @role('Competidor')
                         @foreach ($categorias as $categoria)
                         <p class="text-sm text-gray-500 dark:text-gray-400">{{ $categoria->nombre }} - {{ $categoria->graduacion }}</p>
                         @endforeach
-
+                        @endrole
                         <button id="openModal" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                             Inscribirme
                         </button>
@@ -29,14 +30,17 @@
                 </div>
                 @else
             </div>
-            <!-- Si no hay competencias muestra este error -->
-            <div class="bg-red-200 text-red-800 p-4 text-md rounded border border-red-300 my-3">
+            Si no hay competencias muestra este error -->
+            <!-- <div class="bg-red-200 text-red-800 p-4 text-md rounded border border-red-300 my-3">
                 No hay competencias disponibles en este momento. <br>
                 Por favor, vuelve más tarde para ver nuevas competencias.
             </div>
             @endif
-        </div>
+        </div> -->
 
+        <button id="openModal" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                            Inscribirme
+                        </button>
         <!-- Modal con los datos del competidor/juez -->
         <div id="myModal" class="fixed inset-0 flex hidden items-center rounded-lg justify-center z-50 m-5 border-1">
             <div class="bg-white dark:bg-gray-900 rounded-lg">
@@ -140,7 +144,7 @@
             </div>
         </div>
     </form>
-
+@role('Competidor')
     <form id="actualizarGraduacion" action="{{route('competidores.actualizarGraduacion')}}" method="POST">
         @csrf
         <div id="modalGraduacion" class="fixed inset-0 flex hidden items-center justify-center z-60 m-5 border-1">
@@ -173,9 +177,9 @@
             </div>
         </div>
     </form>
-
+@endrole
     <!-- JavaScript para abrir y cerrar el modal -->
-    <script>
+    <!-- <script>
         const modal = document.getElementById('myModal');
         const openModalButton = document.getElementById('openModal');
         const closeModalButton = document.getElementById('closeModal');
@@ -317,7 +321,7 @@
                     }, 5000);
                 });
         });
-    </script>
+    </script> -->
     <!-- JavaScript para abrir, cerrar el modal y enviar los datos -->
     <script src="{{ asset('js/inscripcionCompetencias.js') }}"></script>
 

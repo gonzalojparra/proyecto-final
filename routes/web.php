@@ -67,15 +67,19 @@ Route::group(['middleware' => ['role:Admin']], function() {
 // Competencias
 Route::view('competencias', 'competencias.index')->name('competencias.index');
 Route::view('/verCompetidores','competidores.tablaCompetidores')->name('tablaCompetidores');
-Route::view('/competenciaIndex','competencias.verUnaCompetencia')->name('verUnaCompetencia');
+Route::view('/competencias/verUnaCompetencia','competencias.verUnaCompetencia')->name('verUnaCompetencia');
 
 // Competidores
 Route::resource('competidores', CompetidorController::class);
 
 Route::post('/competidores/inscripcion', [CompetidorController::class, 'inscribir'])->name('competidores.inscripcion');
+Route::post('/competenciaIndex', [CompetidorController::class, 'inscripcion'])->name('livewire.competencias.ver-una-competencia');
 
 Route::post('/competidores/actualizar', [CompetidorController::class, 'actualizarEscuela'])->name('competidores.actualizarEscuela');
+Route::post('/competenciaIndex', [CompetidorController::class, 'actualizarEscuela'])->name('competidores.actualizarEscuela');
+
 Route::post('/competidores/actualizarGraduacion', [CompetidorController::class, 'actualizarGraduacion'])->name('competidores.actualizarGraduacion');
+Route::post('/competenciaIndex', [CompetidorController::class, 'actualizarGraduacion'])->name('competidores.actualizarGraduacion');
 
 Route::post('/competidores/create', [CompetidorController::class, 'buscarCompetidor'])->name('competidores.buscarCompetidor');
 

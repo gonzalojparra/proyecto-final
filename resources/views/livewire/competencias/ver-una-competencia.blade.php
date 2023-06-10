@@ -1,5 +1,5 @@
 <div>
-<div class="info-competencia mt-6 mb-8">
+    <div class="info-competencia mt-6 mb-8">
         <div>
             <h1 class="text-6xl flex justify-center font-semibold dark:text-gray-400 ">Competencia re dificil wacho</h1>
         </div>
@@ -35,18 +35,20 @@
                 <div class="flex flex-row justify-center items-end mt-8 text-gray-500 ml-5" style="height: 20%;">
                     <div grid justify-items-center>
 
-                            <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
+                        <!-- <button id="openModal"  type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
                                 <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                     Inscripción
                                 </span>
                             </button>
-                            
-
-                            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
-                                <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                    Bases y condiciones
-                                </span>
-                            </button>
+                             -->
+                        <button id="openModal" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                            Inscribirme
+                        </button>
+                        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
+                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                Bases y condiciones
+                            </span>
+                        </button>
 
                     </div>
                 </div>
@@ -62,45 +64,145 @@
         </div>
         @livewire('competidores.tabla-competidores')
     </div>
-    </div>
 
-    
-<!-- Main modal -->
-<div id="authentication-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative w-full max-w-md max-h-full">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="authentication-modal">
-                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                <span class="sr-only">Close modal</span>
-            </button>
-            <div class="px-6 py-6 lg:px-8">
-                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h3>
-                <form class="space-y-6" action="#">
-                    <div>
-                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                        <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required>
-                    </div>
-                    <div>
-                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
-                        <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
-                    </div>
-                    <div class="flex justify-between">
-                        <div class="flex items-start">
-                            <div class="flex items-center h-5">
-                                <input id="remember" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required>
-                            </div>
-                            <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
-                        </div>
-                        <a href="#" class="text-sm text-blue-700 hover:underline dark:text-blue-500">Lost Password?</a>
-                    </div>
-                    <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
-                    <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-                        Not registered? <a href="#" class="text-blue-700 hover:underline dark:text-blue-500">Create account</a>
-                    </div>
-                </form>
+
+<form id="inscripcion" class="bg-white dark:bg-gray-900" action="{{route('livewire.competencias.ver-una-competencia')}}" method="POST">
+    @csrf
+    <!-- Modal con los datos del competidor/juez -->
+    <div id="myModal" class="fixed inset-0 flex hidden items-center rounded-lg justify-center z-50 m-5 border-1">
+        <div class="bg-white dark:bg-gray-900 rounded-lg">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                @role('Competidor')
+                <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
+                <div class="mb-4">
+                    <label for="nameTeam" class="block text-gray-700 dark:text-gray-300">Escuela: </label>
+                    <input id="nameTeam" type="text" class="w-full border-gray-300 rounded-md p-2" value="{{ $userTeam->name }}" readonly>
+                    <button id="actualizarEscuelaBtn" type="button" class="inline-flex items-center mt-1 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                        Pedir Actualizacion
+                    </button>
+                </div>
+                <div class="mb-4">
+                    <label for="graduacion" class="block text-gray-700 dark:text-gray-300">Graduacion:</label>
+                    <input id="graduacion" type="text" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->graduacion }}" readonly>
+                    <button id="actualizarGraduacionBtn" type="button" class="inline-flex items-center mt-1 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                        Pedir Actualizacion
+                    </button>
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 dark:text-gray-300">Email:</label>
+                    <input id="email" type="email" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->email }}" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="nombre" class="block text-gray-700 dark:text-gray-300">Nombre:</label>
+                    <input id="nombre" type="Nombre" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->name }}" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="apellido" class="block text-gray-700 dark:text-gray-300">Apellido:</label>
+                    <input id="apellido" type="Apellido" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->apellido }}" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="dni" class="block text-gray-700 dark:text-gray-300">DNI:</label>
+                    <input id="dni" type="email" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->du }}" readonly>
+                </div>
+                @endrole
+                @role('Juez')
+                <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
+                <div class="mb-4">
+                    <label for="nameTeam" class="block text-gray-700 dark:text-gray-300">Escuela: </label>
+                    <input id="nameTeam" type="text" class="w-full border-gray-300 rounded-md p-2" value="{{ $userTeam->name }}" readonly>
+                    <button id="actualizarEscuela" type="button" class="inline-flex items-center mt-1 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                        Pedir Actualizacion
+                    </button>
+                </div>
+                <div class="mb-4 w-md">
+                    <label for="email" class="block text-gray-700 dark:text-gray-300">Email:</label>
+                    <input id="email" type="email" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->email }}" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="nombre" class="block text-gray-700 dark:text-gray-300">Nombre:</label>
+                    <input id="nombre" type="Nombre" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->name }}" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="apellido" class="block text-gray-700 dark:text-gray-300">Apellido:</label>
+                    <input id="apellido" type="Apellido" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->apellido }}" readonly>
+                </div>
+                @endrole
+                <div class="flex justify-end">
+                    <button id="closeModal" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                        Cerrar
+                    </button>
+                    <button id="confirmModal" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150">
+                        Confirmar
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-</div>
+</form>
+
+<!-- Cambiar escuela-->
+<form id="actualizarEscuela" action="{{route('competidores.actualizarEscuela')}}" method="POST">
+    @csrf
+    <div id="modalEscuela" class="fixed inset-0 flex hidden items-center justify-center z-60 m-5 border-1 ">
+        <div class=" dark:bg-gray-700 bg-gray-700 rounded-lg">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
+                <div class="mb-4">
+                    <label for="actualEscuela" class="block text-gray-700 dark:text-gray-300">Escuela: </label>
+                    <input id="actualEscuela" type="text" class="w-full border-gray-300 rounded-md p-2" value="{{ $userTeam->name }}" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="nuevaEscuela" class="block text-gray-700 dark:text-gray-300">Cambio a:</label>
+                    <select name="nuevaEscuela" id="escuela" class="form-select">
+                        @foreach($teams as $team)
+                        <option value="{{ $team->id }}">{{ $team->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="flex justify-end">
+                    <button id="closeModalEscuela" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                        Cerrar
+                    </button>
+                    <button id="confirmModalEscuela" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150">
+                        Confirmar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@role('Competidor')
+<form id="actualizarGraduacion" action="{{route('competidores.actualizarGraduacion')}}" method="POST">
+    @csrf
+    <div id="modalGraduacion" class="fixed inset-0 flex hidden items-center justify-center z-60 m-5 border-1">
+        <div class="bg-white dark:bg-gray-900">
+            <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6">
+                <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
+                <div class="mb-4">
+                    <label for="actualGraduacion" class="block text-gray-700 dark:text-gray-300">Graduacion: </label>
+                    <input id="actualGraduacion" type="text" class="w-full border-gray-300 rounded-md p-2" value="{{ $categoria->graduacion }}" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="nuevaGraduacion" class="block text-gray-700 dark:text-gray-300">Cambio a:</label>
+                    <select name="nuevaGraduacion" id="graduacionNueva" class="form-select">
+                        @foreach($todasCategorias as $categorias)
+                        <option value="{{ $categorias->id }}">{{ $categorias->graduacion }}</option>
+                        @endforeach
+                    </select>
+
+                </div>
+                <div class="flex justify-end">
+                    <button id="closeModalGraduacion" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                        Cerrar
+                    </button>
+                    <button id="confirmModalGraduacion" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150">
+                        Confirmar
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+@endrole
+
