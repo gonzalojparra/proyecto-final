@@ -63,7 +63,7 @@
         </div>
         @livewire('competidores.tabla-competidores')
     </div>
-    </div>
+</div>
 
     
 <!-- Main modal -->
@@ -104,4 +104,5 @@
         </div>
     </div>
 </div>
+
 </x-app-layout>

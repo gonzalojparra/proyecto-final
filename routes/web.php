@@ -56,6 +56,7 @@ Route::middleware([
     Route::get('permisos', [Security\PermissionController::class, 'index'])->name('permisos.index');
 });
 
+
 // Middleware Admin
 Route::group(['middleware' => ['role:Admin']], function() {
     Route::get('roles', [Security\RolesController::class, 'index'])->name('roles.index');
@@ -64,10 +65,12 @@ Route::group(['middleware' => ['role:Admin']], function() {
 
 });
 
+
 // Competencias
 Route::view('competencias', 'competencias.index')->name('competencias.index');
 Route::view('/verCompetidores','competidores.tablaCompetidores')->name('tablaCompetidores');
-Route::view('/competenciaIndex','competencias.verUnaCompetencia')->name('verUnaCompetencia');
+Route::view('/competencia-id','competencias.verUnaCompetencia')->name('verUnaCompetencia');
+
 
 // Competidores
 Route::resource('competidores', CompetidorController::class);
@@ -86,11 +89,13 @@ Route::post('/competidores/buscarColegio', [CompetidorController::class, 'buscar
 
 Route::post('/obtenerEscuelas',)->name('acciones.obtenerEscuelas');
 
+
 // Middleware Juez
 //Puntuador
 Route::group(['middleware' => ['role:Juez']], function() {
     Route::view('/competencias/puntuador','competencias.puntuador')->name('puntuador');
 });
+
 
 // TESTEOS
 Route::get('/test.{id}', [UserController::class, 'show']);

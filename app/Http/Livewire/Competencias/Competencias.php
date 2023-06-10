@@ -7,7 +7,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 
 
-class _Competencias extends Component {
+class Competencias extends Component {
 
     use WithFileUploads;
 
