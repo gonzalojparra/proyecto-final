@@ -1,8 +1,6 @@
 <x-modal wire:model='open'>
 
-    @if (session()->has('msj'))
-    <div class="alert alert-success">{{ session('msj') }}</div>
-    @endif
+    
 
     <div class="w-3/4 m-auto py-5">
         <form wire:submit.prevent="create" enctype="multipart/form-data">

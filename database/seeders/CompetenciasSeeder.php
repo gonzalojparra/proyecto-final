@@ -17,6 +17,7 @@ class CompetenciasSeeder extends Seeder {
             'titulo' => 'Compe super complicada guachin',
             'flyer' => 'inserte link de flyer',
             'bases' => 'ni idea',
+            'invitacion'=>'cosas',
             'descripcion' => 'Compe complicadisima, no se anoten',
             'fecha_inicio' => '2023-06-20',
             'fecha_fin' => '2023-06-30',
