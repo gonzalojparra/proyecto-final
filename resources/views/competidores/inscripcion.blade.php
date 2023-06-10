@@ -43,14 +43,14 @@
                     <div class="mb-4">
                         <label for="nameTeam" class="block text-gray-700 dark:text-gray-300">Escuela: </label>
                         <input id="nameTeam" type="text" class="w-full border-gray-300 rounded-md p-2" value="{{ $userTeam->name }}" readonly>
-                        <button id="actualizarEscuela" type="button" class="inline-flex items-center mt-1 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                        <button id="actualizarEscuelaBtn" type="button" class="inline-flex items-center mt-1 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                             Pedir Actualizacion
                         </button>
                     </div>
                     <div class="mb-4">
                         <label for="graduacion" class="block text-gray-700 dark:text-gray-300">Graduacion:</label>
-                        <input id="graduacion" type="Apellido" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->graduacion }}" readonly>
-                        <button id="actualizarGraduacion" type="button" class="inline-flex items-center mt-1 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                        <input id="graduacion" type="text" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->graduacion }}" readonly>
+                        <button id="actualizarGraduacionBtn" type="button" class="inline-flex items-center mt-1 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                             Pedir Actualizacion
                         </button>
                     </div>
@@ -96,7 +96,7 @@
                         <label for="nuevaEscuela" class="block text-gray-700 dark:text-gray-300">Cambio a:</label>
                         <select name="nuevaEscuela" id="escuela" class="form-select">
                             @foreach($teams as $team)
-                            <option value="{{ $team->name }}">{{ $team->name }}</option>
+                            <option value="{{ $team->id }}">{{ $team->name }}</option>
                             @endforeach
                         </select>
 
@@ -112,6 +112,40 @@
                 </div>
 
             </div>
+        </div>
+    </form>
+
+    <form id="actualizarGraduacion" action="{{route('competidores.actualizarGraduacion')}}" method="POST">
+        @csrf
+        <div id="modalGraduacion" class="fixed inset-0 flex hidden items-center justify-center z-60 m-5 border-1">
+            <div class="bg-white dark:bg-gray-900">
+                <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6">
+                    <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
+                    <div class="mb-4">
+                        <label for="actualGraduacion" class="block text-gray-700 dark:text-gray-300">Graduacion: </label>
+                        <input id="actualGraduacion" type="text" class="w-full border-gray-300 rounded-md p-2" value="{{ $categoria->graduacion }}" readonly>
+                    </div>
+                    <div class="mb-4">
+                        <label for="nuevaGraduacion" class="block text-gray-700 dark:text-gray-300">Cambio a:</label>
+                        <select name="nuevaGraduacion" id="graduacionNueva" class="form-select">
+                            @foreach($todasCategorias as $categorias)
+                            <option value="{{ $categorias->id }}">{{ $categorias->graduacion }}</option>
+                            @endforeach
+                        </select>
+
+                    </div>
+                    <div class="flex justify-end">
+                        <button id="closeModalGraduacion" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                            Cerrar
+                        </button>
+                        <button id="confirmModalGraduacion" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150">
+                            Confirmar
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </form>
 
     <!-- JavaScript para abrir y cerrar el modal -->
@@ -121,10 +155,13 @@
         const closeModalButton = document.getElementById('closeModal');
         const confirmModalButton = document.getElementById('confirmModal');
         const modalEscuela = document.getElementById('modalEscuela');
-        const actualizacionEscuelaButton = document.getElementById('actualizarEscuela');
-        const actualizarGraduacionButton = document.getElementById('actualizarGraduacion');
+        const modalGraduacion = document.getElementById('modalGraduacion');
+        const actualizacionEscuelaButton = document.getElementById('actualizarEscuelaBtn');
+        const actualizacionGraduacionButton = document.getElementById('actualizarGraduacionBtn');
+        const confirmModalGraduacionButton = document.getElementById('confirmModalGraduacion');
         const confirmModalEscuelaButton = document.getElementById('confirmModalEscuela')
         const closeModalEscuelaButton = document.getElementById('closeModalEscuela');
+        const closeModalGraduacionButton = document.getElementById('closeModalGraduacion');
 
 
         openModalButton.addEventListener('click', () => {
@@ -135,9 +172,23 @@
             modal.classList.add('hidden');
         });
 
-        confirmModalButton.addEventListener('click', () => {
-            // Realizar acciones al confirmar el modal, como enviar el formulario
-            document.getElementById('inscripcion').submit();
+        if (btnDisabled) {
+            btnDisabled.addEventListener('click', () => {
+
+                mensajeSpan.classList.remove('hidden');
+                setTimeout(function() {
+                    // mensajeSpan.classList.add('hidden');
+                    mensajeSpan.classList.add('hidden');
+                }, 3000);
+            })
+        }
+
+        actualizacionGraduacionButton.addEventListener('click', () => {
+            modalGraduacion.classList.remove('hidden');
+        })
+
+        closeModalGraduacionButton.addEventListener('click', () => {
+            modalGraduacion.classList.add('hidden');
         });
 
         actualizacionEscuelaButton.addEventListener('click', () => {
@@ -148,20 +199,19 @@
             modalEscuela.classList.add('hidden');
         });
 
-        confirmModalEscuelaButton.addEventListener('click', function(event) {
-            event.preventDefault(); // Evitar el recargado de la página
 
-            const nuevaEscuela = document.getElementById('escuela');
+
+        confirmModalEscuelaButton.addEventListener('click', function(event) {
             // Obtener los valores de los campos
-            var informacionActual = document.getElementById('actualEscuela').value;
-            var informacionNueva = nuevaEscuela.options[nuevaEscuela.selectedIndex].value;
+            const nuevaEscuela = document.getElementById('escuela');
+            let selectedValue = nuevaEscuela.value;
 
             // Crear objeto de datos
             var datos = {
-                informacion_actual: informacionActual,
-                informacion_nueva: informacionNueva
+                informacion_nueva: selectedValue
             };
 
+            console.log(datos);
             // Realizar la petición AJAX
             fetch('competidores/actualizar', {
                     method: 'POST',
@@ -182,7 +232,63 @@
                     console.log('hecho');
                 })
                 .catch(function(error) {
-                    console.log(error);
+                    mensajes.classList.remove('hidden');
+                    mensajes.textContent = error;
+                    setTimeout(function() {
+                        mensajes.classList.add('hidden');
+                    }, 5000);
+                });
+        });
+
+        confirmModalGraduacionButton.addEventListener('click', function(event) {
+
+            // Obtener los valores de los campos
+            const nuevaGraduacion = document.getElementById('graduacionNueva');
+            let selectedValue = nuevaGraduacion.value;
+
+            // Crear objeto de datos
+            var datos = {
+                informacion_nueva: selectedValue
+            };
+
+            console.log(datos);
+            // Realizar la petición AJAX
+            fetch('competidores/actualizarGraduacion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(datos)
+                })
+                .then(function(response) {
+                    if (response.ok) {
+                        return response.json(); // Convertir la respuesta a JSON
+                    } else {
+                        throw new Error('Error en la petición');
+                    }
+                })
+                .then(function(data) {
+                    mensajes.classList.remove('hidden');
+                    mensajes.textContent = 'Pedido de actualizacion exitoso';
+
+                    setTimeout(function() {
+                        modalEscuela.classList.add('hidden');
+                    }, 0500);
+                    setTimeout(function() {
+                        mensajes.classList.add('hidden');
+                    }, 5000);
+
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                })
+                .catch(function(error) {
+                    mensajes.classList.remove('hidden');
+                    mensajes.textContent = error;
+                    setTimeout(function() {
+                        mensajes.classList.add('hidden');
+                    }, 5000);
                 });
         });
     </script>
