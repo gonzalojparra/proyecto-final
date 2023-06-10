@@ -128,7 +128,16 @@ class CompetidorController extends Controller
         $userTeam = Team::find($user->id_escuela);
         $competencia_categoria = DB::table('competencia_categoria')
             ->select('id_competencia', 'id_categoria')->get();
-        $competencia = Competencia::find($competencia_categoria[0]->id_competencia);
+        // $competencia = Competencia::find($competencia_categoria[0]->id_competencia);
+        
+        $competencia = null; // Inicializar la variable $competencia
+
+        if (!$competencia_categoria->isEmpty()) {
+            $competencia = Competencia::find($competencia_categoria[0]->id_competencia);
+        }
+
+        $categorias = [];
+        
         foreach ($competencia_categoria as $clave => $valorId) {
             foreach (Categoria::all() as $categoria => $valor) {
                 if ($valor->id == $valorId->id_categoria) {
