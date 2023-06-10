@@ -76,17 +76,9 @@
                         <button id="closeModal" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                             Cerrar
                         </button>
-                        @if ($solicitudExistente->aprobada == 0)
-
-                        <button id="btnDisabled" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150">
-                            Confirmar
-                        </button>
-                        @else
                         <button id="confirmModal" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150">
                             Confirmar
                         </button>
-                        @endif
-
                     </div>
                     <span id="mensajeSpan" class="ml-2 text-red-500 text-sm hidden">Aún tienes una actualizacion pendiente.</span>
                 </div>
@@ -123,7 +115,39 @@
                 </div>
 
             </div>
+        </div>
+    </form>
+    <form id="actualizarGraduacion" action="{{route('competidores.actualizarGraduacion')}}" method="POST">
+        @csrf
+        <div id="modalGraduacion" class="fixed inset-0 flex hidden items-center justify-center z-60 m-5 border-1">
+            <div class="bg-white dark:bg-gray-900">
+                <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6">
+                    <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
+                    <div class="mb-4">
+                        <label for="actualGraduacion" class="block text-gray-700 dark:text-gray-300">Graduacion: </label>
+                        <input id="actualGraduacion" type="text" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->graduacion }}" readonly>
+                    </div>
+                    <div class="mb-4">
+                        <label for="nuevaGraduacion" class="block text-gray-700 dark:text-gray-300">Cambio a:</label>
+                        <select name="nuevaGraduacion" id="graduacion" class="form-select">
+                            @foreach($todasCategorias as $categoria)
+                            <option value="{{ $categoria->id }}">{{ $categoria->graduacion }}</option>
+                            @endforeach
+                        </select>
 
+                    </div>
+                    <div class="flex justify-end">
+                        <button id="closeModalGraduacion" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                            Cerrar
+                        </button>
+                        <button id="confirmModalGraduacion" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150">
+                            Confirmar
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </form>
 
     <!-- JavaScript para abrir y cerrar el modal -->
@@ -136,11 +160,13 @@
         const closeModalButton = document.getElementById('closeModal');
         const modalEscuela = document.getElementById('modalEscuela');
         const actualizacionEscuelaButton = document.getElementById('actualizarEscuela');
-        const actualizarGraduacionButton = document.getElementById('actualizarGraduacion');
         const confirmModalEscuelaButton = document.getElementById('confirmModalEscuela')
         const closeModalEscuelaButton = document.getElementById('closeModalEscuela');
 
-
+        const actualizacionGraduacionButton = document.getElementById('actualizarGraduacion');
+        const confirmModalGraduacionButton = document.getElementById('confirmModalGraduacion');
+        const closeModalGraduacionButton = document.getElementById('closeModalGraduacion');
+        const modalGraduacion = document.getElementById('modalGraduacion');
 
         openModalButton.addEventListener('click', () => {
             modal.classList.remove('hidden');
@@ -161,6 +187,14 @@
             })
         }
 
+        actualizacionGraduacionButton.addEventListener('click', () => {
+            modalGraduacion.classList.remove('hidden');
+        })
+
+        closeModalGraduacionButton.addEventListener('click', () => {
+            modalGraduacion.classList.add('hidden');
+        });
+
 
         actualizacionEscuelaButton.addEventListener('click', () => {
             modalEscuela.classList.remove('hidden');
@@ -173,12 +207,60 @@
         confirmModalEscuelaButton.addEventListener('click', function(event) {
             const nuevaEscuela = document.getElementById('escuela');
             // Obtener los valores de los campos
-            var informacionActual = document.getElementById('actualEscuela').value;
             var informacionNueva = nuevaEscuela.options[nuevaEscuela.selectedIndex].value;
 
             // Crear objeto de datos
             var datos = {
-                informacion_actual: informacionActual,
+                informacion_nueva: informacionNueva
+            };
+
+            // Realizar la petición AJAX
+            fetch('competidores/actualizar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(datos)
+                })
+                .then(function(response) {
+                    if (response.ok) {
+                        return response.json(); // Convertir la respuesta a JSON
+                    } else {
+                        throw new Error('Error en la petición');
+                    }
+                })
+                .then(function(data) {
+                    mensajes.classList.remove('hidden');
+                    mensajes.textContent = 'Pedido de actualizacion exitoso';
+
+                    setTimeout(function() {
+                        modalEscuela.classList.add('hidden');
+                    }, 0500);
+                    setTimeout(function() {
+                        mensajes.classList.add('hidden');
+                    }, 5000);
+
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                })
+                .catch(function(error) {
+                    mensajes.classList.remove('hidden');
+                    mensajes.textContent = 'Error en el pedido de actualizacion, puede que tenga una actualizacion pendiente';
+                    setTimeout(function() {
+                        mensajes.classList.add('hidden');
+                    }, 5000);
+                });
+        });
+
+        confirmModalGraduacionButton.addEventListener('click', function(event) {
+            const nuevaGraduacion = document.getElementById('graduacion');
+            // Obtener los valores de los campos
+            var informacionNueva = nuevaEscuela.options[nuevaEscuela.selectedIndex].value;
+
+            // Crear objeto de datos
+            var datos = {
                 informacion_nueva: informacionNueva
             };
 

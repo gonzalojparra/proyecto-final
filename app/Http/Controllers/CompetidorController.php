@@ -123,16 +123,12 @@ class CompetidorController extends Controller
     {
         // Obtener el usuario autenticado
         $user = Auth::user();
-
-        $solicitudExistente = SolicitudActualizacion::where('usuario_id', $user->id)
-            ->whereIn('aprobada', [0, 1])
-            ->orderBy('aprobada', 'asc')
-            ->first();
             
         // Obtener todos los equipos
         $teams = Team::all();
 
         // Obtener la categoria del usuario
+        $todasCategorias = Categoria::all();
         $userCategoria = Categoria::find($user->id_categoria);
 
         // Obtener el equipo del usuario
@@ -153,7 +149,7 @@ class CompetidorController extends Controller
                 }
             }
         }
-        return view('/competidores/inscripcion', compact('competencia', 'categorias', 'userTeam', 'userCategoria', 'user', 'teams', 'solicitudExistente'));
+        return view('/competidores/inscripcion', compact('competencia', 'categorias', 'userTeam', 'userCategoria', 'user', 'teams', 'todasCategorias'));
     }
 
     public function inscribir(Request $request, Competidor $competidor)
