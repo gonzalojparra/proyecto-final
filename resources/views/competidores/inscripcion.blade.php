@@ -6,11 +6,6 @@
                 <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Inscripción a competencias</h2>
                 <p class="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400">Explora las distintas competencias que se encuentran en nuestra región e inscríbete según tu categoría.</p>
             </div>
-            @if(!isset($categorias) || !array_key_exists('id_categoria', $categorias))
-            <div class="p-2 bg-red-200 text-red-800 p-4 text-sm rounded border border-red-300 my-3">
-                Por el momento no se encuentran competencias disponibles para inscribirse. 
-            </div>
-            @else
             <div class="grid gap-8 mb-6 lg:mb-16 md:grid-cols-2">
                 @if ($competencia)
                 <div class="items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700">
@@ -26,24 +21,27 @@
                         @foreach ($categorias as $categoria)
                         <p class="text-sm text-gray-500 dark:text-gray-400">{{ $categoria->nombre }} - {{ $categoria->graduacion }}</p>
                         @endforeach
+
                         <button id="openModal" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                             Inscribirme
                         </button>
                     </div>
-
                 </div>
                 @else
-                <div class="text-center">
-                    <p class="text-xl font-bold text-gray-900 dark:text-white">No hay competencias disponibles en este momento.</p>
-                    <p class="mt-4 text-gray-500 dark:text-gray-400">Por favor, vuelve más tarde para ver nuevas competencias.</p>
-                </div>
-                @endif
             </div>
-            <!-- Agrega los otros campos de información aquí -->
+            <!-- Si no hay competencias muestra este error -->
+            <div class="bg-red-200 text-red-800 p-4 text-md rounded border border-red-300 my-3">
+                No hay competencias disponibles en este momento. <br>
+                Por favor, vuelve más tarde para ver nuevas competencias.
+            </div>
+            @endif
         </div>
-        <div id="myModal" class="fixed inset-0 flex hidden items-center justify-center z-50 m-5 border-1">
-            <div class="bg-white dark:bg-gray-900">
-                <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6">
+
+        <!-- Modal con los datos del competidor/juez -->
+        <div id="myModal" class="fixed inset-0 flex hidden items-center rounded-lg justify-center z-50 m-5 border-1">
+            <div class="bg-white dark:bg-gray-900 rounded-lg">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                    @role('Competidor')
                     <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
                     <div class="mb-4">
                         <label for="nameTeam" class="block text-gray-700 dark:text-gray-300">Escuela: </label>
@@ -75,6 +73,29 @@
                         <label for="dni" class="block text-gray-700 dark:text-gray-300">DNI:</label>
                         <input id="dni" type="email" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->du }}" readonly>
                     </div>
+                    @endrole
+                    @role('Juez')
+                    <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
+                    <div class="mb-4">
+                        <label for="nameTeam" class="block text-gray-700 dark:text-gray-300">Escuela: </label>
+                        <input id="nameTeam" type="text" class="w-full border-gray-300 rounded-md p-2" value="{{ $userTeam->name }}" readonly>
+                        <button id="actualizarEscuela" type="button" class="inline-flex items-center mt-1 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                            Pedir Actualizacion
+                        </button>
+                    </div>
+                    <div class="mb-4 w-md">
+                        <label for="email" class="block text-gray-700 dark:text-gray-300">Email:</label>
+                        <input id="email" type="email" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->email }}" readonly>
+                    </div>
+                    <div class="mb-4">
+                        <label for="nombre" class="block text-gray-700 dark:text-gray-300">Nombre:</label>
+                        <input id="nombre" type="Nombre" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->name }}" readonly>
+                    </div>
+                    <div class="mb-4">
+                        <label for="apellido" class="block text-gray-700 dark:text-gray-300">Apellido:</label>
+                        <input id="apellido" type="Apellido" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->apellido }}" readonly>
+                    </div>
+                    @endrole
                     <div class="flex justify-end">
                         <button id="closeModal" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                             Cerrar
@@ -84,14 +105,16 @@
                         </button>
                     </div>
                 </div>
-
             </div>
+        </div>
     </form>
+
+    <!-- Cambiar escuela-->
     <form id="actualizarEscuela" action="{{route('competidores.actualizarEscuela')}}" method="POST">
         @csrf
-        <div id="modalEscuela" class="fixed inset-0 flex hidden items-center justify-center z-60 m-5 border-1">
-            <div class="bg-white dark:bg-gray-900">
-                <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6">
+        <div id="modalEscuela" class="fixed inset-0 flex hidden items-center justify-center z-60 m-5 border-1 ">
+            <div class=" dark:bg-gray-700 bg-gray-700 rounded-lg">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
                     <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
                     <div class="mb-4">
                         <label for="actualEscuela" class="block text-gray-700 dark:text-gray-300">Escuela: </label>
@@ -104,7 +127,6 @@
                             <option value="{{ $team->name }}">{{ $team->name }}</option>
                             @endforeach
                         </select>
-
                     </div>
                     <div class="flex justify-end">
                         <button id="closeModalEscuela" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
@@ -115,80 +137,10 @@
                         </button>
                     </div>
                 </div>
-
             </div>
     </form>
 
-    <!-- JavaScript para abrir y cerrar el modal -->
-    <script>
-        const modal = document.getElementById('myModal');
-        const openModalButton = document.getElementById('openModal');
-        const closeModalButton = document.getElementById('closeModal');
-        const confirmModalButton = document.getElementById('confirmModal');
-        const modalEscuela = document.getElementById('modalEscuela');
-        const actualizacionEscuelaButton = document.getElementById('actualizarEscuela');
-        const actualizarGraduacionButton = document.getElementById('actualizarGraduacion');
-        const confirmModalEscuelaButton = document.getElementById('confirmModalEscuela')
-        const closeModalEscuelaButton = document.getElementById('closeModalEscuela');
+    <!-- JavaScript para abrir, cerrar el modal y enviar los datos -->
+    <script src="{{ asset('js/inscripcionCompetencias.js') }}"></script>
 
-
-        openModalButton.addEventListener('click', () => {
-            modal.classList.remove('hidden');
-        });
-
-        closeModalButton.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
-
-        confirmModalButton.addEventListener('click', () => {
-            // Realizar acciones al confirmar el modal, como enviar el formulario
-            document.getElementById('inscripcion').submit();
-        });
-
-        actualizacionEscuelaButton.addEventListener('click', () => {
-            modalEscuela.classList.remove('hidden');
-        })
-
-        closeModalEscuelaButton.addEventListener('click', () => {
-            modalEscuela.classList.add('hidden');
-        });
-
-        confirmModalEscuelaButton.addEventListener('click', function(event) {
-            event.preventDefault(); // Evitar el recargado de la página
-
-            const nuevaEscuela = document.getElementById('escuela');
-            // Obtener los valores de los campos
-            var informacionActual = document.getElementById('actualEscuela').value;
-            var informacionNueva = nuevaEscuela.options[nuevaEscuela.selectedIndex].value;
-
-            // Crear objeto de datos
-            var datos = {
-                informacion_actual: informacionActual,
-                informacion_nueva: informacionNueva
-            };
-
-            // Realizar la petición AJAX
-            fetch('competidores/actualizar', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify(datos)
-                })
-                .then(function(response) {
-                    if (response.ok) {
-                        return response.json(); // Convertir la respuesta a JSON
-                    } else {
-                        throw new Error('Error en la petición');
-                    }
-                })
-                .then(function(data) {
-                    console.log('hecho');
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-        });
-    </script>
 </x-app-layout>
