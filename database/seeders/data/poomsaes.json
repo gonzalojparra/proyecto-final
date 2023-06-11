@@ -1,0 +1,35 @@
+[
+    {
+        "nombre": "1º Poomsae TAEGUK IL CHANG",
+        "id_categoria": 1
+    },
+    {
+        "nombre": "2º Poomsae TAEGUK I CHANG",
+        "id_categoria": 2
+    },
+    {
+        "nombre": "3º Poomsae TAEGUK SAM CHANG",
+        "id_categoria": 3
+    },
+    {
+        "nombre": "4º Poomsae TAEGUK SAH CHANG",
+        "id_categoria": 4
+    },
+    {
+        "nombre": "5º Poomsae TAEGUK OH CHANG",
+        "id_categoria": 5
+    },
+    {
+        "nombre": "6º Poomsae TAEGUK YOUK CHANG",
+        "id_categoria": 6
+    },
+    {
+        "nombre": "7º Poomsae TAEGUK CHILK CHANG",
+        "id_categoria": 7
+    },
+    {
+        "nombre": "8º Poomsae TAEGUK PAL CHANG",
+        "id_categoria": 8
+    }
+
+]

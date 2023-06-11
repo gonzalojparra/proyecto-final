@@ -29,14 +29,23 @@ class VerUnaCompetencia extends Component
     public $open = false;
     public $escuelas;
     public $graduaciones;
+    public $dato;
+    public $competenciaId;
 
-    public function render()
-    {
+    public function mount($competenciaId){
+        $this->competenciaId = $competenciaId;
+    }
+
+    public function render() {
         // dd($this->categoriaElegida);
         // $usuarios = User::where('name', 'like', '%' . $this->filtro . '%')
         //     ->orWhere('apellido', 'like', '%' . $this->filtro . '%')
         //     ->get(); // Obtenemos todos los usuarios
-        return view('livewire.competencias.ver-una-competencia');
+        $query = Competencia::where('id', $this->competenciaId)->get();
+        $data = $query[0]->toArray();
+        return view('livewire.competencias.ver-una-competencia', [
+            'data' => $data
+        ]);
     }
 
     public function mostrarDatos($idUsuario){

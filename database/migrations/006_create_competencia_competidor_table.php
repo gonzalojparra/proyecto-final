@@ -13,6 +13,8 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('competencia_competidor', function (Blueprint $table) {
             $table->foreignId('id_competidor')->constrained('users');
+            $table->foreignId('id_competencia')->constrained('competencias');
+            $table->foreignId('id_categoria')->constrained('categorias');
             $table->foreignId('id_poomsae')->constrained('poomsaes');
             $table->float('calificacion');
             $table->float('tiempo_presentacion');

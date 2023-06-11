@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder {
             CategoriasSeeder::class,
             zTeamsSeeder::class,
             UserSeeder::class,
-            CompetenciasSeeder::class
+            CompetenciasSeeder::class,
+            PoomsaesSeeder::class
         ]);
         // \App\Models\User::factory(100)->create();
 

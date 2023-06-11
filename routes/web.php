@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Security;
+use App\Http\Livewire\Competencias\Competencias;
+use App\Http\Livewire\Competencias\VerUnaCompetencia;
 use Whoops\Run;
 
 /*
@@ -69,8 +71,12 @@ Route::group(['middleware' => ['role:Admin']], function() {
 // Competencias
 Route::view('competencias', 'competencias.index')->name('competencias.index');
 Route::view('/verCompetidores','competidores.tablaCompetidores')->name('tablaCompetidores');
-Route::view('/competencia-id','competencias.verUnaCompetencia')->name('verUnaCompetencia');
 
+Route::get('/competencia/{competenciaId}', VerUnaCompetencia::class)->name('competencias.ver-una-competencia');
+
+/* Route::get('/competencia', function () {
+    return view('livewire.competencias.ver-una-competencia');
+})->name('competencias.ver-una-competencia'); */
 
 // Competidores
 Route::resource('competidores', CompetidorController::class);

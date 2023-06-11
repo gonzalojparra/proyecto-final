@@ -63,10 +63,9 @@ class Competencias extends Component {
         
     }
 
-    //Metodo para visualizar las caracteristicas de dicha competencia
-    public function verCompetencia($id)
-    {
-        $this->emit('');
+    // Metodo para visualizar las caracteristicas de dicha competencia
+    public function verCompetencia($id) {
+        return redirect()->route('competencias.ver-una-competencia', $id);
     }
 
     //metodo para eliminar una competencia
