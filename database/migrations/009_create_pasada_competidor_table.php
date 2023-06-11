@@ -9,11 +9,13 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('poomsaes', function (Blueprint $table) {
+        Schema::create('pasada_competidor', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->foreignId('id_categoria')->constrained('categorias');
-            $table->timestamps();
+            $table->float('calificacion');
+            $table->float('tiempo_presentacion');
+            $table->foreignId('id_competidor')->constrained('users');
+            $table->foreignId('id_poomsae')->constrained('poomsaes');
+            $table->float('votos_jurado');
         });
     }
 

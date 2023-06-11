@@ -11,13 +11,12 @@ use App\Models\Competencia;
 use App\Models\Categoria;
 use App\Models\Team;
 use App\Models\SolicitudActualizacion;
+use App\Models\CompetenciaCompetidor;
 use Spatie\Permission\Models\Role; // Spatie
 
-class CompetidorController extends Controller
-{
+class CompetidorController extends Controller {
 
-    public function __construct()
-    {
+    public function __construct() {
         // Para proteger todas las rutas(index, show, create...) de los roles que no tienen permisos:
         // $this->middleware('can:competidores.index');
 
@@ -30,21 +29,18 @@ class CompetidorController extends Controller
     }
 
     // Mostramos todos los competidores que estan en la bd.
-    public function index()
-    {
+    public function index() {
         $competidores = Competidor::get();
         return view('competidores.index', ['competidores' => $competidores]);
     }
 
     // Mostramos el competidor recibido en el parametro.
-    public function show(Competidor $competidor)
-    {
+    public function show(Competidor $competidor) {
         return view('competidores.show', ['competidor' => $competidor]);
     }
 
     // Mostramos la vista del formulario con create.
-    public function create()
-    {
+    public function create() {
         $competidor = DB::table('users')
             ->select('id', 'gal', 'graduacion', 'id_escuela') // Especifica las columnas que deseas seleccionar
             ->where('id', 10)    // Agrega tus condiciones de filtrado
@@ -60,8 +56,7 @@ class CompetidorController extends Controller
     }
 
     // Buscar pais precargado en la base de datos
-    public function buscarPaises(Request $request)
-    {
+    public function buscarPaises(Request $request) {
 
         $search = $request->search;
 
@@ -75,8 +70,7 @@ class CompetidorController extends Controller
     }
 
     // Buscar colegios 
-    public function buscarColegio(Request $request)
-    {
+    public function buscarColegio(Request $request) {
         $search = $request->search;
 
         if ($search == '') {
@@ -97,8 +91,7 @@ class CompetidorController extends Controller
 
 
     // Si ya esta cargado el competidor, se autocompleta el formulario
-    public function buscarCompetidor(Request $request)
-    {
+    public function buscarCompetidor(Request $request) {
 
         $columnName = 'du';
         $data = $request->input('du');
@@ -119,15 +112,28 @@ class CompetidorController extends Controller
     }
 
     // Inscribir competidor
-    public function inscripcion()
-    {
+    public function inscripcion() {
+        // Obtener el usuario autenticado
         $user = Auth::user();
+            
+        // Obtener todos los equipos
         $teams = Team::all();
+
+        // Obtener la categoria del usuario
+        $todasCategorias = Categoria::all();
         $userCategoria = Categoria::find($user->id_categoria);
+
+        // Obtener el equipo del usuario
         $userTeam = Team::find($user->id_escuela);
+
+        // Obtener las competencias y categorias asociadas
         $competencia_categoria = DB::table('competencia_categoria')
             ->select('id_competencia', 'id_categoria')->get();
+
+        // Obtener la competencia actual
         $competencia = Competencia::find($competencia_categoria[0]->id_competencia);
+
+        // Obtener las categorias asociadas a las competencias
         foreach ($competencia_categoria as $clave => $valorId) {
             foreach (Categoria::all() as $categoria => $valor) {
                 if ($valor->id == $valorId->id_categoria) {
@@ -135,34 +141,45 @@ class CompetidorController extends Controller
                 }
             }
         }
-        return view('/competidores/inscripcion', compact('competencia', 'categorias', 'userTeam', 'userCategoria', 'user', 'teams'));
+        return view('/competidores/inscripcion', compact('competencia', 'categorias', 'userTeam', 'userCategoria', 'user', 'teams', 'todasCategorias'));
     }
 
-    public function inscribir(Request $request, Competidor $competidor)
-    {
+    public function inscribir(Request $request, Competidor $competidor) {
         $user = Auth::user();
         $userCategoria = Categoria::find($user->id_categoria);
         $userTeam = Team::find($user->id_escuela);
-        dd($user);
+        $competidor = new CompetenciaCompetidor();
+        $competidor->id_competidor = $user->id; // ID del competidor
+        $competidor->id_poomsae = 1; // ID del poomsae
+        $competidor->calificacion = 0; // Calificación
+        $competidor->tiempo_presentacion = 0; // Tiempo de presentación
+        $competidor->inscripto = null; // Fecha actual
+
+        $competidor->save();
+        dd($competidor);
     }
 
-    public function actualizarEscuela(Request $request)
-    {
+    public function actualizarEscuela(Request $request) {
         $user = Auth::user();
         // Obtener los valores del formulario
         $usuarioId = $user->id;
-        $informacionActual = $request->input('informacion_actual');
         $informacionNueva = $request->input('informacion_nueva');
-        $descripcion = 'Cambio de escuela';
-        // Crear un array con los datos a devolver
 
+        // Verificar si el usuario ya tiene una solicitud de actualización de colegio activa
+        $solicitudExistente = SolicitudActualizacion::where('usuario_id', $user->id)
+            ->where('aprobada', '0')
+            ->first();
+
+        if ($solicitudExistente) {
+            // Si el usuario ya tiene una solicitud activa, devolver un mensaje de error
+            return response()->json(['error' => 'Ya tienes una solicitud de actualización de colegio pendiente'], 422);
+        }
 
         // Crear una nueva instancia del modelo SolicitudActualizacion
         $solicitud = new SolicitudActualizacion();
-        $solicitud->usuario_id = $usuarioId;
-        $solicitud->descripcion = $descripcion;
-        $solicitud->informacion_actual = $informacionActual;
-        $solicitud->informacion_nueva = $informacionNueva;
+        $solicitud->id_user = $usuarioId;
+        $solicitud->id_colegio_nuevo = $informacionNueva;
+        $solicitud->graduacion_nueva = 'hola';
 
         // Intentar guardar la solicitud en la base de datos
         try {
@@ -177,12 +194,14 @@ class CompetidorController extends Controller
 
         // Devolver una respuesta exitosa
         return response()->json(['message' => 'Solicitud de actualización creada correctamente']);
-        
+    }
+
+    public function actualizarGraduacion(Request $request) {
+        return response()->json($request->input('informacion_nueva'));
     }
 
     // Guardamos al competidor del formulario en la bd.
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
             'id_user' => ['required'],
             'gal' => ['required', 'unique:competidores'],
@@ -213,14 +232,12 @@ class CompetidorController extends Controller
     }
 
     // Mostramos el formulario de edicion.
-    public function edit(Competidor $competidor)
-    {
+    public function edit(Competidor $competidor) {
         return view('competidores.edit', ['competidor' => $competidor]);
     }
 
     // Actualizamos el elemento en la bd.
-    public function update(Request $request, Competidor $competidor)
-    {
+    public function update(Request $request, Competidor $competidor) {
         $request->validate([
             'id_user' => ['required'],
             'gal' => ['required', 'unique:competidores'],
@@ -251,8 +268,7 @@ class CompetidorController extends Controller
     }
 
     // Eliminar competidor de la bd.
-    public function destroy(Competidor $competidor)
-    {
+    public function destroy(Competidor $competidor) {
         $competidor->delete();
         return to_route('competidores.index')->with('success', 'Competidor eliminado correctamente.');
     }
@@ -260,9 +276,9 @@ class CompetidorController extends Controller
 
     // Metodos personalizados.
 
-    public function imprimirDatos()
-    {
+    public function imprimirDatos() {
         $competidores = Competidor::all();
         return $competidores;
     }
+    
 }

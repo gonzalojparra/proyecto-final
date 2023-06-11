@@ -20,7 +20,19 @@ class CompetenciasSeeder extends Seeder {
             'invitacion' => 'cosas',
             'descripcion' => 'Compe complicadisima, no se anoten',
             'fecha_inicio' => '2023-06-20',
-            'fecha_fin' => '2023-06-30'
+            'fecha_fin' => '2023-06-30',
+            'estado' => 1
+        ]);
+
+        Competencia::create([
+            'titulo' => 'Compe super complicada guachin 2',
+            'flyer' => 'inserte link de flyer',
+            'bases' => 'Bases y condiciones',
+            'invitacion'=> 'Unite a esta compe amiguito!',
+            'descripcion' => 'Competicion para todos',
+            'fecha_inicio' => '2023-06-23',
+            'fecha_fin' => '2023-06-30',
+            'estado' => 1
         ]);
 
         DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 1)");

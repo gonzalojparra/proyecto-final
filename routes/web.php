@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Security;
+use App\Http\Livewire\Competencias\Competencias;
+use App\Http\Livewire\Competencias\VerUnaCompetencia;
 use Whoops\Run;
 
 /*
@@ -35,6 +37,8 @@ Route::get('/resultados', function () {
     return view('resultados');
 })->name('resultados');
 
+
+
 // Registro
 Route::get('/register', [UserController::class, 'create'])
     ->middleware(['guest'])
@@ -54,23 +58,39 @@ Route::middleware([
     Route::get('permisos', [Security\PermissionController::class, 'index'])->name('permisos.index');
 });
 
+
 // Middleware Admin
 Route::group(['middleware' => ['role:Admin']], function() {
     Route::get('roles', [Security\RolesController::class, 'index'])->name('roles.index');
     Route::view('/roles','roles.show')->name('roles');
     Route::view('/timer', 'timer')->name('timer');
+
 });
+
 
 // Competencias
 Route::view('competencias', 'competencias.index')->name('competencias.index');
+Route::view('/verCompetidores','competidores.tablaCompetidores')->name('tablaCompetidores');
 
+Route::get('/competencia/{competenciaId}', VerUnaCompetencia::class)->name('competencias.ver-una-competencia');
+
+/* Route::get('/competencia', function () {
+    return view('livewire.competencias.ver-una-competencia');
+})->name('competencias.ver-una-competencia'); */
 
 // Competidores
 Route::resource('competidores', CompetidorController::class);
 
 Route::post('/competidores/inscripcion', [CompetidorController::class, 'inscribir'])->name('competidores.inscripcion');
+Route::post('/competencia-id', [CompetidorController::class, 'inscribir'])->name('competencias.verUnaCompetencia');
 
 Route::post('/competidores/actualizar', [CompetidorController::class, 'actualizarEscuela'])->name('competidores.actualizarEscuela');
+Route::post('/competencia-id', [CompetidorController::class, 'actualizarEscuela'])->name('competidores.actualizarEscuela');
+
+Route::post('/competidores/actualizarGraduacion', [CompetidorController::class, 'actualizarGraduacion'])->name('competidores.actualizarGraduacion');
+Route::post('/competencia-id', [CompetidorController::class, 'actualizarGraduacion'])->name('competidores.actualizarGraduacion');
+
+Route::post('/competidores/actualizarGraduacion', [CompetidorController::class, 'actualizarGraduacion'])->name('competidores.actualizarGraduacion');
 
 Route::post('/competidores/create', [CompetidorController::class, 'buscarCompetidor'])->name('competidores.buscarCompetidor');
 
@@ -81,11 +101,13 @@ Route::post('/competidores/buscarColegio', [CompetidorController::class, 'buscar
 
 Route::post('/obtenerEscuelas',)->name('acciones.obtenerEscuelas');
 
+
 // Middleware Juez
 //Puntuador
 Route::group(['middleware' => ['role:Juez']], function() {
     Route::view('/competencias/puntuador','competencias.puntuador')->name('puntuador');
 });
+
 
 // TESTEOS
 Route::get('/test.{id}', [UserController::class, 'show']);

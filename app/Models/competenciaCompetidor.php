@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SolicitudActualizacion extends Model
+class CompetenciaCompetidor extends Model
 {
     use HasFactory;
-    protected $table = 'actualizaciones';
+    protected $table = 'competencia_competidor';
 
     protected $fillable = [
-        'id_user',
-        'id_colegio_nuevo',
-        'graduacion_nueva',
+        'id_competidor',
+        'id_poomsae',
+        'calificacion',
+        'tiempo_presentacion',
+        'inscripto',
         // Agrega aquí los nombres de los campos adicionales
     ];
-
-    // Puedes definir relaciones aquí si es necesario
 }
