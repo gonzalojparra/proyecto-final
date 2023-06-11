@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->foreignId('id_poomsae')->constrained('poomsaes');
             $table->float('calificacion')->nullable();
             $table->float('tiempo_presentacion')->nullable();
-            $table->timestamp('inscripto')->nullable(); // Para saber si el admin aprobo la inscripcion a la competencia.
+            $table->boolean('aprobado')->default(0); // Para saber si el admin aprobo la inscripcion a la competencia.
 
             $table->softDeletes();
             $table->timestamps();

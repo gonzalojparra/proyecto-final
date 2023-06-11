@@ -1,28 +1,4 @@
 <div class="info-competencia mt-6 mb-8">
-
-@if('{{$mensaje}}')
-<div id="alert-border-3" class="flex p-4 mb-4 text-green-800 border-t-4 border-green-300 bg-green-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800" role="alert">
-    <svg class="flex-shrink-0 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-    <div class="ml-3 text-sm font-medium">
-     Inscripción realizada correctamente
-    </div>
-    <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"  data-dismiss-target="#alert-border-3" aria-label="Close">
-      <span class="sr-only">Dismiss</span>
-      <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-    </button>
-</div>
-@else
-<div id="alert-border-2" class="flex p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800" role="alert">
-    <svg class="flex-shrink-0 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-    <div class="ml-3 text-sm font-medium">
-     Algo salio mal
-    </div>
-    <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"  data-dismiss-target="#alert-border-2" aria-label="Close">
-      <span class="sr-only">Dismiss</span>
-      <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-    </button>
-</div>
-@endif
     <div>
         <h1 class="text-6xl flex justify-center font-semibold dark:text-gray-400 ">{{ $data['titulo'] }}</h1>
     </div>
@@ -34,24 +10,24 @@
             <div class="data dark:text-gray-400 mb-2" style="height: 80%;">
                 <ul>
                     <li class="dark:bg-gray-800 dark:border-gray-700 rounded-md max-w-md p-2">
-                        <h1 class="text-lg font-semibold">Lugar</h1>
-                        {{ $data['titulo'] }}
-                    </li>
-                    <li class="dark:bg-gray-800 dark:border-gray-700 rounded-md max-w-md p-2 mt-4">
-                        <h1 class="text-lg font-semibold">Fecha apertura</h1>
-                        23/06/2023
-                    </li>
-                    <li class="dark:bg-gray-800 dark:border-gray-700 rounded-md max-w-md p-2 mt-4">
-                        <h1 class="text-lg font-semibold">Fecha cierre</h1>
-                        26/06/2023
-                    </li>
-                    <li class="dark:bg-gray-800 dark:border-gray-700 rounded-md max-w-md p-2 mt-4">
-                        <h1 class="text-lg font-semibold">Horario</h1>
-                        08:00 - 16:30
-                    </li>
-                    <li class="dark:bg-gray-800 dark:border-gray-700 rounded-md max-w-md p-2 mt-4">
                         <h1 class="text-lg font-semibold">Descripción</h1>
-                        Ta complicadísima wacho, no se anoten D:
+                        {{ $data['descripcion'] }}
+                    </li>
+                    <li class="dark:bg-gray-800 dark:border-gray-700 rounded-md max-w-md p-2 mt-4">
+                        <h1 class="text-lg font-semibold">Dia de inicio</h1>
+                        {{ $data['fecha_inicio'] }}
+                    </li>
+                    <li class="dark:bg-gray-800 dark:border-gray-700 rounded-md max-w-md p-2 mt-4">
+                        <h1 class="text-lg font-semibold">Dia de finalización</h1>
+                        {{ $data['fecha_fin'] }}
+                    </li>
+                    <li class="dark:bg-gray-800 dark:border-gray-700 rounded-md max-w-md p-2 mt-4">
+                        <h1 class="text-lg font-semibold">Cantidad de jueces</h1>
+                        {{ $data['cant_jueces'] }}
+                    </li>
+                    <li class="dark:bg-gray-800 dark:border-gray-700 rounded-md max-w-md p-2 mt-4">
+                        <h1 class="text-lg font-semibold">Invitación</h1>
+                        {{ $data['invitacion'] }}
                     </li>
                 </ul>
             </div>
@@ -64,7 +40,7 @@
                                 </span>
                             </button>
                              -->
-                    <button wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                    <button id="openModal" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                         Inscribirme
                     </button>
                     <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
@@ -80,14 +56,148 @@
 
 </div>
 
-@livewire('competencias.formulario-inscripcion')
 
 <div class="resultados-competencia" style="margin-top: 5rem;">
     <div class="">
         <h1 class="text-6xl flex justify-center font-semibold dark:text-gray-400">Resultados</h1>
     </div>
-    @livewire('competidores.tabla-competidores')
+    @livewire('competidores.competencia-competidor', ['competenciaId' => $data['id']] )
 </div>
 
+<form id="inscripcion" wire:model='open' class="bg-white dark:bg-gray-900" method="POST">
+    @csrf
+    <!-- Modal con los datos del competidor/juez -->
+    <div id="myModal" class="fixed inset-0 hidden items-center rounded-lg justify-center z-50 m-5 border-1">
+        <div class="bg-white dark:bg-gray-900 rounded-lg">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                @role('Competidor')
+                <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
+                <div class="mb-4">
+                    <label for="nameTeam" class="block text-gray-700 dark:text-gray-300">Escuela: </label>
+                    <input id="nameTeam" type="text" class="w-full border-gray-300 rounded-md p-2" wire:model="nombreEscuela" readonly>
+                    <button id="actualizarEscuelaBtn" type="button" class="inline-flex items-center mt-1 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                        Pedir Actualizacion
+                    </button>
+                </div>
+                <div class="mb-4">
+                    <label for="graduacion" class="block text-gray-700 dark:text-gray-300">Graduacion:</label>
+                    <input id="graduacion" type="text" class="w-full border-gray-300 rounded-md p-2" wire:model="graduacion" readonly>
+                    <button id="actualizarGraduacionBtn" type="button" class="inline-flex items-center mt-1 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                        Pedir Actualizacion
+                    </button>
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 dark:text-gray-300">Email:</label>
+                    <input id="email" type="email" class="w-full border-gray-300 rounded-md p-2" wire:model="email" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="nombre" class="block text-gray-700 dark:text-gray-300">Nombre:</label>
+                    <input id="nombre" type="Nombre" class="w-full border-gray-300 rounded-md p-2" wire:model="nombre" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="apellido" class="block text-gray-700 dark:text-gray-300">Apellido:</label>
+                    <input id="apellido" type="Apellido" class="w-full border-gray-300 rounded-md p-2" wire:model="apellido" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="dni" class="block text-gray-700 dark:text-gray-300">DNI:</label>
+                    <input id="dni" type="email" class="w-full border-gray-300 rounded-md p-2" wire:model="du" readonly>
+                </div>
+                @endrole
+                @role('Juez')
+                <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
+                <div class="mb-4">
+                    <label for="nameTeam" class="block text-gray-700 dark:text-gray-300">Escuela: </label>
+                    <input id="nameTeam" type="text" class="w-full border-gray-300 rounded-md p-2" wire:model="nombreEscuela" readonly>
+                    <button id="actualizarEscuela" type="button" class="inline-flex items-center mt-1 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                        Pedir Actualizacion
+                    </button>
+                </div>
+                <div class="mb-4 w-md">
+                    <label for="email" class="block text-gray-700 dark:text-gray-300">Email:</label>
+                    <input id="email" type="email" class="w-full border-gray-300 rounded-md p-2" wire:model="email" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="nombre" class="block text-gray-700 dark:text-gray-300">Nombre:</label>
+                    <input id="nombre" type="Nombre" class="w-full border-gray-300 rounded-md p-2" wire:model="nombre" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="apellido" class="block text-gray-700 dark:text-gray-300">Apellido:</label>
+                    <input id="apellido" type="Apellido" class="w-full border-gray-300 rounded-md p-2" wire:model="apellido" readonly>
+                </div>
+                @endrole
+                <div class="flex justify-end">
+                    <button id="closeModal" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                        Cerrar
+                    </button>
+                    <button id="confirmModal" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150">
+                        Confirmar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
+<!-- Cambiar escuela-->
+<form id="actualizarEscuela" action="{{route('competidores.actualizarEscuela')}}" method="POST">
+    @csrf
+    <div id="modalEscuela" class="fixed inset-0 flex hidden items-center justify-center z-60 m-5 border-1 ">
+        <div class=" dark:bg-gray-700 bg-gray-700 rounded-lg">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
+                <div class="mb-4">
+                    <label for="actualEscuela" class="block text-gray-700 dark:text-gray-300">Escuela: </label>
+                    <input id="actualEscuela" type="text" class="w-full border-gray-300 rounded-md p-2" wire:model="nombreEscuela" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="nuevaEscuela" class="block text-gray-700 dark:text-gray-300">Cambio a:</label>
+                    <select name="nuevaEscuela" id="escuela" class="form-select">
 
+                    </select>
+                </div>
+                <div class="flex justify-end">
+                    <button id="closeModalEscuela" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                        Cerrar
+                    </button>
+                    <button id="confirmModalEscuela" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150">
+                        Confirmar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@role('Competidor')
+<form id="actualizarGraduacion" action="{{route('competidores.actualizarGraduacion')}}" method="POST">
+    @csrf
+    <div id="modalGraduacion" class="fixed inset-0 flex hidden items-center justify-center z-60 m-5 border-1">
+        <div class="bg-white dark:bg-gray-900">
+            <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6">
+                <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
+                <div class="mb-4">
+                    <label for="actualGraduacion" class="block text-gray-700 dark:text-gray-300">Graduacion: </label>
+                    <input id="actualGraduacion" type="text" class="w-full border-gray-300 rounded-md p-2" wire:model="{{ $categoria->graduacion }}" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="nuevaGraduacion" class="block text-gray-700 dark:text-gray-300">Cambio a:</label>
+                    <select name="nuevaGraduacion" id="graduacionNueva" class="form-select">
+                        @foreach($todasCategorias as $categorias)
+                        <option wire:model="{{ $categorias->id }}">{{ $categorias->graduacion }}</option>
+                        @endforeach
+                    </select>
+
+                </div>
+                <div class="flex justify-end">
+                    <button id="closeModalGraduacion" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                        Cerrar
+                    </button>
+                    <button id="confirmModalGraduacion" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150">
+                        Confirmar
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+@endrole

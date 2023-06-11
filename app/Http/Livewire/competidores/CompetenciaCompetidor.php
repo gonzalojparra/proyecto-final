@@ -2,15 +2,11 @@
 
 namespace App\Http\Livewire\Competidores;
 
-use App\Models\User;
 use Livewire\Component;
-use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
 
-//FALTA: traer escuelas para filtrar por escuela y poder ordenar por escuela y categoria (agregar columna escuela)
-
-class TablaCompetidores extends Component {
+class CompetenciaCompetidor extends Component {
 
     protected $competidor = "";
     public $filtro;
@@ -20,21 +16,35 @@ class TablaCompetidores extends Component {
     public $graduaciones = [];
     public $escuelas = [];
     public $categoriaElegida = 'ninguna';
-    public $graduacionElegida ='ninguna';
+    public $graduacionElegida = 'ninguna';
     public $escuelaElegida = 'ninguna';
     public $orden = 'id';
     public $direccion = 'asc';
-
     protected $listeners = ['render' => 'render'];
+    public $competenciaId;
 
-    public function render()
-    {
-        // dd($this->categoriaElegida);
-        $usuarios = User::where('name', 'like', '%' . $this->filtro . '%')
-            ->orWhere('apellido', 'like', '%' . $this->filtro . '%')
-            ->orderBy($this->orden, $this->direccion)
-            ->get(); // Obtenemos todos los usuarios
+    // Obtenemos el id de la competencia que se manda vía URL desde la vista de competencias
+    public function mount($competenciaId) {
+        $this->competenciaId = $competenciaId;
+    }
 
+    public function render() {
+        $compeCompetidorCategoriaQuery = DB::table('competencia_competidor')
+            ->where('id_competencia', $this->competenciaId)
+            ->get();
+        $compeCompetidorCategoria = $compeCompetidorCategoriaQuery->toArray();
+
+        $usuarios = array();
+        foreach ($compeCompetidorCategoria as $competenciaCompetidor) {
+            $usuario = User::where('id', $competenciaCompetidor->id_competidor)
+                ->where('name', 'like', '%' . $this->filtro . '%')
+                ->where('apellido', 'like', '%' . $this->filtro . '%')
+                ->orderBy($this->orden, $this->direccion)
+                ->get(); // Obtenemos todos los usuarios
+            for( $i = 0; $i < count($usuario); $i++){
+                array_push($usuarios, $usuario[$i]);
+            }
+        }
         $competidoresVerificados = array();
         foreach ($usuarios as $usuario) {
             if ($usuario['verificado'] == 1) {
@@ -59,17 +69,13 @@ class TablaCompetidores extends Component {
             }
         }
         $competidores = $this->filtrarCompetidores($this->categoriaElegida, $this->graduacionElegida, $this->escuelaElegida, $competidoresVerificados);
-        //    dd($usuarios);
-        /* $usuarios = User::where('name', 'like', '%' . $this->filtro . '%')->orWhere('apellido', 'like', '%' . $this->filtro . '%')->orWhere('email', 'like', '%' . $this->filtro . '%')
-            ->get(); */
 
-        return view('livewire.competidores.tabla-competidores', compact('competidores'));
+        return view('livewire.competidores.competencia-competidor', compact('competidores'));
     }
 
-    public function ordenar($filtroOrden){
-        if($this->orden == $filtroOrden){
-
-            if($this->direccion == 'asc'){
+    public function ordenar($filtroOrden) {
+        if ($this->orden == $filtroOrden) {
+            if ($this->direccion == 'asc') {
                 $this->direccion = 'desc';
             } else {
                 $this->direccion = 'asc';
@@ -80,13 +86,12 @@ class TablaCompetidores extends Component {
         }
     }
 
-    public function obtenerCategoría($competidor)
-    {
+    public function obtenerCategoría($competidor) {
         $categoria = '';
         $fechaNac = $competidor['fecha_nac'];
         $fechaActual = time();
         $fechaNac = strtotime($fechaNac);
-        $edad = round(($fechaActual - $fechaNac) / 31563000);
+        $edad = round( ($fechaActual - $fechaNac) / 31563000 );
         if ($edad >= 8.0 && $edad <= 11.0) {
             $categoria = 'Infantiles';
         }
@@ -108,11 +113,10 @@ class TablaCompetidores extends Component {
         return $categoria;
     }
 
-    public function filtrarCompetidores($categoria, $graduacion, $escuela, $competidores)
-    {
+    public function filtrarCompetidores($categoria, $graduacion, $escuela, $competidores) {
         $listaUsuarios = $competidores;
         $usuariosFiltrados = [];
-        if ($this->categoriaElegida != 'ninguna'|| $this->graduacionElegida != 'ninguna' || $this->escuelaElegida != 'ninguna') {
+        if ($this->categoriaElegida != 'ninguna' || $this->graduacionElegida != 'ninguna' || $this->escuelaElegida != 'ninguna') {
             foreach ($listaUsuarios as $usuario) {
                 if ($categoria != 'ninguna') {
                     if ($usuario['categoria'] == $categoria) {
@@ -158,10 +162,10 @@ class TablaCompetidores extends Component {
                     }
                 }
             }
-
-        }else {
+        } else {
             $usuariosFiltrados = $competidores;
         }
         return $usuariosFiltrados;
     }
+
 }
