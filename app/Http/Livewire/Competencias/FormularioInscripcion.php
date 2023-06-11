@@ -23,8 +23,8 @@ class FormularioInscripcion extends Component
     public $du;
     public $graduacion;
     public $idUsuario;
-    public $editarGraduacion = 'readonly';
-    public $editarEscuela = 'readonly';
+    public $editarGraduacion = 'disable';
+    public $editarEscuela = 'disable';
     public $categoria = 1;
     public $poomsae = 1;
     public $idCompetencia = 1;
@@ -54,6 +54,13 @@ class FormularioInscripcion extends Component
         "9 DAN, Negro"
     ];
 
+    //falta 
+    //deshabilitar el select (no me salio)
+    //enviar solicitud de edicion al admin
+    //si es juez, cargar datos a competencia_juez
+    //si es competidor, cargar datos a competencia_competidor
+    //enviar solicitud de aprobación de inscripción al admin
+    //sortear los poomsaes
 
     protected $listeners = ['abrirModal' => 'abrirModal'];
 
