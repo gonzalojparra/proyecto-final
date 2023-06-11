@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->string('titulo');
             $table->string('flyer');
             $table->string('bases');
+            $table->string('invitacion');
             $table->string('descripcion');
             $table->date('fecha_inicio');
             $table->date('fecha_fin');

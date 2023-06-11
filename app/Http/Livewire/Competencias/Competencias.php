@@ -1,12 +1,9 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Competencias;
 
 use App\Models\Competencia;
 use Livewire\Component;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
 
 
 class Competencias extends Component {
@@ -15,7 +12,8 @@ class Competencias extends Component {
     public $filtro;
     public $filtroFecha = "Todos";
 
-    // protected $listeners = ['render'=>'render'];
+
+    protected $listeners = ['recarga'=>'render'];
 
     public function render() {
         $competencias = Competencia::where('titulo', 'like', '%' . $this->filtro . '%')->get();
@@ -48,5 +46,21 @@ class Competencias extends Component {
         }
 
         return view('livewire.competencias.index', ['competencias' => $competenciasPedidas]);
+    }
+
+    public function agregarCompetencia()
+    {
+        $this->emit('abrirModal');
+
+    }
+
+    public function mostrarCompetencia($id)
+    {
+        $this->emit('mostrarDatos',$id);
+    }
+
+    public function delete($id)
+    {
+        Competencia::destroy($id);
     }
 }

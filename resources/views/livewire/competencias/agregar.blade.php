@@ -13,38 +13,38 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}">
+        <form wire:submit.prevent="create" enctype="multipart/form-data">
             @csrf
 
             <div>
-                <x-label for="nombre" value="{{ __('Nombre') }}" />
-                <x-input id="nombre" class="block mt-1 w-full" type="text" name="nombre" :value="old('nombre')" required autocomplete="username" />
-                <div for="Nombre" id="NombreFeedback" class="text-base">&nbsp;</div>
+                <x-label for="titulo">Titulo</x-label>
+                <x-input class="block mt-1 w-full" wire:model="titulo" type="text" id="titulo" />
+                @error('titulo') <span class="error">{{ $message }}</span> @enderror
             </div>
             <div>
-                <x-label for="descripcion" value="{{ __('Descripcion') }}" />
-                <x-input id="descripcion" class="block mt-1 w-full" type="text" name="descripcion" :value="old('descripcion')" required autocomplete="username" />
-                <div for="descripcion" id="emailFeedback" class="text-base">&nbsp;</div>
+                <x-label for="descripcion">descripcion</x-label>
+                <x-input class="block mt-1 w-full" wire:model="descripcion" type="text" id="descripcion" />
+                @error('descripcion') <span class="error">{{ $message }}</span> @enderror
             </div>
             <div>
-                <x-label for="fecha_inicio" value="{{ __('Fecha Inicio') }}" />
-                <x-input id="fecha_inicio" class="block mt-1 w-full" type="date" name="fecha_inicio" :value="old('fecha_inicio')" required autocomplete="username" />
-                <div for="fecha_inicio" id="emailFeedback" class="text-base">&nbsp;</div>
+                <x-label for="fecha_inicio">fecha_inicio</x-label>
+                <x-input class="block mt-1 w-full" wire:model="fecha_inicio" type="date" id="fecha_inicio" />
+                @error('fecha_inicio') <span class="error">{{ $message }}</span> @enderror
             </div>
             <div>
-                <x-label for="fecha_fin" value="{{ __('Fecha Fin') }}" />
-                <x-input id="fecha_fin" class="block mt-1 w-full" type="date" name="fecha_fin" :value="old('fecha_fin')" required autocomplete="username" />
-                <div for="fecha_fin" id="emailFeedback" class="text-base">&nbsp;</div>
+                <x-label for="fecha_fin">fecha_fin</x-label>
+                <x-input class="block mt-1 w-full" wire:model="fecha_fin" type="date" id="fecha_fin" />
+                @error('fecha_fin') <span class="error">{{ $message }}</span> @enderror
             </div>
             <div class="mt-4">
-                <x-label for="invitacioin" value="{{ __('Invitacioin') }}" />
-                <x-input id="invitacioin" class="block mt-1 w-full" type="file" name="invitacioin" required autocomplete="current-invitacioin" />
-                <div for="pasword" id="contraseniaFeedback" class="text-base">&nbsp;</div>
+                <x-label for="bases">Bases</x-label>
+                <x-input class="block mt-1 w-full" wire:model="bases" type="file" id="bases" />
+                @error('bases') <span class="error">{{ $message }}</span> @enderror
             </div>
             <div class="mt-4">
-                <x-label for="bases" value="{{ __('Bases y Condiciones') }}" />
-                <x-input id="bases" class="block mt-1 w-full" type="file" name="bases" required autocomplete="current-bases" />
-                <div for="pasword" id="contraseniaFeedback" class="text-base">&nbsp;</div>
+                <x-label for="flyer">flyer</x-label>
+                <x-input class="block mt-1 w-full" wire:model="flyer" type="file" id="flyer" />
+                @error('flyer') <span class="error">{{ $message }}</span> @enderror
             </div>
             <div class="mt-4">
                 <x-label for="invitacioin" value="{{ __('Invitacioin') }}" />
@@ -54,10 +54,10 @@
 
             <div class="flex items-center justify-end mt-4">
 
-                <x-button class="ml-4">
+                <x-button type='submit' class="ml-4">
                     {{ __('Guardar') }}
                 </x-button>
-                <x-button class="ml-4 bg-red-600">
+                <x-button type='reset' class="ml-4 bg-red-600" wire:click="cerrarModal">
                     {{ __('Cancelar') }}
                 </x-button>
             </div>
