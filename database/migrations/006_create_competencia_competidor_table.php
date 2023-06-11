@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->foreignId('id_competencia')->constrained('competencias');
             $table->foreignId('id_categoria')->constrained('categorias');
             $table->foreignId('id_poomsae')->constrained('poomsaes');
-            $table->float('calificacion');
-            $table->float('tiempo_presentacion');
+            $table->float('calificacion')->nullable();
+            $table->float('tiempo_presentacion')->nullable();
             $table->timestamp('inscripto')->nullable(); // Para saber si el admin aprobo la inscripcion a la competencia.
 
             $table->softDeletes();

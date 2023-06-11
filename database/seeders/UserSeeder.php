@@ -148,6 +148,8 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Daniela',
                 'apellido' => 'Martinez',
+                'password'=>'12345678',
+                'du'=>'12345678',
                 'genero' => 'Femenino',
                 'email' => 'dani@example.com',
                 'id_escuela' => 4,

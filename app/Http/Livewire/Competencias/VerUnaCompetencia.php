@@ -31,6 +31,8 @@ class VerUnaCompetencia extends Component
     public $graduaciones;
     public $dato;
     public $competenciaId;
+    public $mensaje;
+    protected $listeners = ['confirmacion'];
 
     public function mount($competenciaId){
         $this->competenciaId = $competenciaId;
@@ -48,60 +50,15 @@ class VerUnaCompetencia extends Component
         ]);
     }
 
-    public function mostrarDatos($idUsuario){
-        $usuario = User::find($idUsuario);
-        $this -> nombre = $usuario -> name;
-        $this -> apellido = $usuario -> apellido;
-        $this -> email = $usuario -> email;
-        $this -> escuelaId = $usuario -> id_escuela;
-        $this -> nombreEscuela = Team::find($usuario->id_escuela)->pluck('name');
-        $this -> categoria = $this -> calcularCategoria($usuario->fecha_nac);
-        $this -> graduacion = $usuario -> graduacion;
-        $this -> du = $usuario -> du;
-        
-        $this -> open = true;
+   
+
+    public function mostrarInscripcion($idCompetencia){
+
+        $this->emit('abrirModal', $idCompetencia);
     }
 
-    private function calcularCategoria($fechaNac){
-        $categoria = '';
-        $fechaActual = time();
-        $fechaNac = strtotime($fechaNac);
-        $edad = round(($fechaActual - $fechaNac) / 31563000);
-        if ($edad >= 8.0 && $edad <= 11.0) {
-            $categoria = 'Infantiles';
-        }
-        if ($edad >= 12.0 && $edad <= 14.0) {
-            $categoria = 'Cadete';
-        }
-        if ($edad >= 15.0 && $edad <= 17.0) {
-            $categoria = 'Juveniles';
-        }
-        if ($edad >= 18.0 && $edad <= 30.0) {
-            $categoria = 'Senior1';
-        }
-        if ($edad >= 31.0 && $edad <= 50.0) {
-            $categoria = 'Senior2-master1';
-        }
-        if ($edad >= 50.0) {
-            $categoria = 'Master2';
-        }
-        return $categoria;
+    public function confirmacion($boolean){
+            $this -> mensaje = false;
     }
-
-    public function inscribir(Request $request, Competidor $competidor) {
-        $user = Auth::user();
-        $userCategoria = Categoria::find($user->id_categoria);
-        $userTeam = Team::find($user->id_escuela);
-        $competidor = new CompetenciaCompetidor();
-        $competidor->id_competidor = $user->id; // ID del competidor
-        $competidor->id_poomsae = 1; // ID del poomsae
-        $competidor->calificacion = 0; // Calificación
-        $competidor->tiempo_presentacion = 0; // Tiempo de presentación
-        $competidor->inscripto = null; // Fecha actual
-
-        $competidor->save();
-        dd($competidor);
-    }
-
 
 }
