@@ -4,7 +4,7 @@
     </div>
     <div class="datos-competencia gap-x-2 flex flex-row justify-center mt-6">
         <div class="flyer max-w-sm mr-4">
-            <img src="https://img.pikbest.com/backgrounds/20190415/taekwondo-competition-background-image_1811499.jpg!w700wp">
+        <img class="rounded-t-lg w-auto" src="{{ $data['flyer'] }}" alt="flyer" />
         </div>
         <div class="flex flex-col">
             <div class="data dark:text-gray-400 mb-2" style="height: 80%;">
