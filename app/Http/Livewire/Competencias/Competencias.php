@@ -68,6 +68,10 @@ class Competencias extends Component {
         $this->emit('mostrarDatos',$id);
     }
 
+    public function verCompetencia($id) {
+        return redirect()->route('competencias.ver-una-competencia', $id);
+    }
+
     public function delete($id)
     {
         Competencia::destroy($id);
