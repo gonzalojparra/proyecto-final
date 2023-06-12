@@ -77,13 +77,10 @@ class FormularioInscripcion extends Component
     ];
     //falta 
     //deshabilitar el select (no me salio)
-    //enviar solicitud de edicion al admin -> esto se saca desde la vista del admin con el atributo "inscripto"
-    //si es juez, cargar datos a competencia_juez
-    //si es competidor, cargar datos a competencia_competidor 
     //enviar solicitud de aprobación de inscripción al admin -> esto se saca de la vista del admin, habría que agregar dos atributos con timestamp
-    // "modificacion" y "ultima_modificacion"
-    //sortear los poomsaes -> HECHO
-    //resolver la tabla de categorias para sacar de ahi el id
+    // "modificacion" y "ultima_modificacion" (BACKEND)
+    //resolver la tabla de categorias para sacar de ahi el id (BACKEND)
+    //agregar los poomsaes faltantes a la bd  (BACKEND)
     //obtener el id de la competencia
     //agregar el GAL si se modifica el cinturon a negro
 

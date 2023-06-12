@@ -67,6 +67,7 @@
     @livewire('competidores.competencia-competidor', ['competenciaId' => $data['id']] )
 </div>
 
+<!-- ESTE FORM HACE FALLAR LA VISTA -->
 <form id="inscripcion" wire:model='open' class="bg-white dark:bg-gray-900" method="POST">
     @csrf
     <!-- Modal con los datos del competidor/juez -->
