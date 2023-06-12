@@ -12,7 +12,7 @@
                     <select id="nameTeam" type="text" class="w-full border-gray-300 rounded-md p-2" wire:model="escuela" {{$editarEscuela}}>
                         <option>{{$escuela}}</option>
                         @foreach($escuelas as $unaEscuela)
-                        <option>{{$unaEscuela}}</option>
+                        <option>{{$unaEscuela['name']}}</option>
                         @endforeach
                     </select>
                     <button wire:click="editar('escuela')" id="actualizarEscuelaBtn" type="button" class="inline-flex items-center mt-1 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
@@ -24,7 +24,7 @@
                     <label for="graduacion" class="block text-gray-700 dark:text-gray-300">Graduacion:</label>
                     <select id="graduacion" type="text" class="w-full border-gray-300 rounded-md p-2" wire:model="graduacion" {{$editarGraduacion}}>
                         <option>{{$graduacion}}</option>
-                        @foreach($graduaciones as $unaGraduacion)
+                        @foreach($graduacionesCompetidor as $unaGraduacion)
                         <option>{{$unaGraduacion}}</option>
                         @endforeach
                     </select>

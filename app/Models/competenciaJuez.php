@@ -5,19 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CompetenciaCompetidor extends Model {
+class CompetenciaJuez extends Model
+{
     use HasFactory;
+    protected $table = 'competencia_juez';
 
-    protected $table = 'competencia_competidor';
     protected $fillable = [
-        'id_competidor',
+        'id_juez',
         'id_competencia',
-        'id_poomsae',
-        'calificacion',
-        'tiempo_presentacion',
-        'aprobado',
-
+        'inscripto',
         // Agrega aquí los nombres de los campos adicionales
     ];
-
 }
