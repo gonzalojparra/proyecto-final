@@ -36,17 +36,18 @@ class FormularioInscripcion extends Component
     public $botonEscuela;
     public $botonGraduacion;
     public $escuelas;
+    public $graduacionesCompetidor;
     public $graduaciones = [
-        "1 GUP, Rojo borde negro",
-        "2 GUP, Rojo",
-        "3 GUP, Azul borde rojo",
-        "4 GUP, Azul",
-        "5 GUP, Verde borde azul",
-        "6 GUP, Verde",
-        "7 GUP, Amarillo borde verde",
-        "8 GUP, Amarillo",
-        "9 GUP, Blanco borde amarillo",
         "10 GUP, Blanco",
+        "9 GUP, Blanco borde amarillo",
+        "8 GUP, Amarillo",
+        "7 GUP, Amarillo borde verde",
+        "6 GUP, Verde",
+        "5 GUP, Verde borde azul",
+        "4 GUP, Azul",
+        "3 GUP, Azul borde rojo",
+        "2 GUP, Rojo",
+        "1 GUP, Rojo borde negro",
         "1 DAN, Negro",
         "2 DAN, Negro",
         "3 DAN, Negro",
@@ -77,8 +78,7 @@ class FormularioInscripcion extends Component
     ];
     //falta 
     //deshabilitar el select (no me salio)
-    //enviar solicitud de aprobación de inscripción al admin -> esto se saca de la vista del admin, habría que agregar dos atributos con timestamp
-    // "modificacion" y "ultima_modificacion" (BACKEND)
+    //comparar datos del render con datos despues de enviar formulario, si son distintos generar una actualizacion
     //resolver la tabla de categorias para sacar de ahi el id (BACKEND)
     //agregar los poomsaes faltantes a la bd  (BACKEND)
     //obtener el id de la competencia
@@ -86,13 +86,23 @@ class FormularioInscripcion extends Component
 
     protected $listeners = ['abrirModal' => 'abrirModal'];
 
+    public function mount($competenciaId) {
+        $this->idCompetencia = $competenciaId;
+    }
+
     public function render()
     {
+        $this->graduacionesDisponibles();
         // $this->sortPoomsae( "3 GUP, Azul borde rojo",1);
         $this->botonEscuela = 'Actualizar';
         $this->botonGraduacion = 'Actualizar';
         $this->escuelas = Team::all()->pluck('name');
         return view('livewire.competencias.formulario-inscripcion');
+    }
+
+    public function graduacionesDisponibles(){
+        $idGraduacion = array_search($this->graduacion, $this->graduaciones)+1;
+        $this->graduacionesCompetidor = array_slice($this->graduaciones, $idGraduacion, true);
     }
 
     public function create()
@@ -206,16 +216,16 @@ class FormularioInscripcion extends Component
         $graduacionCompetidor = array_search($graduacion, $this->graduaciones);
         switch ($graduacionCompetidor) {
             case 0:
-                $this->poomsae = rand(3, 8);
+                    $this->poomsae = 1;
                 break;
             case 1:
-                $this->poomsae = rand(3, 8);
+                $this->poomsae = rand(1, 3);
                 break;
             case 2:
-                $this->poomsae = rand(3, 8);
+                $this->poomsae = rand(1, 3);
                 break;
             case 3:
-                $this->poomsae = rand(1, 6);
+                $this->poomsae = rand(1, 3);
                 break;
             case 4:
                 $this->poomsae = rand(1, 6);
@@ -224,16 +234,16 @@ class FormularioInscripcion extends Component
                 $this->poomsae = rand(1, 6);
                 break;
             case 6:
-                $this->poomsae = rand(1, 3);
+                $this->poomsae = rand(1, 6);
                 break;
             case 7:
-                $this->poomsae = rand(1, 3);
+                $this->poomsae = rand(3, 8);
                 break;
             case 8:
-                $this->poomsae = rand(1, 3);
+                $this->poomsae = rand(3, 8);
                 break;
             case 9:
-                $this->poomsae = 1;
+                $this->poomsae = rand(3, 8);
                 break;
             default:
                 switch ($this->categoria) {

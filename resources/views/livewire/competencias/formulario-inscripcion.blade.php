@@ -24,7 +24,7 @@
                     <label for="graduacion" class="block text-gray-700 dark:text-gray-300">Graduacion:</label>
                     <select id="graduacion" type="text" class="w-full border-gray-300 rounded-md p-2" wire:model="graduacion" {{$editarGraduacion}}>
                         <option>{{$graduacion}}</option>
-                        @foreach($graduaciones as $unaGraduacion)
+                        @foreach($graduacionesCompetidor as $unaGraduacion)
                         <option>{{$unaGraduacion}}</option>
                         @endforeach
                     </select>
