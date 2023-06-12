@@ -78,13 +78,13 @@ confirmModalEscuelaButton.addEventListener('click', function(event) {
 
 
 
-        // openModalButton.addEventListener('click', () => {
-        //     modal.classList.remove('hidden');
-        // });
+        openModalButton.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+        });
 
-        // closeModalButton.addEventListener('click', () => {
-        //     modal.classList.add('hidden');
-        // });
+        closeModalButton.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
 
         if (btnDisabled) {
             btnDisabled.addEventListener('click', () => {

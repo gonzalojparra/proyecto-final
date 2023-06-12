@@ -14,12 +14,23 @@ class CompetenciasSeeder extends Seeder {
     public function run(): void {
         //
         Competencia::create([
-            'titulo' => 'Compe super complicada guachin',
-            'flyer' => 'inserte link de flyer',
+            'titulo' => 'Juegos de Integración Patagónicos',
+            'flyer' => 'image/flyerLiga.jpeg',
             'bases' => 'ni idea',
-            'invitacion'=>'cosas',
+            'invitacion' => 'cosas',
             'descripcion' => 'Compe complicadisima, no se anoten',
             'fecha_inicio' => '2023-06-20',
+            'fecha_fin' => '2023-06-30',
+            'estado' => 1
+        ]);
+
+        Competencia::create([
+            'titulo' => 'Competencia de la Liga',
+            'flyer' => 'image/flyerLiga.jpeg',
+            'bases' => 'Bases y condiciones',
+            'invitacion'=> 'Unite a esta compe amiguito!',
+            'descripcion' => 'Competicion para todos',
+            'fecha_inicio' => '2023-06-23',
             'fecha_fin' => '2023-06-30',
             'estado' => 1
         ]);

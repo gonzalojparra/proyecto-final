@@ -75,13 +75,13 @@
                             </x-slot>
 
                             <x-slot name="content">
-                                <x-dropdown-link href="{{ route('index') }}" :active="request()->routeIs('competencias')">
+                                <x-dropdown-link href="{{ route('competencias.index') }}" :active="request()->routeIs('competencias')">
                                     {{ __('Ver competencias') }}
                                 </x-dropdown-link>
 
                                 <div class="border-t border-gray-200">
                                     @role('Admin')
-                                    <x-dropdown-link href="{{ route('competencias.index') }}" :active="request()->routeIs('competencias')">
+                                    <x-dropdown-link href="{{ route('competencias.administrar-competencias') }}" :active="request()->routeIs('competencias')">
                                         {{ __('Administrar competencias') }}
                                     </x-dropdown-link>
                                     @endrole
