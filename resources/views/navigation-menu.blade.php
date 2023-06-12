@@ -27,13 +27,13 @@
                         {{ __('Competidores') }}
                     </x-nav-link>
                 </div>
-                @role('Competidor')
+                <!-- @role('Competidor')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('inscripcion') }}" :active="request()->routeIs('inscripcion')">
                         {{ __('Inscripción') }}
                     </x-nav-link>
                 </div>
-                @endrole
+                @endrole -->
                 @role('Admin')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('roles') }}" :active="request()->routeIs('roles')">
@@ -47,11 +47,11 @@
                 </div>
                 @endrole
                 @role('Juez')
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <!-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('inscripcion') }}" :active="request()->routeIs('inscripcion')">
                         {{ __('Inscripción') }}
                     </x-nav-link>
-                </div>
+                </div> -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('puntuador') }}" :active="request()->routeIs('timer')">
                         {{ __('Puntuador') }}
