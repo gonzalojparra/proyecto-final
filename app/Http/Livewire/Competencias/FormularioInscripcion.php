@@ -31,7 +31,7 @@ class FormularioInscripcion extends Component
     public $editarEscuela = 'disable';
     public $categoria;
     public $id_categoria=1;
-    public $poomsae;
+    public $poomsae=1;
     public $idCompetencia;
     public $datosEditados = false;
     public $botonEscuela;
@@ -90,6 +90,11 @@ class FormularioInscripcion extends Component
     // id_poomsae
     //se deberia generar una tupla por graduacion dentro de cada categoría (dentro de la lista de categorías y graduaciones selectas en la competencia)
 
+    //quitar columnas que no sirven de competencia_juez
+    //inscripto -> cambiar a un booleano "aceptado"
+    //id_poomsae
+    //id_competencias 
+    
 
     //resolver la tabla de categorias para sacar de ahi el id (Seeders)
     //agregar los poomsaes faltantes a la bd  (Seeders)
@@ -129,7 +134,7 @@ class FormularioInscripcion extends Component
     public function crearCompetidor()
     {
         $this->compararDatos();
-        $this->sortPoomsae($this->graduacion);
+        // $this->sortPoomsae($this->graduacion);
         $competencia_competidor = new CompetenciaCompetidor();
         $competencia_competidor->id_competencia = $this->idCompetencia;
         $competencia_competidor->id_competidor = $this->idUsuario;
@@ -145,10 +150,13 @@ class FormularioInscripcion extends Component
     //hay que modificar la bd, inscripto es un timestamp, y no se puede mandar nulo, debería ser "aceptado" como en competencia_competidor
     public function crearJuez()
     {
+        $this->compararDatos();
         $competencia_juez = new CompetenciaJuez();
         $competencia_juez->id_competencia = $this->idCompetencia;
         $competencia_juez->id_juez = $this->idUsuario;
-        $competencia_juez->inscripto = false;
+        $competencia_juez->id_competencias = 1;
+        $competencia_juez->id_poomsae = $this->poomsae;
+        $competencia_juez->inscripto = null;
         $competencia_juez->save();
     }
     // ? $this->emit('confirmacion', true) : $this->emit('confirmacion', false)
