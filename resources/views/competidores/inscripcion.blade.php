@@ -150,6 +150,7 @@
         </div>
     </form>
 
+
     <!-- JavaScript para abrir y cerrar el modal -->
     <script>
         const btnDisabled = document.getElementById('btnDisabled');

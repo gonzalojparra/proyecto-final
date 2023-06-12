@@ -11,6 +11,7 @@ use App\Models\Competencia;
 use App\Models\Categoria;
 use App\Models\Team;
 use App\Models\SolicitudActualizacion;
+use App\Models\CompetenciaCompetidor;
 use Spatie\Permission\Models\Role; // Spatie
 
 class CompetidorController extends Controller
@@ -123,7 +124,7 @@ class CompetidorController extends Controller
     {
         // Obtener el usuario autenticado
         $user = Auth::user();
-            
+
         // Obtener todos los equipos
         $teams = Team::all();
 
@@ -154,10 +155,24 @@ class CompetidorController extends Controller
 
     public function inscribir(Request $request, Competidor $competidor)
     {
+        $consultaExitosa = false;
         $user = Auth::user();
-        $userCategoria = Categoria::find($user->id_categoria);
-        $userTeam = Team::find($user->id_escuela);
-        dd($user);
+        // Buscamos si ya hay algun registro de competidor
+        $competenciaCompetidores = CompetenciaCompetidor::where('id_competidor', $user->id)->first();
+        // Si no se repite el id, podremos agregar al competidor
+        if ($competenciaCompetidores == null) {
+            $competenciaCompetidor = new CompetenciaCompetidor();
+            $competenciaCompetidor->id_competidor = $user->id; // Aquí asigna el valor correcto
+            $competenciaCompetidor->id_poomsae = 1; // Aquí asigna el valor correcto
+            $competenciaCompetidor->calificacion = 0; // Aquí asigna el valor correcto
+            $competenciaCompetidor->tiempo_presentacion = 0; // Aquí asigna el valor correcto
+            $competenciaCompetidor->inscripto = NULL; // Aquí asigna el valor correcto
+
+            $competenciaCompetidor->save();
+            $consultaExitosa = true;
+        }
+        
+    return redirect()->route('inscripcion');
     }
 
     public function actualizarEscuela(Request $request)
