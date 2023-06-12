@@ -36,6 +36,7 @@ class FormularioInscripcion extends Component
     public $datosEditados = false;
     public $botonEscuela;
     public $botonGraduacion;
+    public $botonGal;
     public $escuelas;
     public $graduacionesCompetidor;
     public $graduaciones = [
@@ -79,10 +80,16 @@ class FormularioInscripcion extends Component
     ];
     //falta 
     //deshabilitar el select (no me salio)
+    //comentar logica poomsaes :(
 
-    //comparar datos del render con datos despues de enviar formulario, si son distintos generar una actualizacion
+    //SORTEAR POOMSAES NATALIA TE ODIOOOO
+    // poomsae_competencia:
+    // id_competencia
+    // id_categoria
+    // id_graduacion (o graduacion)
+    // id_poomsae
+    //se deberia generar una tupla por graduacion dentro de cada categoría (dentro de la lista de categorías y graduaciones selectas en la competencia)
 
-    //agregar el GAL si se modifica el cinturon a negro
 
     //resolver la tabla de categorias para sacar de ahi el id (Seeders)
     //agregar los poomsaes faltantes a la bd  (Seeders)
@@ -99,6 +106,7 @@ class FormularioInscripcion extends Component
         // $this->sortPoomsae( "3 GUP, Azul borde rojo",1);
         $this->botonEscuela = 'Actualizar';
         $this->botonGraduacion = 'Actualizar';
+        $this->botonGal = 'Actualizar';
         $this->escuelas = Team::all();
         return view('livewire.competencias.formulario-inscripcion');
     }
@@ -188,6 +196,21 @@ class FormularioInscripcion extends Component
         $this->idCompetencia = $idCompetencia;
         $this->escuelaInicial = Team::where('id', $usuario->id_escuela)->pluck('name');
         $this->graduacionInicial = $usuario->graduacion;
+    }
+
+    public function editar($input)
+    {
+        if ($input == 'escuela') {
+            if ($this->editarEscuela == 'readonly') {
+                $this->editarEscuela = '';
+            }
+        } else if ($input == 'graduacion') {
+            if ($this->editarGraduacion == 'readonly') {
+                $this->editarGraduacion = '';
+            }
+        } else {
+          
+        }
     }
 
     public function compararDatos()
