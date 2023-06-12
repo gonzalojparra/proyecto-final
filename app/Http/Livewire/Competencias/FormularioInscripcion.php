@@ -76,7 +76,6 @@ class FormularioInscripcion extends Component
     {
         if($this->escuelaInicial != $this->escuela || $this->graduacionInicial != $this->graduacion){
             //se envia solicitud de edicion al admin
-            dd('edicion');
         }
         // dd($this->idCompetencia);
         $competencia_competidor = new CompetenciaCompetidor();

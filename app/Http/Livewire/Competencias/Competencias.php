@@ -20,12 +20,14 @@ class Competencias extends Component {
     public $titulo, $flyer,$invitacion, $bases, $descripcion, $fecha_inicio, $fecha_fin; //variables para el manejo de los datos del form
 
 
-    //protected $listeners = ['recarga'=>'render'];
+    protected $listeners = ['recarga'=>'render','msjAccion'=>'msjAccion'];
+
 
     public function render() {
         
         //metodo de renderizar la tabla de competencias
         $competencias = Competencia::where('titulo', 'like', '%' . $this->filtro . '%')->get();
+        
         $fechaActual = date("Y-m-d");
         $competenciasPedidas = $competencias;
 
@@ -59,13 +61,13 @@ class Competencias extends Component {
 
     public function agregarCompetencia()
     {
-        $this->emit('abrirModal');
+        $this->emit('abrirModal','agregar');
 
     }
 
     public function mostrarCompetencia($id)
     {
-        $this->emit('mostrarDatos',$id);
+        $this->emit('mostrarDatos',[$id,'editar']);
     }
 
     public function verCompetencia($id) {
@@ -75,5 +77,10 @@ class Competencias extends Component {
     public function delete($id)
     {
         Competencia::destroy($id);
+    }
+
+    public function msjAccion($bool){
+        $this->msj[0]= ($bool)? "Cambio Realizado":"Algo Salio Mal !!!";
+        $this->msj[1]= $bool;
     }
 }

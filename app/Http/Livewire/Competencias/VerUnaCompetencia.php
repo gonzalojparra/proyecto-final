@@ -31,10 +31,12 @@ class VerUnaCompetencia extends Component {
     public $dato;
     public $competenciaId;
 
+    public $mensaje;
+    protected $listeners = ['confirmacion'];
+
     public function mount($competenciaId) {
         $this->competenciaId = $competenciaId;
     }
-
     public function render() {
         $query = Competencia::where('id', $this->competenciaId)->get();
         $data = $query[0]->toArray();
@@ -97,5 +99,11 @@ class VerUnaCompetencia extends Component {
         $competidor->save();
         dd($competidor);
     }
+
+    public function mostrarInscripcion($idCompetencia){
+        $this->emit('abrirModal', $idCompetencia);
+    }
+
+
 
 }

@@ -13,7 +13,7 @@
         </div>
         @endif
 
-        <form wire:submit.prevent="create" enctype="multipart/form-data">
+        <form wire:submit.prevent="{{$accionForm}}" enctype="multipart/form-data">
             @csrf
 
             <div>
@@ -36,6 +36,7 @@
                 <x-input class="block mt-1 w-full" wire:model="fecha_fin" type="date" id="fecha_fin" />
                 @error('fecha_fin') <span class="error">{{ $message }}</span> @enderror
             </div>
+            @if($boton == 'agregar')
             <div class="mt-4">
                 <x-label for="bases">Bases</x-label>
                 <x-input class="block mt-1 w-full" wire:model="bases" type="file" id="bases" />
@@ -47,19 +48,28 @@
                 @error('flyer') <span class="error">{{ $message }}</span> @enderror
             </div>
             <div class="mt-4">
-                <x-label for="invitacioin" value="{{ __('Invitacioin') }}" />
-                <x-input id="invitacioin" class="block mt-1 w-full" type="file" name="invitacioin" required autocomplete="current-invitacioin" />
-                <div for="pasword" id="contraseniaFeedback" class="text-base">&nbsp;</div>
+                <x-label for="flyer">Invitacion</x-label>
+                <x-input class="block mt-1 w-full" wire:model="invitacion" type="file" id="flyer" />
+                @error('flyer') <span class="error">{{ $message }}</span> @enderror
             </div>
-
-            <div class="flex items-center justify-end mt-4">
-
-                <x-button type='submit' class="ml-4">
-                    {{ __('Guardar') }}
-                </x-button>
-                <x-button type='reset' class="ml-4 bg-red-600" wire:click="cerrarModal">
-                    {{ __('Cancelar') }}
-                </x-button>
+            
+            @endif
+            <div class="flex items-center justify-between mt-4">
+                <div>
+                    @if($boton != 'agregar')
+                    <x-button type='submit' class="ml-4  bg-green-600" wire:click='cerrarConvocatoria({{$idCompetencia}})'>
+                        {{ __('Cerrar Convocatoria') }}
+                    </x-button>
+                    @endif
+                </div>
+                <div>
+                    <x-button type='submit' class="ml-4">
+                        {{ __('Guardar') }}
+                    </x-button>
+                    <x-button type='reset' class="ml-4 bg-red-600" wire:click="cerrarModal">
+                        {{ __('Cancelar') }}
+                    </x-button>
+                </div>
             </div>
         </form>
 
