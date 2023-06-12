@@ -5,11 +5,13 @@ namespace App\Http\Livewire\Competencias;
 use App\Http\Middleware\Authenticate;
 use App\Models\Categoria;
 use App\Models\CompetenciaCompetidor;
+use App\Models\CompetenciaJuez;
 use App\Models\Team;
 use DragonCode\Contracts\Cashier\Auth\Auth as AuthAuth;
 use Illuminate\Auth\Middleware\Authenticate as MiddlewareAuthenticate;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use SebastianBergmann\CodeUnit\FunctionUnit;
 
 class FormularioInscripcion extends Component
 {
@@ -17,6 +19,7 @@ class FormularioInscripcion extends Component
     public $nombre;
     public $apellido;
     public $email;
+    public $fechaNac;
     public $escuela;
     public $escuelaInicial;
     public $graduacionInicial;
@@ -25,9 +28,10 @@ class FormularioInscripcion extends Component
     public $idUsuario;
     public $editarGraduacion = 'disable';
     public $editarEscuela = 'disable';
-    public $categoria = 1;
-    public $poomsae = 1;
-    public $idCompetencia = 1;
+    public $categoria;
+    public $id_categoria=1;
+    public $poomsae;
+    public $idCompetencia;
     public $datosEditados = false;
     public $botonEscuela;
     public $botonGraduacion;
@@ -53,19 +57,41 @@ class FormularioInscripcion extends Component
         "8 DAN, Negro",
         "9 DAN, Negro"
     ];
-
+    public $poomsaes = [
+        '1' => 'TAEGUK IL CHANG',
+        '2' => 'TAEGUK I CHANG',
+        '3' => 'TAEGUK SAM CHANG',
+        '4' => 'TAEGUK SAH CHANG',
+        '5' => 'TAEGUK OH CHANG',
+        '6' => 'TAEGUK YOUK CHANG',
+        '7' => 'TAEGUK CHILK CHANG',
+        '8' => 'TAEGUK PAL CHANG',
+        '9' => 'KORYO',
+        '10' => 'KUMGANG',
+        '11' => 'TAEBEK',
+        '12' => 'PYONGWON',
+        '13' => 'SIPJIN',
+        '14' => 'CHITAE',
+        '15' => 'CHUNGKWON',
+        '16' => 'HANSU'
+    ];
     //falta 
     //deshabilitar el select (no me salio)
-    //enviar solicitud de edicion al admin
+    //enviar solicitud de edicion al admin -> esto se saca desde la vista del admin con el atributo "inscripto"
     //si es juez, cargar datos a competencia_juez
-    //si es competidor, cargar datos a competencia_competidor
-    //enviar solicitud de aprobación de inscripción al admin
-    //sortear los poomsaes
+    //si es competidor, cargar datos a competencia_competidor 
+    //enviar solicitud de aprobación de inscripción al admin -> esto se saca de la vista del admin, habría que agregar dos atributos con timestamp
+    // "modificacion" y "ultima_modificacion"
+    //sortear los poomsaes -> HECHO
+    //resolver la tabla de categorias para sacar de ahi el id
+    //obtener el id de la competencia
+    //agregar el GAL si se modifica el cinturon a negro
 
     protected $listeners = ['abrirModal' => 'abrirModal'];
 
     public function render()
     {
+        // $this->sortPoomsae( "3 GUP, Azul borde rojo",1);
         $this->botonEscuela = 'Actualizar';
         $this->botonGraduacion = 'Actualizar';
         $this->escuelas = Team::all()->pluck('name');
@@ -74,27 +100,45 @@ class FormularioInscripcion extends Component
 
     public function create()
     {
-        if($this->escuelaInicial != $this->escuela || $this->graduacionInicial != $this->graduacion){
-            //se envia solicitud de edicion al admin
+        if ($this->graduacion != NULL) {
+            $this->crearCompetidor();
+        } else {
+            $this->crearJuez();
         }
-        // dd($this->idCompetencia);
+        $this->open = false;
+    }
+
+    public function crearCompetidor()
+    {
+        $this->sortPoomsae($this->graduacion);
         $competencia_competidor = new CompetenciaCompetidor();
         $competencia_competidor->id_competencia = $this->idCompetencia;
         $competencia_competidor->id_competidor = $this->idUsuario;
         $competencia_competidor->id_poomsae = $this->poomsae;
-        $competencia_competidor->id_categoria = $this->categoria;
+        $competencia_competidor->id_categoria = $this->id_categoria;
+        $this->calcularCategoria();
         $competencia_competidor->calificacion = null;
         $competencia_competidor->tiempo_presentacion = null;
-        $competencia_competidor->inscripto = null;
-        $competencia_competidor->save() ? $this->emit('confirmacion', true) : $this->emit('confirmacion', false);
-        $this->open = false;
+        $competencia_competidor->aprobado = false;
+        $competencia_competidor->save();
     }
 
-    private function calcularCategoria($fechaNac)
+    //hay que modificar la bd, inscripto es un timestamp, y no se puede mandar nulo, debería ser "aceptado" como en competencia_competidor
+    public function crearJuez()
+    {
+        $competencia_juez = new CompetenciaJuez();
+        $competencia_juez->id_competencia = $this->idCompetencia;
+        $competencia_juez->id_juez = $this->idUsuario;
+        $competencia_juez->inscripto = false;
+        $competencia_juez->save();
+    }
+    // ? $this->emit('confirmacion', true) : $this->emit('confirmacion', false)
+
+    private function calcularCategoria()
     {
         $categoria = '';
         $fechaActual = time();
-        $fechaNac = strtotime($fechaNac);
+        $fechaNac = strtotime($this->fechaNac);
         $edad = round(($fechaActual - $fechaNac) / 31563000);
         if ($edad >= 8.0 && $edad <= 11.0) {
             $categoria = 'Infantiles';
@@ -114,7 +158,7 @@ class FormularioInscripcion extends Component
         if ($edad >= 50.0) {
             $categoria = 'Master2';
         }
-        return $categoria;
+        $this->categoria = $categoria;
     }
 
 
@@ -125,6 +169,7 @@ class FormularioInscripcion extends Component
         $this->nombre = $usuario->name;
         $this->apellido = $usuario->apellido;
         $this->email = $usuario->email;
+        $this->fechaNac = $usuario->fecha_nac;
         $this->du = $usuario->du;
         $this->escuela = Team::where('id', $usuario->id_escuela)->pluck('name');
         $this->graduacion = $usuario->graduacion;
@@ -145,5 +190,77 @@ class FormularioInscripcion extends Component
                 $this->editarGraduacion = '';
             }
         }
+    }
+
+    //poomsaes
+    //gup 10 -> IL
+    //gup 9 - 7 -> IL - SAM
+    //gup 6 - 4 -> I - YOUK
+    //gup 3 - 1 -> SAM - PAL
+    //dan cadete -> SA - KEUMGANG (4 - 10)
+    //dan juvenil -> SA - TAEBACK (4 - 11)
+    //dan senior 1 -> SA - PYONKWONG (4 - 12)
+    //dan senior2-master1 -> SA - SIPJIN (4 - 13)
+    //dan master 2 -> SA - HANSU (4 - 16)
+
+    public function sortPoomsae($graduacion)
+    {
+        $this->poomsaes;
+        $graduacionCompetidor = array_search($graduacion, $this->graduaciones);
+        switch ($graduacionCompetidor) {
+            case 0:
+                $this->poomsae = rand(3, 8);
+                break;
+            case 1:
+                $this->poomsae = rand(3, 8);
+                break;
+            case 2:
+                $this->poomsae = rand(3, 8);
+                break;
+            case 3:
+                $this->poomsae = rand(1, 6);
+                break;
+            case 4:
+                $this->poomsae = rand(1, 6);
+                break;
+            case 5:
+                $this->poomsae = rand(1, 6);
+                break;
+            case 6:
+                $this->poomsae = rand(1, 3);
+                break;
+            case 7:
+                $this->poomsae = rand(1, 3);
+                break;
+            case 8:
+                $this->poomsae = rand(1, 3);
+                break;
+            case 9:
+                $this->poomsae = 1;
+                break;
+            default:
+                switch ($this->categoria) {
+                    case 'Cadete':
+                        $this->poomsae = rand(4, 10);
+                        break;
+                    case 'Juvenil':
+                        $this->poomsae = rand(4, 11);
+                        break;
+                    case 'Senior 1':
+                        $this->poomsae = rand(4, 12);
+                        break;
+                    case 'Senior 2':
+                        $this->poomsae = rand(4, 13);
+                        break;
+                    case 'master 1':
+                        $this->poomsae = rand(4, 13);
+                        break;
+                    default:
+                        $this->poomsae = rand(4, 16);
+                        break;
+                }
+                break;
+        }
+
     }
 }
