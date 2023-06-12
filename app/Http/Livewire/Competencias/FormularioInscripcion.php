@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Competencias;
 
 use App\Http\Middleware\Authenticate;
+use App\Models\Actualizaciones;
 use App\Models\Categoria;
 use App\Models\CompetenciaCompetidor;
 use App\Models\CompetenciaJuez;
@@ -22,9 +23,9 @@ class FormularioInscripcion extends Component
     public $fechaNac;
     public $escuela;
     public $escuelaInicial;
+    public $graduacion;
     public $graduacionInicial;
     public $du;
-    public $graduacion;
     public $idUsuario;
     public $editarGraduacion = 'disable';
     public $editarEscuela = 'disable';
@@ -78,11 +79,13 @@ class FormularioInscripcion extends Component
     ];
     //falta 
     //deshabilitar el select (no me salio)
+
     //comparar datos del render con datos despues de enviar formulario, si son distintos generar una actualizacion
-    //resolver la tabla de categorias para sacar de ahi el id (BACKEND)
-    //agregar los poomsaes faltantes a la bd  (BACKEND)
-    //obtener el id de la competencia
+
     //agregar el GAL si se modifica el cinturon a negro
+
+    //resolver la tabla de categorias para sacar de ahi el id (Seeders)
+    //agregar los poomsaes faltantes a la bd  (Seeders)
 
     protected $listeners = ['abrirModal' => 'abrirModal'];
 
@@ -96,13 +99,13 @@ class FormularioInscripcion extends Component
         // $this->sortPoomsae( "3 GUP, Azul borde rojo",1);
         $this->botonEscuela = 'Actualizar';
         $this->botonGraduacion = 'Actualizar';
-        $this->escuelas = Team::all()->pluck('name');
+        $this->escuelas = Team::all();
         return view('livewire.competencias.formulario-inscripcion');
     }
 
     public function graduacionesDisponibles(){
         $idGraduacion = array_search($this->graduacion, $this->graduaciones)+1;
-        $this->graduacionesCompetidor = array_slice($this->graduaciones, $idGraduacion, true);
+        $this->graduacionesCompetidor = array_slice($this->graduaciones, $idGraduacion,null ,true);
     }
 
     public function create()
@@ -117,6 +120,7 @@ class FormularioInscripcion extends Component
 
     public function crearCompetidor()
     {
+        $this->compararDatos();
         $this->sortPoomsae($this->graduacion);
         $competencia_competidor = new CompetenciaCompetidor();
         $competencia_competidor->id_competencia = $this->idCompetencia;
@@ -186,18 +190,27 @@ class FormularioInscripcion extends Component
         $this->graduacionInicial = $usuario->graduacion;
     }
 
-    public function editar($input)
+    public function compararDatos()
     {
-        if ($input == 'escuela') {
-            if ($this->editarEscuela == 'readonly') {
-                $this->editarEscuela = '';
-            }
-        } else if ($input == 'graduacion') {
-            if ($this->editarGraduacion == 'readonly') {
-                $this->editarGraduacion = '';
-            }
+        $actualizacion = new Actualizaciones();
+        $actualizar = false;
+        $actualizacion->id_user = $this->idUsuario;
+        if($this->escuelaInicial != $this->escuela){
+            $idEscuela =  Team::where('name', $this->escuela)->pluck('id');
+            $actualizacion->id_colegio_nuevo = $idEscuela[0];
+            $actualizacion->graduacion_nueva = '-';
+            $actualizar = true;
+        }
+        if($this->graduacionInicial != $this->graduacion){
+            $actualizacion->id_colegio_nuevo = 0;
+            $actualizacion->graduacion_nueva = $this->graduacion;
+            $actualizar = true;
+        }
+        if($actualizar){
+            $actualizacion->save();
         }
     }
+
 
     //poomsaes
     //gup 10 -> IL
