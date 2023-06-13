@@ -30,6 +30,42 @@
     {
         "nombre": "8º Poomsae TAEGUK PAL CHANG",
         "id_categoria": 8
+    },
+    {
+        "nombre": "9º Poomsae KORYO",
+        "id_categoria": 8
+    },
+    {
+        "nombre": "10º Poomsae KUMGANG",
+        "id_categoria": 8
+    },
+    {
+        "nombre": "11º Poomsae TAEBEK",
+        "id_categoria": 8
+    },
+    {
+        "nombre": "12º Poomsae PYONGWON",
+        "id_categoria": 8
+    },
+    {
+        "nombre": "13º Poomsae SYPCCHIN",
+        "id_categoria": 8
+    },
+    {
+        "nombre": "14º Poomsae CHITAE",
+        "id_categoria": 8
+    },
+    {
+        "nombre": "15º Poomsae CHUNGKWON",
+        "id_categoria": 8
+    },
+    {
+        "nombre": "16º Poomsae JANSU",
+        "id_categoria": 8
+    },
+    {
+        "nombre": "17º Poomsae LLYO",
+        "id_categoria": 8
     }
 
 ]

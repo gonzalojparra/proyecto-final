@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Security;
 use App\Http\Livewire\Competencias\Competencias;
 use App\Http\Livewire\Competencias\VerUnaCompetencia;
+use App\Mail\ContactanosMail;
+use Illuminate\Support\Facades\Mail;
 use Whoops\Run;
 
 /*
@@ -111,3 +113,9 @@ Route::group(['middleware' => ['role:Juez']], function() {
 
 // TESTEOS
 Route::get('/test.{id}', [UserController::class, 'show']);
+
+Route::get('contactanos',function(){
+    $contacto = new ContactanosMail;
+    Mail::to('lunalaureanoluna@gmail.com')->send($contacto);
+    return redirect('/');
+});
