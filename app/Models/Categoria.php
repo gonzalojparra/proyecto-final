@@ -14,7 +14,7 @@ class Categoria extends Model {
      * @var array<int, string>
      */
     protected $fillable = [
-        'nombre', 'edad_desde', 'edad_hasta', 'genero',
-        'graduacion', 'clasificacion', 'img'
+        'nombre', 'edad_desde', 'edad_hasta', 'genero', 'img'
     ];
+    //Quité la graduacion y categoria (Marti)
 }

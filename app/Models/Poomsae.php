@@ -10,5 +10,5 @@ class Poomsae extends Model {
 
     protected $table = 'poomsaes';
     protected $primaryKey = 'id';
-    protected $fillable = ['nombre', 'id_categoria'];
+    protected $fillable = ['nombre'];
 }
