@@ -12,7 +12,7 @@
             <div class="flyer max-w-sm mr-4">
                 <img class="rounded-t-lg w-auto" src="{{ $data['flyer'] }}" alt="flyer" />
             </div>
-            @livewire('competencias.formulario-inscripcion')
+            @livewire('competencias.formulario-inscripcion', ['competenciaId' => $data['id']])
             <div class="flex flex-col">
                 <div class="data dark:text-gray-400 mb-2" style="height: 80%;">
                     <ul>
@@ -72,13 +72,6 @@
     </div>
 
 
-
-    <div class="resultados-competencia" style="margin-top: 5rem;">
-        <div class="">
-            <h1 class="text-6xl flex justify-center font-semibold dark:text-gray-400">Resultados</h1>
-        </div>
-        @livewire('competidores.competencia-competidor', ['competenciaId' => $data['id']] )
-    </div>
 
     <div class="resultados-competencia" style="margin-top: 5rem;">
         <div class="">
