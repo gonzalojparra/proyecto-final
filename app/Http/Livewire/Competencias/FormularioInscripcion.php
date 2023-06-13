@@ -239,7 +239,7 @@ class FormularioInscripcion extends Component
             }
         } else {
             $graduacionRequerida = $this->graduaciones[10];
-            if ($this->graduacionInicial != $graduacionRequerida && $this->graduacion == $graduacionRequerida) {
+            if ($this->graduacionInicial != $graduacionRequerida && $this->graduacion == $graduacionRequerida || $this->galInicial == null) {
                 if ($this->editarGal == 'readonly') {
                     $this->editarGal = '';
                 }
