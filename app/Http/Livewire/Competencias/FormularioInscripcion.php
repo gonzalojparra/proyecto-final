@@ -88,9 +88,8 @@ class FormularioInscripcion extends Component
     //falta validar el gal, que tenga 3 letras y 7 numeros
 
     //SORTEAR POOMSAES NATALIA TE ODIOOOO ->  esto se hace cuando se crea una competencia
+    //asignar el poomsae desde el listado de la bd
 
-    //agregar el gal en la tabla de actualizaciones
-    //agregar el gal en la funcion que genera la solicitud de actualizacion
 
     protected $listeners = ['abrirModal' => 'abrirModal'];
 
@@ -103,7 +102,6 @@ class FormularioInscripcion extends Component
     {
         $this->graduacionesDisponibles();
         $this->categorias = Categoria::All();
-        // $this->sortPoomsae( "3 GUP, Azul borde rojo",1);
         $this->botonEscuela = 'Actualizar';
         $this->botonGraduacion = 'Actualizar';
         $this->botonGal = 'Actualizar';
@@ -113,7 +111,7 @@ class FormularioInscripcion extends Component
 
     public function graduacionesDisponibles()
     {
-        $idGraduacion = array_search($this->graduacionInicial, $this->graduaciones) + 1;
+        $idGraduacion = array_search($this->graduacionInicial, $this->graduaciones);
         $this->graduacionesCompetidor = array_slice($this->graduaciones, $idGraduacion, null, true);
     }
 
@@ -192,31 +190,31 @@ class FormularioInscripcion extends Component
             if ($this->graduacionInicial != $this->graduacion) {
                 $actualizacion->graduacion_nueva = $this->graduacion;
                 if ($this->galInicial != $this->gal) {
-                    //$actualizacion->gal_nuevo = $this->gal;
+                    $actualizacion->gal_nuevo = $this->gal;
                 } else {
-                    //$actualizacion->gal_nuevo = NULL;
+                    $actualizacion->gal_nuevo = NULL;
                 }
             } else {
                 if ($this->galInicial != $this->gal) {
-                    //$actualizacion->gal_nuevo = $this->gal;
+                    $actualizacion->gal_nuevo = $this->gal;
                 } else {
-                    //$actualizacion->gal_nuevo = NULL;
+                    $actualizacion->gal_nuevo = NULL;
                 }
                 $actualizacion->graduacion_nueva = '-';
             }
             $actualizar = true;
         } else  if ($this->graduacionInicial != $this->graduacion) {
             if ($this->galInicial != $this->gal) {
-                //$actualizacion->gal_nuevo = $this->gal;
+                $actualizacion->gal_nuevo = $this->gal;
             } else {
-                //$actualizacion->gal_nuevo = NULL;
+                $actualizacion->gal_nuevo = NULL;
             }
             $actualizacion->id_colegio_nuevo = 0;
             $actualizacion->graduacion_nueva = $this->graduacion;
             $actualizar = true;
         } else {
             if ($this->galInicial != $this->gal) {
-                //$actualizacion->gal_nuevo = $this->gal;
+                $actualizacion->gal_nuevo = $this->gal;
                 $actualizar = true;
             } 
         }
