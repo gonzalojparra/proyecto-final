@@ -18,4 +18,5 @@ class Competencia extends Model {
         'titulo', 'flyer', 'bases', 'descripcion',
         'fecha_inicio', 'fecha_fin','invitacion'
     ];
+    
 }

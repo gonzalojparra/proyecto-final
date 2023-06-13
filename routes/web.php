@@ -38,7 +38,9 @@ Route::get('/resultados', function () {
     return view('resultados');
 })->name('resultados');
 
-
+Route::fallback( function () {
+    return redirect()->route('index');
+});
 
 // Registro
 Route::get('/register', [UserController::class, 'create'])

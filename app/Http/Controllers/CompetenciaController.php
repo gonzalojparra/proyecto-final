@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Competencia;
 
-class CompetenciaController extends Controller
-{
+class CompetenciaController extends Controller {
     public function index() {
         $competencias = Competencia::get();
         return view('competencias.index', ['competencias' => $competencias]);
     }
 
-    public function show(Competencia $Competencia) {
+    public function show(Competencia $competencia) {
         return view('competencias.show', ['competencia' => $competencia]);
     }
 
@@ -65,4 +64,5 @@ class CompetenciaController extends Controller
 
         return to_route('competidores.show', $competidor)->with('success', 'El competidor se actualizo correctamente.');
     }
+
 }
