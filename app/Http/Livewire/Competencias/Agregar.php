@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Competencias;
 
 use App\Models\Competencia;
+use App\Models\CompetenciaCategoria;
+use App\Models\Categoria;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -10,10 +12,12 @@ class Agregar extends Component
 {
     use WithFileUploads;
 
+    protected $competencia;
+    protected $categorias;
     public $open = false;
     public $boton, $accionForm ;
-    protected $competencia;
     public $titulo, $flyer, $bases, $invitacion, $descripcion, $fecha_inicio, $fecha_fin, $idCompetencia;
+    public $categoria = array();
 
     protected $listeners = [
         'abrirModal',
@@ -22,7 +26,9 @@ class Agregar extends Component
 
     public function render()
     {
-        return view('livewire.competencias.agregar');
+        $this->categorias = Categoria::get();
+        $categorias = $this->categorias;
+        return view('livewire.competencias.agregar', ['categorias' => $categorias]);
     }
 
     public function abrirModal($accion)
@@ -40,6 +46,16 @@ class Agregar extends Component
 
     public function create()
     {
+        $catDisponibles = array();
+        $nombreCat = null;
+        $categorias = Categoria::get();
+        foreach ($categorias as $categoria) {
+            if ($nombreCat != $categoria->nombre){
+                $catDisponibles[] = $categoria->nombre;
+            }
+            $nombreCat = $categoria->nombre;
+        }
+
         $validate = $this->validate([
             'titulo' => ['required', 'max:120', 'unique:competencias'],
             'flyer' => ['required', 'image', 'max:2048'],
@@ -48,12 +64,14 @@ class Agregar extends Component
             'descripcion' => ['required', 'max:120'],
             'fecha_inicio' => ['required', 'date', 'after_or_equal:today'],
             'fecha_fin' => ['required', 'date', 'after:fecha_inicio'],
+            'categoria' => ['required', 'array'],
         ]);
 
         $urlImagen = $this->flyer->store('competencias', 'public');
         $urlBases = $this->bases->store('competencias', 'public');
         $urlInvitacion = $this->bases->store('competencias', 'public');
-        Competencia::create([
+
+        $competencia = Competencia::create([
             'titulo' => $validate['titulo'],
             'flyer' => $urlImagen,
             'bases' => $urlBases,
@@ -62,6 +80,17 @@ class Agregar extends Component
             'fecha_inicio' => $validate['fecha_inicio'],
             'fecha_fin' => $validate['fecha_fin'],
         ]);
+
+        $categoria = $validate['categoria'];
+        
+        if (count($categoria) > 0){
+            foreach ($categoria as $idCategoria) {
+                CompetenciaCategoria::create([
+                    'id_competencia' => $competencia->id,
+                    'id_categoria' => $idCategoria,
+                ]);
+            }
+        }
 
         session()->flash('msj', 'Competencia creada exitosamente.');
         $this->reset();
