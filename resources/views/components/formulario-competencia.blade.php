@@ -17,13 +17,13 @@
             </div>
 
             <div>
-                <x-label for="fecha_inicio">fecha_inicio</x-label>
+                <x-label for="fecha_inicio">fecha inicio</x-label>
                 <x-input class="block mt-1 w-full" wire:model="fecha_inicio" type="date" id="fecha_inicio" />
                 @error('fecha_inicio') <span class="error">{{ $message }}</span> @enderror
             </div>
 
             <div>
-                <x-label for="fecha_fin">fecha_fin</x-label>
+                <x-label for="fecha_fin">fecha fin</x-label>
                 <x-input class="block mt-1 w-full" wire:model="fecha_fin" type="date" id="fecha_fin" />
                 @error('fecha_fin') <span class="error">{{ $message }}</span> @enderror
             </div>
