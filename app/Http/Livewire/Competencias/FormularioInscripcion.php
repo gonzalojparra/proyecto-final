@@ -34,7 +34,7 @@ class FormularioInscripcion extends Component
     public $categoria;
     public $idCategoria;
     public $categorias;
-    public $poomsae=1;
+    public $poomsae = 1;
     public $idCompetencia;
     public $datosEditados = false;
     public $botonEscuela;
@@ -90,10 +90,12 @@ class FormularioInscripcion extends Component
     //SORTEAR POOMSAES NATALIA TE ODIOOOO ->  esto se hace cuando se crea una competencia
 
     //agregar el gal en la tabla de actualizaciones
+    //agregar el gal en la funcion que genera la solicitud de actualizacion
 
     protected $listeners = ['abrirModal' => 'abrirModal'];
 
-    public function mount($competenciaId) {
+    public function mount($competenciaId)
+    {
         $this->idCompetencia = $competenciaId;
     }
 
@@ -109,9 +111,10 @@ class FormularioInscripcion extends Component
         return view('livewire.competencias.formulario-inscripcion');
     }
 
-    public function graduacionesDisponibles(){
-        $idGraduacion = array_search($this->graduacionInicial, $this->graduaciones)+1;
-        $this->graduacionesCompetidor = array_slice($this->graduaciones, $idGraduacion,null ,true);
+    public function graduacionesDisponibles()
+    {
+        $idGraduacion = array_search($this->graduacionInicial, $this->graduaciones) + 1;
+        $this->graduacionesCompetidor = array_slice($this->graduaciones, $idGraduacion, null, true);
     }
 
 
@@ -183,23 +186,42 @@ class FormularioInscripcion extends Component
         $actualizacion = new Actualizaciones();
         $actualizar = false;
         $actualizacion->id_user = $this->idUsuario;
-        if($this->escuelaInicial != $this->escuela){
+        if ($this->escuelaInicial != $this->escuela) {
             $idEscuela =  Team::where('name', $this->escuela)->pluck('id');
             $actualizacion->id_colegio_nuevo = $idEscuela[0];
-            if($this->graduacionInicial != $this->graduacion){
+            if ($this->graduacionInicial != $this->graduacion) {
                 $actualizacion->graduacion_nueva = $this->graduacion;
-                $actualizar = true;
+                if ($this->galInicial != $this->gal) {
+                    //$actualizacion->gal_nuevo = $this->gal;
+                } else {
+                    //$actualizacion->gal_nuevo = NULL;
+                }
             } else {
+                if ($this->galInicial != $this->gal) {
+                    //$actualizacion->gal_nuevo = $this->gal;
+                } else {
+                    //$actualizacion->gal_nuevo = NULL;
+                }
                 $actualizacion->graduacion_nueva = '-';
             }
             $actualizar = true;
-        } else  if($this->graduacionInicial != $this->graduacion){
+        } else  if ($this->graduacionInicial != $this->graduacion) {
+            if ($this->galInicial != $this->gal) {
+                //$actualizacion->gal_nuevo = $this->gal;
+            } else {
+                //$actualizacion->gal_nuevo = NULL;
+            }
             $actualizacion->id_colegio_nuevo = 0;
             $actualizacion->graduacion_nueva = $this->graduacion;
             $actualizar = true;
+        } else {
+            if ($this->galInicial != $this->gal) {
+                //$actualizacion->gal_nuevo = $this->gal;
+                $actualizar = true;
+            } 
         }
-       
-        if($actualizar){
+
+        if ($actualizar) {
             $actualizacion->save();
         }
     }
@@ -217,12 +239,11 @@ class FormularioInscripcion extends Component
             }
         } else {
             $graduacionRequerida = $this->graduaciones[10];
-            if ($this->graduacionInicial != $graduacionRequerida && $this->graduacion == $graduacionRequerida){
+            if ($this->graduacionInicial != $graduacionRequerida && $this->graduacion == $graduacionRequerida) {
                 if ($this->editarGal == 'readonly') {
                     $this->editarGal = '';
                 }
             }
-
         }
     }
 
@@ -247,7 +268,7 @@ class FormularioInscripcion extends Component
         if ($edad >= 50.0) {
             $this->idCategoria = 5;
         }
-    
+
         // $categoria = '';
         // $fechaActual = time();
         // $fechaNac = strtotime($this->fechaNac);
@@ -271,7 +292,7 @@ class FormularioInscripcion extends Component
         //     $categoria = 'Master2';
         // }
         // $this->categoria = $categoria;
-    
+
     }
 
 
@@ -294,7 +315,7 @@ class FormularioInscripcion extends Component
         $graduacionCompetidor = array_search($graduacion, $this->graduaciones);
         switch ($graduacionCompetidor) {
             case 0:
-                    $this->poomsae = 1;
+                $this->poomsae = 1;
                 break;
             case 1:
                 $this->poomsae = rand(1, 3);
@@ -346,6 +367,5 @@ class FormularioInscripcion extends Component
                 }
                 break;
         }
-
     }
 }
