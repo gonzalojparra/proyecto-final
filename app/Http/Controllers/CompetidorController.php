@@ -115,7 +115,7 @@ class CompetidorController extends Controller {
     public function inscripcion() {
         // Obtener el usuario autenticado
         $user = Auth::user();
-            
+
         // Obtener todos los equipos
         $teams = Team::all();
 
@@ -145,18 +145,24 @@ class CompetidorController extends Controller {
     }
 
     public function inscribir(Request $request, Competidor $competidor) {
+        $consultaExitosa = false;
         $user = Auth::user();
-        $userCategoria = Categoria::find($user->id_categoria);
-        $userTeam = Team::find($user->id_escuela);
-        $competidor = new CompetenciaCompetidor();
-        $competidor->id_competidor = $user->id; // ID del competidor
-        $competidor->id_poomsae = 1; // ID del poomsae
-        $competidor->calificacion = 0; // Calificación
-        $competidor->tiempo_presentacion = 0; // Tiempo de presentación
-        $competidor->inscripto = null; // Fecha actual
+        // Buscamos si ya hay algun registro de competidor
+        $competenciaCompetidores = CompetenciaCompetidor::where('id_competidor', $user->id)->first();
+        // Si no se repite el id, podremos agregar al competidor
+        if ($competenciaCompetidores == null) {
+            $competenciaCompetidor = new CompetenciaCompetidor();
+            $competenciaCompetidor->id_competidor = $user->id; // Aquí asigna el valor correcto
+            $competenciaCompetidor->id_poomsae = 1; // Aquí asigna el valor correcto
+            $competenciaCompetidor->calificacion = 0; // Aquí asigna el valor correcto
+            $competenciaCompetidor->tiempo_presentacion = 0; // Aquí asigna el valor correcto
+            $competenciaCompetidor->inscripto = NULL; // Aquí asigna el valor correcto
 
-        $competidor->save();
-        dd($competidor);
+            $competenciaCompetidor->save();
+            $consultaExitosa = true;
+        }
+        
+    return redirect()->route('inscripcion');
     }
 
     public function actualizarEscuela(Request $request) {

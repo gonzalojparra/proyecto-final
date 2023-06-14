@@ -14,8 +14,8 @@ class CompetenciasSeeder extends Seeder {
     public function run(): void {
         //
         Competencia::create([
-            'titulo' => 'Compe super complicada guachin',
-            'flyer' => 'inserte link de flyer',
+            'titulo' => 'Juegos de Integración Patagónicos',
+            'flyer' => 'image/flyerLiga.jpeg',
             'bases' => 'ni idea',
             'invitacion' => 'cosas',
             'descripcion' => 'Compe complicadisima, no se anoten',
@@ -25,8 +25,9 @@ class CompetenciasSeeder extends Seeder {
         ]);
 
         Competencia::create([
-            'titulo' => 'Compe super complicada guachin 2',
-            'flyer' => 'inserte link de flyer',
+            'titulo' => 'Competencia de la Liga',
+            'cant_jueces' => 3,
+            'flyer' => 'image/flyerLiga.jpeg',
             'bases' => 'Bases y condiciones',
             'invitacion'=> 'Unite a esta compe amiguito!',
             'descripcion' => 'Competicion para todos',

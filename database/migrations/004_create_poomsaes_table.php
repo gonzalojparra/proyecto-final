@@ -12,11 +12,10 @@ return new class extends Migration {
         Schema::create('poomsaes', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->foreignId('id_categoria')->constrained('categorias');
             $table->timestamps();
         });
     }
-
+//quité id categorias (marti)
     /**
      * Reverse the migrations.
      */

@@ -12,10 +12,11 @@ return new class extends Migration
             $table->foreignId('id_user')->constrained('users');
             $table->text('id_colegio_nuevo');
             $table->string('graduacion_nueva');
+            $table->string('gal_nuevo')->nullable();
             $table->timestamps();
         });
     }
-
+//agregue gal_nuevo (Marti)
     public function down(): void
     {
         Schema::dropIfExists('actualizaciones');

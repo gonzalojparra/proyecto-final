@@ -15,13 +15,11 @@ return new class extends Migration {
             $table->integer('edad_desde'); // incluído
             $table->integer('edad_hasta'); // incluído
             $table->string('genero');
-            $table->string('graduacion');
-            $table->string('clasificacion');
             $table->string('img');
             $table->timestamps();
         });
     }
-
+//Quité la graduacion y clasificacion (Marti)
     /**
      * Reverse the migrations.
      */

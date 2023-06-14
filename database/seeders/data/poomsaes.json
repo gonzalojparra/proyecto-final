@@ -1,71 +1,53 @@
 [
     {
-        "nombre": "1º Poomsae TAEGUK IL CHANG",
-        "id_categoria": 1
+        "nombre": "1º Poomsae TAEGUK IL CHANG"
     },
     {
-        "nombre": "2º Poomsae TAEGUK I CHANG",
-        "id_categoria": 2
+        "nombre": "2º Poomsae TAEGUK I CHANG"
     },
     {
-        "nombre": "3º Poomsae TAEGUK SAM CHANG",
-        "id_categoria": 3
+        "nombre": "3º Poomsae TAEGUK SAM CHANG"
     },
     {
-        "nombre": "4º Poomsae TAEGUK SAH CHANG",
-        "id_categoria": 4
+        "nombre": "4º Poomsae TAEGUK SAH CHANG"
     },
     {
-        "nombre": "5º Poomsae TAEGUK OH CHANG",
-        "id_categoria": 5
+        "nombre": "5º Poomsae TAEGUK OH CHANG"
     },
     {
-        "nombre": "6º Poomsae TAEGUK YOUK CHANG",
-        "id_categoria": 6
+        "nombre": "6º Poomsae TAEGUK YOUK CHANG"
     },
     {
-        "nombre": "7º Poomsae TAEGUK CHILK CHANG",
-        "id_categoria": 7
+        "nombre": "7º Poomsae TAEGUK CHILK CHANG"
     },
     {
-        "nombre": "8º Poomsae TAEGUK PAL CHANG",
-        "id_categoria": 8
+        "nombre": "8º Poomsae TAEGUK PAL CHANG"
     },
     {
-        "nombre": "9º Poomsae KORYO",
-        "id_categoria": 8
+        "nombre": "9º Poomsae KORYO"
     },
     {
-        "nombre": "10º Poomsae KUMGANG",
-        "id_categoria": 8
+        "nombre": "10º Poomsae KEUMGANG"
     },
     {
-        "nombre": "11º Poomsae TAEBEK",
-        "id_categoria": 8
+        "nombre": "11º Poomsae TAEBEK"
     },
     {
-        "nombre": "12º Poomsae PYONGWON",
-        "id_categoria": 8
+        "nombre": "12º Poomsae PYONKWONG"
     },
     {
-        "nombre": "13º Poomsae SYPCCHIN",
-        "id_categoria": 8
+        "nombre": "13º Poomsae SIPJIN"
     },
     {
-        "nombre": "14º Poomsae CHITAE",
-        "id_categoria": 8
+        "nombre": "14º Poomsae CHITAE"
     },
     {
-        "nombre": "15º Poomsae CHUNGKWON",
-        "id_categoria": 8
+        "nombre": "15º Poomsae CHUNGKWON"
     },
     {
-        "nombre": "16º Poomsae JANSU",
-        "id_categoria": 8
+        "nombre": "16º Poomsae HANSU"
     },
     {
-        "nombre": "17º Poomsae LLYO",
-        "id_categoria": 8
+        "nombre": "17º Poomsae ILYO"
     }
-
 ]

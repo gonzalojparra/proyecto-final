@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Security;
 use App\Http\Livewire\Competencias\Competencias;
+use App\Http\Livewire\Competencias\VerCompetencias;
 use App\Http\Livewire\Competencias\VerUnaCompetencia;
 use App\Mail\ContactanosMail;
 use Illuminate\Support\Facades\Mail;
@@ -39,7 +40,9 @@ Route::get('/resultados', function () {
     return view('resultados');
 })->name('resultados');
 
-
+Route::fallback( function () {
+    return redirect()->route('index');
+});
 
 // Registro
 Route::get('/register', [UserController::class, 'create'])
@@ -71,9 +74,12 @@ Route::group(['middleware' => ['role:Admin']], function() {
 
 
 // Competencias
-Route::view('competencias', 'competencias.index')->name('competencias.index');
+Route::view('administrar-competencias', 'competencias.index')->name('competencias.administrar-competencias');
 Route::view('/verCompetidores','competidores.tablaCompetidores')->name('tablaCompetidores');
 
+// Ver todas las competencias
+Route::get('/competencias', VerCompetencias::class)->name('competencias.index');
+// Ver una competencia
 Route::get('/competencia/{competenciaId}', VerUnaCompetencia::class)->name('competencias.ver-una-competencia');
 
 /* Route::get('/competencia', function () {

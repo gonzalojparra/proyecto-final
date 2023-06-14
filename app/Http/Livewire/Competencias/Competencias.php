@@ -31,22 +31,22 @@ class Competencias extends Component {
         $fechaActual = date("Y-m-d");
         $competenciasPedidas = $competencias;
 
-        if (isset($this->filtroFecha)){
-            if ($this->filtroFecha == 'en-curso'){
+        if (isset($this->filtroFecha)) {
+            if ($this->filtroFecha == 'en-curso') {
                 $competenciasPedidas = array();
                 foreach ($competencias as $competencia) {
                     if ($competencia['fecha_inicio'] <= $fechaActual && $fechaActual <= $competencia['fecha_fin']){
                         $competenciasPedidas[] = $competencia;
                     }
                 }
-            } elseif ($this->filtroFecha == 'proximos'){
+            } elseif ($this->filtroFecha == 'proximos') {
                 $competenciasPedidas = array();
                 foreach ($competencias as $competencia) {
                     if ($competencia['fecha_inicio'] > $fechaActual){
                         $competenciasPedidas[] = $competencia;
                     }
                 }
-            } elseif ($this->filtroFecha == 'finalizados'){
+            } elseif ($this->filtroFecha == 'finalizados'){ 
                 $competenciasPedidas = array();
                 foreach ($competencias as $competencia) {
                     if ($competencia['fecha_fin'] < $fechaActual){
@@ -59,14 +59,12 @@ class Competencias extends Component {
         return view('livewire.competencias.index', ['competencias' => $competenciasPedidas]);
     }
 
-    public function agregarCompetencia()
-    {
+    public function agregarCompetencia() {
         $this->emit('abrirModal','agregar');
 
     }
 
-    public function mostrarCompetencia($id)
-    {
+    public function mostrarCompetencia($id) {
         $this->emit('mostrarDatos',[$id,'editar']);
     }
 
@@ -74,13 +72,13 @@ class Competencias extends Component {
         return redirect()->route('competencias.ver-una-competencia', $id);
     }
 
-    public function delete($id)
-    {
+    public function delete($id) {
         Competencia::destroy($id);
     }
 
     public function msjAccion($bool){
-        $this->msj[0]= ($bool)? "Cambio Realizado":"Algo Salio Mal !!!";
-        $this->msj[1]= $bool;
+        $this->msj[0] = ($bool) ? "Cambio Realizado" : "Algo Salio Mal !!!";
+        $this->msj[1] = $bool;
     }
+
 }

@@ -24,58 +24,63 @@ class CompetenciaCompetidor extends Component {
     public $competenciaId;
 
     // Obtenemos el id de la competencia que se manda vía URL desde la vista de competencias
-    public function mount($competenciaId) {
+    public function mount( $competenciaId ){
         $this->competenciaId = $competenciaId;
     }
 
     public function render() {
-        $compeCompetidorCategoriaQuery = DB::table('competencia_competidor')
+        $usuarios = [];
+
+        $compeCompetidorCategoriaQuery = DB::table( 'competencia_competidor' )
             ->where('id_competencia', $this->competenciaId)
             ->get();
-        $compeCompetidorCategoria = $compeCompetidorCategoriaQuery->toArray();
 
-        $usuarios = array();
-        foreach ($compeCompetidorCategoria as $competenciaCompetidor) {
-            $usuario = User::where('id', $competenciaCompetidor->id_competidor)
-                ->where('name', 'like', '%' . $this->filtro . '%')
-                ->where('apellido', 'like', '%' . $this->filtro . '%')
-                ->orderBy($this->orden, $this->direccion)
-                ->get(); // Obtenemos todos los usuarios
-            for( $i = 0; $i < count($usuario); $i++){
-                array_push($usuarios, $usuario[$i]);
-            }
+        foreach( $compeCompetidorCategoriaQuery as $competenciaCompetidor ){
+            $usuario = User::where( 'id', $competenciaCompetidor->id_competidor )
+                ->where( function ($query){
+                    $query->where( 'name', 'like', '%' . $this->filtro . '%' )
+                        ->orWhere( 'apellido', 'like', '%' . $this->filtro . '%' );
+                })
+                ->orderBy( $this->orden, $this->direccion )
+                ->get();
+
+            $usuarios = array_merge( $usuarios, $usuario->toArray() );
         }
+
         $competidoresVerificados = array();
-        foreach ($usuarios as $usuario) {
-            if ($usuario['verificado'] == 1) {
-                $usuario['categoria'] = $this->obtenerCategoría($usuario);
-                if ($usuario['gal'] == NULL) {
+        foreach( $usuarios as $usuario ){
+            if( $usuario['verificado'] == 1 ){
+                $usuario['categoria'] = $this->obtenerCategoría( $usuario );
+                if( $usuario['gal'] == NULL ){
                     $usuario['gal'] = '-';
                 }
-                $roles = $usuario->roles()->pluck('name'); // Buscamos que rol tiene el usuario
+
+                $user = User::find( $usuario['id'] );
+                $roles = $user->roles()->pluck( 'name' ); // Buscamos que rol tiene el usuario
+
                 $nombreRol = $roles[0];
                 $usuario['rol'] = $nombreRol; // Agregamos el rol al usuario.
-                if ($usuario['rol'] == 'Competidor') {
+                if( $usuario['rol'] == 'Competidor' ){
                     $competidoresVerificados[] = $usuario;
                 }
-                $idCategoria =  array_keys($this->categorias, $usuario['categoria']);
-                $idGraduacion = array_keys($this->graduaciones, $usuario['graduacion']);
-                if (count($idCategoria) == 0) {
-                    array_push($this->categorias, $usuario['categoria']);
+                $idCategoria =  array_keys( $this->categorias, $usuario['categoria'] );
+                $idGraduacion = array_keys( $this->graduaciones, $usuario['graduacion'] );
+                if( count($idCategoria) == 0 ){
+                    array_push( $this->categorias, $usuario['categoria'] );
                 }
                 if (count($idGraduacion) == 0) {
-                    array_push($this->graduaciones, $usuario['graduacion']);
+                    array_push( $this->graduaciones, $usuario['graduacion'] );
                 }
             }
         }
-        $competidores = $this->filtrarCompetidores($this->categoriaElegida, $this->graduacionElegida, $this->escuelaElegida, $competidoresVerificados);
+        $competidores = $this->filtrarCompetidores( $this->categoriaElegida, $this->graduacionElegida, $this->escuelaElegida, $competidoresVerificados );
 
-        return view('livewire.competidores.competencia-competidor', compact('competidores'));
+        return view( 'livewire.competidores.competencia-competidor', compact('competidores') );
     }
 
-    public function ordenar($filtroOrden) {
-        if ($this->orden == $filtroOrden) {
-            if ($this->direccion == 'asc') {
+    public function ordenar( $filtroOrden ){
+        if( $this->orden == $filtroOrden ){
+            if( $this->direccion == 'asc' ){
                 $this->direccion = 'desc';
             } else {
                 $this->direccion = 'asc';
@@ -86,65 +91,65 @@ class CompetenciaCompetidor extends Component {
         }
     }
 
-    public function obtenerCategoría($competidor) {
+    public function obtenerCategoría( $competidor ){
         $categoria = '';
         $fechaNac = $competidor['fecha_nac'];
         $fechaActual = time();
-        $fechaNac = strtotime($fechaNac);
+        $fechaNac = strtotime( $fechaNac );
         $edad = round( ($fechaActual - $fechaNac) / 31563000 );
-        if ($edad >= 8.0 && $edad <= 11.0) {
+        if( $edad >= 8.0 && $edad <= 11.0 ){
             $categoria = 'Infantiles';
         }
-        if ($edad >= 12.0 && $edad <= 14.0) {
+        if( $edad >= 12.0 && $edad <= 14.0 ){
             $categoria = 'Cadete';
         }
-        if ($edad >= 15.0 && $edad <= 17.0) {
+        if( $edad >= 15.0 && $edad <= 17.0 ){
             $categoria = 'Juveniles';
         }
-        if ($edad >= 18.0 && $edad <= 30.0) {
+        if( $edad >= 18.0 && $edad <= 30.0 ){
             $categoria = 'Senior1';
         }
-        if ($edad >= 31.0 && $edad <= 50.0) {
+        if( $edad >= 31.0 && $edad <= 50.0 ){
             $categoria = 'Senior2-master1';
         }
-        if ($edad >= 50.0) {
+        if( $edad >= 50.0 ){
             $categoria = 'Master2';
         }
         return $categoria;
     }
 
-    public function filtrarCompetidores($categoria, $graduacion, $escuela, $competidores) {
+    public function filtrarCompetidores( $categoria, $graduacion, $escuela, $competidores ){
         $listaUsuarios = $competidores;
         $usuariosFiltrados = [];
-        if ($this->categoriaElegida != 'ninguna' || $this->graduacionElegida != 'ninguna' || $this->escuelaElegida != 'ninguna') {
-            foreach ($listaUsuarios as $usuario) {
-                if ($categoria != 'ninguna') {
-                    if ($usuario['categoria'] == $categoria) {
-                        if ($graduacion != 'ninguna') {
-                            if ($usuario['graduacion'] == $graduacion) {
-                                if ($escuela != 'ninguna') {
-                                    if ($usuario['escuela'] == $escuela) {
-                                        array_push($usuariosFiltrados, $usuario);
+        if( $this->categoriaElegida != 'ninguna' || $this->graduacionElegida != 'ninguna' || $this->escuelaElegida != 'ninguna' ){
+            foreach( $listaUsuarios as $usuario ){
+                if( $categoria != 'ninguna' ){
+                    if( $usuario['categoria'] == $categoria ){
+                        if( $graduacion != 'ninguna') {
+                            if( $usuario['graduacion'] == $graduacion ){
+                                if( $escuela != 'ninguna' ){
+                                    if( $usuario['escuela'] == $escuela ){
+                                        array_push( $usuariosFiltrados, $usuario );
                                     }
                                 } else {
-                                    array_push($usuariosFiltrados, $usuario);
+                                    array_push( $usuariosFiltrados, $usuario );
                                 }
                             }
                         } else {
-                            if ($escuela != 'ninguna') {
-                                if ($usuario['escuela'] == $escuela) {
-                                    array_push($usuariosFiltrados, $usuario);
+                            if( $escuela != 'ninguna' ){
+                                if( $usuario['escuela'] == $escuela ){
+                                    array_push( $usuariosFiltrados, $usuario );
                                 }
                             } else {
-                                array_push($usuariosFiltrados, $usuario);
+                                array_push( $usuariosFiltrados, $usuario );
                             }
                         }
                     }
                 } else {
-                    if ($graduacion != 'ninguna') {
-                        if ($usuario['graduacion'] == $graduacion) {
-                            if ($escuela != 'ninguna') {
-                                if ($usuario['escuela'] == $escuela) {
+                    if( $graduacion != 'ninguna' ){
+                        if( $usuario['graduacion'] == $graduacion ){
+                            if( $escuela != 'ninguna' ){
+                                if( $usuario['escuela'] == $escuela ){
                                     array_push($usuariosFiltrados, $usuario);
                                 }
                             } else {
@@ -152,8 +157,8 @@ class CompetenciaCompetidor extends Component {
                             }
                         }
                     } else {
-                        if ($escuela != 'ninguna') {
-                            if ($usuario['escuela'] == $escuela) {
+                        if( $escuela != 'ninguna' ){
+                            if( $usuario['escuela'] == $escuela ){
                                 array_push($usuariosFiltrados, $usuario);
                             }
                         } else {
