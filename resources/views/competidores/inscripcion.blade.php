@@ -3,47 +3,12 @@
 
     </div>
     <form id="inscripcion" class="bg-white dark:bg-gray-900" action="{{route('competidores.inscripcion')}}" method="POST">
-        <!-- @csrf
-        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 ">
-            <div class="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
-                <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Inscripción a competencias</h2>
-                <p class="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400">Explora las distintas competencias que se encuentran en nuestra región e inscríbete según tu categoría.</p>
-            </div>
-            <div class="grid gap-8 mb-6 lg:mb-16 md:grid-cols-2">
-                @if ($competencia)
-                <div class="items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700">
-                    <a href="#">
-                        <img class="w-full rounded-lg sm:rounded-none sm:rounded-l-lg" src="https://i.ebayimg.com/thumbs/images/g/dKkAAOSwHnFV5ZEV/s-l300.jpg" alt="Bonnie Avatar">
-                    </a>
-                    <div class="p-5">
-                        <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            <a href="#">{{ $competencia->titulo }}</a>
-                        </h3>
-                        <span class="text-gray-500 dark:text-gray-400">{{ $competencia->fecha_inicio }} | {{ $competencia->fecha_fin }}</span>
-                        <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400">{{ $competencia->descripcion }}</p>
-                        @role('Competidor')
-                        @foreach ($categorias as $categoria)
-                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ $categoria->nombre }} - {{ $categoria->graduacion }}</p>
-                        @endforeach
-                        @endrole
-                        <button id="openModal" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                            Inscribirme
-                        </button>
-                    </div>
-                </div>
-                @else
-            </div>
-            Si no hay competencias muestra este error -->
-            <!-- <div class="bg-red-200 text-red-800 p-4 text-md rounded border border-red-300 my-3">
-                No hay competencias disponibles en este momento. <br>
-                Por favor, vuelve más tarde para ver nuevas competencias.
-            </div>
-            @endif
-        </div> -->
+        @csrf
+
 
         <button id="openModal" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                            Inscribirme
-                        </button>
+            Inscribirme
+        </button>
         <!-- Modal con los datos del competidor/juez -->
         <div id="myModal" class="fixed inset-0 flex hidden items-center rounded-lg justify-center z-50 m-5 border-1">
             <div class="bg-white dark:bg-gray-900 rounded-lg">
@@ -118,9 +83,11 @@
     </form>
 
     <!-- Cambiar escuela-->
+
+    @role('Competidor')
     <form id="actualizarEscuela" action="{{route('competidores.actualizarEscuela')}}" method="POST">
         @csrf
-        <div id="modalEscuela" class="fixed inset-0 flex hidden items-center justify-center z-60 m-5 border-1 ">
+        <div id="modalEscuela" class="fixed inset-0 hidden items-center justify-center z-50 m-5 border-1 ">
             <div class=" dark:bg-gray-700 bg-gray-700 rounded-lg">
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
                     <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
@@ -148,16 +115,15 @@
             </div>
         </div>
     </form>
-@role('Competidor')
-    <form id="actualizarGraduacion" action="{{route('competidores.actualizarGraduacion')}}" method="POST">
+    <form id="actualizarGraduacion" action="{{route('competidores.actualizarGraduacion')}}" method="post">
         @csrf
-        <div id="modalGraduacion" class="fixed inset-0 flex hidden items-center justify-center z-60 m-5 border-1">
+        <div id="modalGraduacion" class="fixed inset-0 hidden items-center justify-center z-60 m-5 border-1">
             <div class="bg-white dark:bg-gray-900">
                 <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6">
                     <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
                     <div class="mb-4">
                         <label for="actualGraduacion" class="block text-gray-700 dark:text-gray-300">Graduacion: </label>
-                        <input id="actualGraduacion" type="text" class="w-full border-gray-300 rounded-md p-2" value="{{ $categoria->graduacion }}" readonly>
+                        <input id="actualGraduacion" type="text" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->graduacion }}" readonly>
                     </div>
                     <div class="mb-4">
                         <label for="nuevaGraduacion" class="block text-gray-700 dark:text-gray-300">Cambio a:</label>
@@ -181,79 +147,38 @@
             </div>
         </div>
     </form>
-    <form id="actualizarGraduacion" action="{{route('competidores.actualizarGraduacion')}}" method="POST">
-        @csrf
-        <div id="modalGraduacion" class="fixed inset-0 flex hidden items-center justify-center z-60 m-5 border-1">
-            <div class="bg-white dark:bg-gray-900">
-                <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6">
-                    <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
-                    <div class="mb-4">
-                        <label for="actualGraduacion" class="block text-gray-700 dark:text-gray-300">Graduacion: </label>
-                        <input id="actualGraduacion" type="text" class="w-full border-gray-300 rounded-md p-2" value="{{ $user->graduacion }}" readonly>
-                    </div>
-                    <div class="mb-4">
-                        <label for="nuevaGraduacion" class="block text-gray-700 dark:text-gray-300">Cambio a:</label>
-                        <select name="nuevaGraduacion" id="graduacion" class="form-select">
-                            @foreach($todasCategorias as $categoria)
-                            <option value="{{ $categoria->id }}">{{ $categoria->graduacion }}</option>
-                            @endforeach
-                        </select>
-
-                    </div>
-                    <div class="flex justify-end">
-                        <button id="closeModalGraduacion" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                            Cerrar
-                        </button>
-                        <button id="confirmModalGraduacion" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150">
-                            Confirmar
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        @endrole
-    </form>
-
+    @endrole
 
     <!-- JavaScript para abrir y cerrar el modal -->
     <script>
-        const btnDisabled = document.getElementById('btnDisabled');
         const mensajeSpan = document.getElementById('mensajeSpan');
         const mensajes = document.getElementById('mensajes');
         const modal = document.getElementById('myModal');
         const openModalButton = document.getElementById('openModal');
         const closeModalButton = document.getElementById('closeModal');
+
         const modalEscuela = document.getElementById('modalEscuela');
         const actualizacionEscuelaButton = document.getElementById('actualizarEscuela');
         const confirmModalEscuelaButton = document.getElementById('confirmModalEscuela')
         const closeModalEscuelaButton = document.getElementById('closeModalEscuela');
+        const abrirModalEscuela = document.getElementById('actualizarEscuelaBtn');
 
-
-        const actualizacionGraduacionButton = document.getElementById('actualizarGraduacion');
+        const actualizacionGraduacionButton = document.getElementById('actualizarGraduacionBtn');
         const confirmModalGraduacionButton = document.getElementById('confirmModalGraduacion');
         const closeModalGraduacionButton = document.getElementById('closeModalGraduacion');
         const modalGraduacion = document.getElementById('modalGraduacion');
 
+        // Abrimos modal principal
         openModalButton.addEventListener('click', () => {
             modal.classList.remove('hidden');
         });
 
+        // Cerramos modal principal
         closeModalButton.addEventListener('click', () => {
             modal.classList.add('hidden');
         });
 
-        if (btnDisabled) {
-            btnDisabled.addEventListener('click', () => {
-
-                mensajeSpan.classList.remove('hidden');
-                setTimeout(function() {
-                    // mensajeSpan.classList.add('hidden');
-                    mensajeSpan.classList.add('hidden');
-                }, 3000);
-            })
-        }
-
+        // Abrimos modal graduacion del competidor
         actualizacionGraduacionButton.addEventListener('click', () => {
             modalGraduacion.classList.remove('hidden');
         })
@@ -262,8 +187,8 @@
             modalGraduacion.classList.add('hidden');
         });
 
-
-        actualizacionEscuelaButton.addEventListener('click', () => {
+        // Abrir modal formulario de escuela
+        abrirModalEscuela.addEventListener('click', () => {
             modalEscuela.classList.remove('hidden');
         })
 
@@ -271,6 +196,7 @@
             modalEscuela.classList.add('hidden');
         });
 
+        // Envio por fetch una vez pedida la actualizacion escuela
         confirmModalEscuelaButton.addEventListener('click', function(event) {
             const nuevaEscuela = document.getElementById('escuela');
             // Obtener los valores de los campos
@@ -308,10 +234,6 @@
                     setTimeout(function() {
                         mensajes.classList.add('hidden');
                     }, 5000);
-
-                    setTimeout(function() {
-                        location.reload();
-                    }, 1000);
                 })
                 .catch(function(error) {
                     mensajes.classList.remove('hidden');
@@ -322,18 +244,20 @@
                 });
         });
 
+        // Envio por fetch una vez pedida la actualizacion graduacion
         confirmModalGraduacionButton.addEventListener('click', function(event) {
-            const nuevaGraduacion = document.getElementById('graduacion');
+            const nuevaGraduacion = document.getElementById('graduacionNueva');
             // Obtener los valores de los campos
-            var informacionNueva = nuevaEscuela.options[nuevaEscuela.selectedIndex].value;
+            var informacionNueva = nuevaGraduacion.options[nuevaGraduacion.selectedIndex].value;
 
             // Crear objeto de datos
             var datos = {
                 informacion_nueva: informacionNueva
             };
 
+            console.log(datos);
             // Realizar la petición AJAX
-            fetch('competidores/actualizar', {
+            fetch('competidores/actualizarGraduacion', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -365,7 +289,7 @@
                 })
                 .catch(function(error) {
                     mensajes.classList.remove('hidden');
-                    mensajes.textContent = 'Error en el pedido de actualizacion, puede que tenga una actualizacion pendiente';
+                    mensajes.textContent = error;
                     setTimeout(function() {
                         mensajes.classList.add('hidden');
                     }, 5000);
@@ -382,6 +306,6 @@
         }
     </script>
     <!-- JavaScript para abrir, cerrar el modal y enviar los datos -->
-    <script src="{{ asset('js/inscripcionCompetencias.js') }}"></script>
+    <!-- <script src="{{ asset('js/inscripcionCompetencias.js') }}"></script> -->
 
 </x-app-layout>
