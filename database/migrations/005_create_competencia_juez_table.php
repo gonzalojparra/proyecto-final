@@ -12,12 +12,12 @@ return new class extends Migration {
         Schema::create('competencia_juez', function (Blueprint $table) {
             $table->foreignId('id_juez')->constrained('users');
             $table->foreignId('id_competencia')->constrained('competencias');
-            $table->foreignId('id_competencias')->constrained('competencias');
-            $table->foreignId('id_poomsae')->constrained('poomsaes');
-            $table->timestamp('inscripto')->nullable();
+            $table->boolean('aprobado');
             $table->timestamps();
         });
     }
+    //cambie el timestamp de inscripto por el booleano aprobado
+    // y también quité id_poomsae y id_competencias (Marti)
 
     /**
      * Reverse the migrations.

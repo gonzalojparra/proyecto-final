@@ -26,19 +26,24 @@ class FormularioInscripcion extends Component
     public $graduacion;
     public $graduacionInicial;
     public $du;
+    public $gal;
     public $idUsuario;
     public $editarGraduacion = 'disable';
     public $editarEscuela = 'disable';
+    public $editarGal = 'readonly';
     public $categoria;
-    public $id_categoria=1;
-    public $poomsae=1;
+    public $idCategoria;
+    public $categorias;
+    public $poomsae = 1;
     public $idCompetencia;
     public $datosEditados = false;
     public $botonEscuela;
     public $botonGraduacion;
-    public $botonGal;
     public $escuelas;
     public $graduacionesCompetidor;
+    public $galInicial;
+    public $botonGal;
+    public $inputGal;
     public $graduaciones = [
         "10 GUP, Blanco",
         "9 GUP, Blanco borde amarillo",
@@ -78,37 +83,25 @@ class FormularioInscripcion extends Component
         '15' => 'CHUNGKWON',
         '16' => 'HANSU'
     ];
-    //falta 
-    //deshabilitar el select (no me salio)
-    //comentar logica poomsaes :(
 
-    //SORTEAR POOMSAES NATALIA TE ODIOOOO
-    // poomsae_competencia:
-    // id_competencia
-    // id_categoria
-    // id_graduacion (o graduacion)
-    // id_poomsae
-    //se deberia generar una tupla por graduacion dentro de cada categoría (dentro de la lista de categorías y graduaciones selectas en la competencia)
+    //TO DO 
+    //falta validar el gal, que tenga 3 letras y 7 numeros
 
-    //quitar columnas que no sirven de competencia_juez
-    //inscripto -> cambiar a un booleano "aceptado"
-    //id_poomsae
-    //id_competencias 
-    
+    //SORTEAR POOMSAES NATALIA TE ODIOOOO ->  esto se hace cuando se crea una competencia
+    //asignar el poomsae desde el listado de la bd
 
-    //resolver la tabla de categorias para sacar de ahi el id (Seeders)
-    //agregar los poomsaes faltantes a la bd  (Seeders)
 
     protected $listeners = ['abrirModal' => 'abrirModal'];
 
-    public function mount($competenciaId) {
+    public function mount($competenciaId)
+    {
         $this->idCompetencia = $competenciaId;
     }
 
     public function render()
     {
         $this->graduacionesDisponibles();
-        // $this->sortPoomsae( "3 GUP, Azul borde rojo",1);
+        $this->categorias = Categoria::All();
         $this->botonEscuela = 'Actualizar';
         $this->botonGraduacion = 'Actualizar';
         $this->botonGal = 'Actualizar';
@@ -116,9 +109,31 @@ class FormularioInscripcion extends Component
         return view('livewire.competencias.formulario-inscripcion');
     }
 
-    public function graduacionesDisponibles(){
-        $idGraduacion = array_search($this->graduacion, $this->graduaciones)+1;
-        $this->graduacionesCompetidor = array_slice($this->graduaciones, $idGraduacion,null ,true);
+    public function graduacionesDisponibles()
+    {
+        $idGraduacion = array_search($this->graduacionInicial, $this->graduaciones);
+        $this->graduacionesCompetidor = array_slice($this->graduaciones, $idGraduacion, null, true);
+    }
+
+
+
+    public function abrirModal($idCompetencia)
+    {
+        $usuario = Auth::user();
+        $this->idUsuario = $usuario->id;
+        $this->nombre = $usuario->name;
+        $this->apellido = $usuario->apellido;
+        $this->email = $usuario->email;
+        $this->fechaNac = $usuario->fecha_nac;
+        $this->du = $usuario->du;
+        $this->escuela = Team::where('id', $usuario->id_escuela)->pluck('name');
+        $this->graduacion = $usuario->graduacion;
+        $this->gal = $usuario->gal;
+        $this->galInicial = $usuario->gal;
+        $this->open = true;
+        $this->idCompetencia = $idCompetencia;
+        $this->escuelaInicial = Team::where('id', $usuario->id_escuela)->pluck('name');
+        $this->graduacionInicial = $usuario->graduacion;
     }
 
     public function create()
@@ -133,19 +148,23 @@ class FormularioInscripcion extends Component
 
     public function crearCompetidor()
     {
+        $this->calcularCategoria();
         $this->compararDatos();
         // $this->sortPoomsae($this->graduacion);
         $competencia_competidor = new CompetenciaCompetidor();
         $competencia_competidor->id_competencia = $this->idCompetencia;
         $competencia_competidor->id_competidor = $this->idUsuario;
         $competencia_competidor->id_poomsae = $this->poomsae;
-        $competencia_competidor->id_categoria = $this->id_categoria;
+        $competencia_competidor->id_categoria = $this->idCategoria;
         $this->calcularCategoria();
         $competencia_competidor->calificacion = null;
         $competencia_competidor->tiempo_presentacion = null;
         $competencia_competidor->aprobado = false;
         $competencia_competidor->save();
     }
+
+
+
 
     //hay que modificar la bd, inscripto es un timestamp, y no se puede mandar nulo, debería ser "aceptado" como en competencia_competidor
     public function crearJuez()
@@ -154,57 +173,57 @@ class FormularioInscripcion extends Component
         $competencia_juez = new CompetenciaJuez();
         $competencia_juez->id_competencia = $this->idCompetencia;
         $competencia_juez->id_juez = $this->idUsuario;
-        $competencia_juez->id_competencias = 1;
-        $competencia_juez->id_poomsae = $this->poomsae;
-        $competencia_juez->inscripto = null;
+        $competencia_juez->aprobado = false;
         $competencia_juez->save();
     }
     // ? $this->emit('confirmacion', true) : $this->emit('confirmacion', false)
 
-    private function calcularCategoria()
+
+    public function compararDatos()
     {
-        $categoria = '';
-        $fechaActual = time();
-        $fechaNac = strtotime($this->fechaNac);
-        $edad = round(($fechaActual - $fechaNac) / 31563000);
-        if ($edad >= 8.0 && $edad <= 11.0) {
-            $categoria = 'Infantiles';
+        $actualizacion = new Actualizaciones();
+        $actualizar = false;
+        $actualizacion->id_user = $this->idUsuario;
+        if ($this->escuelaInicial != $this->escuela) {
+            $idEscuela =  Team::where('name', $this->escuela)->pluck('id');
+            $actualizacion->id_colegio_nuevo = $idEscuela[0];
+            if ($this->graduacionInicial != $this->graduacion) {
+                $actualizacion->graduacion_nueva = $this->graduacion;
+                if ($this->galInicial != $this->gal) {
+                    $actualizacion->gal_nuevo = $this->gal;
+                } else {
+                    $actualizacion->gal_nuevo = NULL;
+                }
+            } else {
+                if ($this->galInicial != $this->gal) {
+                    $actualizacion->gal_nuevo = $this->gal;
+                } else {
+                    $actualizacion->gal_nuevo = NULL;
+                }
+                $actualizacion->graduacion_nueva = '-';
+            }
+            $actualizar = true;
+        } else  if ($this->graduacionInicial != $this->graduacion) {
+            if ($this->galInicial != $this->gal) {
+                $actualizacion->gal_nuevo = $this->gal;
+            } else {
+                $actualizacion->gal_nuevo = NULL;
+            }
+            $actualizacion->id_colegio_nuevo = 0;
+            $actualizacion->graduacion_nueva = $this->graduacion;
+            $actualizar = true;
+        } else {
+            if ($this->galInicial != $this->gal) {
+                $actualizacion->gal_nuevo = $this->gal;
+                $actualizar = true;
+            } 
         }
-        if ($edad >= 12.0 && $edad <= 14.0) {
-            $categoria = 'Cadete';
+
+        if ($actualizar) {
+            $actualizacion->save();
         }
-        if ($edad >= 15.0 && $edad <= 17.0) {
-            $categoria = 'Juveniles';
-        }
-        if ($edad >= 18.0 && $edad <= 30.0) {
-            $categoria = 'Senior1';
-        }
-        if ($edad >= 31.0 && $edad <= 50.0) {
-            $categoria = 'Senior2-master1';
-        }
-        if ($edad >= 50.0) {
-            $categoria = 'Master2';
-        }
-        $this->categoria = $categoria;
     }
 
-
-    public function abrirModal($idCompetencia)
-    {
-        $usuario = Auth::user();
-        $this->idUsuario = $usuario->id;
-        $this->nombre = $usuario->name;
-        $this->apellido = $usuario->apellido;
-        $this->email = $usuario->email;
-        $this->fechaNac = $usuario->fecha_nac;
-        $this->du = $usuario->du;
-        $this->escuela = Team::where('id', $usuario->id_escuela)->pluck('name');
-        $this->graduacion = $usuario->graduacion;
-        $this->open = true;
-        $this->idCompetencia = $idCompetencia;
-        $this->escuelaInicial = Team::where('id', $usuario->id_escuela)->pluck('name');
-        $this->graduacionInicial = $usuario->graduacion;
-    }
 
     public function editar($input)
     {
@@ -217,30 +236,64 @@ class FormularioInscripcion extends Component
                 $this->editarGraduacion = '';
             }
         } else {
-          
+            $graduacionRequerida = $this->graduaciones[10];
+            if ($this->graduacionInicial != $graduacionRequerida && $this->graduacion == $graduacionRequerida || $this->galInicial == null) {
+                if ($this->editarGal == 'readonly') {
+                    $this->editarGal = '';
+                }
+            }
         }
     }
 
-    public function compararDatos()
+    private function calcularCategoria()
     {
-        $actualizacion = new Actualizaciones();
-        $actualizar = false;
-        $actualizacion->id_user = $this->idUsuario;
-        if($this->escuelaInicial != $this->escuela){
-            $idEscuela =  Team::where('name', $this->escuela)->pluck('id');
-            $actualizacion->id_colegio_nuevo = $idEscuela[0];
-            $actualizacion->graduacion_nueva = '-';
-            $actualizar = true;
+        $categoria = '';
+        $fechaActual = time();
+        $fechaNac = strtotime($this->fechaNac);
+        $edad = round(($fechaActual - $fechaNac) / 31563000);
+        if ($edad >= 12.0 && $edad <= 14.0) {
+            $this->idCategoria = 1;
         }
-        if($this->graduacionInicial != $this->graduacion){
-            $actualizacion->id_colegio_nuevo = 0;
-            $actualizacion->graduacion_nueva = $this->graduacion;
-            $actualizar = true;
+        if ($edad >= 15.0 && $edad <= 17.0) {
+            $this->idCategoria = 2;
         }
-        if($actualizar){
-            $actualizacion->save();
+        if ($edad >= 18.0 && $edad <= 30.0) {
+            $this->idCategoria = 3;
         }
+        if ($edad >= 31.0 && $edad <= 50.0) {
+            $this->idCategoria = 4;
+        }
+        if ($edad >= 50.0) {
+            $this->idCategoria = 5;
+        }
+
+        // $categoria = '';
+        // $fechaActual = time();
+        // $fechaNac = strtotime($this->fechaNac);
+        // $edad = round(($fechaActual - $fechaNac) / 31563000);
+        // if ($edad >= 8.0 && $edad <= 11.0) {
+        //     $categoria = 'Infantiles';
+        // }
+        // if ($edad >= 12.0 && $edad <= 14.0) {
+        //     $categoria = 'Cadete';
+        // }
+        // if ($edad >= 15.0 && $edad <= 17.0) {
+        //     $categoria = 'Juveniles';
+        // }
+        // if ($edad >= 18.0 && $edad <= 30.0) {
+        //     $categoria = 'Senior1';
+        // }
+        // if ($edad >= 31.0 && $edad <= 50.0) {
+        //     $categoria = 'Senior2-master1';
+        // }
+        // if ($edad >= 50.0) {
+        //     $categoria = 'Master2';
+        // }
+        // $this->categoria = $categoria;
+
     }
+
+
 
 
     //poomsaes
@@ -260,7 +313,7 @@ class FormularioInscripcion extends Component
         $graduacionCompetidor = array_search($graduacion, $this->graduaciones);
         switch ($graduacionCompetidor) {
             case 0:
-                    $this->poomsae = 1;
+                $this->poomsae = 1;
                 break;
             case 1:
                 $this->poomsae = rand(1, 3);
@@ -312,6 +365,5 @@ class FormularioInscripcion extends Component
                 }
                 break;
         }
-
     }
 }

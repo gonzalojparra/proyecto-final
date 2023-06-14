@@ -26,6 +26,7 @@ class CompetenciasSeeder extends Seeder {
 
         Competencia::create([
             'titulo' => 'Competencia de la Liga',
+            'cant_jueces' => 3,
             'flyer' => 'image/flyerLiga.jpeg',
             'bases' => 'Bases y condiciones',
             'invitacion'=> 'Unite a esta compe amiguito!',

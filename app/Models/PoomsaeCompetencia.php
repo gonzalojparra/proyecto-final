@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class tabla_prueba extends Model
+class PoomsaeCompetencia extends Model
 {
     use HasFactory;
         /**

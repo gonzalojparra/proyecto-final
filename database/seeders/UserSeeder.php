@@ -96,7 +96,7 @@ class UserSeeder extends Seeder
                 'genero' => 'Femenino',
                 'email' => 'M&M@example.com',
                 'id_escuela' => 5,
-                'graduacion' => '10 DAN, Negro',
+                'graduacion' => '9 DAN, Negro',
                 'gal' => 'ASD1658974',
                 'fecha_nac' => '1998-06-28',
                 'clasificacion' => 5
@@ -107,7 +107,7 @@ class UserSeeder extends Seeder
                 'genero' => 'Femenino',
                 'email' => 'juanita@example.com',
                 'id_escuela' => 8,
-                'graduacion' => '10 DAN, Negro',
+                'graduacion' => '9 DAN, Negro',
                 'gal' => 'FGH2365855',
                 'fecha_nac' => '1998-07-22',
                 'clasificacion' => 4
@@ -120,7 +120,7 @@ class UserSeeder extends Seeder
                 'id_escuela' => 12,
                 'graduacion' => '10 GUP, Blanco',
                 'gal' => NULL,
-                'fecha_nac' => '2015-10-19',
+                'fecha_nac' => '2011-10-19',
                 'clasificacion' => 6
             ],
             [
@@ -131,7 +131,7 @@ class UserSeeder extends Seeder
                 'id_escuela' => 6,
                 'graduacion' => '10 GUP, Blanco',
                 'gal' => NULL,
-                'fecha_nac' => '2015-07-02',
+                'fecha_nac' => '2011-07-02',
                 'clasificacion' => 9
             ],
             [

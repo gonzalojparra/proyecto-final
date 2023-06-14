@@ -19,9 +19,8 @@ class PoomsaesSeeder extends Seeder {
         foreach( $poomsae as $poom ){
             Poomsae::create([
                 'nombre' => $poom['nombre'],
-                'id_categoria' => $poom['id_categoria']
             ]);
         }
     }
-
+//quite id categoria (Marti)
 }

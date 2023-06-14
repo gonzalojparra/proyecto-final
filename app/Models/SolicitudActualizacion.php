@@ -14,6 +14,7 @@ class SolicitudActualizacion extends Model
         'id_user',
         'id_colegio_nuevo',
         'graduacion_nueva',
+        'gal_nuevo',
         // Agrega aquí los nombres de los campos adicionales
     ];
 
