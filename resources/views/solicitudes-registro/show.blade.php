@@ -1,5 +1,5 @@
 @role('Admin')
 <x-app-layout>
-    @livewire('roles.show')
+    @livewire('solicitudes-registro.show')
 </x-app-layout>
 @endrole
