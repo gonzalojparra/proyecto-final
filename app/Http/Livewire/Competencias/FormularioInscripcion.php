@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Competencias;
 
 use App\Http\Middleware\Authenticate;
+use App\Mail\MailPrueba;
 use App\Models\Actualizaciones;
 use App\Models\Categoria;
 use App\Models\CompetenciaCompetidor;
@@ -11,6 +12,7 @@ use App\Models\Team;
 use DragonCode\Contracts\Cashier\Auth\Auth as AuthAuth;
 use Illuminate\Auth\Middleware\Authenticate as MiddlewareAuthenticate;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use SebastianBergmann\CodeUnit\FunctionUnit;
 
@@ -161,6 +163,7 @@ class FormularioInscripcion extends Component
         $competencia_competidor->tiempo_presentacion = null;
         $competencia_competidor->aprobado = false;
         $competencia_competidor->save();
+        Mail::to($this->email)->send(new MailPrueba('aceptado'));
     }
 
 
@@ -175,6 +178,7 @@ class FormularioInscripcion extends Component
         $competencia_juez->id_juez = $this->idUsuario;
         $competencia_juez->aprobado = false;
         $competencia_juez->save();
+        Mail::to($this->email)->send(new MailPrueba('aceptado'));
     }
     // ? $this->emit('confirmacion', true) : $this->emit('confirmacion', false)
 

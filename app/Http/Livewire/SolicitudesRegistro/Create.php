@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire\SolicitudesRegistro;
 
+use App\Mail\MailPrueba;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class Create extends Component {
@@ -42,6 +44,7 @@ class Create extends Component {
                 $usuario->verificado = true;
                 $usuario->save();
                 $this->emit('render');
+                Mail::to($usuario->email)->send(new MailPrueba('aceptado'));
                 $this->open=false;
             }
         }
