@@ -32,11 +32,6 @@
                             <h1 class="text-lg font-semibold">Cantidad de jueces</h1>
                             {{ $data['cant_jueces'] }}
                         </li>
-                        <li class="dark:bg-gray-800 dark:border-gray-700 rounded-md max-w-md p-2 mt-4">
-                            <h1 class="text-lg font-semibold">Invitación</h1>
-
-                            {{ $data['flyer'] }}
-                        </li>
                     </ul>
                     <img src="storage/app/public/{{$data['flyer']}}" alt="">
                 </div>

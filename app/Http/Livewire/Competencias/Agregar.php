@@ -13,15 +13,14 @@ use Illuminate\Support\Facades\DB;
 use Livewire\WithFileUploads;
 use Exception;
 
-class Agregar extends Component
-{
+class Agregar extends Component {
     use WithFileUploads;
 
     protected $competencia;
     protected $categorias;
     public $open = false;
     public $boton, $accionForm ;
-    public $titulo, $flyer, $bases, $invitacion, $descripcion, $fecha_inicio, $fecha_fin, $idCompetencia;
+    public $titulo, $flyer, $bases, $descripcion, $fecha_inicio, $fecha_fin, $idCompetencia;
     public $categoria = array();
 
     protected $listeners = [
@@ -56,7 +55,6 @@ class Agregar extends Component
             'titulo' => ['required', 'max:120', 'unique:competencias'],
             'flyer' => ['required', 'image', 'max:2048'],
             'bases' => ['required', 'mimes:pdf,docx'],
-            'invitacion' => ['required', 'mimes:pdf,docx'],
             'descripcion' => ['required', 'max:120'],
             'fecha_inicio' => ['required', 'date', 'after_or_equal:today'],
             'fecha_fin' => ['required', 'date', 'after:fecha_inicio'],
@@ -79,7 +77,6 @@ class Agregar extends Component
                 'titulo' => $validate['titulo'],
                 'flyer' => $urlImagen,
                 'bases' => $urlBases,
-                'invitacion'=>$urlInvitacion,
                 'descripcion' => $validate['descripcion'],
                 'fecha_inicio' => $validate['fecha_inicio'],
                 'fecha_fin' => $validate['fecha_fin'],

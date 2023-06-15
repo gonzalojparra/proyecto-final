@@ -21,10 +21,10 @@ class DatabaseSeeder extends Seeder {
             PoomsaesSeeder::class
         ]);
 
-        DB::insert('INSERT INTO competencia_competidor(id_competidor, id_competencia, id_categoria, id_poomsae) VALUES(1, 1, 1, 1)');
-        DB::insert('INSERT INTO competencia_competidor(id_competidor, id_competencia, id_categoria, id_poomsae) VALUES(2, 1, 1, 1)');
-        DB::insert('INSERT INTO competencia_competidor(id_competidor, id_competencia, id_categoria, id_poomsae) VALUES(3, 2, 2, 2)');
-        DB::insert('INSERT INTO competencia_competidor(id_competidor, id_competencia, id_categoria, id_poomsae) VALUES(4, 2, 3, 3)');
+        DB::insert('INSERT INTO competencia_competidor(id_competidor, id_competencia, calificacion, aprobado) VALUES(1, 1, 1, 1)');
+        DB::insert('INSERT INTO competencia_competidor(id_competidor, id_competencia, calificacion, aprobado) VALUES(2, 1, 1, 1)');
+        DB::insert('INSERT INTO competencia_competidor(id_competidor, id_competencia, calificacion, aprobado) VALUES(3, 2, 2, 1)');
+        DB::insert('INSERT INTO competencia_competidor(id_competidor, id_competencia, calificacion, aprobado) VALUES(4, 2, 3, 1)');
         // \App\Models\User::factory(100)->create();
 
         // \App\Models\User::factory(10)->create();

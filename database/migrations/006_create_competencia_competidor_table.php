@@ -4,8 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-use function PHPUnit\Framework\once;
-
 return new class extends Migration {
     /**
      * Run the migrations.
@@ -14,10 +12,7 @@ return new class extends Migration {
         Schema::create('competencia_competidor', function (Blueprint $table) {
             $table->foreignId('id_competidor')->constrained('users');
             $table->foreignId('id_competencia')->constrained('competencias');
-            $table->foreignId('id_categoria')->constrained('categorias');
-            $table->foreignId('id_poomsae')->constrained('poomsaes');
             $table->float('calificacion')->nullable();
-            $table->float('tiempo_presentacion')->nullable();
             $table->boolean('aprobado')->default(0); // Para saber si el admin aprobo la inscripcion a la competencia.
 
             $table->softDeletes();

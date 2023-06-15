@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SolicitudActualizacion extends Model
-{
+class SolicitudActualizacion extends Model {
     use HasFactory;
     protected $table = 'actualizaciones';
 
@@ -15,8 +14,6 @@ class SolicitudActualizacion extends Model
         'id_colegio_nuevo',
         'graduacion_nueva',
         'gal_nuevo',
-        // Agrega aquí los nombres de los campos adicionales
     ];
 
-    // Puedes definir relaciones aquí si es necesario
 }

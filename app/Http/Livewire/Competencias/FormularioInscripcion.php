@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use SebastianBergmann\CodeUnit\FunctionUnit;
 
-class FormularioInscripcion extends Component
-{
+class FormularioInscripcion extends Component {
     public $open = false;
     public $nombre;
     public $apellido;
@@ -93,13 +92,11 @@ class FormularioInscripcion extends Component
 
     protected $listeners = ['abrirModal' => 'abrirModal'];
 
-    public function mount($competenciaId)
-    {
+    public function mount($competenciaId) {
         $this->idCompetencia = $competenciaId;
     }
 
-    public function render()
-    {
+    public function render() {
         $this->graduacionesDisponibles();
         $this->categorias = Categoria::All();
         $this->botonEscuela = 'Actualizar';
@@ -109,16 +106,14 @@ class FormularioInscripcion extends Component
         return view('livewire.competencias.formulario-inscripcion');
     }
 
-    public function graduacionesDisponibles()
-    {
+    public function graduacionesDisponibles() {
         $idGraduacion = array_search($this->graduacionInicial, $this->graduaciones);
         $this->graduacionesCompetidor = array_slice($this->graduaciones, $idGraduacion, null, true);
     }
 
 
 
-    public function abrirModal($idCompetencia)
-    {
+    public function abrirModal($idCompetencia) {
         $usuario = Auth::user();
         $this->idUsuario = $usuario->id;
         $this->nombre = $usuario->name;
@@ -136,8 +131,7 @@ class FormularioInscripcion extends Component
         $this->graduacionInicial = $usuario->graduacion;
     }
 
-    public function create()
-    {
+    public function create() {
         if ($this->graduacion != NULL) {
             $this->crearCompetidor();
         } else {
@@ -146,19 +140,12 @@ class FormularioInscripcion extends Component
         $this->open = false;
     }
 
-    public function crearCompetidor()
-    {
+    public function crearCompetidor() {
         $this->calcularCategoria();
         $this->compararDatos();
-        // $this->sortPoomsae($this->graduacion);
         $competencia_competidor = new CompetenciaCompetidor();
         $competencia_competidor->id_competencia = $this->idCompetencia;
         $competencia_competidor->id_competidor = $this->idUsuario;
-        $competencia_competidor->id_poomsae = $this->poomsae;
-        $competencia_competidor->id_categoria = $this->idCategoria;
-        $this->calcularCategoria();
-        $competencia_competidor->calificacion = null;
-        $competencia_competidor->tiempo_presentacion = null;
         $competencia_competidor->aprobado = false;
         $competencia_competidor->save();
     }
@@ -167,8 +154,7 @@ class FormularioInscripcion extends Component
 
 
     //hay que modificar la bd, inscripto es un timestamp, y no se puede mandar nulo, debería ser "aceptado" como en competencia_competidor
-    public function crearJuez()
-    {
+    public function crearJuez() {
         $this->compararDatos();
         $competencia_juez = new CompetenciaJuez();
         $competencia_juez->id_competencia = $this->idCompetencia;
@@ -179,8 +165,7 @@ class FormularioInscripcion extends Component
     // ? $this->emit('confirmacion', true) : $this->emit('confirmacion', false)
 
 
-    public function compararDatos()
-    {
+    public function compararDatos() {
         $actualizacion = new Actualizaciones();
         $actualizar = false;
         $actualizacion->id_user = $this->idUsuario;
@@ -225,8 +210,7 @@ class FormularioInscripcion extends Component
     }
 
 
-    public function editar($input)
-    {
+    public function editar($input) {
         if ($input == 'escuela') {
             if ($this->editarEscuela == 'readonly') {
                 $this->editarEscuela = '';
@@ -245,8 +229,7 @@ class FormularioInscripcion extends Component
         }
     }
 
-    private function calcularCategoria()
-    {
+    private function calcularCategoria() {
         $categoria = '';
         $fechaActual = time();
         $fechaNac = strtotime($this->fechaNac);
@@ -307,8 +290,7 @@ class FormularioInscripcion extends Component
     //dan senior2-master1 -> SA - SIPJIN (4 - 13)
     //dan master 2 -> SA - HANSU (4 - 16)
 
-    public function sortPoomsae($graduacion)
-    {
+    public function sortPoomsae($graduacion) {
         $this->poomsaes;
         $graduacionCompetidor = array_search($graduacion, $this->graduaciones);
         switch ($graduacionCompetidor) {
@@ -366,4 +348,5 @@ class FormularioInscripcion extends Component
                 break;
         }
     }
+
 }
