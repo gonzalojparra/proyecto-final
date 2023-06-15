@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Roles;
+namespace App\Http\Livewire\SolicitudesRegistro;
 
 use App\Models\User;
 use Livewire\Component;
@@ -42,7 +42,7 @@ class Show extends Component {
                 }
             }
         }         
-        return view('livewire.roles.show', compact('usuariosPendientes'));
+        return view('livewire.solicitudes-registro.show', compact('usuariosPendientes'));
     }
 
     public function mostrarCompetidor($id) {

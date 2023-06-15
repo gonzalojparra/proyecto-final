@@ -36,7 +36,7 @@
                 @endrole -->
                 @role('Admin')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link href="{{ route('roles') }}" :active="request()->routeIs('roles')">
+                    <x-nav-link href="{{ route('solicitudes-registro') }}" :active="request()->routeIs('roles')">
                         {{ __('Usuarios') }}
                     </x-nav-link>
                 </div>
@@ -249,7 +249,7 @@
 
         @role('Admin')
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('roles') }}" :active="request()->routeIs('roles')">
+            <x-responsive-nav-link href="{{ route('solicitudes-registro') }}" :active="request()->routeIs('roles')">
                 {{ __('Usuarios') }}
             </x-responsive-nav-link>
         </div>

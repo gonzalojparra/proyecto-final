@@ -67,14 +67,17 @@ Route::middleware([
 // Middleware Admin
 Route::group(['middleware' => ['role:Admin']], function() {
     Route::get('roles', [Security\RolesController::class, 'index'])->name('roles.index');
-    Route::view('/roles','roles.show')->name('roles');
     Route::view('/timer', 'timer')->name('timer');
 
+    // Solicitudes registros
+    Route::view('/usuarios-pendientes','solicitudes-registro.show')->name('solicitudes-registro');
+
+    // Competencias
+    Route::view('/administrar-competencias', 'competencias.index')->name('competencias.administrar-competencias');
+    Route::view('/inscriptos-pendientes/{idCompetencia}', 'competencias.solicitudes-inscriptos')->name('solicitudes-inscriptos');
 });
 
 
-// Competencias
-Route::view('administrar-competencias', 'competencias.index')->name('competencias.administrar-competencias');
 Route::view('/verCompetidores','competidores.tablaCompetidores')->name('tablaCompetidores');
 
 // Ver todas las competencias
@@ -118,10 +121,4 @@ Route::group(['middleware' => ['role:Juez']], function() {
 
 
 // TESTEOS
-Route::get('/test.{id}', [UserController::class, 'show']);
-
-Route::get('contactanos',function(){
-    $contacto = new ContactanosMail;
-    Mail::to('lunalaureanoluna@gmail.com')->send($contacto);
-    return redirect('/');
-});
+// Route::get('/test.{id}', [UserController::class, 'show']);

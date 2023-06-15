@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Roles;
+namespace App\Http\Livewire\SolicitudesRegistro;
 
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +32,7 @@ class Create extends Component {
 
 
     public function render() {
-        return view('livewire.roles.create');
+        return view('livewire.solicitudes-registro.create');
     }
 
     public function aceptarSolicitud($user) {

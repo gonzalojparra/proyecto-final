@@ -59,9 +59,8 @@ class UserController extends Controller {
             $categoriaFinalId = null;
             $categoriaFinalGr = null;
         } else {
-            $categoriaFinal = Categoria::where([['nombre', '=', $catNombre], ['graduacion', '=', $catGraduacion]])->get();
+            $categoriaFinal = Categoria::where('nombre', $catNombre)->get();
             $categoriaFinalId = $categoriaFinal[0]['id'];
-            $categoriaFinalGr = $categoriaFinal[0]['graduacion'];
         }
 
 
@@ -77,7 +76,7 @@ class UserController extends Controller {
             'gal' => $input['gal'],
             'genero' => $genero,
             'id_categoria' => $categoriaFinalId,
-            'graduacion' => $categoriaFinalGr,
+            'graduacion' => $catGraduacion,
             'id_escuela' => $escuela[0]->id,
         ]);
 

@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('actualizaciones', function (Blueprint $table) {
             $table->foreignId('id_user')->constrained('users');
-            $table->text('id_colegio_nuevo');
+            $table->integer('id_colegio_nuevo');
             $table->string('graduacion_nueva');
             $table->string('gal_nuevo')->nullable();
             $table->timestamps();
