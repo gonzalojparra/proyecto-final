@@ -13,6 +13,7 @@ use Illuminate\Auth\Middleware\Authenticate as MiddlewareAuthenticate;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use SebastianBergmann\CodeUnit\FunctionUnit;
+use Illuminate\Support\Facades\DB;
 
 class FormularioInscripcion extends Component
 {
@@ -166,8 +167,8 @@ class FormularioInscripcion extends Component
             $competencia_competidor->save();
             $creado = true;
             session()->flash('success', '¡Inscripción exitosa!');
-        }else{
-           session()->flash('error', '¡Ya estás inscrito en esta competencia!');
+        } else {
+            session()->flash('error', '¡Ya estás inscrito en esta competencia!');
         }
         return $creado;
     }
@@ -177,11 +178,26 @@ class FormularioInscripcion extends Component
     {
         $user = Auth::user();
         $esta = false;
-        $competencia_competidor = new CompetenciaCompetidor();
-        $encontrado = $competencia_competidor->where('id_competidor', '=', $user->id)->first();
-        if ($encontrado != null) {
-            $esta = true;
+        // Busqueda en la bd el rol del user
+        $resultados = DB::select('SELECT * FROM model_has_roles WHERE model_id = ?', [$user->id]);
+        if (!empty($resultados)) {
+            $rol = $resultados[0]->role_id;
+            if ($rol == 3) {
+                $competencia_competidor = new CompetenciaCompetidor();
+                $encontrado = $competencia_competidor->where('id_competidor', '=', $user->id)->first();
+                if ($encontrado != null) {
+                    $esta = true;
+                }
+            } elseif ($rol == 2) {
+                $competencia_juez = new CompetenciaJuez();
+                $encontrado = $competencia_juez->where('id_juez', '=', $user->id)->first();
+                if ($encontrado != null) {
+                    $esta = true;
+                }
+            }
         }
+
+
         return $esta;
     }
 
@@ -189,12 +205,15 @@ class FormularioInscripcion extends Component
     //hay que modificar la bd, inscripto es un timestamp, y no se puede mandar nulo, debería ser "aceptado" como en competencia_competidor
     public function crearJuez()
     {
+        $esta = $this->revisarSiUserEsta();
         $this->compararDatos();
-        $competencia_juez = new CompetenciaJuez();
-        $competencia_juez->id_competencia = $this->idCompetencia;
-        $competencia_juez->id_juez = $this->idUsuario;
-        $competencia_juez->aprobado = false;
-        $competencia_juez->save();
+        if (!$esta) {
+            $competencia_juez = new CompetenciaJuez();
+            $competencia_juez->id_competencia = $this->idCompetencia;
+            $competencia_juez->id_juez = $this->idUsuario;
+            $competencia_juez->aprobado = false;
+            $competencia_juez->save();
+        }
     }
     // ? $this->emit('confirmacion', true) : $this->emit('confirmacion', false)
 
