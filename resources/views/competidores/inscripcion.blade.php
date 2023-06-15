@@ -282,10 +282,6 @@
                     setTimeout(function() {
                         mensajes.classList.add('hidden');
                     }, 5000);
-
-                    setTimeout(function() {
-                        location.reload();
-                    }, 1000);
                 })
                 .catch(function(error) {
                     mensajes.classList.remove('hidden');

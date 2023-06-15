@@ -148,22 +148,42 @@ class FormularioInscripcion extends Component
 
     public function crearCompetidor()
     {
+        $creado = false;
         $this->calcularCategoria();
         $this->compararDatos();
-        // $this->sortPoomsae($this->graduacion);
-        $competencia_competidor = new CompetenciaCompetidor();
-        $competencia_competidor->id_competencia = $this->idCompetencia;
-        $competencia_competidor->id_competidor = $this->idUsuario;
-        $competencia_competidor->id_poomsae = $this->poomsae;
-        $competencia_competidor->id_categoria = $this->idCategoria;
-        $this->calcularCategoria();
-        $competencia_competidor->calificacion = null;
-        $competencia_competidor->tiempo_presentacion = null;
-        $competencia_competidor->aprobado = false;
-        $competencia_competidor->save();
+        $esta = $this->revisarSiUserEsta();
+        if (!$esta) {
+            // $this->sortPoomsae($this->graduacion);
+            $competencia_competidor = new CompetenciaCompetidor();
+            $competencia_competidor->id_competencia = $this->idCompetencia;
+            $competencia_competidor->id_competidor = $this->idUsuario;
+            $competencia_competidor->id_poomsae = $this->poomsae;
+            $competencia_competidor->id_categoria = $this->idCategoria;
+            $this->calcularCategoria();
+            $competencia_competidor->calificacion = null;
+            $competencia_competidor->tiempo_presentacion = null;
+            $competencia_competidor->aprobado = false;
+            $competencia_competidor->save();
+            $creado = true;
+            session()->flash('success', '¡Inscripción exitosa!');
+        }else{
+           session()->flash('error', '¡Ya estás inscrito en esta competencia!');
+        }
+        return $creado;
     }
 
 
+    public function revisarSiUserEsta()
+    {
+        $user = Auth::user();
+        $esta = false;
+        $competencia_competidor = new CompetenciaCompetidor();
+        $encontrado = $competencia_competidor->where('id_competidor', '=', $user->id)->first();
+        if ($encontrado != null) {
+            $esta = true;
+        }
+        return $esta;
+    }
 
 
     //hay que modificar la bd, inscripto es un timestamp, y no se puede mandar nulo, debería ser "aceptado" como en competencia_competidor
@@ -216,7 +236,7 @@ class FormularioInscripcion extends Component
             if ($this->galInicial != $this->gal) {
                 $actualizacion->gal_nuevo = $this->gal;
                 $actualizar = true;
-            } 
+            }
         }
 
         if ($actualizar) {
