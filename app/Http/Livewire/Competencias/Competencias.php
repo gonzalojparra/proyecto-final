@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Competencias;
 
 use App\Models\Competencia;
+use App\Models\CompetenciaCategoria;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -73,6 +74,7 @@ class Competencias extends Component {
     }
 
     public function delete($id) {
+        CompetenciaCategoria::where('id_competencia', $id)->delete();
         Competencia::destroy($id);
     }
 

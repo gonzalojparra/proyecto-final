@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('poomsae_competencia', function (Blueprint $table) {
-            $table->id();
+        Schema::create('poomsae_competencia_categoria', function (Blueprint $table) {
+            $table->foreignId('id_competencia_categoria')->constrained('competencia_categoria');
+            $table->foreignId('id_poomsae1')->constrained('poomsaes');
+            $table->foreignId('id_poomsae2')->constrained('poomsaes');
+            $table->foreignId('id_graduacion')->constrained('graduaciones');
             $table->timestamps();
-            $table->string('id_usuario');
-            $table->string('id_competencia');
-            $table->string('id_poomsae');
-            $table->string('id_categoria');
-            $table->string('graduacion');
         });
     }
 

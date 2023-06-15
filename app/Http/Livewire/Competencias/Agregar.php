@@ -4,9 +4,14 @@ namespace App\Http\Livewire\Competencias;
 
 use App\Models\Competencia;
 use App\Models\CompetenciaCategoria;
+use App\Models\Poomsae;
+use App\Models\PoomsaeCompetenciaCategoria;
+use App\Models\Graduacion;
 use App\Models\Categoria;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 use Livewire\WithFileUploads;
+use Exception;
 
 class Agregar extends Component
 {
@@ -46,15 +51,6 @@ class Agregar extends Component
 
     public function create()
     {
-        $catDisponibles = array();
-        $nombreCat = null;
-        $categorias = Categoria::get();
-        foreach ($categorias as $categoria) {
-            if ($nombreCat != $categoria->nombre){
-                $catDisponibles[] = $categoria->nombre;
-            }
-            $nombreCat = $categoria->nombre;
-        }
 
         $validate = $this->validate([
             'titulo' => ['required', 'max:120', 'unique:competencias'],
@@ -66,33 +62,82 @@ class Agregar extends Component
             'fecha_fin' => ['required', 'date', 'after:fecha_inicio'],
             'categoria' => ['required', 'array'],
         ]);
-
+        // Definimos las rutas de los archivos.
         $urlImagen = $this->flyer->store('competencias', 'public');
         $urlBases = $this->bases->store('competencias', 'public');
         $urlInvitacion = $this->bases->store('competencias', 'public');
-
-        $competencia = Competencia::create([
-            'titulo' => $validate['titulo'],
-            'flyer' => $urlImagen,
-            'bases' => $urlBases,
-            'invitacion'=>$urlInvitacion,
-            'descripcion' => $validate['descripcion'],
-            'fecha_inicio' => $validate['fecha_inicio'],
-            'fecha_fin' => $validate['fecha_fin'],
-        ]);
-
+        // guardamos el array con las categorias asignadas a la competencia.
         $categoria = $validate['categoria'];
-        
-        if (count($categoria) > 0){
-            foreach ($categoria as $idCategoria) {
-                CompetenciaCategoria::create([
-                    'id_competencia' => $competencia->id,
-                    'id_categoria' => $idCategoria,
-                ]);
+
+        // Iniciamos la transaccion para multiples operaciones.
+        DB::beginTransaction();
+
+        try {
+
+            // Creamos una competencia.
+            $competencia = Competencia::create([
+                'titulo' => $validate['titulo'],
+                'flyer' => $urlImagen,
+                'bases' => $urlBases,
+                'invitacion'=>$urlInvitacion,
+                'descripcion' => $validate['descripcion'],
+                'fecha_inicio' => $validate['fecha_inicio'],
+                'fecha_fin' => $validate['fecha_fin'],
+            ]);
+            
+
+            if (count($categoria) > 0){
+                // Obtenemos todas las graduaciones para asignarle 2 poomsaes a cada una.
+                $graduaciones = Graduacion::get();
+
+                // Creamos un registro por cada categoria que se asigno a la competencia.
+                foreach ($categoria as $idCategoria) {
+
+                    // Crear registros en la tabla CompetenciaCategoria, segun las categorias asignadas a la competencia creada.
+                    $competenciaCategoria = CompetenciaCategoria::create([
+                        'id_competencia' => $competencia->id,
+                        'id_categoria' => $idCategoria,
+                    ]);
+
+                    // Obtenemos un poomsae aleatorio para la primer pasada.
+                    $poomsaeRandom1 = Poomsae::inRandomOrder()->first();;
+                    // Obtenemos un poomsae aleatorio para la segunda pasada.
+                    $poomsaeRandom2 = Poomsae::inRandomOrder()->first();;
+
+
+                    // Sorteamos los poomsaes para cada graduacion de cada categoria.
+                    if (count($graduaciones) > 0 ){
+                        foreach ($graduaciones as $graduacion) {
+                            $poomsaeC = PoomsaeCompetenciaCategoria::create([
+                                'id_competencia_categoria' => $competenciaCategoria->id,
+                                'id_poomsae1' => $poomsaeRandom1->id,
+                                'id_poomsae2' => $poomsaeRandom2->id,
+                                'id_graduacion' => $graduacion->id,
+                            ]);
+                        }
+                    } else{
+                        throw new Exception("Error al agregar competencia.");
+                    }
+
+                }
+            } else{
+                throw new Exception("Error al agregar competencia.");
             }
+
+
+
+
+            session()->flash('msj', 'Competencia creada exitosamente.');
+            // Confirmamos las transacciones si no hubo ningun error.
+            DB::commit();
+            $this->emit('msjAccion',true);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $this->emit('msjAccion',false);
+            // session()->flash('msj', [$e->getMessage(), false]);
         }
 
-        session()->flash('msj', 'Competencia creada exitosamente.');
         $this->reset();
         $this->emit('recarga');
     }

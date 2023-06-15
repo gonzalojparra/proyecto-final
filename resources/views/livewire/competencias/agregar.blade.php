@@ -13,6 +13,10 @@
         </div>
         @endif
 
+        @isset($graduacion)
+    @dd($graduacion)
+    @endisset
+
         <form wire:submit.prevent="{{$accionForm}}" enctype="multipart/form-data">
             @csrf
 

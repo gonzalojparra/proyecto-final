@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('competencia_categoria', function (Blueprint $table) {
+        Schema::create('graduaciones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_competencia')->constrained('competencias');
-            $table->foreignId('id_categoria')->constrained('categorias');
-
+            $table->string('nombre');
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('competencia_categoria');
+        Schema::dropIfExists('graduaciones');
     }
 };
