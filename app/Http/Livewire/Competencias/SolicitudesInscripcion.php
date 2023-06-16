@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Competencias;
 
 use App\Models\User;
 use App\Models\CompetenciaCompetidor;
+use App\Models\CompetenciaJuez;
 use App\Models\Competencia;
 use App\Models\Actualizacion;
 use Livewire\Component;
@@ -23,14 +24,29 @@ class SolicitudesInscripcion extends Component {
         $competencia = Competencia::find($this->idCompetencia);
         $inscriptosPendientes = array();
         if ($competencia != null){
-            $inscriptos = CompetenciaCompetidor::get();
-            if (count($inscriptos) > 0){
-                foreach ($inscriptos as $inscripto) {
+            $inscriptosCompetidor = CompetenciaCompetidor::get();
+            $inscriptosJuez = CompetenciaJuez::get();
+            $cant = count($inscriptosCompetidor) + count($inscriptosJuez);
+            if ($cant > 0){
+                // Guardamos las peticiones de los competidores
+                foreach ($inscriptosCompetidor as $inscripto) {
                     if ($inscripto->id_competencia == $this->idCompetencia && $inscripto->aprobado == false){
                         $peticionModificacion = Actualizacion::where('id_user', $inscripto->id_competidor);
                         if ($peticionModificacion->exists()){
                             $inscripto->actualizacion = $peticionModificacion;
                         }
+                        $inscripto->rol = 'Competidor';
+                        $inscriptosPendientes[] = $inscripto;
+                    }
+                }
+                // Guardamos las peticiones de los jueces
+                foreach ($inscriptosJuez as $inscripto) {
+                    if ($inscripto->id_competencia == $this->idCompetencia && $inscripto->aprobado == false){
+                        $peticionModificacion = Actualizacion::where('id_user', $inscripto->id_juez);
+                        if ($peticionModificacion->exists()){
+                            $inscripto->actualizacion = $peticionModificacion;
+                        }
+                        $inscripto->rol = 'Juez';
                         $inscriptosPendientes[] = $inscripto;
                     }
                 }
@@ -45,15 +61,25 @@ class SolicitudesInscripcion extends Component {
         $this->idCompetencia = $idCompetencia;
     }
 
-    public function aceptar($id)
+    public function aceptar($rol, $id)
     {
-        $competenciaCompetidor = CompetenciaCompetidor::find($id);
-        $competenciaCompetidor->aprobado = true;
-        $competenciaCompetidor->save();
+        if ($rol == "Competidor"){
+            $participante = CompetenciaCompetidor::find($id);
+            $participante->aprobado = true;
+            $participante->save();
+        } else {
+            $participante = CompetenciaJuez::find($id);
+            $participante->aprobado = true;
+            $participante->save();
+        }
     }
 
-    public function rechazar($id)
+    public function rechazar($rol, $id)
     {
-        CompetenciaCompetidor::find($id)->delete();
+        if ($rol == "Competidor"){
+            CompetenciaCompetidor::find($id)->delete();
+        } else {
+            CompetenciaJuez::find($id)->delete();
+        }
     }
 }
