@@ -133,7 +133,6 @@ class FormularioInscripcion extends Component {
         $creado = false;
         $this->calcularCategoria();
         $this->compararDatos();
-<<<<<<<<< Temporary merge branch 1
         $esta = $this->revisarSiUserEsta();
         if (!$esta) {
             // $this->sortPoomsae($this->graduacion);
@@ -151,17 +150,6 @@ class FormularioInscripcion extends Component {
             session()->flash('error', '¡Ya estás inscrito en esta competencia!');
         }
         return $creado;
-=========
-        // $this->sortPoomsae($this->graduacion);
-        $competencia_competidor = new CompetenciaCompetidor();
-        $competencia_competidor->id_competencia = $this->idCompetencia;
-        $competencia_competidor->id_competidor = $this->idUsuario;
-        $competencia_competidor->id_categoria = $this->idCategoria;
-        $competencia_competidor->calificacion = null;
-        $competencia_competidor->aprobado = false;
-        $competencia_competidor->save();
-
->>>>>>>>> Temporary merge branch 2
     }
 
 
