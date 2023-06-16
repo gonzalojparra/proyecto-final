@@ -33,30 +33,33 @@
                         </th>
                     </tr>
                 </thead>
+                @livewire('competencias.modal-solicitud')
                 <tbody>
+
                     @foreach ($inscriptosPendientes as $inscripto )
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white hidden">
+                            {{$inscripto['idCompetidor']}}
+                        </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{$inscripto->id_competidor}}
+                            {{$inscripto['nombreCompetidor']}}
                         </th>
                         <td class="px-6 py-4">
-                            {{$inscripto->id_competencia}}
+                            {{$inscripto['escuela']}}
                         </td>
                         <td class="px-6 py-4">
-                            {{$inscripto->id_competidor}}
+                            {{$inscripto['graduacion']}}
                         </td>
                         <td class="px-6 py-4">
-                            -
-                        </td>
+                            @if ($inscripto['tieneSolicitud'])
+                            <x-button wire:click='mostrarSolicitud({{$inscripto["idCompetidor"]}})'>
+                                <svg fill="none" width='25' stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5"></path>
+                                </svg>
+                            </x-button>
+                            @endif
 
-                        {{-- <td class="px-6 py-4">
-                            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800" wire:click="mostrarCompetidor({{$usuario->id}})">
-                                <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                    Ver Perfil
-                                </span>
-                            </button>
-                            <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" wire:click="mostrarCompetidor({{$usuario->id}})">Ver Perfil</a> -->
-                        </td> --}}
+                        </td>
                     </tr>
                     @endforeach
 

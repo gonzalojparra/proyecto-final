@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->integer('id_escuela_nueva');
             $table->string('graduacion_nueva');
             $table->string('gal_nuevo')->nullable();
+            $table->boolean('resuelto')->default(false);
             $table->timestamps();
         });
     }

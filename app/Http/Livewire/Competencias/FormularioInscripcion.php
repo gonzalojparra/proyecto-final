@@ -71,7 +71,7 @@ class FormularioInscripcion extends Component
         "9 DAN, Negro"
     ];
     public $poomsaes;
-    protected $listeners = ['abrirModal' => 'abrirModal'];
+    protected $listeners = ['abrirModal' => 'abrirModal', 'aceptado'=>'render'];
 
     public function mount($competenciaId)
     {
