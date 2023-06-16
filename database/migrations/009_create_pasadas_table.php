@@ -9,13 +9,15 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('pasada_competidor', function (Blueprint $table) {
+        Schema::create('pasadas', function (Blueprint $table) {
             $table->id();
-            $table->float('calificacion');
-            $table->float('tiempo_presentacion');
-            $table->foreignId('id_competidor')->constrained('users');
+            $table->integer('ronda');
             $table->foreignId('id_poomsae')->constrained('poomsaes');
-            $table->float('votos_jurado');
+            $table->foreignId('id_competidor')->constrained('users');
+            $table->float('tiempo_presentacion')->nullable();
+            $table->float('calificacion')->nullable();
+            $table->integer('cant_votos')->nullable();
+            $table->foreignId('id_competencia')->constrained('competencias');
         });
     }
 

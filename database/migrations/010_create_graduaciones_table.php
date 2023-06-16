@@ -9,10 +9,9 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('competencia_juez', function (Blueprint $table) {
-            $table->foreignId('id_juez')->constrained('users');
-            $table->foreignId('id_competencia')->constrained('competencias');
-            $table->boolean('aprobado');
+        Schema::create('graduaciones', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
             $table->timestamps();
         });
     }
@@ -21,7 +20,7 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void {
-        Schema::dropIfExists('competencia_juez');
+        Schema::dropIfExists('graduaciones');
     }
 
 };

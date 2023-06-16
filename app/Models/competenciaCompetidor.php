@@ -12,12 +12,8 @@ class CompetenciaCompetidor extends Model {
     protected $fillable = [
         'id_competidor',
         'id_competencia',
-        'id_poomsae',
         'calificacion',
-        'tiempo_presentacion',
         'aprobado',
-
-        // Agrega aquí los nombres de los campos adicionales
     ];
 
 }
