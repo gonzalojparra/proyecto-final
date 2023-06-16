@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Competencias;
 
-use App\Models\Actualizaciones;
+use App\Models\Actualizacion;
 use App\Models\Categoria;
 use App\Models\CompetenciaCategoria;
 use App\Models\CompetenciaCompetidor;
@@ -195,7 +195,7 @@ class FormularioInscripcion extends Component {
 
 
     public function compararDatos() {
-        $actualizacion = new Actualizaciones();
+        $actualizacion = new Actualizacion();
         $actualizar = false;
         $actualizacion->id_user = $this->idUsuario;
         if ($this->escuelaInicial != $this->escuela) {
