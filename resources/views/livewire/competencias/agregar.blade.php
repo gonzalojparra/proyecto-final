@@ -70,6 +70,11 @@
                 <x-input class="block mt-1 w-full" wire:model="flyer" type="file" id="flyer" />
                 @error('flyer') <span class="error">{{ $message }}</span> @enderror
             </div>
+            <div class="mt-4">
+                <x-label for="flyer">Invitacion</x-label>
+                <x-input class="block mt-1 w-full" wire:model="invitacion" type="file" id="flyer" />
+                @error('flyer') <span class="error">{{ $message }}</span> @enderror
+            </div>
             
             @endif
             <div class="flex items-center justify-between mt-4">
