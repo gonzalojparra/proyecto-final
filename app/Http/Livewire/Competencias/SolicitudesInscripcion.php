@@ -61,15 +61,25 @@ class SolicitudesInscripcion extends Component {
         $this->idCompetencia = $idCompetencia;
     }
 
-    public function aceptar($id)
+    public function aceptar($rol, $id)
     {
-        $competenciaCompetidor = CompetenciaCompetidor::find($id);
-        $competenciaCompetidor->aprobado = true;
-        $competenciaCompetidor->save();
+        if ($rol == "Competidor"){
+            $participante = CompetenciaCompetidor::find($id);
+            $participante->aprobado = true;
+            $participante->save();
+        } else {
+            $participante = CompetenciaJuez::find($id);
+            $participante->aprobado = true;
+            $participante->save();
+        }
     }
 
-    public function rechazar($id)
+    public function rechazar($rol, $id)
     {
-        CompetenciaCompetidor::find($id)->delete();
+        if ($rol == "Competidor"){
+            CompetenciaCompetidor::find($id)->delete();
+        } else {
+            CompetenciaJuez::find($id)->delete();
+        }
     }
 }
