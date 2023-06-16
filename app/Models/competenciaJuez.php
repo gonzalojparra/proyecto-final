@@ -15,4 +15,9 @@ class CompetenciaJuez extends Model {
         'aprobado',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_juez');
+    }
+
 }
