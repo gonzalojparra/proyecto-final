@@ -184,13 +184,17 @@ class FormularioInscripcion extends Component
             $rol = $resultados[0]->role_id;
             if ($rol == 3) {
                 $competencia_competidor = new CompetenciaCompetidor();
-                $encontrado = $competencia_competidor->where('id_competidor', '=', $user->id)->first();
+                $encontrado = $competencia_competidor->where('id_competidor', $user->id)
+                ->where('id_competencia', '=', $this->idCompetencia)
+                ->first();
                 if ($encontrado != null) {
                     $esta = true;
                 }
             } elseif ($rol == 2) {
                 $competencia_juez = new CompetenciaJuez();
-                $encontrado = $competencia_juez->where('id_juez', '=', $user->id)->first();
+                $encontrado = $competencia_juez->where('id_juez', $user->id)
+                ->where('id_competencia', '=', $this->idCompetencia)
+                ->first();
                 if ($encontrado != null) {
                     $esta = true;
                 }
