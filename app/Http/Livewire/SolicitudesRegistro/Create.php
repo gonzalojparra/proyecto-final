@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire\SolicitudesRegistro;
 
+use App\Mail\EnvioMail;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class Create extends Component {
@@ -42,6 +44,7 @@ class Create extends Component {
                 $usuario->verificado = true;
                 $usuario->save();
                 $this->emit('render');
+                Mail::to($usuario->email)->send(new EnvioMail('aceptado'));
                 $this->open=false;
             }
         }
@@ -53,6 +56,7 @@ class Create extends Component {
             DB::table('model_has_roles')->where('model_id','=',$user)->delete();
             DB::table('users')->where('id','=',$user)->delete();
             $this->emit('render');
+            Mail::to(User::find($user)->pluck('email')[0])->send(new EnvioMail('rechazo'));
             $this->open=false;
         }
     }
