@@ -1,5 +1,24 @@
-<x-modal wire:model='open' class="bg-white dark:bg-gray-800 ">
-    <form wire:submit.prevent='create'>
+<x-modal wire:model='open'>
+    <!-- Mostrar mensaje de éxito -->
+    <div wire:offline.remove>
+        @if (session()->has('mensaje'))
+        <div class="bg-green-500 text-white p-2 mb-4 rounded">
+            {{ session('mensaje') }}
+        </div>
+        @endif
+    </div>
+
+    <!-- Mostrar mensaje de error -->
+    <div wire:offline.remove>
+        @if (session()->has('error'))
+        <div class="bg-red-500 text-white p-2 mb-4 rounded">
+            {{ session('error') }}
+        </div>
+        @endif
+    </div>
+
+    <!-- ... -->
+    <form wire:submit.prevent='create' class="bg-white dark:bg-gray-900">
         @csrf
         <!-- Modal con los datos del competidor/juez -->
         <div class="inset-0 items-center rounded-lg  z-50 m-5 border-1  dark:bg-gray-800 rounded-lg shadow-lg p-6">

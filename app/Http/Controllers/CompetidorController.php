@@ -141,6 +141,7 @@ class CompetidorController extends Controller {
                 }
             }
         }
+        
         return view('/competidores/inscripcion', compact('competencia', 'categorias', 'userTeam', 'userCategoria', 'user', 'teams', 'todasCategorias'));
     }
 
@@ -172,14 +173,6 @@ class CompetidorController extends Controller {
         $informacionNueva = $request->input('informacion_nueva');
 
         // Verificar si el usuario ya tiene una solicitud de actualización de colegio activa
-        $solicitudExistente = SolicitudActualizacion::where('usuario_id', $user->id)
-            ->where('aprobada', '0')
-            ->first();
-
-        if ($solicitudExistente) {
-            // Si el usuario ya tiene una solicitud activa, devolver un mensaje de error
-            return response()->json(['error' => 'Ya tienes una solicitud de actualización de colegio pendiente'], 422);
-        }
 
         // Crear una nueva instancia del modelo SolicitudActualizacion
         $solicitud = new SolicitudActualizacion();
@@ -203,7 +196,32 @@ class CompetidorController extends Controller {
     }
 
     public function actualizarGraduacion(Request $request) {
-        return response()->json($request->input('informacion_nueva'));
+        $user = Auth::user();
+        // Obtener los valores del formulario
+        $usuarioId = $user->id;
+        $informacionNueva = $request->input('informacion_nueva');
+
+        // Verificar si el usuario ya tiene una solicitud de actualización de colegio activa
+
+        // Crear una nueva instancia del modelo SolicitudActualizacion
+        $solicitud = new SolicitudActualizacion();
+        $solicitud->id_user = $usuarioId;
+        $solicitud->id_colegio_nuevo = 'hola';
+        $solicitud->graduacion_nueva = $informacionNueva;
+
+        // Intentar guardar la solicitud en la base de datos
+        try {
+            $solicitud->save();
+        } catch (\Exception $e) {
+            // Obtener el mensaje completo del error
+            $errorMessage = $e->getMessage();
+
+            // Devolver una respuesta de error con el mensaje completo del error
+            return response()->json(['error' => 'Error al guardar la solicitud: ' . $errorMessage], 500);
+        }
+
+        // Devolver una respuesta exitosa
+        return response()->json(['message' => 'Solicitud de actualización creada correctamente']);
     }
 
     // Guardamos al competidor del formulario en la bd.

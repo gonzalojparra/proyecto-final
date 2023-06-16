@@ -14,6 +14,11 @@
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             <span class="cursor-pointer">
+                                #
+                            </span>
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            <span class="cursor-pointer">
                                 Nombre y Apellido
                             </span>
                         </th>
@@ -35,30 +40,40 @@
                 </thead>
                 @livewire('competencias.modal-solicitud')
                 <tbody>
-
+                    <?php $num=1 ?>
                     @foreach ($inscriptosPendientes as $inscripto )
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white hidden">
                             {{$inscripto['idCompetidor']}}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{$inscripto['nombreCompetidor']}}
+                            {{$num++}}
                         </th>
                         <td class="px-6 py-4">
-                            {{$inscripto['escuela']}}
+                            {{$inscripto->user->name}} {{$inscripto->user->apellido}}
                         </td>
                         <td class="px-6 py-4">
-                            {{$inscripto['graduacion']}}
-                        </td>
-                        <td class="px-6 py-4">
-                            @if ($inscripto['tieneSolicitud'])
-                            <x-button wire:click='mostrarSolicitud({{$inscripto["idCompetidor"]}})'>
-                                <svg fill="none" width='25' stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5"></path>
-                                </svg>
-                            </x-button>
+                            @if (isset($inscripto->modificacion))
+                            {{$inscripto->actualizacion->team->name}}
+                            @else
+                            {{$inscripto->user->team->name}}       
                             @endif
+                        </td>
+                        <td class="px-6 py-4">
+                            {{$inscripto->user->graduacion}}
+                        </td>
 
+                        <td class="px-6 py-4">
+                            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800" wire:click="aceptar({{$inscripto->id}})">
+                                <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                    Aceptar
+                                </span>
+                            </button>
+                            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 ml-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-orange-500 to-red-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800 mt-2" wire:click="rechazar({{$inscripto->id}})">
+                                <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                    Rechazar
+                                </span>
+                            </button>
                         </td>
                     </tr>
                     @endforeach

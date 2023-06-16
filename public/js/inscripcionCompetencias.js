@@ -86,7 +86,7 @@ confirmModalEscuelaButton.addEventListener('click', function(event) {
             modal.classList.add('hidden');
         });
 
-        if (btnDisabled) {
+        /* if (btnDisabled) {
             btnDisabled.addEventListener('click', () => {
 
                 mensajeSpan.classList.remove('hidden');
@@ -95,7 +95,7 @@ confirmModalEscuelaButton.addEventListener('click', function(event) {
                     mensajeSpan.classList.add('hidden');
                 }, 3000);
             })
-        }
+        } */
 
         actualizacionGraduacionButton.addEventListener('click', () => {
             modalGraduacion.classList.remove('hidden');

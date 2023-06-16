@@ -10,6 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Team;
 
 use Spatie\Permission\Traits\HasRoles;
 
@@ -63,8 +64,9 @@ class User extends Authenticatable {
         'profile_photo_url',
     ];
 
-    /* public function roles() {
-        return $this->hasMany(Roles::class);
-    } */
+    public function team()
+    {
+        return $this->hasOne(Team::class, 'id');
+    }
 
 }

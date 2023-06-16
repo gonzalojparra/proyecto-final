@@ -5,8 +5,7 @@ namespace App\Http\Livewire\Competencias;
 use App\Models\User;
 use App\Models\CompetenciaCompetidor;
 use App\Models\Competencia;
-use App\Models\Actualizaciones;
-use App\Models\Team;
+use App\Models\Actualizacion;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 
@@ -27,17 +26,12 @@ class SolicitudesInscripcion extends Component {
             $inscriptos = CompetenciaCompetidor::get();
             if (count($inscriptos) > 0){
                 foreach ($inscriptos as $inscripto) {
-                    if ($inscripto['id_competencia'] == $this->idCompetencia && $inscripto['aprobado'] == false){
-                        $competidor = User::where('id',$inscripto->id_competidor)->select('name','apellido','id_escuela','graduacion')->get();
-                        $datos = [
-                            'idCompetidor' => $inscripto->id_competidor,
-                            'nombreCompetidor' => $competidor[0]->name. " ". $competidor[0]->apellido,
-                            'escuela' => Team::where('id',$competidor[0]->id_escuela)->pluck('name')[0],
-                            'graduacion'=>$competidor[0]->graduacion,
-                            'tieneSolicitud' => (Actualizaciones::where('id_user',$inscripto->id_competidor)->count() > 0)? true : false
-                        ];
-                        array_push($inscriptosPendientes,$datos);
-                        
+                    if ($inscripto->id_competencia == $this->idCompetencia && $inscripto->aprobado == false){
+                        $peticionModificacion = Actualizacion::where('id_user', $inscripto->id_competidor);
+                        if ($peticionModificacion->exists()){
+                            $inscripto->actualizacion = $peticionModificacion;
+                        }
+                        $inscriptosPendientes[] = $inscripto;
                     }
                 }
             }
@@ -53,5 +47,17 @@ class SolicitudesInscripcion extends Component {
     public function mount($idCompetencia)
     {
         $this->idCompetencia = $idCompetencia;
+    }
+
+    public function aceptar($id)
+    {
+        $competenciaCompetidor = CompetenciaCompetidor::find($id);
+        $competenciaCompetidor->aprobado = true;
+        $competenciaCompetidor->save();
+    }
+
+    public function rechazar($id)
+    {
+        CompetenciaCompetidor::find($id)->delete();
     }
 }

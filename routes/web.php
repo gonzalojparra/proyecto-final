@@ -101,7 +101,7 @@ Route::post('/competidores/actualizar', [CompetidorController::class, 'actualiza
 Route::post('/competencia-id', [CompetidorController::class, 'actualizarEscuela'])->name('competidores.actualizarEscuela');
 
 Route::post('/competidores/actualizarGraduacion', [CompetidorController::class, 'actualizarGraduacion'])->name('competidores.actualizarGraduacion');
-Route::post('/competencia-id', [CompetidorController::class, 'actualizarGraduacion'])->name('competidores.actualizarGraduacion');
+/* Route::post('/competencia-id', [CompetidorController::class, 'actualizarGraduacion'])->name('competidores.actualizarGraduacion'); */
 
 Route::post('/competidores/actualizarGraduacion', [CompetidorController::class, 'actualizarGraduacion'])->name('competidores.actualizarGraduacion');
 

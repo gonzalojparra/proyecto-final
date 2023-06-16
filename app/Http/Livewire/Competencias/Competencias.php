@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Competencias;
 
 use App\Models\Competencia;
 use App\Models\CompetenciaCategoria;
+use App\Models\PoomsaeCompetenciaCategoria;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -27,7 +28,8 @@ class Competencias extends Component {
     public function render() {
         
         //metodo de renderizar la tabla de competencias
-        $competencias = Competencia::where('titulo', 'like', '%' . $this->filtro . '%')->get();
+        $competencias = Competencia::where('titulo', 'like', '%' . $this->filtro . '%')
+                                    ->where('estado', '<>', 0)->get();
         
         $fechaActual = date("Y-m-d");
         $competenciasPedidas = $competencias;
@@ -74,8 +76,9 @@ class Competencias extends Component {
     }
 
     public function delete($id) {
-        CompetenciaCategoria::where('id_competencia', $id)->delete();
-        Competencia::destroy($id);
+        $competencia = Competencia::find($id);
+        $competencia->estado = 0;
+        $competencia->save();
     }
 
     public function msjAccion($bool){

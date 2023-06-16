@@ -9,8 +9,7 @@
 
 ## About Laravel
 
-Se utiliza librería **Teams**, pero en el trabajo se referencia a los teams como los **colegios federados**.
-
+Se utiliza librería **Teams**, pero en el trabajo se referencia a los teams como las escuelas **federadas**.
 
 ## License
 
