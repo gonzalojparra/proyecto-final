@@ -10,6 +10,7 @@ return new class extends Migration {
      */
     public function up(): void {
         Schema::create('competencia_competidor', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('id_competidor')->constrained('users');
             $table->foreignId('id_competencia')->constrained('competencias');
             $table->float('calificacion')->nullable();

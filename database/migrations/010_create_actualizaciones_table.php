@@ -8,8 +8,8 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('actualizaciones', function (Blueprint $table) {
             $table->foreignId('id_user')->constrained('users');
-            $table->integer('id_escuela_nueva');
-            $table->string('graduacion_nueva');
+            $table->foreignId('id_escuela_nueva')->constrained('teams');
+            $table->foreignId('id_graduacion_nueva')->constrained('graduaciones');
             $table->string('gal_nuevo')->nullable();
             $table->timestamps();
         });
