@@ -13,15 +13,14 @@ use Illuminate\Support\Facades\DB;
 use Livewire\WithFileUploads;
 use Exception;
 
-class Agregar extends Component
-{
+class Agregar extends Component {
     use WithFileUploads;
 
     protected $competencia;
     protected $categorias;
     public $open = false;
     public $boton, $accionForm ;
-    public $titulo, $flyer, $bases, $invitacion, $descripcion, $fecha_inicio, $fecha_fin, $idCompetencia;
+    public $titulo, $flyer, $bases, $descripcion, $fecha_inicio, $fecha_fin, $idCompetencia, $invitacion;
     public $categoria = array();
 
     protected $listeners = [

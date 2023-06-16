@@ -18,7 +18,7 @@ class Competencias extends Component {
     public $msj;
     public $filtro;// filtro de la tabla
     public $filtroFecha = "Todos";//filtro de la tabla por fecha
-    public $titulo, $flyer,$invitacion, $bases, $descripcion, $fecha_inicio, $fecha_fin; //variables para el manejo de los datos del form
+    public $titulo, $flyer, $bases, $descripcion, $fecha_inicio, $fecha_fin; //variables para el manejo de los datos del form
 
 
     protected $listeners = ['recarga'=>'render','msjAccion'=>'msjAccion'];

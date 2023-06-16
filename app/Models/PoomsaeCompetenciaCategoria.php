@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PoomsaeCompetenciaCategoria extends Model
-{
+class PoomsaeCompetenciaCategoria extends Model {
     use HasFactory;
 
     protected $table = 'poomsae_competencia_categoria';
@@ -14,4 +13,5 @@ class PoomsaeCompetenciaCategoria extends Model
     protected $fillable = [
         'id_competencia_categoria', 'id_poomsae1', 'id_poomsae2', 'id_graduacion'
     ];
+
 }
