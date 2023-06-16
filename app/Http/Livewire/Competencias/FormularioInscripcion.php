@@ -69,13 +69,6 @@ class FormularioInscripcion extends Component
         "9 DAN, Negro"
     ];
     public $poomsaes;
-
-    //TO DO 
-    //falta validar el gal, que tenga 3 letras y 7 numeros
-
-    //asignar el poomsae desde el listado de la bd
-
-
     protected $listeners = ['abrirModal' => 'abrirModal'];
 
     public function mount($competenciaId)
