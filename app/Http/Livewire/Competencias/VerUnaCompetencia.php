@@ -8,6 +8,7 @@ use App\Models\Competencia;
 use App\Models\Categoria;
 use App\Models\Team;
 use App\Models\CompetenciaCompetidor;
+use App\Models\CompetenciaJuez;
 use App\Models\User;
 use Livewire\Component;
 
@@ -30,6 +31,7 @@ class VerUnaCompetencia extends Component {
     public $graduaciones;
     public $dato;
     public $competenciaId;
+    public $inscripcionAceptada;
 
     public $mensaje;
     protected $listeners = ['confirmacion'];
@@ -38,11 +40,15 @@ class VerUnaCompetencia extends Component {
         $this->competenciaId = $competenciaId;
     }
     public function render() {
+        // $this->procesoIncsripcion();
+        $this->procesoIncsripcionJuez();
+        $this->procesoIncsripcionCompetidor();
         $query = Competencia::where('id', $this->competenciaId)->get();
         $data = $query[0]->toArray();
         return view('livewire.competencias.ver-una-competencia', [
             'data' => $data
         ]);
+       
     }
 
     public function mostrarDatos($idUsuario) {
@@ -85,25 +91,63 @@ class VerUnaCompetencia extends Component {
         return $categoria;
     }
 
-    public function inscribir(Request $request, Competidor $competidor) {
-        $user = Auth::user();
-        $userCategoria = Categoria::find($user->id_categoria);
-        $userTeam = Team::find($user->id_escuela);
-        $competidor = new CompetenciaCompetidor();
-        $competidor->id_competidor = $user->id; // ID del competidor
-        $competidor->id_poomsae = 1; // ID del poomsae
-        $competidor->calificacion = 0; // Calificación
-        $competidor->tiempo_presentacion = 0; // Tiempo de presentación
-        $competidor->inscripto = null; // Fecha actual
+    // public function inscribir(Request $request, Competidor $competidor) {
+    //     $user = Auth::user();
+    //     $userCategoria = Categoria::find($user->id_categoria);
+    //     $userTeam = Team::find($user->id_escuela);
+    //     $competidor = new CompetenciaCompetidor();
+    //     $competidor->id_competidor = $user->id; // ID del competidor
+    //     $competidor->id_poomsae = 1; // ID del poomsae
+    //     $competidor->calificacion = 0; // Calificación
+    //     $competidor->tiempo_presentacion = 0; // Tiempo de presentación
+    //     $competidor->inscripto = null; // Fecha actual
 
-        $competidor->save();
-        dd($competidor);
-    }
+    //     $competidor->save();
+    //     dd($competidor);
+    // }
 
     public function mostrarInscripcion($idCompetencia){
         $this->emit('abrirModal', $idCompetencia);
     }
 
+    public function procesoIncsripcionJuez(){
+        $usuario = Auth::user();
+      
+            $aprobado = CompetenciaJuez::where('id_juez', $usuario->id)
+                ->where('id_competencia', $this->competenciaId)
+                ->first();
+    
+            if ($aprobado !== null) {
+                if ($aprobado->aprobado == 0) {
+                    $this->inscripcionAceptada = false;
+                } else {
+                    $this->inscripcionAceptada = true;
+                }
+            } else {
+                $this->inscripcionAceptada = false;
+            }   
+           
+    }
+    
+
+    public function procesoIncsripcionCompetidor(){
+        $usuario = Auth::user();
+      
+            $aprobado = CompetenciaCompetidor::where('id_competidor', $usuario->id)
+                ->where('id_competencia', $this->competenciaId)
+                ->first();
+    
+            if ($aprobado !== null) {
+                if ($aprobado->aprobado == 0) {
+                    $this->inscripcionAceptada = false;
+                } else {
+                    $this->inscripcionAceptada = true;
+                }
+            } else {
+                $this->inscripcionAceptada = false;
+            }   
+           
+    }
 
 
 }

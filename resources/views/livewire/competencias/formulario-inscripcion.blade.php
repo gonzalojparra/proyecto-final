@@ -1,8 +1,8 @@
-<x-modal wire:model='open'>
-    <form wire:submit.prevent='create' class="bg-white dark:bg-gray-900">
+<x-modal wire:model='open' class="bg-white dark:bg-gray-800 ">
+    <form wire:submit.prevent='create'>
         @csrf
         <!-- Modal con los datos del competidor/juez -->
-        <div class="inset-0 items-center rounded-lg  z-50 m-5 border-1">
+        <div class="inset-0 items-center rounded-lg  z-50 m-5 border-1  dark:bg-gray-800 rounded-lg shadow-lg p-6">
             <div class="bg-white dark:bg-gray-900 rounded-lg">
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
 
@@ -62,5 +62,8 @@
                 </div>
             </div>
         </div>
-    </form>
+  
+
+   
+  </form>
 </x-modal>

@@ -1,9 +1,10 @@
 @if($data['cant_jueces'] < 3 && Auth::user()->hasRole('Competidor'))
     <div class="bg-red-200 text-red-800 pt-4 m-6 mt-4 mb-4 p-4 text-lg rounded border border-red-300 my-3">
-        Por el momento no se puede incribir a esta competencia <br>Por favor, vuelve más tarde para poder inscribirse.
+        Por el momento no se puede incribir a esta competencia <br>Por favor, vuelve más tarde para poder inscribirse. <br>
+        <a href="{{asset('competencias/show')}}" class="font-medium text-red-800 dark:text-red-800 hover:underline">Volver</a>
     </div>
     <div class="p-4 "></div>
-@else
+    @else
     <div class="info-competencia mt-6 mb-8">
         <div>
             <h1 class="text-6xl flex justify-center font-semibold dark:text-gray-400 ">{{ $data['titulo'] }}</h1>
@@ -44,21 +45,20 @@
                                 No puede inscribirse
                             </span>
                         </button>
-                        @elseif( Auth::check() && Auth::user()->hasRole('Competidor')  && $data['cant_jueces'] >= 3|| Auth::user()->hasRole('Juez') && $data['cant_jueces'] < 7)
-                        <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
+                        @elseif( Auth::check() && Auth::user()->hasRole('Competidor') && $data['cant_jueces'] >= 3|| Auth::user()->hasRole('Juez') && $data['cant_jueces'] < 7) <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
                             <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                Inscripción 
+                                Inscripción
                             </span>
-                        </button>
-                        @endif
-                        <!-- <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                            </button>
+                            @endif
+                            <!-- <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                         Inscribirme
                     </button> -->
-                        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
-                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                Bases y condiciones
-                            </span>
-                        </button>
+                            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
+                                <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                    Bases y condiciones
+                                </span>
+                            </button>
 
                     </div>
                 </div>
@@ -66,6 +66,85 @@
         </div>
     </div>
 
+    <!-- Modal que muestra que la inscripcion fue enviada  -->
+    <div id="popup-modal" tabindex="-1" class="fixed flex align-items-center top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ">
+        <div class="relative w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal">
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+                <div class="p-6 text-center">
+                    <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Su incripcion fue enviada, se encuentra en proceso de aprobación</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Obtener referencias a los elementos del DOM
+        const modalButton = document.querySelector('[data-modal-toggle="popup-modal"]');
+        const modal = document.querySelector('#popup-modal');
+        const botonInscripcion1 = document.getElementById("openModal")
+
+        // Agregar un evento de clic al botón para abrir el modal
+        modalButton.addEventListener('click', () => {
+            modal.classList.add('block'); // Mostrar el modal cambiando la clase CSS
+            modal.classList.remove('hidden'); // Asegurarse de que el modal no esté oculto
+            modal.setAttribute('aria-hidden', 'false'); // Asegurarse de que el modal no esté oculto para la accesibilidad
+        });
+
+        // Agregar un evento de clic al botón de cierre del modal para ocultarlo
+        const closeButton = modal.querySelector('[data-modal-hide="popup-modal"]');
+        closeButton.addEventListener('click', () => {
+            modal.classList.remove('block'); // Ocultar el modal cambiando la clase CSS
+            modal.classList.add('hidden'); // Asegurarse de que el modal esté oculto
+            modal.setAttribute('aria-hidden', 'true'); // Asegurarse de que el modal esté oculto para la accesibilidad
+            botonInscripcion1.setAttribute('disabled');
+
+        });
+
+    </script>
+
+
+    @if($inscripcionAceptada)
+    <div id="popup-modal2" tabindex="-1" style="display:flex; align-items:center;  justify-content: center;" class="fixed flex align-items-center top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ">
+        <div class="relative w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal2">
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+                <div class="p-6 text-center">
+                    <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"></path>
+                    </svg>
+                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Su incripcion fue aceptada</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    const modal2 = document.querySelector('#popup-modal2');
+    const botonInscripcion = document.getElementById("openModal")
+    // Agregar un evento de clic al botón de cierre del modal para ocultarlo
+    const closeButton2 = modal2.querySelector('[data-modal-hide="popup-modal2"]');
+    closeButton2.addEventListener('click', () => {
+        modal2.classList.remove('block'); // Ocultar el modal cambiando la clase CSS
+        modal2.classList.add('hidden'); // Asegurarse de que el modal esté oculto
+        modal2.setAttribute('aria-hidden', 'true'); // Asegurarse de que el modal esté oculto para la accesibilidad
+        modal2.style.display = 'none';
+        botonInscripcion.setAttribute('disabled');
+    });
+    </script>
+    @endif
 
 
     <div class="resultados-competencia" style="margin-top: 5rem;">
