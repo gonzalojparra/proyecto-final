@@ -14,9 +14,9 @@ return new class extends Migration {
             $table->integer('ronda');
             $table->foreignId('id_poomsae')->constrained('poomsaes');
             $table->foreignId('id_competidor')->constrained('users');
-            $table->float('tiempo_presentacion');
-            $table->float('calificacion');
-            $table->integer('cant_votos');
+            $table->float('tiempo_presentacion')->nullable();
+            $table->float('calificacion')->nullable();
+            $table->integer('cant_votos')->nullable();
             $table->foreignId('id_competencia')->constrained('competencias');
         });
     }

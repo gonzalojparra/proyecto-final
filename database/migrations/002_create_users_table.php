@@ -25,7 +25,6 @@ return new class extends Migration {
             $table->integer('du')->nullable();
             $table->float('clasificacion')->default(0);
             $table->string('graduacion')->nullable();
-            $table->unsignedBigInteger('id_categoria')->nullable(); // Se calcula por edad de fecha nac
             $table->string('genero')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('verificado')->default(false);
@@ -33,8 +32,7 @@ return new class extends Migration {
 
             $table->foreign('id_escuela')->references('id')
               ->on('teams');
-            $table->foreign('id_categoria')->references('id')
-              ->on('categorias');
+            
         });
     }
 
