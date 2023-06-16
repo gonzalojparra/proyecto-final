@@ -10,6 +10,7 @@ use App\Models\Team;
 use App\Models\CompetenciaCompetidor;
 use App\Models\CompetenciaJuez;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class VerUnaCompetencia extends Component {
@@ -32,6 +33,8 @@ class VerUnaCompetencia extends Component {
     public $dato;
     public $competenciaId;
     public $inscripcionAceptada;
+    public $formAceptado = false;
+    public $bandera = true;
 
     public $mensaje;
     protected $listeners = ['confirmacion'];
@@ -39,12 +42,14 @@ class VerUnaCompetencia extends Component {
     public function mount($competenciaId) {
         $this->competenciaId = $competenciaId;
     }
+
     public function render() {
         // $this->procesoIncsripcion();
-        $this->procesoIncsripcionJuez();
-        $this->procesoIncsripcionCompetidor();
+        $this->procesoInscripcionJuez();
+        $this->procesoInscripcionCompetidor();
         $query = Competencia::where('id', $this->competenciaId)->get();
         $data = $query[0]->toArray();
+        $data['mostrarBoton'] = $this->mostrarBoton();
         return view('livewire.competencias.ver-una-competencia', [
             'data' => $data
         ]);
@@ -91,6 +96,33 @@ class VerUnaCompetencia extends Component {
         return $categoria;
     }
 
+    public function mostrarBoton() {
+        $queryCompetidor = CompetenciaCompetidor::where('id_competencia', $this->competenciaId)
+            ->where('id_competidor', Auth::user()->id);
+        if( $queryCompetidor->exists() ){
+            $this->bandera = false;
+        } else {
+            $queryJuez = CompetenciaJuez::where('id_competencia', $this->competenciaId)
+                ->where('id_juez', Auth::user()->id);
+            if( $queryJuez->exists() ){
+                $this->bandera = false;
+            }
+        }
+        return $this->bandera;
+    }
+
+    /* public function mostrarBotonJuez() {
+        $bandera = true;
+        $query = DB::table('competencia_juez')
+            ->where('id_competencia', $this->competenciaId)
+            ->where('id_juez', Auth::user()->id)
+            ->first();
+        if ($query == null) {
+            $bandera = false;
+        }
+        return $bandera;
+    } */
+
     // public function inscribir(Request $request, Competidor $competidor) {
     //     $user = Auth::user();
     //     $userCategoria = Categoria::find($user->id_categoria);
@@ -110,7 +142,11 @@ class VerUnaCompetencia extends Component {
         $this->emit('abrirModal', $idCompetencia);
     }
 
-    public function procesoIncsripcionJuez(){
+    public function aceptarForm() {
+        $this->formAceptado = true;
+    }
+
+    public function procesoInscripcionJuez(){
         $usuario = Auth::user();
       
             $aprobado = CompetenciaJuez::where('id_juez', $usuario->id)
@@ -130,7 +166,7 @@ class VerUnaCompetencia extends Component {
     }
     
 
-    public function procesoIncsripcionCompetidor(){
+    public function procesoInscripcionCompetidor(){
         $usuario = Auth::user();
       
             $aprobado = CompetenciaCompetidor::where('id_competidor', $usuario->id)
