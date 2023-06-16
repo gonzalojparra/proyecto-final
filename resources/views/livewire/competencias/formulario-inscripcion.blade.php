@@ -1,8 +1,8 @@
-<x-modal wire:model='open'>
-    <form wire:submit.prevent='create' class="bg-white dark:bg-gray-900">
+<x-modal wire:model='open' class="bg-white dark:bg-gray-800 ">
+    <form wire:submit.prevent='create'>
         @csrf
         <!-- Modal con los datos del competidor/juez -->
-        <div class="inset-0 items-center rounded-lg  z-50 m-5 border-1">
+        <div class="inset-0 items-center rounded-lg  z-50 m-5 border-1  dark:bg-gray-800 rounded-lg shadow-lg p-6">
             <div class="bg-white dark:bg-gray-900 rounded-lg">
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
 
@@ -55,12 +55,15 @@
                         <button wire:click="$set('open',false)" id="closeModal" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                             Cerrar
                         </button>
-                        <button wire:click='create()' id="confirmModal" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150">
+                        <button wire:click='create()' id="confirmModal" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150" data-modal-target="popup-modal" data-modal-toggle="popup-modal">
                             Confirmar
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+  
+
+   
+  </form>
 </x-modal>
