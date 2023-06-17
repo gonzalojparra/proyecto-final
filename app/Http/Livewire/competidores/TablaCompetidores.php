@@ -28,9 +28,7 @@ class TablaCompetidores extends Component {
 
     protected $listeners = ['render' => 'render'];
 
-    public function render()
-    {
-        // dd($this->categoriaElegida);
+    public function render() {
         $usuarios = User::where('name', 'like', '%' . $this->filtro . '%')
             ->orWhere('apellido', 'like', '%' . $this->filtro . '%')
             ->orderBy($this->orden, $this->direccion)
@@ -67,7 +65,7 @@ class TablaCompetidores extends Component {
         return view('livewire.competidores.tabla-competidores', compact('competidores'));
     }
 
-    public function ordenar($filtroOrden){
+    public function ordenar($filtroOrden) {
         if($this->orden == $filtroOrden){
 
             if($this->direccion == 'asc'){
@@ -81,8 +79,7 @@ class TablaCompetidores extends Component {
         }
     }
 
-    public function obtenerCategoría($competidor)
-    {
+    public function obtenerCategoría($competidor) {
         $categoria = '';
         $fechaNac = $competidor['fecha_nac'];
         $fechaActual = time();
@@ -109,8 +106,7 @@ class TablaCompetidores extends Component {
         return $categoria;
     }
 
-    public function filtrarCompetidores($categoria, $graduacion, $escuela, $competidores)
-    {
+    public function filtrarCompetidores($categoria, $graduacion, $escuela, $competidores) {
         $listaUsuarios = $competidores;
         $usuariosFiltrados = [];
         if ($this->categoriaElegida != 'ninguna'|| $this->graduacionElegida != 'ninguna' || $this->escuelaElegida != 'ninguna') {
@@ -165,4 +161,5 @@ class TablaCompetidores extends Component {
         }
         return $usuariosFiltrados;
     }
+
 }
