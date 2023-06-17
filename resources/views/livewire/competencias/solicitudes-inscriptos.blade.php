@@ -47,9 +47,9 @@
                         </td>
                         <td class="px-6 py-4">
                             @if (isset($inscripto->actualizacion))
-                            {{$inscripto->actualizacion->team->name}} <br> <span class="text-xs font-bold text-black bg-orange-200">Nuevo</span>
+                                {{$inscripto->actualizacion->team->name}} <br> <span class="text-xs font-bold text-black bg-orange-200">Nuevo</span>
                             @else
-                            {{$inscripto->user->team->name}}       
+                                {{$inscripto->user->team->name}} 
                             @endif
                         </td>
                         <td class="px-6 py-4">
@@ -152,7 +152,7 @@
             @else
             <div class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 px-6 py-3 text-dark">
                 <h3>
-                    Aun no hay competidores
+                    Aun no hay jueces
                 </h3>
             </div>
 
