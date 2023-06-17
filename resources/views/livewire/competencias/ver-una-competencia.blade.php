@@ -11,7 +11,7 @@
         </div>
         <div class="datos-competencia gap-x-2 flex flex-row justify-center mt-6">
             <div class="flyer max-w-sm mr-4">
-                <img class="rounded-t-lg w-auto" src="{{ $data['flyer'] }}" alt="flyer" />
+                <img class="rounded-t-lg w-auto" src="{{ Storage::url($data['flyer']) }}" alt="flyer" />
             </div>
             @livewire('competencias.formulario-inscripcion', ['competenciaId' => $data['id']])
             <div class="flex flex-col">
@@ -38,8 +38,7 @@
                 </div>
                 <div class="flex flex-row justify-center items-end mt-8 text-gray-500 ml-5" style="height: 20%;">
                     <div grid justify-items-center>
-
-                        @if( Auth::check() && Auth::user()->hasRole('Admin') || Auth::user()->verificado == 0 )
+                        @if( Auth::check() && $bandera == 0 )
                         <button id="openModal" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
                             <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                 No puede inscribirse
@@ -50,7 +49,7 @@
                                 Inscripción
                             </span>
                             </button>
-                            @endif
+                        @endif
                             <!-- <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                         Inscribirme
                     </button> -->
@@ -108,12 +107,11 @@
             botonInscripcion1.setAttribute('disabled');
 
         });
-
     </script>
 
 
-    @if($inscripcionAceptada)
-    <div id="popup-modal2" tabindex="-1" style="display:flex; align-items:center;  justify-content: center;" class="fixed flex align-items-center top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ">
+    @if($inscripcionAceptada == 1)
+    <div id="popup-modal2" tabindex="-1" style="display:flex; align-items:center;  justify-content: center;" class="fixed flex align-items-center top-0 left-0 right-0 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ">
         <div class="relative w-full max-w-md max-h-full">
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal2">
@@ -132,17 +130,17 @@
         </div>
     </div>
     <script>
-    const modal2 = document.querySelector('#popup-modal2');
-    const botonInscripcion = document.getElementById("openModal")
-    // Agregar un evento de clic al botón de cierre del modal para ocultarlo
-    const closeButton2 = modal2.querySelector('[data-modal-hide="popup-modal2"]');
-    closeButton2.addEventListener('click', () => {
-        modal2.classList.remove('block'); // Ocultar el modal cambiando la clase CSS
-        modal2.classList.add('hidden'); // Asegurarse de que el modal esté oculto
-        modal2.setAttribute('aria-hidden', 'true'); // Asegurarse de que el modal esté oculto para la accesibilidad
-        modal2.style.display = 'none';
-        botonInscripcion.setAttribute('disabled');
-    });
+        const modal2 = document.querySelector('#popup-modal2');
+        const botonInscripcion = document.getElementById("openModal")
+        // Agregar un evento de clic al botón de cierre del modal para ocultarlo
+        const closeButton2 = modal2.querySelector('[data-modal-hide="popup-modal2"]');
+        closeButton2.addEventListener('click', () => {
+            modal2.classList.remove('block'); // Ocultar el modal cambiando la clase CSS
+            modal2.classList.add('hidden'); // Asegurarse de que el modal esté oculto
+            modal2.setAttribute('aria-hidden', 'true'); // Asegurarse de que el modal esté oculto para la accesibilidad
+            modal2.style.display = 'none';
+            botonInscripcion.setAttribute('disabled');
+        });
     </script>
     @endif
 

@@ -19,7 +19,7 @@
                     <div class="text-gray-100 text-lg">DU: {{ $this->user->du }}</div>
                     <div class="text-gray-100 text-lg">Nacimiento: {{ $this->user->fecha_nac }}</div>
                     <div class="text-gray-100 text-lg">Genero: {{ $this->user->genero }}</div>
-                    <div class="text-gray-100 text-lg"> Graduacion: {{ $this->user->graduacion }}</div>
+                    <div class="text-gray-100 text-lg"> Graduacion: {{ $this->user->id_graduacion }}</div>
                     @if($this->user->gal != null)
                     <div class="text-gray-100 text-lg">Gal: {{ $this->user->gal }}</div>
                     @endif

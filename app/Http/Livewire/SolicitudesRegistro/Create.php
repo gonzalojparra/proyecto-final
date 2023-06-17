@@ -2,7 +2,8 @@
 
 namespace App\Http\Livewire\SolicitudesRegistro;
 
-use App\Mail\MailPrueba;
+use App\Mail\EnvioMail;
+use App\Models\Graduacion;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -24,7 +25,16 @@ class Create extends Component {
         $this->gal = $user['gal'];
         $this->du = $user['du'];
         $this->clasificacion = $user['clasificacion'];
-        $this->graduacion = $user['graduacion'];
+
+        if( $user['id_graduacion'] !== null ){
+            $queryGrad = Graduacion::where('id', $user['id_graduacion'])->get();
+            $graduacionArray = $queryGrad->toArray();
+            $graduacion = $graduacionArray['nombre'];
+        } else {
+            $graduacion = '';
+        }
+
+        $this->graduacion = $graduacion;
         $this->genero = $user['genero'];
         $this->verificado = $user['verificado'];
         $this->escuela = $user['escuela'];
@@ -44,7 +54,7 @@ class Create extends Component {
                 $usuario->verificado = true;
                 $usuario->save();
                 $this->emit('render');
-                Mail::to($usuario->email)->send(new MailPrueba('aceptado'));
+                Mail::to($usuario->email)->send(new EnvioMail('aceptado'));
                 $this->open=false;
             }
         }
@@ -56,6 +66,7 @@ class Create extends Component {
             DB::table('model_has_roles')->where('model_id','=',$user)->delete();
             DB::table('users')->where('id','=',$user)->delete();
             $this->emit('render');
+            Mail::to(User::find($user)->pluck('email')[0])->send(new EnvioMail('rechazo'));
             $this->open=false;
         }
     }

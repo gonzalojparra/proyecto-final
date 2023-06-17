@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Competidores;
 
+use App\Models\Graduacion;
 use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -64,6 +65,9 @@ class CompetenciaCompetidor extends Component {
                     $competidoresVerificados[] = $usuario;
                 }
                 $idCategoria =  array_keys( $this->categorias, $usuario['categoria'] );
+                $query = Graduacion::where('id', $usuario['id_graduacion'])->get();
+                $queryArray = $query->toArray();
+                $usuario['graduacion'] = $queryArray[0]['nombre'];
                 $idGraduacion = array_keys( $this->graduaciones, $usuario['graduacion'] );
                 if( count($idCategoria) == 0 ){
                     array_push( $this->categorias, $usuario['categoria'] );
@@ -75,7 +79,14 @@ class CompetenciaCompetidor extends Component {
         }
         $competidores = $this->filtrarCompetidores( $this->categoriaElegida, $this->graduacionElegida, $this->escuelaElegida, $competidoresVerificados );
 
-        return view( 'livewire.competidores.competencia-competidor', compact('competidores') );
+        $compGraduacion = [];
+        foreach( $competidores as $competidor ){
+            $graduacionQuery = Graduacion::where('id', $competidor['id_graduacion'])->get();
+            $array = $graduacionQuery->toArray();
+            array_push($compGraduacion, $array);
+        }
+
+        return view( 'livewire.competidores.competencia-competidor', compact('competidores'), compact('compGraduacion') );
     }
 
     public function ordenar( $filtroOrden ){

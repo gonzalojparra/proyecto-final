@@ -74,35 +74,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($competidores as $usuario )
+                        @for ($i = 0; $i < count($competidores); $i++)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$usuario['id']}}
+                                {{$competidores[$i]['id']}}
                             </th>
                             <td class="px-6 py-4">
-                                {{$usuario['name']}}
+                                {{$competidores[$i]['name']}}
                             </td>
                             <td class="px-6 py-4">
-                                {{$usuario['apellido']}}
+                                {{$competidores[$i]['apellido']}}
                             </td>
                             <td class="px-6 py-4">
-                                {{$usuario['genero']}}
+                                {{$competidores[$i]['genero']}}
                             </td>
                             <td class="px-6 py-4">
-                                {{$usuario['graduacion']}}
+                                {{$compGraduacion[$i][0]['nombre']}}
                             </td>
                             <td class="px-6 py-4">
-                                {{$usuario['categoria']}}
+                                {{$competidores[$i]['categoria']}}
                             </td>
                             <td class="px-6 py-4">
-                                {{$usuario['gal']}}
+                                {{$competidores[$i]['gal']}}
                             </td>
                             <td class="px-6 py-4">
-                                {{$usuario['clasificacion']}}
+                                {{$competidores[$i]['clasificacion']}}
                             </td>
-                        </tr>
-                        @endforeach
-
+                        </tr> 
+                        @endfor
 
                     </tbody>
                 </table>

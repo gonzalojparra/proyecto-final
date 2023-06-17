@@ -8,7 +8,7 @@
         @foreach ( $competencias as $competencia )
         <div class=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="#">
-                <img class="rounded-t-lg w-auto" src="{{ $competencia->flyer }}" alt="flyer" />
+                <img class="rounded-t-lg w-auto" src="{{ Storage::url($competencia->flyer) }}" alt="flyer" />
             </a>
             <div class="p-5">
                 <a href="#">

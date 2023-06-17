@@ -18,10 +18,10 @@ class DatabaseSeeder extends Seeder {
             RoleSeeder::class,
             CategoriasSeeder::class,
             zTeamsSeeder::class,
+            GraduacionesSeeder::class,
             UserSeeder::class,
             CompetenciasSeeder::class,
             PoomsaesSeeder::class,
-            GraduacionesSeeder::class,
             PoomsaeCompetenciaCategoriaSeeder::class
         ]);
 
