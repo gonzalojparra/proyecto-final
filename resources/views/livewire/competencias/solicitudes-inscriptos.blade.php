@@ -30,7 +30,7 @@
                         </th>
                         <th scope="col" class="px-6 py-3">
                             <span class="cursor-pointer">
-                                Rol
+                                Para
                             </span>
                         </th>
 

@@ -65,7 +65,7 @@ class SolicitudesInscripcion extends Component {
         $this->idCompetencia = $idCompetencia;
     }
 
-    public function aceptar($rol, $id, $actualizacion)
+    public function aceptar($rol, $id, $actualizacion = null)
     {
         $participante = CompetenciaJuez::find($id);
         if ($rol == "Competidor"){
