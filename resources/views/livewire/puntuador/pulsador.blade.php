@@ -8,7 +8,6 @@
                     <div class="toggle">
                         <input type="button" class="button">
                         <span class="button"><span class="label">-0.1</span></span>
-
                     </div>
                 </div>
                 <div class="puntaje">10</div>
