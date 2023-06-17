@@ -45,6 +45,7 @@
     position: absolute;
     font-weight: 700;
     font-size: 80px;
+    font-family:sans-serif;
     /* display: block; */
     opacity: 0.9;
     height: 100%;

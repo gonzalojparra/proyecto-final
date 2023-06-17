@@ -1,6 +1,7 @@
 <div>
     <div class="contenedor">
-        <div class="pulsador">
+        <div class="exactitud">
+            <!-- En titulo va la variable $tipoPresentacion o algo asi donde vaya el titulo correspondiente del pulsador (Exactitud o Presentacion) -->
             <div class="titulo">Exactitud</div>
             <div class="puntaje-pulsadores">
                 <div class="boton-izquierdo">
@@ -10,7 +11,6 @@
 
                     </div>
                 </div>
-                <!-- <div class="boton-izquierdo"></div> -->
                 <div class="puntaje">10</div>
                 <div class="boton-derecho">
                     <div class="toggle">
@@ -19,7 +19,6 @@
 
                     </div>
                 </div>
-                <!-- <div class="boton-derecho"></div> -->
             </div>
             <div class="info-ronda">
                 <div class="nombre-competidor">Daniela Rodriguez</div>
