@@ -13,13 +13,9 @@
   border-radius: 84.5px;
   background: #fff;
   position: absolute;
-  /* margin-left: -36px;
-    margin-top: -36px; */
   opacity: 0.2;
   height: 300px;
   width: 300px;
-  /* left: 50%;
-    top: 50%; */
 }
 
 .toggle .button {
@@ -28,13 +24,8 @@
   border-radius: 158.8px;
   position: absolute;
   background: #eaeaea;
-  /* margin-left: -34.4px;
-    margin-top: -34.4px; */
-  /* display: block; */
   height: 296.8px;
   width: 296.8px;
-  /* left: 50%;
-    top: 50%; */
 }
 
 
@@ -46,7 +37,6 @@
   font-weight: 700;
   font-size: 80px;
   font-family: sans-serif;
-  /* display: block; */
   opacity: 0.9;
   height: 100%;
   width: 100%;
@@ -72,7 +62,7 @@
 
 .toggle input:active~.button {
   filter: blur(0.5px);
-  box-shadow: 0 12px 25px -4px rgba(0, 0, 0, 0.4),  inset 0 8px 25px 0 rgba(0, 0, 0, 0.4), inset 0 0 10px 1px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 12px 25px -4px rgba(0, 0, 0, 0.4), inset 0 8px 25px 0 rgba(0, 0, 0, 0.4), inset 0 0 10px 1px rgba(255, 255, 255, 0.6);
 }
 
 .toggle input:active~.label {
@@ -98,18 +88,17 @@
   font-family: sans-serif;
   padding: 0.7em 1.5em;
   transition: box-shadow ease-in-out 0.3s,
-              background-color ease-in-out 0.1s,
-              letter-spacing ease-in-out 0.1s,
-              transform ease-in-out 0.1s;
-  
- }
- 
- 
- 
- .enviar:active {
+    background-color ease-in-out 0.1s,
+    letter-spacing ease-in-out 0.1s,
+    transform ease-in-out 0.1s;
+
+}
+
+
+
+.enviar:active {
   box-shadow: var(--hover-shadows),
-               var(--accent) 0px 0px 30px 5px;
+    var(--accent) 0px 0px 30px 5px;
   background-color: var(--accent);
   transform: scale(0.95);
- }
- 
+}

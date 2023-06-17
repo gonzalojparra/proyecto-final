@@ -72,12 +72,6 @@
     }
 }
 
-/* @media only screen and (orientation:portrait) {
-    .pulsador {
-        display: none;
-    }
-} */
-
 
 @media only screen and (min-height:500px){
     .pulsador {
@@ -106,9 +100,3 @@
     }
 
 }
-
-/* @media only screen and (min-width:901px) {
-    .contenedor {
-        display: none;
-    }
-} */
