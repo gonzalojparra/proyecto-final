@@ -32,6 +32,7 @@ class SolicitudesInscripcion extends Component {
                 foreach ($inscriptosCompetidor as $inscripto) {
                     if ($inscripto->id_competencia == $this->idCompetencia && $inscripto->aprobado == false){
                         $peticionModificacion = Actualizacion::where('id_user', $inscripto->id_competidor);
+                        // dd($peticionModificacion);
                         if ($peticionModificacion->exists()){
                             $inscripto->actualizacion = $peticionModificacion;
                         }
@@ -52,7 +53,11 @@ class SolicitudesInscripcion extends Component {
                 }
             }
         }
-        return view('livewire.competencias.solicitudes-inscriptos', ['inscriptosPendientes' => $inscriptosPendientes]);
+
+        $competidores = CompetenciaCompetidor::where('id_competencia', $this->idCompetencia)->where('aprobado', true)->get();
+        $jueces = CompetenciaJuez::where('id_competencia', $this->idCompetencia)->where('aprobado', true)->get();
+
+        return view('livewire.competencias.solicitudes-inscriptos', ['competencia' => $competencia, 'inscriptosPendientes' => $inscriptosPendientes, 'competidores' => $competidores, 'jueces' => $jueces]);
     }
 
     // Con esta funcion 'Mount' recibimos los datos enviados desde la URL
@@ -81,5 +86,15 @@ class SolicitudesInscripcion extends Component {
         } else {
             CompetenciaJuez::find($id)->delete();
         }
+    }
+
+    public function eliminarJuez($id)
+    {
+        CompetenciaJuez::find($id)->delete();
+    }
+
+    public function eliminarCompetidor($id)
+    {
+        CompetenciaCompetidor::find($id)->delete();
     }
 }

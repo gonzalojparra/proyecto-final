@@ -46,7 +46,7 @@
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             <span class="cursor-pointer">
-                                ID
+                                #
                             </span>
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -57,11 +57,6 @@
                         <th scope="col" class="px-6 py-3">
                             <span class="cursor-pointer">
                                 Descripcion
-                            </span>
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            <span class="cursor-pointer">
-                                Juez
                             </span>
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -80,10 +75,11 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php $cant = 1; ?>
                     @foreach ($competencias as $competencia )
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="row" class="px-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{$competencia->id}}
+                            {{$cant++}}
                         </th>
                         <td class="px-2">
                             {{$competencia->titulo}}
@@ -92,23 +88,40 @@
                             {{$competencia->descripcion}}
                         </td>
                         <td class="px-2 ">
-                            {{$competencia->cant_jueces}}
-                        </td>
-                        <td class="px-2 ">
                             @switch($competencia->estado)
+                            @case(0)
+                            <div class="w-1/2 m-auto" >
+                                Deshabilitado
+                            </div>
+                            @break
+
+                            @case(1)
+                            <div class="w-1/2 m-auto" >
+                                Buscando jueces
+                            </div>
+                            @break
+
                             @case(2)
                             <div class="w-1/2 m-auto" >
-                                <svg  fill="none"  stroke="green" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
+                                Inscripciones abiertas
                             </div>
                             @break
 
                             @case(3)
                             <div class="w-1/2 m-auto">
-                                <svg fill="none" stroke="red" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"></path>
-                                </svg>
+                                Inscripciones cerradas
+                            </div>
+                            @break
+
+                            @case(4)
+                            <div class="w-1/2 m-auto">
+                                <span style="color: #d97706;">En curso</span>
+                            </div>
+                            @break
+
+                            @case(5)
+                            <div class="w-1/2 m-auto">
+                                Finalizada
                             </div>
                             @break
 
@@ -126,7 +139,7 @@
                             <a href="{{route('solicitudes-inscriptos', $competencia->id)}}">
                                 <button class="relative inline-flex items-center justify-center p-0.5 mb-2 ml-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800 mt-2" wire:click="mostrarCompetencia({{$competencia->id}})">
                                     <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                        Solicitudes
+                                        Participantes
                                     </span>
                                 </button>
                             </a>
