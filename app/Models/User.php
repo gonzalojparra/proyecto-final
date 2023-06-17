@@ -66,7 +66,7 @@ class User extends Authenticatable {
 
     public function team()
     {
-        return $this->hasOne(Team::class, 'id');
+        return $this->hasOne(Team::class, 'id', 'id_escuela');
     }
 
 }

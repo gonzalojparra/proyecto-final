@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Competencias;
 
+use App\Http\Middleware\Authenticate;
+use App\Mail\EnvioMail;
 use App\Models\Actualizacion;
 use App\Models\Categoria;
 use App\Models\CompetenciaCategoria;
@@ -11,6 +13,7 @@ use App\Models\Graduacion;
 use App\Models\PoomsaeCompetenciaCategoria;
 use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 
@@ -130,22 +133,16 @@ class FormularioInscripcion extends Component {
         $creado = false;
         $this->calcularCategoria();
         $this->compararDatos();
-        $esta = $this->revisarSiUserEsta();
-        if (!$esta) {
-            // $this->sortPoomsae($this->graduacion);
-            $competencia_competidor = new CompetenciaCompetidor();
-            $competencia_competidor->id_competencia = $this->idCompetencia;
-            $competencia_competidor->id_competidor = $this->idUsuario;
-            $competencia_competidor->id_categoria = $this->idCategoria;
-            $competencia_competidor->calificacion = null;
-            $competencia_competidor->aprobado = false;
-            $competencia_competidor->save();
-            $creado = true;
-            session()->flash('success', '¡Inscripción exitosa!');
-        } else {
-            session()->flash('error', '¡Ya estás inscrito en esta competencia!');
-        }
-        return $creado;
+        // $this->sortPoomsae($this->graduacion);
+        $competencia_competidor = new CompetenciaCompetidor();
+        $competencia_competidor->id_competencia = $this->idCompetencia;
+        $competencia_competidor->id_competidor = $this->idUsuario;
+        $competencia_competidor->id_categoria = $this->idCategoria;
+        $competencia_competidor->calificacion = null;
+        $competencia_competidor->aprobado = false;
+        $competencia_competidor->save();
+        Mail::to($this->email)->send(new EnvioMail('aceptado'));
+
     }
 
 
@@ -183,13 +180,12 @@ class FormularioInscripcion extends Component {
     public function crearJuez() {
         $esta = $this->revisarSiUserEsta();
         $this->compararDatos();
-        if (!$esta) {
-            $competencia_juez = new CompetenciaJuez();
-            $competencia_juez->id_competencia = $this->idCompetencia;
-            $competencia_juez->id_juez = $this->idUsuario;
-            $competencia_juez->aprobado = false;
-            $competencia_juez->save();
-        }
+        $competencia_juez = new CompetenciaJuez();
+        $competencia_juez->id_competencia = $this->idCompetencia;
+        $competencia_juez->id_juez = $this->idUsuario;
+        $competencia_juez->aprobado = false;
+        $competencia_juez->save();
+        Mail::to($this->email)->send(new EnvioMail('aceptado'));
     }
     // ? $this->emit('confirmacion', true) : $this->emit('confirmacion', false)
 
