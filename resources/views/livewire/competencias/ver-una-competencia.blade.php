@@ -11,7 +11,7 @@
         </div>
         <div class="datos-competencia gap-x-2 flex flex-row justify-center mt-6">
             <div class="flyer max-w-sm mr-4">
-                <img class="rounded-t-lg w-auto" src="{{ $data['flyer'] }}" alt="flyer" />
+                <img class="rounded-t-lg w-auto" src="{{ Storage::url($data['flyer']) }}" alt="flyer" />
             </div>
             @livewire('competencias.formulario-inscripcion', ['competenciaId' => $data['id']])
             <div class="flex flex-col">
