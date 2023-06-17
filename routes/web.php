@@ -115,6 +115,7 @@ Route::post('/obtenerEscuelas',)->name('acciones.obtenerEscuelas');
 //Puntuador
 Route::group(['middleware' => ['role:Juez']], function() {
     Route::view('/competencias/puntuador','competencias.puntuador')->name('puntuador');
+    Route::view('/pulsador','competencia.pulsador')->name('pulsador');
 });
 
 
