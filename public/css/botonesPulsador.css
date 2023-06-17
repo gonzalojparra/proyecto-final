@@ -85,3 +85,31 @@
 .toggle input:checked~.label {
   color: rgba(0, 0, 0, 0.8);
 }
+
+.enviar {
+  width: fit-content;
+  --accent: #eaeaea;
+  font-weight: bold;
+  font-size: 20px;
+  border: none;
+  border-radius: 1em;
+  background-color: #eaeaea;
+  color: rgba(0, 0, 0, 0.9);
+  font-family: sans-serif;
+  padding: 0.7em 1.5em;
+  transition: box-shadow ease-in-out 0.3s,
+              background-color ease-in-out 0.1s,
+              letter-spacing ease-in-out 0.1s,
+              transform ease-in-out 0.1s;
+  
+ }
+ 
+ 
+ 
+ .enviar:active {
+  box-shadow: var(--hover-shadows),
+               var(--accent) 0px 0px 30px 5px;
+  background-color: var(--accent);
+  transform: scale(0.95);
+ }
+ 
