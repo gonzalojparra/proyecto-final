@@ -39,7 +39,7 @@
             <div class="titulo">ERROR</div>
             <div class="mensaje-error">
                 Por favor, utilice un teléfono movil <br>
-                de manera horizontal para utilizar el pulsador
+                de manera horizontal para acceder al pulsador
             </div>
         </div>
     </div>
