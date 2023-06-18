@@ -13,8 +13,9 @@
                 <div class="puntaje-boton">
                     <div class="puntaje">10</div>
                     <div class="boton-enviar">&nbsp;
+                        <!-- Este botón lleva una variable $botonEnviar que modifique el texto al que corresponda (saltar competidor o enviar) -->
                         <button class="enviar">
-                            Enviar
+                            Saltar competidor
                         </button>
                     </div>
                 </div>
@@ -43,5 +44,5 @@
             </div>
         </div>
     </div>
-
+    <!-- Ver de hacer alguna segunda confirmacion de que se va a saltar el competidor -->
 </div>

@@ -19,7 +19,7 @@
     .puntaje-pulsadores {
         display: flex;
         flex-direction: row;
-        gap: 5rem;
+        gap: 4rem;
         justify-content: center;
     }
 
