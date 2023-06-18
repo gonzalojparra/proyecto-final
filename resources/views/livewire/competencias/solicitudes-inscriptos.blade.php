@@ -14,11 +14,6 @@
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             <span class="cursor-pointer">
-                                #
-                            </span>
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            <span class="cursor-pointer">
                                 Nombre y Apellido
                             </span>
                         </th>
@@ -32,6 +27,11 @@
                                 Graduacion
                             </span>
                         </th>
+                        <th scope="col" class="px-6 py-3">
+                            <span class="cursor-pointer">
+                                Rol
+                            </span>
+                        </th>
 
                         <th scope="col" class="px-6 py-3">
                             <span class="sr-only">-</span>
@@ -39,12 +39,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $num=1 ?>
                     @foreach ($inscriptosPendientes as $inscripto )
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{$num++}}
-                        </th>
                         <td class="px-6 py-4">
                             {{$inscripto->user->name}} {{$inscripto->user->apellido}}
                         </td>
@@ -57,6 +53,9 @@
                         </td>
                         <td class="px-6 py-4">
                             {{$inscripto->user->graduacion}}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{$inscripto->rol}}
                         </td>
 
                         <td class="px-6 py-4">
