@@ -78,7 +78,7 @@ class UserController extends Controller {
             'fecha_nac' => $input['fechaNac'],
             'gal' => $input['gal'],
             'genero' => $genero,
-            'graduacion' => $graduacion[0]['id'],
+            
             'id_escuela' => $escuela[0]->id,
         ]);
 

@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -13,14 +14,21 @@ class EnvioMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $motivo;
+    public $nombre, $apellido, $email, $du, $escuela, $rol, $motivo;
+
 
     /**
      * Create a new message instance.
      */
-    public function __construct($motivo)
+    public function __construct($user, $motivo)
     {
-        $this->motivo= $motivo;
+        $user = User::find($user);
+        $this->motivo = $motivo;
+        $this->rol = $user->roles()->pluck('name')[0];
+        $this->nombre = $user['name'];
+        $this->apellido = $user['apellido'];
+        $this->email = $user['email'];
+        $this->du = (isset($user['du'])?$user['du'] : "");        
     }
 
     /**
@@ -29,7 +37,7 @@ class EnvioMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Envio Mail',
+            subject: 'Novedades de Zen Kicks',
         );
     }
 
@@ -39,7 +47,7 @@ class EnvioMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.'. $this->motivo,
+            view: 'emails.'.$this->motivo,
         );
     }
 

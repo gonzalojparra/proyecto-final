@@ -9,14 +9,16 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
-class Create extends Component {
+class Create extends Component
+{
 
     public $open = false;
     public $iduser, $nombre, $apellido, $email, $fecha_nac, $gal, $du, $clasificacion, $graduacion, $genero, $verificado, $escuela;
 
     protected $listeners = ['openModal' => 'mostrarUsuario'];
 
-    public function mostrarUsuario($user) {
+    public function mostrarUsuario($user)
+    {
         $this->iduser = $user['id'];
         $this->nombre = $user['name'];
         $this->apellido = $user['apellido'];
@@ -26,7 +28,7 @@ class Create extends Component {
         $this->du = $user['du'];
         $this->clasificacion = $user['clasificacion'];
 
-        if( $user['id_graduacion'] !== null ){
+        if ($user['id_graduacion'] !== null) {
             $queryGrad = Graduacion::where('id', $user['id_graduacion'])->get();
             $graduacionArray = $queryGrad->toArray();
             $graduacion = $graduacionArray['nombre'];
@@ -43,32 +45,35 @@ class Create extends Component {
     }
 
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.solicitudes-registro.create');
     }
 
-    public function aceptarSolicitud($user) {
-        $usuario = User::find($user);        
-        if ($usuario !== null){
-            if( $usuario->verificado == false ){
+    public function aceptarSolicitud($user)
+    {
+        $usuario = User::find($user);
+        if ($usuario !== null) {
+            if ($usuario->verificado == false) {
                 $usuario->verificado = true;
-                $usuario->save();
-                $this->emit('render');
-                Mail::to($usuario->email)->send(new EnvioMail('aceptado'));
-                $this->open=false;
+                if ($usuario->save()) {
+                    $this->emit('render');
+                    Mail::to($usuario->email)->send(new EnvioMail($this->iduser, 'usuario_aceptado'));
+                    $this->open = false;
+                }
             }
         }
     }
 
-    public function rechazarSolicitud($user){
-        
-        if (DB::table('model_has_roles')->where('model_id','=',$user)->get()){
-            DB::table('model_has_roles')->where('model_id','=',$user)->delete();
-            DB::table('users')->where('id','=',$user)->delete();
+    public function rechazarSolicitud($user)
+    {
+
+        if (DB::table('model_has_roles')->where('model_id', '=', $user)->get()) {
+            Mail::to($this->email)->send(new EnvioMail($this->iduser, 'usuario_rechazado'));
+            DB::table('model_has_roles')->where('model_id', '=', $user)->delete();
+            DB::table('users')->where('id', '=', $user)->delete();
             $this->emit('render');
-            Mail::to(User::find($user)->pluck('email')[0])->send(new EnvioMail('rechazo'));
-            $this->open=false;
+            $this->open = false;
         }
     }
-
 }
