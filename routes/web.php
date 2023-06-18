@@ -118,6 +118,8 @@ Route::group(['middleware' => ['role:Juez']], function() {
     Route::view('/pulsador','competencia.pulsador')->name('pulsador');
 });
 
+Route::view('/competencias/pantallaEspera','livewire.competencias.pantalla-espera')->name('competencias.pantalla-espera');
 
+// livewire.pantalla-espera
 // TESTEOS
 // Route::get('/test.{id}', [UserController::class, 'show']);
