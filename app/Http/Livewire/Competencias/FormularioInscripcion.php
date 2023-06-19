@@ -92,7 +92,6 @@ class FormularioInscripcion extends Component
         if($this->graduacion == "1 DAN, Negro"){
             $this->inputGal = true;
         }
-        $this->idGraduacion =  Graduacion::where('nombre', $this->graduacion)->pluck('id');
         $this->categorias = Categoria::All();
         $this->botonGal = 'Actualizar';
         $this->escuelas = Team::all();
@@ -130,7 +129,7 @@ class FormularioInscripcion extends Component
     public function create()
     {
 
-        if ($this->graduacion != NULL) {
+        if ($this->idGraduacion != NULL) {
             $this->crearCompetidor();
         } else {
             $this->crearJuez();
@@ -163,7 +162,7 @@ class FormularioInscripcion extends Component
         $competencia_competidor->calificacion = null;
         $competencia_competidor->aprobado = false;
         $competencia_competidor->save();
-        Mail::to($this->email)->send(new EnvioMail('aceptado'));
+        // Mail::to($this->email)->send(new EnvioMail('aceptado'));
     }
 
 
@@ -193,7 +192,6 @@ class FormularioInscripcion extends Component
                 }
             }
         }
-
         return $esta;
     }
 
@@ -208,7 +206,7 @@ class FormularioInscripcion extends Component
         $competencia_juez->id_juez = $this->idUsuario;
         $competencia_juez->aprobado = false;
         $competencia_juez->save();
-        Mail::to($this->email)->send(new EnvioMail('aceptado'));
+        // Mail::to($this->email)->send(new EnvioMail('aceptado'));
     }
     // ? $this->emit('confirmacion', true) : $this->emit('confirmacion', false)
 
