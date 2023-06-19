@@ -49,7 +49,7 @@
                                 Inscripción
                             </span>
                             </button>
-                        @endif
+                            @endif
                             <!-- <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                         Inscribirme
                     </button> -->
@@ -144,12 +144,26 @@
     </script>
     @endif
 
-
+    @if($mostrarResultados)
     <div class="resultados-competencia" style="margin-top: 5rem;">
         <div class="">
             <h1 class="text-6xl flex justify-center font-semibold dark:text-gray-400">Resultados</h1>
         </div>
         @livewire('competidores.competencia-competidor', ['competenciaId' => $data['id']] )
     </div>
+    @endif
+
+    <!-- aplicarle estilos y hacer la funcionalidad -->
+    @if($mostrarPoomsaes)
+    <div class="resultados-competencia" style="margin-top: 5rem;">
+        <div class="poomsaes">
+            <h1 class="text-6xl flex justify-center font-semibold dark:text-gray-400">Poomsaes</h1>
+            <div class="datosPoomsaes">
+                <div>Poomsae 1:</div>
+                <div>Poomsae 2:</div>
+            </div>
+        </div>
+    </div>
+    @endif
 
     @endif
