@@ -15,7 +15,7 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $competencia->titulo }}</h5>
                 </a>
                 <div class="flex justify-start items-center mt-2 text-gray-500">
-                    <span class="text-sm">Desde <b>{{ $competencia->fecha_inicio }}</b> hasta <b>{{ $competencia->fecha_fin }}</b></span>
+                    <span class="text-lg">Desde <b>{{date('d-m-Y', strtotime($competencia->fecha_inicio))}}</b> hasta <b>{{date('d-m-Y', strtotime($competencia->fecha_fin))}}</b></span>
                 </div>
                 <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $competencia->descripcion }}</p>
                 @auth
