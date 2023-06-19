@@ -159,7 +159,7 @@
         <div class="poomsaes">
             <h1 class="text-6xl flex justify-center font-semibold dark:text-gray-400">Poomsaes</h1>
             <div class="datosPoomsaes">
-                <div>Poomsae 1:</div>
+                <div>Poomsae 1: </div>
                 <div>Poomsae 2:</div>
             </div>
         </div>

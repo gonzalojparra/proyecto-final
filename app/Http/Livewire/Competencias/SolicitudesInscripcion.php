@@ -72,7 +72,7 @@ class SolicitudesInscripcion extends Component {
     public function crearPasadaCompetidor($idCompetidor){
         $idCompetencia = $this->idCompetencia;
         $competidor = CompetenciaCompetidor::where('id_competidor', $idCompetidor)->where('id_competencia', $idCompetencia)->first();
-        $categorias = CompetenciaCategoria::where('id_categoria', $competidor->id_categoria);
+        // $categorias = CompetenciaCategoria::where('id_categoria', $competidor->id_categoria);
         $poomsae = PoomsaeCompetenciaCategoria::where('id_graduacion', $competidor->user->id_graduacion)
         ->where('id_competencia_categoria', $competidor->id_categoria)->first();
         // dd($poomsae);
@@ -96,7 +96,7 @@ class SolicitudesInscripcion extends Component {
         $participante = CompetenciaJuez::find($id);
         if ($rol == "Competidor"){
             $participante = CompetenciaCompetidor::find($id);
-            $this->crearPasadaCompetidor($id);
+            $this->crearPasadaCompetidor($participante->id_competidor);
         }
         // Si envio una solicitud de modificacion, modificamos.
         if ($actualizacion != null){
