@@ -2,36 +2,46 @@
     <div class="contenedor">
         <div class="pulsador">
             <!-- En titulo va la variable $tipoPresentacion o algo asi donde vaya el titulo correspondiente del pulsador (Exactitud o Presentacion) -->
-            <div class="titulo">Exactitud</div>
+            <div class="titulo">
+                @if ($tipoPuntaje == 1)
+                    Exactitud
+                @else
+                    Presentacion
+                @endif
+            </div>
             <div class="puntaje-pulsadores">
                 <div class="boton-izquierdo">
                     <div class="toggle">
-                        <input type="button" class="button">
+                        <input type="button" class="button" wire:click="resto1()">
                         <span class="button"><span class="label">-0.1</span></span>
                     </div>
                 </div>
                 <div class="puntaje-boton">
-                    <div class="puntaje">10</div>
+                    <div class="puntaje">{{$puntaje}}</div>
                     <div class="boton-enviar">&nbsp;
-                        <button class="enviar">
-                            Enviar
+                        <button class="enviar" wire:click="enviar()">
+                            @if ($tipoPuntaje == 1)
+                                Siguiente
+                            @else
+                                Enviar
+                            @endif
                         </button>
                     </div>
                 </div>
                 <div class="boton-derecho">
                     <div class="toggle">
-                        <input type="button" class="button">
+                        <input type="button" class="button" wire:click="resto3()">
                         <span class="button"> <span class="label">-0.3</span></span>
 
                     </div>
                 </div>
             </div>
             <div class="info-ronda">
-                <div class="nombre-competidor">Daniela Rodriguez</div>
+                <div class="nombre-competidor">{{$pasada->user->name}} {{$pasada->user->apellido}}</div>
                 <div class="separa-info">-</div>
-                <div class="numero-ronda">RONDA 1</div>
+                <div class="numero-ronda">RONDA {{$pasada->ronda}}</div>
                 <div class="separa-info">-</div>
-                <div class="info-poomsae">TAEBECK</div>
+                <div class="info-poomsae">{{$pasada->poomsae->nombre}}</div>
 
             </div>
         </div>

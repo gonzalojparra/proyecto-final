@@ -36,5 +36,4 @@ class PuntajeEnviado {
             new PrivateChannel('channel-name'),
         ];
     }
-
 }
