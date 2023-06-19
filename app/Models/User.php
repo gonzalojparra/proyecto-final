@@ -31,7 +31,7 @@ class User extends Authenticatable {
     protected $fillable = [
         'name', 'apellido', 'email', 'password',
         'fecha_nac', 'id_escuela', 'gal', 'du',
-        'clasificacion', 'graduacion', 'id_categoria', 'genero'
+        'clasificacion', 'id_graduacion', 'id_categoria', 'genero'
     ];
 
     /**
@@ -64,9 +64,8 @@ class User extends Authenticatable {
         'profile_photo_url',
     ];
 
-    public function team()
-    {
-        return $this->hasOne(Team::class, 'id');
+    public function team() {
+        return $this->hasOne(Team::class, 'id', 'id_escuela');
     }
 
 }

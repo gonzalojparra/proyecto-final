@@ -52,7 +52,7 @@ class UserSeeder extends Seeder
                 'genero' => 'Masculino',
                 'email' => 'rodri@example.com',
                 'id_escuela' => 2,
-                'graduacion' => '10 GUP, Blanco',
+                'id_graduacion' => 1,
                 'gal' => NULL,
                 'fecha_nac' => '2003-04-25',
                 'clasificacion' => 1
@@ -63,7 +63,7 @@ class UserSeeder extends Seeder
                 'genero' => 'Masculino',
                 'email' => 'juan@example.com',
                 'id_escuela' => 4,
-                'graduacion' => '10 GUP, Blanco',
+                'id_graduacion' => 1,
                 'gal' => NULL,
                 'fecha_nac' => '2003-07-19',
                 'clasificacion' => 15
@@ -74,7 +74,7 @@ class UserSeeder extends Seeder
                 'genero' => 'Femenino',
                 'email' => 'vane@example.com',
                 'id_escuela' => 3,
-                'graduacion' => '4 GUP, Azul',
+                'id_graduacion' => 7,
                 'gal' => NULL,
                 'fecha_nac' => '2003-12-19',
                 'clasificacion' => 16
@@ -85,7 +85,7 @@ class UserSeeder extends Seeder
                 'genero' => 'Masculino',
                 'email' => 'juanL@example.com',
                 'id_escuela' => 2,
-                'graduacion' => '2 GUP, Rojo',
+                'id_graduacion' => 9,
                 'gal' => NULL,
                 'fecha_nac' => '1998-07-19',
                 'clasificacion' => 3
@@ -96,7 +96,7 @@ class UserSeeder extends Seeder
                 'genero' => 'Femenino',
                 'email' => 'M&M@example.com',
                 'id_escuela' => 5,
-                'graduacion' => '9 DAN, Negro',
+                'id_graduacion' => 15,
                 'gal' => 'ASD1658974',
                 'fecha_nac' => '1998-06-28',
                 'clasificacion' => 5
@@ -107,7 +107,7 @@ class UserSeeder extends Seeder
                 'genero' => 'Femenino',
                 'email' => 'juanita@example.com',
                 'id_escuela' => 8,
-                'graduacion' => '9 DAN, Negro',
+                'id_graduacion' => 15,
                 'gal' => 'FGH2365855',
                 'fecha_nac' => '1998-07-22',
                 'clasificacion' => 4
@@ -118,7 +118,7 @@ class UserSeeder extends Seeder
                 'genero' => 'Masculino',
                 'email' => 'ysy@example.com',
                 'id_escuela' => 12,
-                'graduacion' => '10 GUP, Blanco',
+                'id_graduacion' => 1,
                 'gal' => NULL,
                 'fecha_nac' => '2011-10-19',
                 'clasificacion' => 6
@@ -129,7 +129,7 @@ class UserSeeder extends Seeder
                 'genero' => 'Femenino',
                 'email' => 'mili.p@example.com',
                 'id_escuela' => 6,
-                'graduacion' => '10 GUP, Blanco',
+                'id_graduacion' => 1,
                 'gal' => NULL,
                 'fecha_nac' => '2011-07-02',
                 'clasificacion' => 9
@@ -140,7 +140,7 @@ class UserSeeder extends Seeder
                 'genero' => 'Femenino',
                 'email' => 'palo.p@example.com',
                 'id_escuela' => 6,
-                'graduacion' => '6 GUP, Verde',
+                'id_graduacion' => 4,
                 'gal' => NULL,
                 'fecha_nac' => '2003-07-19',
                 'clasificacion' => 12
@@ -153,7 +153,7 @@ class UserSeeder extends Seeder
                 'genero' => 'Femenino',
                 'email' => 'dani@example.com',
                 'id_escuela' => 4,
-                'graduacion' => '4 GUP, Azul',
+                'id_graduacion' => 6,
                 'gal' => NULL,
                 'fecha_nac' => '2003-09-28',
                 'clasificacion' => 8
@@ -168,7 +168,7 @@ class UserSeeder extends Seeder
                 'email' => $user['email'],
                 'password' => Hash::make('secret'),
                 'id_escuela' => $user['id_escuela'],
-                'graduacion' => $user['graduacion'],
+                'id_graduacion' => $user['id_graduacion'],
                 'gal' => $user['gal'],
                 'fecha_nac' => $user['fecha_nac'],
                 'clasificacion' => $user['clasificacion'],

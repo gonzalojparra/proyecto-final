@@ -1,0 +1,3 @@
+
+
+@livewire('competencias.pantalla-espera')
