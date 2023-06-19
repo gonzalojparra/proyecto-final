@@ -19,7 +19,11 @@ use Illuminate\Support\Facades\DB;
 
 class FormularioInscripcion extends Component
 {
+    //variables para abrir el modal
     public $open = false;
+    protected $listeners = ['abrirModal' => 'abrirModal'];
+
+    //datos del usuario
     public $nombre;
     public $apellido;
     public $email;
@@ -32,23 +36,27 @@ class FormularioInscripcion extends Component
     public $idGraduacionInicial;
     public $du;
     public $gal;
+    public $galInicial;
     public $idUsuario;
-    public $editarGal = 'readonly';
     public $categoria;
     public $idCategoria;
-    public $categorias;
-    public $poomsae = 1;
     public $idCompetencia;
+
+    //variables para manejar el input del gal
+    public $editarGal = 'readonly';
+    public $inputGal = false;
+    public $galRequerido = false;
+    public $botonGal;
+    protected $rules;
+
+    //variable bandera para enviar un pedido de actualizacion o no
     public $datosEditados = false;
-    public $botonEscuela;
-    public $botonGraduacion;
+
+    //listas
+    public $categorias;
     public $escuelas;
     public $graduacionesCompetidor;
-    public $galInicial;
-    public $botonGal;
-    public $inputGal = false;
-    protected $rules;
-    public $galRequerido = false;
+    //probar el to_array aca para traer esto de la db y que sea mas prolijo :)
     public $graduaciones = [
         "10 GUP, Blanco",
         "9 GUP, Blanco borde amarillo",
@@ -71,7 +79,7 @@ class FormularioInscripcion extends Component
         "9 DAN, Negro"
     ];
     public $poomsaes;
-    protected $listeners = ['abrirModal' => 'abrirModal'];
+
 
     public function mount($competenciaId)
     {
@@ -86,8 +94,6 @@ class FormularioInscripcion extends Component
         }
         $this->idGraduacion =  Graduacion::where('nombre', $this->graduacion)->pluck('id');
         $this->categorias = Categoria::All();
-        $this->botonEscuela = 'Actualizar';
-        $this->botonGraduacion = 'Actualizar';
         $this->botonGal = 'Actualizar';
         $this->escuelas = Team::all();
         return view('livewire.competencias.formulario-inscripcion');
