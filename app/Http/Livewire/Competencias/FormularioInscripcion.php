@@ -46,7 +46,7 @@ class FormularioInscripcion extends Component
     public $graduacionesCompetidor;
     public $galInicial;
     public $botonGal;
-    public $inputGal;
+    public $inputGal = false;
     protected $rules;
     public $galRequerido = false;
     public $graduaciones = [
@@ -81,6 +81,9 @@ class FormularioInscripcion extends Component
     public function render()
     {
         $this->graduacionesDisponibles();
+        if($this->graduacion == "1 DAN, Negro"){
+            $this->inputGal = true;
+        }
         $this->idGraduacion =  Graduacion::where('nombre', $this->graduacion)->pluck('id');
         $this->categorias = Categoria::All();
         $this->botonEscuela = 'Actualizar';
