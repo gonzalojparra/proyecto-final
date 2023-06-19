@@ -1,5 +1,19 @@
 <div>
     <div class="contenedor">
+        <div class="vistaPrevia">
+            <div class="categoria-select">
+            <h3 class="titulo-select">Seleccione la categoría a puntuar</h3>
+                    <div class="select-div">
+                        <select id="nameTeam" type="text" class="select" wire:model="escuela">
+                            <option>Cadetes</option>
+                            <option>Juveniles</option>
+                            <option>Senior 1</option>
+                            <option>Senior 2 - Master 1</option>
+                            <option>Master 2</option>
+                        </select>
+                    </div>
+            </div>
+        </div>
         <div class="pulsador">
             <!-- En titulo va la variable $tipoPresentacion o algo asi donde vaya el titulo correspondiente del pulsador (Exactitud o Presentacion) -->
             <div class="titulo">

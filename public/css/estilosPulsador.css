@@ -10,11 +10,41 @@
 
 @media only screen and (orientation:landscape) {
 
+
     .no-celular {
         display: none;
     }
 
+    .vista-previa{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
+    option:active{
+        background-color: #a0aec0;
+    }
+
+    .select-div{
+        display: flex;
+        justify-content: center;
+    }
+
+    .select{
+        width: 500px!important;
+        height: 50px;
+        border-radius: 10px;
+    }
+
+    .titulo-select{
+        color: #a0aec0;
+        font-size: 40px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family:sans-serif;
+    }
 
     .puntaje-pulsadores {
         display: flex;
@@ -76,6 +106,9 @@
 
 @media only screen and (min-height:500px){
     .pulsador {
+        display: none;
+    }
+    .vistaPrevia{
         display: none;
     }
     .no-celular{
