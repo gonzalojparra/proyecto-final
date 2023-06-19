@@ -49,8 +49,14 @@ class FormularioInscripcion extends Component
     public $botonGal;
     protected $rules;
 
+    //variables para un html estático (por ahora)
+    
+
     //variable bandera para enviar un pedido de actualizacion o no
     public $datosEditados = false;
+
+    //variable bandera para comprobar si un competidor o juez está inscripto (no está en uso pq me tira error la función)
+    public $existeInscripcion;
 
     //listas
     public $categorias;
@@ -88,6 +94,7 @@ class FormularioInscripcion extends Component
 
     public function render()
     {
+        $this->revisarSiInscripcionExiste();
         $this->graduacionesDisponibles();
         if($this->graduacion == "1 DAN, Negro"){
             $this->inputGal = true;
@@ -166,10 +173,10 @@ class FormularioInscripcion extends Component
     }
 
 
-    public function revisarSiUserEsta()
+    public function revisarSiInscripcionExiste()
     {
         $user = Auth::user();
-        $esta = false;
+        $this->existeInscripcion = false;
         // Busqueda en la bd el rol del user
         $resultados = DB::select('SELECT * FROM model_has_roles WHERE model_id = ?', [$user->id]);
         if (!empty($resultados)) {
@@ -180,7 +187,7 @@ class FormularioInscripcion extends Component
                     ->where('id_competencia', '=', $this->idCompetencia)
                     ->first();
                 if ($encontrado != null) {
-                    $esta = true;
+                    $this->existeInscripcion = true;
                 }
             } elseif ($rol == 2) {
                 $competencia_juez = new CompetenciaJuez();
@@ -188,11 +195,12 @@ class FormularioInscripcion extends Component
                     ->where('id_competencia', '=', $this->idCompetencia)
                     ->first();
                 if ($encontrado != null) {
-                    $esta = true;
+                    $this->existeInscripcion = true;
                 }
+            } else {
+                $this->existeInscripcion = false;
             }
         }
-        return $esta;
     }
 
 
