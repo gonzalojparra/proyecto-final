@@ -129,7 +129,7 @@ Route::view('/competencias/pantallaEspera','livewire.competencias.pantalla-esper
 // Route::get('/test.{id}', [UserController::class, 'show']);
 
 //Test de Mails
-Route::get('/testMail',function(){
+/* Route::get('/testMail',function(){
     Mail::to('lunalaureanoluna@gmail.com')->send(new MailPrueba('aceptado'));
     return "email eviado;";
-})->name('enviar-correo');
+})->name('enviar-correo'); */

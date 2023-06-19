@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Competencias;
 
+use App\Mail\EnvioMail;
 use App\Models\User;
 use App\Models\CompetenciaCompetidor;
 use App\Models\CompetenciaJuez;
@@ -9,7 +10,7 @@ use App\Models\Competencia;
 use App\Models\Actualizacion;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Mail;
 
 class SolicitudesInscripcion extends Component {
 
@@ -70,10 +71,11 @@ class SolicitudesInscripcion extends Component {
     }
 
     public function aceptar($rol, $id, $actualizacion = null)
-    {
-        $participante = CompetenciaJuez::find($id);
+    {       
         if ($rol == "Competidor"){
             $participante = CompetenciaCompetidor::find($id);
+        }else{
+            $participante = CompetenciaJuez::find($id);
         }
         if ($actualizacion != null){
             $participante->user->id_escuela = $actualizacion['id_escuela_nueva'];
@@ -83,6 +85,7 @@ class SolicitudesInscripcion extends Component {
         $participante->aprobado = true;
         $participante->user->save();
         $participante->save();
+        Mail::to($participante->user->email)->send(new EnvioMail($id,3));
     }
 
     public function rechazar($rol, $id)

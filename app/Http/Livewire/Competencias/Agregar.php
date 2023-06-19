@@ -2,30 +2,34 @@
 
 namespace App\Http\Livewire\Competencias;
 
+use App\Mail\EnvioMail;
 use App\Models\Competencia;
 use App\Models\CompetenciaCategoria;
 use App\Models\Poomsae;
 use App\Models\PoomsaeCompetenciaCategoria;
 use App\Models\Graduacion;
 use App\Models\Categoria;
+use App\Models\CompetenciaCompetidor;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Livewire\WithFileUploads;
 use Exception;
+use Illuminate\Support\Facades\Mail;
 
-class Agregar extends Component {
+class Agregar extends Component
+{
     use WithFileUploads;
 
     protected $competencia;
     protected $categorias;
     public $open = false;
-    public $boton, $accionForm ;
+    public $boton, $accionForm;
     public $titulo, $flyer, $bases, $descripcion, $fecha_inicio, $fecha_fin, $idCompetencia, $invitacion;
     public $categoria = array();
 
     protected $listeners = [
         'abrirModal',
-        'mostrarDatos'=>'show'
+        'mostrarDatos' => 'show'
     ];
 
     public function render()
@@ -39,13 +43,12 @@ class Agregar extends Component {
     {
         $this->boton = $accion;
         $this->accionForm = 'create';
-        $this->open=true;
+        $this->open = true;
     }
     public function cerrarModal()
     {
-        $this->open=false;
+        $this->open = false;
         $this->reset();
-        
     }
 
     public function create()
@@ -78,14 +81,14 @@ class Agregar extends Component {
                 'titulo' => $validate['titulo'],
                 'flyer' => $urlImagen,
                 'bases' => $urlBases,
-                'invitacion'=>$urlInvitacion,
+                'invitacion' => $urlInvitacion,
                 'descripcion' => $validate['descripcion'],
                 'fecha_inicio' => $validate['fecha_inicio'],
                 'fecha_fin' => $validate['fecha_fin'],
             ]);
-            
 
-            if (count($categoria) > 0){
+
+            if (count($categoria) > 0) {
                 // Obtenemos todas las graduaciones para asignarle 2 poomsaes a cada una.
                 $graduaciones = Graduacion::get();
 
@@ -105,7 +108,7 @@ class Agregar extends Component {
 
 
                     // Sorteamos los poomsaes para cada graduacion de cada categoria.
-                    if (count($graduaciones) > 0 ){
+                    if (count($graduaciones) > 0) {
                         foreach ($graduaciones as $graduacion) {
                             $poomsaeC = PoomsaeCompetenciaCategoria::create([
                                 'id_competencia_categoria' => $competenciaCategoria->id,
@@ -114,12 +117,11 @@ class Agregar extends Component {
                                 'id_graduacion' => $graduacion->id,
                             ]);
                         }
-                    } else{
+                    } else {
                         throw new Exception("Error al agregar competencia.");
                     }
-
                 }
-            } else{
+            } else {
                 throw new Exception("Error al agregar competencia.");
             }
 
@@ -129,11 +131,10 @@ class Agregar extends Component {
             session()->flash('msj', 'Competencia creada exitosamente.');
             // Confirmamos las transacciones si no hubo ningun error.
             DB::commit();
-            $this->emit('msjAccion',true);
-
+            $this->emit('msjAccion', true);
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->emit('msjAccion',false);
+            $this->emit('msjAccion', false);
             // session()->flash('msj', [$e->getMessage(), false]);
         }
 
@@ -141,7 +142,8 @@ class Agregar extends Component {
         $this->emit('recarga');
     }
 
-    public function update(){
+    public function update()
+    {
 
         $validate = $this->validate([
             'titulo' => ['required', 'max:120'],
@@ -149,16 +151,16 @@ class Agregar extends Component {
             'fecha_inicio' => ['required', 'date', 'after_or_equal:today'],
             'fecha_fin' => ['required', 'date', 'after:fecha_inicio'],
         ]);
-        
+
         $competencia = Competencia::find($this->idCompetencia);
         $competencia->titulo = $validate['titulo'];
         $competencia->descripcion = $validate['descripcion'];
         $competencia->fecha_inicio = $validate['fecha_inicio'];
         $competencia->fecha_fin = $validate['fecha_fin'];
 
-        
 
-        $competencia->save() ? $this->emit('msjAccion',true) : $this->emit('msjAccion',false);
+
+        $competencia->save() ? $this->emit('msjAccion', true) : $this->emit('msjAccion', false);
         $this->open = false;
         $this->emit('recarga');
     }
@@ -172,19 +174,38 @@ class Agregar extends Component {
         $this->idCompetencia = $competencia->id;
         $this->titulo = $competencia->titulo;
         $this->descripcion = $competencia->descripcion;
-        $this->fecha_inicio= $competencia->fecha_inicio;
+        $this->fecha_inicio = $competencia->fecha_inicio;
         $this->fecha_fin = $competencia->fecha_fin;
-        
+
         $this->open = true;
     }
 
     public function cerrarConvocatoria($id)
     {
+        $bool = false;
         $competencia = Competencia::find($id);
         $competencia->estado = 3;
-        
-        $competencia->save() ? $this->emit('msjAccion',true) : $this->emit('msjAccion',false);
-        $this->open = false;
+
+        if ($competencia->save()) {
+            $this->enviarMailPoomsae($id);
+            $this->emit('msjAccion', true);
+            $bool = true;
+        } else {
+            $this->emit('msjAccion', false);
+        }
+
+        if ($bool) {
+            $this->open = false;
+        }
+
         $this->emit('recarga');
+    }
+
+    private function enviarMailPoomsae($idCompetencia)
+    {
+        $competidores = CompetenciaCompetidor::where('id_competencia', $idCompetencia)->join('users', 'users.id', 'competencia_competidor.id_competidor')->select('email', 'users.id')->get();
+        foreach ($competidores as $competidor) {
+            Mail::to($competidor->email)->send(new EnvioMail($competidor->id, 5));
+        }
     }
 }

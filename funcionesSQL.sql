@@ -49,6 +49,6 @@ UPDATE competencias
 SET cant_jueces = (
     SELECT COUNT(*)
     FROM competencia_juez cj
-    WHERE new.id_competencia = cj.id_competencia
+    WHERE new.id_competencia = cj.id_competencia and cj.aprobado='1'
 )
 WHERE competencias.id = new.id_competencia;

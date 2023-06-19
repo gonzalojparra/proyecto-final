@@ -58,7 +58,7 @@ class Create extends Component
                 $usuario->verificado = true;
                 if ($usuario->save()) {
                     $this->emit('render');
-                    Mail::to($usuario->email)->send(new EnvioMail($this->iduser, 'usuario_aceptado'));
+                    Mail::to($usuario->email)->send(new EnvioMail($this->iduser,1));
                     $this->open = false;
                 }
             }
@@ -69,7 +69,7 @@ class Create extends Component
     {
 
         if (DB::table('model_has_roles')->where('model_id', '=', $user)->get()) {
-            Mail::to($this->email)->send(new EnvioMail($this->iduser, 'usuario_rechazado'));
+            Mail::to($this->email)->send(new EnvioMail($this->iduser,2));
             DB::table('model_has_roles')->where('model_id', '=', $user)->delete();
             DB::table('users')->where('id', '=', $user)->delete();
             $this->emit('render');

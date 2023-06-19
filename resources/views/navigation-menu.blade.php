@@ -44,7 +44,8 @@
                     <x-nav-link href="{{ route('timer') }}" :active="request()->routeIs('timer')">
                         {{ __('Temporizador') }}
                     </x-nav-link>
-                </div>
+                </div>                
+                    @livewire('iniciar-competencia')
                 @endrole
                 @role('Juez')
                 <!-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">

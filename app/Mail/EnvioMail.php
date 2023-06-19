@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\CompetenciaCompetidor;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -9,6 +10,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Routing\Middleware\ThrottleRequestsWithRedis;
 
 class EnvioMail extends Mailable
 {
@@ -22,13 +24,48 @@ class EnvioMail extends Mailable
      */
     public function __construct($user, $motivo)
     {
-        $user = User::find($user);
-        $this->motivo = $motivo;
-        $this->rol = $user->roles()->pluck('name')[0];
-        $this->nombre = $user['name'];
-        $this->apellido = $user['apellido'];
-        $this->email = $user['email'];
-        $this->du = (isset($user['du'])?$user['du'] : "");        
+       $this->tipoMail($user,$motivo);
+    }
+
+    private function tipoMail($id, $tipo)
+    {
+        $user = User::find($id);
+        switch ($tipo) {
+            case '1': // se acepta el usuario
+                $this->motivo = 'usuario_aceptado';
+                $this->nombre = $user['nombre'];
+                $this->apellido = $user['apellido'];
+                $this->rol = $user['rol'];
+                break;
+            case '2': // se rechaza el usuario
+                $this->motivo = 'usuario_rechazado';
+                $this->nombre = $user['nombre'];
+                $this->apellido = $user['apellido'];
+                $this->rol = $user['rol'];
+                break;
+            case '3': // se acepta la incripcion a una competencia
+                $this->motivo = 'aceptacion_inscripcion';
+                $this->nombre = $user['nombre'];
+                $this->apellido = $user['apellido'];
+                $this->rol = $user['rol'];
+
+                break;
+            case '4': // se rechaza la inscripcion a una competencia
+                $this->motivo = 'rechazo_inscripcion';
+                $this->nombre = $user['nombre'];
+                $this->apellido = $user['apellido'];
+                $this->rol = $user['rol'];
+
+                break;
+            case '5': // se le notifica al competidor los poomsae que tiene que realizar
+                $competencia = CompetenciaCompetidor::all();
+                dd($competencia);
+                break;
+
+            default:
+                # code...
+                break;
+        }
     }
 
     /**
@@ -47,7 +84,7 @@ class EnvioMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.'.$this->motivo,
+            view: 'emails.' . $this->motivo,
         );
     }
 
