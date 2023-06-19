@@ -32,7 +32,8 @@ class VerUnaCompetencia extends Component {
     public $graduaciones;
     public $dato;
     public $competenciaId;
-    public $inscripcionAceptada;
+    public $inscripcionAceptadaJuez = null;
+    public $inscripcionAceptadaCompe = null;
     public $formAceptado = false;
     public $bandera = true;
 
@@ -44,9 +45,11 @@ class VerUnaCompetencia extends Component {
     }
 
     public function render() {
-        // $this->procesoIncsripcion();
-        $this->procesoInscripcionJuez();
+        $this-> procesoInscripcionJuez();
         $this->procesoInscripcionCompetidor();
+    //     return view('livewire.competencias.ver-una-competencia')
+    // ->with('inscripcionAceptadaJuez', $this->inscripcionAceptadaJuez)
+    // ->with('inscripcionAceptadaCompe', $this->inscripcionAceptadaCompe);
         $query = Competencia::where('id', $this->competenciaId)->get();
         $data = $query[0]->toArray();
         $data['mostrarBoton'] = $this->mostrarBoton();
@@ -148,21 +151,25 @@ class VerUnaCompetencia extends Component {
 
     public function procesoInscripcionJuez(){
         $usuario = Auth::user();
-      
             $aprobado = CompetenciaJuez::where('id_juez', $usuario->id)
                 ->where('id_competencia', $this->competenciaId)
                 ->first();
-    
+
+
             if ($aprobado !== null) {
                 if ($aprobado->aprobado == 0) {
-                    $this->inscripcionAceptada = false;
-                } else {
-                    $this->inscripcionAceptada = true;
+                    $this->inscripcionAceptadaJuez = 0;
+                } 
+                if($aprobado->aprobado == 1 ) {
+                    $this->inscripcionAceptadaJuez = 1;
+                }
+                if($aprobado->aprobado == 2 ) {
+                    $this->inscripcionAceptadaJuez = 2;
                 }
             } else {
-                $this->inscripcionAceptada = false;
+                $this->inscripcionAceptadaJuez = false;
             }   
-           
+        //    dd($this->inscripcionAceptada);
     }
     
 
@@ -173,15 +180,20 @@ class VerUnaCompetencia extends Component {
                 ->where('id_competencia', $this->competenciaId)
                 ->first();
     
-            if ($aprobado !== null) {
-                if ($aprobado->aprobado == 0) {
-                    $this->inscripcionAceptada = false;
+                if ($aprobado !== null) {
+                    if ($aprobado->aprobado == 0) {
+                        $this->inscripcionAceptadaCompe = 0;
+                    } 
+                    if($aprobado->aprobado == 1 ) {
+                        $this->inscripcionAceptadaCompe = 1;
+                    }
+                    if($aprobado->aprobado == 2 ) {
+                        $this->inscripcionAceptadaCompe = 2;
+                    }
                 } else {
-                    $this->inscripcionAceptada = true;
-                }
-            } else {
-                $this->inscripcionAceptada = false;
-            }   
+                    $this->inscripcionAceptadaCompe = false;
+                } 
+                // dd($this->inscripcionAceptada);  
            
     }
 
