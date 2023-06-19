@@ -7,13 +7,50 @@ use App\Models\PasadaJuez;
 use App\Events\PuntajeEnviado;
 
 
-class Pulsador extends Component {
+class Pulsador extends Component
+{
 
-    public $puntajeExactitud = 10;
-    public $puntajePresentacion = 10;
+    //Cuando termina el timer, se habilita un boton para enviar la puntuacion de exactitud y pasar a evaluar presentacion
+    public $puntajeExactitud;
+    public $puntajePresentacion;
+    public $puntaje = 10;
+    public $boton = 'saltar competidor';
+    public $tipoPuntuacion;
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.puntuador.pulsador');
+    }
+
+    // public function deducirPuntaje($boton)
+    // {
+    //     if ($boton == 3) {
+    //         if ($this->puntaje > 0.3) {
+    //             $this->puntaje -= 0.3;
+    //         }else if ($this->puntaje == 0.3){
+    //             $this->puntaje = 0;
+    //         }
+    //     } else if ($boton == 1) {
+    //         if ($this->puntaje >= 0.1) {
+    //             $this->puntaje -= 0.1;
+    //         } else if ($this->puntaje == 0.1){
+    //             $this->puntaje = 0;
+    //         }
+    //     }
+    // }
+
+    //NO ANDA BIEN DEDUCIR PUNTOS D:
+
+    public function deducirTres(){
+        if ($this->puntaje >= 0.3) {
+            $this->puntaje -= 0.3;
+        } 
+    }
+
+    public function deducirUno(){
+        if ($this->puntaje >= 0.1) {
+            $this->puntaje -= 0.1;
+        } 
     }
 
     /* public function store() {
@@ -25,5 +62,4 @@ class Pulsador extends Component {
                 ]);
         event(new PuntajeEnviado($pasadaId));
     } */
-
 }
