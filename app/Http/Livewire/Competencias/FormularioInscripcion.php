@@ -49,14 +49,8 @@ class FormularioInscripcion extends Component
     public $botonGal;
     protected $rules;
 
-    //variables para un html estático (por ahora)
-    
-
     //variable bandera para enviar un pedido de actualizacion o no
     public $datosEditados = false;
-
-    //variable bandera para comprobar si un competidor o juez está inscripto (no está en uso pq me tira error la función)
-    public $existeInscripcion;
 
     //listas
     public $categorias;
@@ -94,7 +88,7 @@ class FormularioInscripcion extends Component
 
     public function render()
     {
-        $this->revisarSiInscripcionExiste();
+
         $this->graduacionesDisponibles();
         if($this->graduacion == "1 DAN, Negro"){
             $this->inputGal = true;
@@ -170,37 +164,6 @@ class FormularioInscripcion extends Component
         $competencia_competidor->aprobado = false;
         $competencia_competidor->save();
         // Mail::to($this->email)->send(new EnvioMail('aceptado'));
-    }
-
-
-    public function revisarSiInscripcionExiste()
-    {
-        $user = Auth::user();
-        $this->existeInscripcion = false;
-        // Busqueda en la bd el rol del user
-        $resultados = DB::select('SELECT * FROM model_has_roles WHERE model_id = ?', [$user->id]);
-        if (!empty($resultados)) {
-            $rol = $resultados[0]->role_id;
-            if ($rol == 3) {
-                $competencia_competidor = new CompetenciaCompetidor();
-                $encontrado = $competencia_competidor->where('id_competidor', $user->id)
-                    ->where('id_competencia', '=', $this->idCompetencia)
-                    ->first();
-                if ($encontrado != null) {
-                    $this->existeInscripcion = true;
-                }
-            } elseif ($rol == 2) {
-                $competencia_juez = new CompetenciaJuez();
-                $encontrado = $competencia_juez->where('id_juez', $user->id)
-                    ->where('id_competencia', '=', $this->idCompetencia)
-                    ->first();
-                if ($encontrado != null) {
-                    $this->existeInscripcion = true;
-                }
-            } else {
-                $this->existeInscripcion = false;
-            }
-        }
     }
 
 

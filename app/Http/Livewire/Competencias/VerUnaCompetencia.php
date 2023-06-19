@@ -38,12 +38,20 @@ class VerUnaCompetencia extends Component {
     public $idPasada1;
     public $idPasada2;
 
+    
+    //variable bandera para comprobar si un competidor o juez está inscripto (no está en uso pq me tira error la función)
+    public $existeInscripcion;
+
+
     public function mount($competenciaId) {
         $this->competenciaId = $competenciaId;
     }
 
     public function render() {
-        $this-> procesoInscripcionJuez();
+        $this->obtenerPoomsaes();
+        $this->revisarSiInscripcionExiste();
+        // $this->procesoIncsripcion();
+        $this->procesoInscripcionJuez();
         $this->procesoInscripcionCompetidor();
     //     return view('livewire.competencias.ver-una-competencia')
     // ->with('inscripcionAceptadaJuez', $this->inscripcionAceptadaJuez)
@@ -82,11 +90,41 @@ class VerUnaCompetencia extends Component {
 
     //esto no anda pq no hay nada en la tabla
     public function obtenerPoomsaes(){
+        $idCompetencia = Competencia::where('id', $this->competenciaId)->pluck('id');
         $this -> idCompetidor = CompetenciaCompetidor::where('id_competencia', $this->competenciaId)
-        ->where('id_competidor', Auth::user()->id);
-        $pasada1 = Pasada::where('id_competidor', $this->idCompetidor)->where('id_competencia', $this->competenciaId)->where('ronda', 1);
-        $pasada = $pasada1->toArray();
-        dd($pasada);
+        ->where('id_competidor', Auth::user()->id)->get();
+        $pasada1 = Pasada::where('id_competidor', $this->idCompetidor)->pluck('id_competencia');
+        dd($pasada1);
+    }
+
+    public function revisarSiInscripcionExiste()
+    {
+        $user = Auth::user();
+        $this->existeInscripcion = false;
+        // Busqueda en la bd el rol del user
+        $resultados = DB::select('SELECT * FROM model_has_roles WHERE model_id = ?', [$user->id]);
+        if (!empty($resultados)) {
+            $rol = $resultados[0]->role_id;
+            if ($rol == 3) {
+                $competencia_competidor = new CompetenciaCompetidor();
+                $encontrado = $competencia_competidor->where('id_competidor', $user->id)
+                    ->where('id_competencia', '=', $this->idCompetencia)
+                    ->first();
+                if ($encontrado != null) {
+                    $this->existeInscripcion = true;
+                }
+            } elseif ($rol == 2) {
+                $competencia_juez = new CompetenciaJuez();
+                $encontrado = $competencia_juez->where('id_juez', $user->id)
+                    ->where('id_competencia', '=', $this->idCompetencia)
+                    ->first();
+                if ($encontrado != null) {
+                    $this->existeInscripcion = true;
+                }
+            } else {
+                $this->existeInscripcion = false;
+            }
+        }
     }
 
     /* public function mostrarBotonJuez() {
