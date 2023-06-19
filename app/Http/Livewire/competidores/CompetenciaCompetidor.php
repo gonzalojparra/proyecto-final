@@ -65,15 +65,15 @@ class CompetenciaCompetidor extends Component {
                     $competidoresVerificados[] = $usuario;
                 }
                 $idCategoria =  array_keys( $this->categorias, $usuario['categoria'] );
-                $query = Graduacion::where('id', $usuario['id_graduacion'])->get();
+                $query = Graduacion::where('id', $usuario['id_graduacion'])->pluck('id');
                 $queryArray = $query->toArray();
-                $usuario['graduacion'] = $queryArray[0]['nombre'];
-                $idGraduacion = array_keys( $this->graduaciones, $usuario['graduacion'] );
+                $usuario['id_graduacion'] = $query[0];
+                $idGraduacion = array_keys( $this->graduaciones, $usuario['id_graduacion'] );
                 if( count($idCategoria) == 0 ){
                     array_push( $this->categorias, $usuario['categoria'] );
                 }
                 if (count($idGraduacion) == 0) {
-                    array_push( $this->graduaciones, $usuario['graduacion'] );
+                    array_push( $this->graduaciones, $usuario['id_graduacion'] );
                 }
             }
         }
