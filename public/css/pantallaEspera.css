@@ -1,7 +1,7 @@
 
 .pl {
-  width: 7em;
-  height: 7em;
+  width: 6em;
+  height: 6em;
   
 }
 
@@ -206,8 +206,28 @@
 }
 
 
-@media only screen and (max-width: 420px) {
+@media only screen and (min-height:500px) {
+  .pantallaEspera {
+    display: none;
+  }
 
+  .no-celular {
+    display: block;
+    font-size: large;
+    text-align: center;
+    margin-top: 20px;
+    color: red;
+    font-size: large;
+    top: 50%;
+    left: 50%;
+    padding: 15%;
+    font-size: x-large;
+    flex-direction: row;
+  }
+}
+
+@media only screen and (orientation:landscape)  {
+ 
   .pantallaEspera {
     display: flex;
     align-items: center;
@@ -219,28 +239,21 @@
     padding: 15%;
     margin: 0;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow';
-    font-size: x-large;
+    font-size: large;
     flex-direction: column;
   }
 
-  p{
-    padding: 5%;
-    
+  .texto {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: large;
+    padding-top: 10%;
   }
-
 
   .no-celular {
     display: none;
   }
 }
-@media only screen and (min-width: 421px) {
 
-  .pantallaEspera, .pl{
-      display: none;
-    
-  }
-
-  .no-celular{
-    display: block;
-  }
-}
