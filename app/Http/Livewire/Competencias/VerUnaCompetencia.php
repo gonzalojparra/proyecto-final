@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Livewire\Competencias;
+
 use App\Models\Competidor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +11,7 @@ use App\Models\Team;
 use App\Models\CompetenciaCompetidor;
 use App\Models\CompetenciaJuez;
 use App\Models\Pasada;
+use App\Models\Poomsae;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -35,10 +37,10 @@ class VerUnaCompetencia extends Component {
 
     //datos para mostrar los poomsaes correspondientes
     public $idCompetidor;
-    public $idPasada1;
-    public $idPasada2;
+    public $pasada1;
+    public $pasada2;
 
-    
+
     //variable bandera para comprobar si un competidor o juez está inscripto (no está en uso pq me tira error la función)
     public $existeInscripcion;
 
@@ -48,8 +50,9 @@ class VerUnaCompetencia extends Component {
     }
 
     public function render() {
+        // $this->revisarSiInscripcionExiste();
         $this->obtenerPoomsaes();
-        $this->revisarSiInscripcionExiste();
+
         // $this->procesoIncsripcion();
         $this->procesoInscripcionJuez();
         $this->procesoInscripcionCompetidor();
@@ -58,9 +61,9 @@ class VerUnaCompetencia extends Component {
     // ->with('inscripcionAceptadaCompe', $this->inscripcionAceptadaCompe);
         $query = Competencia::where('id', $this->competenciaId)->get();
         $data = $query[0]->toArray();
-        if($data['estado'] == 5){
+        if ($data['estado'] == 5) {
             $this->mostrarResultados = true;
-        } else if($data['estado'] == 3){
+        } else if ($data['estado'] == 3) {
             $this->mostrarPoomsaes = true;
         } else {
             $this->mostrarResultados = false;
@@ -76,12 +79,12 @@ class VerUnaCompetencia extends Component {
     public function mostrarBoton() {
         $queryCompetidor = CompetenciaCompetidor::where('id_competencia', $this->competenciaId)
             ->where('id_competidor', Auth::user()->id);
-        if( $queryCompetidor->exists() ){
+        if ($queryCompetidor->exists()) {
             $this->bandera = false;
         } else {
             $queryJuez = CompetenciaJuez::where('id_competencia', $this->competenciaId)
                 ->where('id_juez', Auth::user()->id);
-            if( $queryJuez->exists() ){
+            if ($queryJuez->exists()) {
                 $this->bandera = false;
             }
         }
@@ -89,42 +92,48 @@ class VerUnaCompetencia extends Component {
     }
 
     //esto no anda pq no hay nada en la tabla
-    public function obtenerPoomsaes(){
+    public function obtenerPoomsaes() {
         $idCompetencia = Competencia::where('id', $this->competenciaId)->pluck('id');
-        $this -> idCompetidor = CompetenciaCompetidor::where('id_competencia', $this->competenciaId)
-        ->where('id_competidor', Auth::user()->id)->get();
-        $pasada1 = Pasada::where('id_competidor', $this->idCompetidor)->pluck('id_competencia');
-        dd($pasada1);
+        $this->idCompetidor = CompetenciaCompetidor::where('id_competencia', $this->competenciaId)
+            ->where('id_competidor', Auth::user()->id)->pluck('id_competidor')->toArray();
+        if(count($this->idCompetidor)>0){
+            $this->pasada1 = Pasada::where('id_competidor', $this->idCompetidor[0])->where('id_competencia', $idCompetencia)->where('ronda', 1)->first();
+            $this->pasada2 = Pasada::where('id_competidor', $this->idCompetidor[0])->where('id_competencia', $idCompetencia)->where('ronda', 2)->first();
+        }
+
     }
 
-    public function revisarSiInscripcionExiste()
-    {
-        $user = Auth::user();
-        $this->existeInscripcion = false;
-        // Busqueda en la bd el rol del user
-        $resultados = DB::select('SELECT * FROM model_has_roles WHERE model_id = ?', [$user->id]);
-        if (!empty($resultados)) {
-            $rol = $resultados[0]->role_id;
-            if ($rol == 3) {
-                $competencia_competidor = new CompetenciaCompetidor();
-                $encontrado = $competencia_competidor->where('id_competidor', $user->id)
-                    ->where('id_competencia', '=', $this->idCompetencia)
-                    ->first();
-                if ($encontrado != null) {
-                    $this->existeInscripcion = true;
-                }
-            } elseif ($rol == 2) {
-                $competencia_juez = new CompetenciaJuez();
-                $encontrado = $competencia_juez->where('id_juez', $user->id)
-                    ->where('id_competencia', '=', $this->idCompetencia)
-                    ->first();
-                if ($encontrado != null) {
-                    $this->existeInscripcion = true;
-                }
-            } else {
-                $this->existeInscripcion = false;
-            }
-        }
+    public function revisarSiInscripcionExiste() {
+        // $user = Auth::user();
+        // $this->existeInscripcion = false;
+        // // Busqueda en la bd el rol del user
+        // $resultados = DB::select('SELECT * FROM model_has_roles WHERE model_id = ?', [$user->id]);
+        // if (!empty($resultados)) {
+        //     $rol = $resultados[0]->role_id;
+        //     if ($rol == 3) {
+        //         $competencia_competidor = new CompetenciaCompetidor();
+        //         $encontrado = $competencia_competidor->where('id_competidor', $user->id)
+        //             ->where('id_competencia', '=', $this->idCompetencia)
+        //             ->first();
+        //         if ($encontrado != null) {
+        //             $this->existeInscripcion = true;
+        //         }
+        //     } elseif ($rol == 2) {
+        //         $competencia_juez = new CompetenciaJuez();
+        //         $encontrado = $competencia_juez->where('id_juez', $user->id)
+        //             ->where('id_competencia', '=', $this->idCompetencia)
+        //             ->first();
+        //         if ($encontrado != null) {
+        //             $this->existeInscripcion = true;
+        //         }
+        //     } else {
+        //         $this->existeInscripcion = false;
+        //     }
+        // }
+        $usuarioId = Auth::user()->id;
+        $tablaCompetenciaCompetidor = CompetenciaCompetidor::All()->pluck('id_competidor');
+        $existeInscripcion = $tablaCompetenciaCompetidor->where('id_competidor', $usuarioId);
+        dd($existeInscripcion);
     }
 
     /* public function mostrarBotonJuez() {
@@ -154,7 +163,7 @@ class VerUnaCompetencia extends Component {
     //     dd($competidor);
     // }
 
-    public function mostrarInscripcion($idCompetencia){
+    public function mostrarInscripcion($idCompetencia) {
         $this->emit('abrirModal', $idCompetencia);
     }
 
@@ -162,53 +171,41 @@ class VerUnaCompetencia extends Component {
         $this->formAceptado = true;
     }
 
-    public function procesoInscripcionJuez(){
+    public function procesoInscripcionJuez() {
         $usuario = Auth::user();
-            $aprobado = CompetenciaJuez::where('id_juez', $usuario->id)
-                ->where('id_competencia', $this->competenciaId)
-                ->first();
 
+        $aprobado = CompetenciaJuez::where('id_juez', $usuario->id)
+            ->where('id_competencia', $this->competenciaId)
+            ->first();
 
-            if ($aprobado !== null) {
-                if ($aprobado->aprobado == 0) {
-                    $this->inscripcionAceptadaJuez = 0;
-                } 
-                if($aprobado->aprobado == 1 ) {
-                    $this->inscripcionAceptadaJuez = 1;
-                }
-                if($aprobado->aprobado == 2 ) {
-                    $this->inscripcionAceptadaJuez = 2;
-                }
+        if ($aprobado !== null) {
+            if ($aprobado->aprobado == 0) {
+                $this->inscripcionAceptada = false;
             } else {
-                $this->inscripcionAceptadaJuez = false;
-            }   
-        //    dd($this->inscripcionAceptada);
+                $this->inscripcionAceptada = true;
+            }
+        } else {
+            $this->inscripcionAceptada = false;
+        }
     }
-    
 
-    public function procesoInscripcionCompetidor(){
+
+    public function procesoInscripcionCompetidor() {
         $usuario = Auth::user();
-      
-            $aprobado = CompetenciaCompetidor::where('id_competidor', $usuario->id)
-                ->where('id_competencia', $this->competenciaId)
-                ->first();
-    
-                if ($aprobado !== null) {
-                    if ($aprobado->aprobado == 0) {
-                        $this->inscripcionAceptadaCompe = 0;
-                    } 
-                    if($aprobado->aprobado == 1 ) {
-                        $this->inscripcionAceptadaCompe = 1;
-                    }
-                    if($aprobado->aprobado == 2 ) {
-                        $this->inscripcionAceptadaCompe = 2;
-                    }
-                } else {
-                    $this->inscripcionAceptadaCompe = false;
-                } 
-                // dd($this->inscripcionAceptada);  
-           
-    }
 
+        $aprobado = CompetenciaCompetidor::where('id_competidor', $usuario->id)
+            ->where('id_competencia', $this->competenciaId)
+            ->first();
+
+        if ($aprobado !== null) {
+            if ($aprobado->aprobado == 0) {
+                $this->inscripcionAceptada = false;
+            } else {
+                $this->inscripcionAceptada = true;
+            }
+        } else {
+            $this->inscripcionAceptada = false;
+        }
+    }
 
 }
