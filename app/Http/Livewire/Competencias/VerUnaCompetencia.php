@@ -9,6 +9,7 @@ use App\Models\Categoria;
 use App\Models\Team;
 use App\Models\CompetenciaCompetidor;
 use App\Models\CompetenciaJuez;
+use App\Models\Pasada;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -16,17 +17,6 @@ use Livewire\Component;
 class VerUnaCompetencia extends Component {
     public $competidor;
     public $request;
-    public $usuario;
-    public $userCategoria;
-    public $nombreEscuela;
-    public $escuelaId;
-    public $id_competidor;
-    public $graduacion;
-    public $categoria;
-    public $email;
-    public $nombre;
-    public $apellido;
-    public $du;
     public $open = false;
     public $escuelas;
     public $graduaciones;
@@ -37,8 +27,16 @@ class VerUnaCompetencia extends Component {
     public $formAceptado = false;
     public $bandera = true;
 
+    public $mostrarResultados = false;
+    public $mostrarPoomsaes = false;
+
     public $mensaje;
     protected $listeners = ['confirmacion'];
+
+    //datos para mostrar los poomsaes correspondientes
+    public $idCompetidor;
+    public $idPasada1;
+    public $idPasada2;
 
     public function mount($competenciaId) {
         $this->competenciaId = $competenciaId;
@@ -52,52 +50,20 @@ class VerUnaCompetencia extends Component {
     // ->with('inscripcionAceptadaCompe', $this->inscripcionAceptadaCompe);
         $query = Competencia::where('id', $this->competenciaId)->get();
         $data = $query[0]->toArray();
+        if($data['estado'] == 5){
+            $this->mostrarResultados = true;
+        } else if($data['estado'] == 3){
+            $this->mostrarPoomsaes = true;
+        } else {
+            $this->mostrarResultados = false;
+            $this->mostrarPoomsaes = false;
+        }
         $data['mostrarBoton'] = $this->mostrarBoton();
         return view('livewire.competencias.ver-una-competencia', [
             'data' => $data
         ]);
-       
     }
 
-    public function mostrarDatos($idUsuario) {
-        $usuario = User::find($idUsuario);
-        $this -> nombre = $usuario -> name;
-        $this -> apellido = $usuario -> apellido;
-        $this -> email = $usuario -> email;
-        $this -> escuelaId = $usuario -> id_escuela;
-        $this -> nombreEscuela = Team::find($usuario->id_escuela)->pluck('name');
-        $this -> categoria = $this -> calcularCategoria($usuario->fecha_nac);
-        $this -> graduacion = $usuario -> graduacion;
-        $this -> du = $usuario -> du;
-        
-        $this -> open = true;
-    }
-
-    private function calcularCategoria($fechaNac) {
-        $categoria = '';
-        $fechaActual = time();
-        $fechaNac = strtotime($fechaNac);
-        $edad = round(($fechaActual - $fechaNac) / 31563000);
-        if ($edad >= 8.0 && $edad <= 11.0) {
-            $categoria = 'Infantiles';
-        }
-        if ($edad >= 12.0 && $edad <= 14.0) {
-            $categoria = 'Cadete';
-        }
-        if ($edad >= 15.0 && $edad <= 17.0) {
-            $categoria = 'Juveniles';
-        }
-        if ($edad >= 18.0 && $edad <= 30.0) {
-            $categoria = 'Senior1';
-        }
-        if ($edad >= 31.0 && $edad <= 50.0) {
-            $categoria = 'Senior2-master1';
-        }
-        if ($edad >= 50.0) {
-            $categoria = 'Master2';
-        }
-        return $categoria;
-    }
 
     public function mostrarBoton() {
         $queryCompetidor = CompetenciaCompetidor::where('id_competencia', $this->competenciaId)
@@ -112,6 +78,15 @@ class VerUnaCompetencia extends Component {
             }
         }
         return $this->bandera;
+    }
+
+    //esto no anda pq no hay nada en la tabla
+    public function obtenerPoomsaes(){
+        $this -> idCompetidor = CompetenciaCompetidor::where('id_competencia', $this->competenciaId)
+        ->where('id_competidor', Auth::user()->id);
+        $pasada1 = Pasada::where('id_competidor', $this->idCompetidor)->where('id_competencia', $this->competenciaId)->where('ronda', 1);
+        $pasada = $pasada1->toArray();
+        dd($pasada);
     }
 
     /* public function mostrarBotonJuez() {

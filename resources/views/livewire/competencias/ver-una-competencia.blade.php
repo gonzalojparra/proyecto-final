@@ -183,13 +183,26 @@
     </script>
     @endif
 
-    
-
-    <!-- <div class="resultados-competencia" style="margin-top: 5rem;">
+    @if($mostrarResultados)
+    <div class="resultados-competencia" style="margin-top: 5rem;">
         <div class="">
             <h1 class="text-6xl flex justify-center font-semibold dark:text-gray-400">Resultados</h1>
         </div>
         @livewire('competidores.competencia-competidor', ['competenciaId' => $data['id']] )
-    </div> -->
+    </div>
+    @endif
+
+    <!-- aplicarle estilos y hacer la funcionalidad -->
+    @if($mostrarPoomsaes)
+    <div class="resultados-competencia" style="margin-top: 5rem;">
+        <div class="poomsaes">
+            <h1 class="text-6xl flex justify-center font-semibold dark:text-gray-400">Poomsaes</h1>
+            <div class="datosPoomsaes">
+                <div>Poomsae 1: </div>
+                <div>Poomsae 2:</div>
+            </div>
+        </div>
+    </div>
+    @endif
 
     @endif

@@ -19,7 +19,11 @@ use Illuminate\Support\Facades\DB;
 
 class FormularioInscripcion extends Component
 {
+    //variables para abrir el modal
     public $open = false;
+    protected $listeners = ['abrirModal' => 'abrirModal'];
+
+    //datos del usuario
     public $nombre;
     public $apellido;
     public $email;
@@ -32,23 +36,33 @@ class FormularioInscripcion extends Component
     public $idGraduacionInicial;
     public $du;
     public $gal;
+    public $galInicial;
     public $idUsuario;
-    public $editarGal = 'readonly';
     public $categoria;
     public $idCategoria;
-    public $categorias;
-    public $poomsae = 1;
     public $idCompetencia;
+
+    //variables para manejar el input del gal
+    public $editarGal = 'readonly';
+    public $inputGal = false;
+    public $galRequerido = false;
+    public $botonGal;
+    protected $rules;
+
+    //variables para un html estático (por ahora)
+    
+
+    //variable bandera para enviar un pedido de actualizacion o no
     public $datosEditados = false;
-    public $botonEscuela;
-    public $botonGraduacion;
+
+    //variable bandera para comprobar si un competidor o juez está inscripto (no está en uso pq me tira error la función)
+    public $existeInscripcion;
+
+    //listas
+    public $categorias;
     public $escuelas;
     public $graduacionesCompetidor;
-    public $galInicial;
-    public $botonGal;
-    public $inputGal;
-    protected $rules;
-    public $galRequerido = false;
+    //probar el to_array aca para traer esto de la db y que sea mas prolijo :)
     public $graduaciones = [
         "10 GUP, Blanco",
         "9 GUP, Blanco borde amarillo",
@@ -71,7 +85,7 @@ class FormularioInscripcion extends Component
         "9 DAN, Negro"
     ];
     public $poomsaes;
-    protected $listeners = ['abrirModal' => 'abrirModal'];
+
 
     public function mount($competenciaId)
     {
@@ -80,11 +94,12 @@ class FormularioInscripcion extends Component
 
     public function render()
     {
+        $this->revisarSiInscripcionExiste();
         $this->graduacionesDisponibles();
-        $this->idGraduacion =  Graduacion::where('nombre', $this->graduacion)->pluck('id');
+        if($this->graduacion == "1 DAN, Negro"){
+            $this->inputGal = true;
+        }
         $this->categorias = Categoria::All();
-        $this->botonEscuela = 'Actualizar';
-        $this->botonGraduacion = 'Actualizar';
         $this->botonGal = 'Actualizar';
         $this->escuelas = Team::all();
         return view('livewire.competencias.formulario-inscripcion');
@@ -121,7 +136,7 @@ class FormularioInscripcion extends Component
     public function create()
     {
 
-        if ($this->graduacion != NULL) {
+        if ($this->idGraduacion != NULL) {
             $this->crearCompetidor();
         } else {
             $this->crearJuez();
@@ -154,14 +169,14 @@ class FormularioInscripcion extends Component
         $competencia_competidor->calificacion = null;
         $competencia_competidor->aprobado = false;
         $competencia_competidor->save();
-        Mail::to($this->email)->send(new EnvioMail('aceptado'));
+        // Mail::to($this->email)->send(new EnvioMail('aceptado'));
     }
 
 
-    public function revisarSiUserEsta()
+    public function revisarSiInscripcionExiste()
     {
         $user = Auth::user();
-        $esta = false;
+        $this->existeInscripcion = false;
         // Busqueda en la bd el rol del user
         $resultados = DB::select('SELECT * FROM model_has_roles WHERE model_id = ?', [$user->id]);
         if (!empty($resultados)) {
@@ -172,7 +187,7 @@ class FormularioInscripcion extends Component
                     ->where('id_competencia', '=', $this->idCompetencia)
                     ->first();
                 if ($encontrado != null) {
-                    $esta = true;
+                    $this->existeInscripcion = true;
                 }
             } elseif ($rol == 2) {
                 $competencia_juez = new CompetenciaJuez();
@@ -180,12 +195,12 @@ class FormularioInscripcion extends Component
                     ->where('id_competencia', '=', $this->idCompetencia)
                     ->first();
                 if ($encontrado != null) {
-                    $esta = true;
+                    $this->existeInscripcion = true;
                 }
+            } else {
+                $this->existeInscripcion = false;
             }
         }
-
-        return $esta;
     }
 
 
@@ -199,7 +214,7 @@ class FormularioInscripcion extends Component
         $competencia_juez->id_juez = $this->idUsuario;
         $competencia_juez->aprobado = false;
         $competencia_juez->save();
-        Mail::to($this->email)->send(new EnvioMail('aceptado'));
+        // Mail::to($this->email)->send(new EnvioMail('aceptado'));
     }
     // ? $this->emit('confirmacion', true) : $this->emit('confirmacion', false)
 
