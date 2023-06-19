@@ -41,7 +41,7 @@
                         @if( Auth::check() && $bandera == 0 )
                         <button id="openModal" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
                             <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                No puede inscribirse
+                                Ya te inscribiste
                             </span>
                         </button>
                         @elseif( Auth::check() && Auth::user()->hasRole('Competidor') && $data['cant_jueces'] >= 3|| Auth::user()->hasRole('Juez') && $data['cant_jueces'] < 7) <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
