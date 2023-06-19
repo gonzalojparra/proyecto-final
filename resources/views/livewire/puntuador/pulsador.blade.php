@@ -6,12 +6,12 @@
             <div class="puntaje-pulsadores">
                 <div class="boton-izquierdo">
                     <div class="toggle">
-                        <input type="button" class="button">
+                        <input type="button" class="button" wire:click="deducirUno">
                         <span class="button"><span class="label">-0.1</span></span>
                     </div>
                 </div>
                 <div class="puntaje-boton">
-                    <div class="puntaje">10</div>
+                    <div class="puntaje">{{$puntaje}}</div>
                     <div class="boton-enviar">&nbsp;
                         <!-- Este botón lleva una variable $botonEnviar que modifique el texto al que corresponda (saltar competidor o enviar) -->
                         <button class="enviar">
@@ -21,7 +21,7 @@
                 </div>
                 <div class="boton-derecho">
                     <div class="toggle">
-                        <input type="button" class="button">
+                        <input type="button" class="button" wire:click="deducirTres">
                         <span class="button"> <span class="label">-0.3</span></span>
 
                     </div>
