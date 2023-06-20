@@ -101,7 +101,7 @@ class SolicitudesInscripcion extends Component {
         // Si envio una solicitud de modificacion, modificamos.
         if ($actualizacion != null){
             $participante->user->id_escuela = $actualizacion['id_escuela_nueva'];
-            $participante->user->graduacion = $actualizacion['id_graduacion_nueva'];
+            $participante->user->id_graduacion = $actualizacion['id_graduacion_nueva'];
             Actualizacion::where('id_user', $actualizacion['id_user'])->delete();
         }
         $participante->aprobado = true;

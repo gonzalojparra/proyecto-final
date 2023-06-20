@@ -24,6 +24,7 @@ class VerUnaCompetencia extends Component {
     public $graduaciones;
     public $dato;
     public $competenciaId;
+    public $inscripcionAceptada;
     public $inscripcionAceptadaJuez = null;
     public $inscripcionAceptadaCompe = null;
     public $formAceptado = false;
