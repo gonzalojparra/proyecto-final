@@ -199,7 +199,7 @@ class FormularioInscripcion extends Component
                 } else {
                     $actualizacion->gal_nuevo = NULL;
                 }
-                $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
+                $actualizacion->id_graduacion_nueva = null;
             }
             $actualizar = true;
         } else  if ($this->graduacionInicial != $this->graduacion) {
@@ -208,13 +208,13 @@ class FormularioInscripcion extends Component
             } else {
                 $actualizacion->gal_nuevo = NULL;
             }
-            $actualizacion->id_escuela_nueva = $idEscuela[0];
+            $actualizacion->id_escuela_nueva = null;
             $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
             $actualizar = true;
         } else {
             if ($this->galInicial != $this->gal) {
-                $actualizacion->id_escuela_nueva = $idEscuela[0];
-                $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
+                $actualizacion->id_escuela_nueva = null;
+                $actualizacion->id_graduacion_nueva = null;
                 $actualizacion->gal_nuevo = $this->gal;
                 $actualizar = true;
             }
