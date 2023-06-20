@@ -7,7 +7,6 @@ use App\Models\PasadaJuez;
 use App\Models\Pasada;
 use App\Events\PuntajeEnviado;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -24,8 +23,7 @@ class Pulsador extends Component {
         return view('livewire.puntuador.pulsador', ['pasada' => $pasada]);
     }
 
-    public function mount($idPasada)
-    {
+    public function mount($idPasada) {
         $this->idPasada = $idPasada;
     }
 
@@ -39,7 +37,7 @@ class Pulsador extends Component {
         $pasadaJuez->save();
     }
 
-    public function resto1(){
+    public function resto1() {
         $puntaje = $this->puntaje;
         if ($puntaje > 0.1){
             $this->puntaje = $puntaje - 0.1;
@@ -48,7 +46,7 @@ class Pulsador extends Component {
         }
     }
 
-    public function resto3(){
+    public function resto3() {
         $puntaje = $this->puntaje;
         if ($puntaje > 0.3){
             $this->puntaje = $puntaje - 0.3;
@@ -57,7 +55,7 @@ class Pulsador extends Component {
         }
     }
 
-    public function enviar(){
+    public function enviar() {
         $tipoPuntaje = $this->tipoPuntaje;
         if ($tipoPuntaje == 1){
             $this->puntajeExactitud = $this->puntaje;
@@ -67,6 +65,16 @@ class Pulsador extends Component {
             $this->puntajePresentacion = $this->puntaje;
             $this->store();
         }
+    }
+
+    /**
+     * Método para consultar la cantidad de jueces por pasada
+     */
+    public function cantJueces( $idPasada ){
+        $cantJuecesPasada = DB::table('pasada_juez')
+            ->where('id_pasada', $idPasada)
+            ->count();
+        return $cantJuecesPasada;
     }
 
 }

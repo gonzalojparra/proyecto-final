@@ -4,9 +4,9 @@
             <!-- En titulo va la variable $tipoPresentacion o algo asi donde vaya el titulo correspondiente del pulsador (Exactitud o Presentacion) -->
             <div class="titulo">
                 @if ($tipoPuntaje == 1)
-                    Exactitud
+                Exactitud
                 @else
-                    Presentacion
+                Presentacion
                 @endif
             </div>
             <div class="puntaje-pulsadores">
@@ -21,9 +21,9 @@
                     <div class="boton-enviar">&nbsp;
                         <button class="enviar" wire:click="enviar()">
                             @if ($tipoPuntaje == 1)
-                                Siguiente
+                            Siguiente
                             @else
-                                Enviar
+                            Enviar
                             @endif
                         </button>
                     </div>

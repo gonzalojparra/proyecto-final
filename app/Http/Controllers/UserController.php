@@ -53,6 +53,11 @@ class UserController extends Controller {
         $catGraduacion = $input['graduacion'];
         $graduacionQuery = Graduacion::where('nombre', $catGraduacion)->get();
         $graduacion = $graduacionQuery->toArray();
+        if( $graduacion != null ){
+            $graduacionFinal = $graduacion[0]['id'];
+        } else {
+            $graduacionFinal = null;
+        }
 
         $genero = null;
         if (array_key_exists('genero', $input)) {
@@ -78,7 +83,7 @@ class UserController extends Controller {
             'fecha_nac' => $input['fechaNac'],
             'gal' => $input['gal'],
             'genero' => $genero,
-            'graduacion' => $graduacion[0]['id'],
+            'graduacion' => $graduacionFinal,
             'id_escuela' => $escuela[0]->id,
         ]);
 

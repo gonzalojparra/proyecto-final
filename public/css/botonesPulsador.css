@@ -76,7 +76,7 @@
   color: rgba(0, 0, 0, 0.8);
 }
 
-.enviar {
+.enviar, .entrar-pulsador {
   width: fit-content;
   --accent: #eaeaea;
   font-weight: bold;
@@ -96,7 +96,7 @@
 
 
 
-.enviar:active {
+.enviar:active, .entrar-pulsador:active {
   box-shadow: var(--hover-shadows),
     var(--accent) 0px 0px 30px 5px;
   background-color: var(--accent);
