@@ -17,7 +17,7 @@
         @endif
     </div>
 
-    <form wire:submit.prevent='create'>
+    <form  wire:submit.prevent='create'>
         @csrf
         <!-- Modal con los datos del competidor/juez -->
         <div class="inset-0 items-center z-50 m-5 p-6">
