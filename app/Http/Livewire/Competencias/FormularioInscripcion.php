@@ -159,7 +159,7 @@ class FormularioInscripcion extends Component
         $competencia_competidor->id_competidor = $this->idUsuario;
         $competencia_competidor->id_categoria = $this->idCategoria;
         $competencia_competidor->calificacion = null;
-        $competencia_competidor->aprobado = false;
+        $competencia_competidor->aprobado = 0;
         $competencia_competidor->save();
         // Mail::to($this->email)->send(new EnvioMail('aceptado'));
     }
@@ -172,7 +172,7 @@ class FormularioInscripcion extends Component
         $competencia_juez = new CompetenciaJuez();
         $competencia_juez->id_competencia = $this->idCompetencia;
         $competencia_juez->id_juez = $this->idUsuario;
-        $competencia_juez->aprobado = false;
+        $competencia_juez->aprobado = 0;
         $competencia_juez->save();
         // Mail::to($this->email)->send(new EnvioMail('aceptado'));
     }
