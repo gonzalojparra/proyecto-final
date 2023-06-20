@@ -61,24 +61,6 @@
                     </div>
                     @endIf
                     @endrole
-                    <div class="mb-4">
-                        <label for="email" class="block text-gray-700 dark:text-gray-300">Email:</label>
-                        <input id="email" type="email" class="w-full border-gray-300 rounded-md p-2" wire:model="email" readonly>
-                    </div>
-                    <div class="mb-4">
-                        <label for="nombre" class="block text-gray-700 dark:text-gray-300">Nombre:</label>
-                        <input id="nombre" type="Nombre" class="w-full border-gray-300 rounded-md p-2" wire:model="nombre" readonly>
-                    </div>
-                    <div class="mb-4">
-                        <label for="apellido" class="block text-gray-700 dark:text-gray-300">Apellido:</label>
-                        <input id="apellido" type="Apellido" class="w-full border-gray-300 rounded-md p-2" wire:model="apellido" readonly>
-                    </div>
-                    @role('Competidor')
-                    <div class="mb-4">
-                        <label for="dni" class="block text-gray-700 dark:text-gray-300">DU:</label>
-                        <input id="dni" type="email" class="w-full border-gray-300 rounded-md p-2" wire:model="du" readonly>
-                    </div>
-                    @endrole
                     <div class="flex justify-end">
                         <button wire:click="$set('open',false)" id="closeModal" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                             Cerrar

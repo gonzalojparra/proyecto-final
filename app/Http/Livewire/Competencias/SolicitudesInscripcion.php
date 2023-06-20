@@ -35,7 +35,7 @@ class SolicitudesInscripcion extends Component {
             if ($cant > 0){
                 // Guardamos las peticiones de los competidores
                 foreach ($inscriptosCompetidor as $inscripto) {
-                    if ($inscripto->id_competencia == $this->idCompetencia && $inscripto->aprobado == false){
+                    if ($inscripto->id_competencia == $this->idCompetencia && $inscripto->aprobado == 0){
                         $peticionModificacion = Actualizacion::where('id_user', $inscripto->id_competidor)->first();
                         if ($peticionModificacion){
                             $inscripto->actualizacion = $peticionModificacion;
@@ -46,7 +46,7 @@ class SolicitudesInscripcion extends Component {
                 }
                 // Guardamos las peticiones de los jueces
                 foreach ($inscriptosJuez as $inscripto) {
-                    if ($inscripto->id_competencia == $this->idCompetencia && $inscripto->aprobado == false){
+                    if ($inscripto->id_competencia == $this->idCompetencia && $inscripto->aprobado == 0){
                         $peticionModificacion = Actualizacion::where('id_user', $inscripto->id_juez)->get();
                         if (count($peticionModificacion) > 0){
                             $inscripto->actualizacion = $peticionModificacion;
@@ -58,8 +58,8 @@ class SolicitudesInscripcion extends Component {
             }
         }
 
-        $competidores = CompetenciaCompetidor::where('id_competencia', $this->idCompetencia)->where('aprobado', true)->get();
-        $jueces = CompetenciaJuez::where('id_competencia', $this->idCompetencia)->where('aprobado', true)->get();
+        $competidores = CompetenciaCompetidor::where('id_competencia', $this->idCompetencia)->where('aprobado', 1)->get();
+        $jueces = CompetenciaJuez::where('id_competencia', $this->idCompetencia)->where('aprobado', 1)->get();
 
         return view('livewire.competencias.solicitudes-inscriptos', ['competencia' => $competencia, 'inscriptosPendientes' => $inscriptosPendientes, 'competidores' => $competidores, 'jueces' => $jueces]);
     }
@@ -107,7 +107,7 @@ class SolicitudesInscripcion extends Component {
             $participante->user->gal =  $actualizacion['gal_nuevo'];
             Actualizacion::where('id_user', $actualizacion['id_user'])->delete();
         }
-        $participante->aprobado = true;
+        $participante->aprobado = 1;
         $participante->user->save();
         $participante->save();
     }
@@ -115,9 +115,11 @@ class SolicitudesInscripcion extends Component {
     public function rechazar($rol, $id)
     {
         if ($rol == "Competidor"){
-            CompetenciaCompetidor::find($id)->delete();
+            // CompetenciaCompetidor::find($id)->delete();
+            CompetenciaCompetidor::where('id_competencia', $this->idCompetencia)->where('aprobado', 0)->update(['aprobado' => 2]);
         } else {
-            CompetenciaJuez::find($id)->delete();
+            // CompetenciaJuez::find($id)->delete();
+            CompetenciaJuez::where('id_competencia', $this->idCompetencia)->where('aprobado', 0)->update(['aprobado' => 2]);
         }
     }
 
