@@ -1,5 +1,5 @@
 
-@if($data['cant_jueces'] < 3 && Auth::user()->hasRole('Competidor'))
+@if($cantJuecesCompetencia < 3 && Auth::user()->hasRole('Competidor'))
     <div class="bg-red-200 text-red-800 pt-4 m-6 mt-4 mb-4 p-4 text-lg rounded border border-red-300 my-3">
         Por el momento no se puede incribir a esta competencia <br>Por favor, vuelve más tarde para poder inscribirse. <br>
         <a href="{{asset('competencias/show')}}" class="font-medium text-red-800 dark:text-red-800 hover:underline">Volver</a>
@@ -32,7 +32,7 @@
                         </li>
                         <li class="dark:bg-gray-800 dark:border-gray-700 rounded-md max-w-md p-2 mt-4">
                             <h1 class="text-lg font-semibold">Cantidad de jueces</h1>
-                            {{ $data['cant_jueces'] }}
+                            {{ $cantJuecesCompetencia }}
                         </li>
                     </ul>
                     <img src="storage/app/public/{{$data['flyer']}}" alt="">
@@ -64,11 +64,11 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Modales con los estados del proceso de incripcion de un competidor/juez a una competencia -->
     @if(($inscripcionAceptadaJuez == 0 && $inscripcionAceptadaCompe == null) || ($inscripcionAceptadaCompe == 0 && $inscripcionAceptadaJuez == null))
     <!-- Modal que muestra que la inscripcion fue enviada  -->
-    <div id="popup-modal"   tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ">
+    <div id="popup-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ">
         <div class="relative w-full max-w-md max-h-full">
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal">
