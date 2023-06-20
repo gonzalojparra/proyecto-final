@@ -25,11 +25,12 @@ class VerUnaCompetencia extends Component
     public $graduaciones;
     public $dato;
     public $competenciaId;
+    public $inscripcionAceptada;
     public $inscripcionAceptadaJuez = null;
     public $inscripcionAceptadaCompe = null;
     public $formAceptado = false;
     public $bandera = true;
-    public $cantJuecesCompetencia;
+    public $cantJuecesCompetencia = 0;
 
     public $mostrarResultados = false;
     public $mostrarPoomsaes = false;

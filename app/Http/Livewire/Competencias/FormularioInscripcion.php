@@ -24,6 +24,7 @@ class FormularioInscripcion extends Component
     protected $listeners = ['abrirModal' => 'abrirModal'];
 
     //datos del usuario
+    public $usuario;
     public $nombre;
     public $apellido;
     public $email;
@@ -86,7 +87,8 @@ class FormularioInscripcion extends Component
     }
 
     public function render() {
-
+        $this->usuario = Auth::user();
+        $this->idGraduacionInicial = $this->usuario->id_graduacion;
         $this->graduacionesDisponibles();
         if($this->graduacion == "1 DAN, Negro"){
             $this->inputGal = true;
@@ -98,33 +100,37 @@ class FormularioInscripcion extends Component
     }
 
     public function graduacionesDisponibles() {
-        $idGraduacion = array_search($this->graduacionInicial, $this->graduaciones);
-        $this->graduacionesCompetidor = array_slice($this->graduaciones, $idGraduacion, null, true);
+        if($this->usuario->id_graduacion != null){
+            $this->graduacionInicial = Graduacion::where('id', $this->idGraduacionInicial)->pluck('nombre');
+            $idGraduacion = array_search($this->graduacionInicial[0], $this->graduaciones);
+            $this->graduacionesCompetidor = array_slice($this->graduaciones, $idGraduacion, null, true);
+        }
+
     }
 
 
     public function abrirModal($idCompetencia) {
-        $usuario = Auth::user();
-        $this->idUsuario = $usuario->id;
-        $this->nombre = $usuario->name;
-        $this->apellido = $usuario->apellido;
-        $this->email = $usuario->email;
-        $this->fechaNac = $usuario->fecha_nac;
-        $this->du = $usuario->du;
-        $this->escuela = Team::where('id', $usuario->id_escuela)->pluck('name');
-        $this->idGraduacion = $usuario->id_graduacion;
+
+        $this->idUsuario = $this->usuario->id;
+        $this->nombre = $this->usuario->name;
+        $this->apellido = $this->usuario->apellido;
+        $this->email = $this->usuario->email;
+        $this->fechaNac = $this->usuario->fecha_nac;
+        $this->du = $this->usuario->du;
+        $this->escuela = Team::where('id', $this->usuario->id_escuela)->pluck('name');
+        $this->idGraduacion = $this->usuario->id_graduacion;
         $this->graduacion = Graduacion::where('id', $this->idGraduacion)->pluck('nombre');
-        $this->gal = $usuario->gal;
-        $this->galInicial = $usuario->gal;
+        $this->gal = $this->usuario->gal;
+        $this->galInicial = $this->usuario->gal;
         $this->open = true;
         $this->idCompetencia = $idCompetencia;
-        $this->escuelaInicial = Team::where('id', $usuario->id_escuela)->pluck('name');
-        $this->idGraduacionInicial = $usuario->id_graduacion;
+        $this->escuelaInicial = Team::where('id', $this->usuario->id_escuela)->pluck('name');
         $this->graduacionInicial = Graduacion::where('id', $this->idGraduacion)->pluck('nombre');
     }
 
     public function create() {
         if ($this->idGraduacion != NULL) {
+            $this->idGraduacion = Graduacion::where('nombre', $this->graduacion)->pluck('id');
             $this->crearCompetidor();
         } else {
             $this->crearJuez();
@@ -174,14 +180,15 @@ class FormularioInscripcion extends Component
 
 
     public function compararDatos() {
+
         $actualizacion = new Actualizacion();
+        $idEscuela =  Team::where('name', $this->escuela)->pluck('id');
         $actualizar = false;
         $actualizacion->id_user = $this->idUsuario;
         if ($this->escuelaInicial != $this->escuela) {
-            $idEscuela =  Team::where('name', $this->escuela)->pluck('id');
             $actualizacion->id_escuela_nueva = $idEscuela[0];
             if ($this->graduacionInicial != $this->graduacion) {
-                $actualizacion->id_graduacion_nueva = $this->idGraduacion;
+                $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
                 if ($this->galInicial != $this->gal) {
                     $actualizacion->gal_nuevo = $this->gal;
                 } else {
@@ -193,7 +200,7 @@ class FormularioInscripcion extends Component
                 } else {
                     $actualizacion->gal_nuevo = NULL;
                 }
-                $actualizacion->id_graduacion_nueva = '-';
+                $actualizacion->id_graduacion_nueva = null;
             }
             $actualizar = true;
         } else  if ($this->graduacionInicial != $this->graduacion) {
@@ -202,13 +209,13 @@ class FormularioInscripcion extends Component
             } else {
                 $actualizacion->gal_nuevo = NULL;
             }
-            $actualizacion->id_escuela_nueva = 0;
-            $actualizacion->id_graduacion_nueva = $this->idGraduacion;
+            $actualizacion->id_escuela_nueva = null;
+            $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
             $actualizar = true;
         } else {
             if ($this->galInicial != $this->gal) {
-                $actualizacion->id_escuela_nueva = 0;
-                $actualizacion->id_graduacion_nueva = '-';
+                $actualizacion->id_escuela_nueva = null;
+                $actualizacion->id_graduacion_nueva = null;
                 $actualizacion->gal_nuevo = $this->gal;
                 $actualizar = true;
             }
