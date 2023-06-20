@@ -13,19 +13,20 @@ use Illuminate\Support\Facades\DB;
 use Livewire\WithFileUploads;
 use Exception;
 
-class Agregar extends Component {
+class Agregar extends Component
+{
     use WithFileUploads;
 
     protected $competencia;
     protected $categorias;
     public $open = false;
-    public $boton, $accionForm ;
+    public $boton, $accionForm;
     public $titulo, $flyer, $bases, $descripcion, $fecha_inicio, $fecha_fin, $idCompetencia, $invitacion;
     public $categoria = array();
 
     protected $listeners = [
         'abrirModal',
-        'mostrarDatos'=>'show'
+        'mostrarDatos' => 'show'
     ];
 
     public function render()
@@ -39,13 +40,12 @@ class Agregar extends Component {
     {
         $this->boton = $accion;
         $this->accionForm = 'create';
-        $this->open=true;
+        $this->open = true;
     }
     public function cerrarModal()
     {
-        $this->open=false;
+        $this->open = false;
         $this->reset();
-        
     }
 
     public function create()
@@ -78,14 +78,14 @@ class Agregar extends Component {
                 'titulo' => $validate['titulo'],
                 'flyer' => $urlImagen,
                 'bases' => $urlBases,
-                'invitacion'=>$urlInvitacion,
+                'invitacion' => $urlInvitacion,
                 'descripcion' => $validate['descripcion'],
                 'fecha_inicio' => $validate['fecha_inicio'],
                 'fecha_fin' => $validate['fecha_fin'],
             ]);
-            
 
-            if (count($categoria) > 0){
+
+            if (count($categoria) > 0) {
                 // Obtenemos todas las graduaciones para asignarle 2 poomsaes a cada una.
                 $graduaciones = Graduacion::get();
 
@@ -98,15 +98,16 @@ class Agregar extends Component {
                         'id_categoria' => $idCategoria,
                     ]);
 
-                    // Obtenemos un poomsae aleatorio para la primer pasada.
-                    $poomsaeRandom1 = Poomsae::inRandomOrder()->first();;
-                    // Obtenemos un poomsae aleatorio para la segunda pasada.
-                    $poomsaeRandom2 = Poomsae::inRandomOrder()->first();;
-
 
                     // Sorteamos los poomsaes para cada graduacion de cada categoria.
-                    if (count($graduaciones) > 0 ){
+                    if (count($graduaciones) > 0) {
                         foreach ($graduaciones as $graduacion) {
+
+                            // Obtenemos un poomsae aleatorio para la primer pasada.
+                            $poomsaeRandom1 = Poomsae::inRandomOrder()->first();
+                            // Obtenemos un poomsae aleatorio para la segunda pasada.
+                            $poomsaeRandom2 = Poomsae::inRandomOrder()->first();
+
                             $poomsaeC = PoomsaeCompetenciaCategoria::create([
                                 'id_competencia_categoria' => $competenciaCategoria->id,
                                 'id_poomsae1' => $poomsaeRandom1->id,
@@ -114,12 +115,11 @@ class Agregar extends Component {
                                 'id_graduacion' => $graduacion->id,
                             ]);
                         }
-                    } else{
+                    } else {
                         throw new Exception("Error al agregar competencia.");
                     }
-
                 }
-            } else{
+            } else {
                 throw new Exception("Error al agregar competencia.");
             }
 
@@ -129,11 +129,10 @@ class Agregar extends Component {
             session()->flash('msj', 'Competencia creada exitosamente.');
             // Confirmamos las transacciones si no hubo ningun error.
             DB::commit();
-            $this->emit('msjAccion',true);
-
+            $this->emit('msjAccion', true);
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->emit('msjAccion',false);
+            $this->emit('msjAccion', false);
             // session()->flash('msj', [$e->getMessage(), false]);
         }
 
@@ -141,7 +140,8 @@ class Agregar extends Component {
         $this->emit('recarga');
     }
 
-    public function update(){
+    public function update()
+    {
 
         $validate = $this->validate([
             'titulo' => ['required', 'max:120'],
@@ -149,16 +149,16 @@ class Agregar extends Component {
             'fecha_inicio' => ['required', 'date', 'after_or_equal:today'],
             'fecha_fin' => ['required', 'date', 'after:fecha_inicio'],
         ]);
-        
+
         $competencia = Competencia::find($this->idCompetencia);
         $competencia->titulo = $validate['titulo'];
         $competencia->descripcion = $validate['descripcion'];
         $competencia->fecha_inicio = $validate['fecha_inicio'];
         $competencia->fecha_fin = $validate['fecha_fin'];
 
-        
 
-        $competencia->save() ? $this->emit('msjAccion',true) : $this->emit('msjAccion',false);
+
+        $competencia->save() ? $this->emit('msjAccion', true) : $this->emit('msjAccion', false);
         $this->open = false;
         $this->emit('recarga');
     }
@@ -172,9 +172,9 @@ class Agregar extends Component {
         $this->idCompetencia = $competencia->id;
         $this->titulo = $competencia->titulo;
         $this->descripcion = $competencia->descripcion;
-        $this->fecha_inicio= $competencia->fecha_inicio;
+        $this->fecha_inicio = $competencia->fecha_inicio;
         $this->fecha_fin = $competencia->fecha_fin;
-        
+
         $this->open = true;
     }
 
@@ -182,8 +182,8 @@ class Agregar extends Component {
     {
         $competencia = Competencia::find($id);
         $competencia->estado = 3;
-        
-        $competencia->save() ? $this->emit('msjAccion',true) : $this->emit('msjAccion',false);
+
+        $competencia->save() ? $this->emit('msjAccion', true) : $this->emit('msjAccion', false);
         $this->open = false;
         $this->emit('recarga');
     }

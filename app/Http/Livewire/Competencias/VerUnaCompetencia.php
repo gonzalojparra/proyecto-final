@@ -30,7 +30,7 @@ class VerUnaCompetencia extends Component
     public $inscripcionAceptadaCompe = null;
     public $formAceptado = false;
     public $bandera = true;
-    public $cantJuecesCompetencia = 3;
+    public $cantJuecesCompetencia = 0;
 
     public $mostrarResultados = false;
     public $mostrarPoomsaes = false;
@@ -60,7 +60,7 @@ class VerUnaCompetencia extends Component
 
         $this->procesoInscripcionJuez();
         $this->procesoInscripcionCompetidor();
-        // $this->cantJuecesCompetencia();
+        $this->cantJuecesCompetencia();
 
         $query = Competencia::where('id', $this->competenciaId)->get();
         $data = $query[0]->toArray();

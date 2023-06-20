@@ -33,12 +33,12 @@ class CompetenciasSeeder extends Seeder {
             'descripcion' => 'Competicion para todos',
             'fecha_inicio' => '2023-06-23',
             'fecha_fin' => '2023-06-30',
-            'estado' => 1
+            'estado' => 2
         ]);
 
-        DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 1)");
-        DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 2)");
-        DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 3)");
+        // DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 1)");
+        // DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 2)");
+        // DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 3)");
     }
 
 }
