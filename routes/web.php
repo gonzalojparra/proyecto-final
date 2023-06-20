@@ -9,6 +9,7 @@ use App\Http\Livewire\Competencias\Competencias;
 use App\Http\Livewire\Competencias\VerCompetencias;
 use App\Http\Livewire\Competencias\VerUnaCompetencia;
 use Whoops\Run;
+use App\Http\Controllers\TimerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,7 +66,7 @@ Route::middleware([
 // Middleware Admin
 Route::group(['middleware' => ['role:Admin']], function() {
     Route::get('roles', [Security\RolesController::class, 'index'])->name('roles.index');
-    Route::view('/timer', 'timer')->name('timer');
+    Route::get('timer', [TimerController::class, 'index'])->name('timer');
 
     // Solicitudes registros
     Route::view('/usuarios-pendientes','solicitudes-registro.show')->name('solicitudes-registro');

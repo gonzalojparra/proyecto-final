@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->float('calificacion')->nullable();
             $table->integer('cant_votos')->nullable();
             $table->foreignId('id_competencia')->constrained('competencias');
+            $table->boolean('estado_timer')->default(0);
 
             $table->timestamps();
         });
