@@ -20,4 +20,14 @@ class Pasada extends Model {
         'id_competencia'
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_competidor');
+    }
+
+    public function poomsae()
+    {
+        return $this->belongsTo(Poomsae::class, 'id_poomsae');
+    }
+
 }

@@ -1,4 +1,5 @@
 <x-app-layout>
+<link rel="stylesheet" href="{{ asset('css/estilosTarjetaPoomsaes.css') }}">
 @livewire('competencias.competencias')
 @livewire('competencias.ver-una-competencia')
 

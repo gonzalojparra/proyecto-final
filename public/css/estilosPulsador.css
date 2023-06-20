@@ -14,12 +14,54 @@
         display: none;
     }
 
+    .vista-previa{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
+    option:active{
+        background-color: #a0aec0;
+    }
+
+    .select-div{
+        display: flex;
+        justify-content: center;
+    }
+
+    .boton-entrar-pulsador{
+        display: flex;
+        align-items: center;
+        border-radius: 5px!important;
+    }
+
+    .categoria-select{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        vertical-align: middle;
+    }
+
+    .select{
+        width: 500px!important;
+        height: 50px;
+        border-radius: 10px;
+    }
+
+    .titulo-select{
+        color: #a0aec0;
+        font-size: 40px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family:sans-serif;
+    }
 
     .puntaje-pulsadores {
         display: flex;
         flex-direction: row;
-        gap: 5rem;
+        gap: 4rem;
         justify-content: center;
     }
 
@@ -30,6 +72,7 @@
         display: flex;
         align-items: center;
         font-family:sans-serif;
+        justify-content: center;
     }
 
     .puntaje-boton{
@@ -38,7 +81,7 @@
         justify-content: center;
     }
 
-    .boton-enviar{
+    .boton-enviar, .entrar-pulsador{
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -75,6 +118,9 @@
 
 @media only screen and (min-height:500px){
     .pulsador {
+        display: none;
+    }
+    .vistaPrevia{
         display: none;
     }
     .no-celular{

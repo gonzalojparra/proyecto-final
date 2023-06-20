@@ -11,10 +11,13 @@ return new class extends Migration {
     public function up(): void {
         //
         Schema::create('pasadas_juez', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('id_juez')->constrained('users');
             $table->foreignId('id_pasada')->constrained('pasadas');
-            $table->float('puntaje_exactitud');
-            $table->float('puntaje_presentacion');
+            $table->float('puntaje_exactitud')->nullable();
+            $table->float('puntaje_presentacion')->nullable();
+
+            $table->timestamps();
         });
     }
 

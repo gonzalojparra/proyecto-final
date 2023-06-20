@@ -53,11 +53,11 @@
                         {{ __('Inscripción') }}
                     </x-nav-link>
                 </div> -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link href="{{ route('puntuador') }}" :active="request()->routeIs('timer')">
+                {{-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link href="{{ route('pulsador') }}" :active="request()->routeIs('timer')">
                         {{ __('Puntuador') }}
                     </x-nav-link>
-                </div>
+                </div> --}}
                 @endrole
 
                 <div class="hidden sm:flex sm:items-center sm:ml-6">

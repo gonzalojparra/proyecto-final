@@ -5,8 +5,12 @@ namespace App\Http\Livewire\Competencias;
 use App\Mail\EnvioMail;
 use App\Models\User;
 use App\Models\CompetenciaCompetidor;
+use App\Models\Pasada;
+use App\Models\PasadaJuez;
 use App\Models\CompetenciaJuez;
 use App\Models\Competencia;
+use App\Models\CompetenciaCategoria;
+use App\Models\PoomsaeCompetenciaCategoria;
 use App\Models\Actualizacion;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
@@ -70,13 +74,35 @@ class SolicitudesInscripcion extends Component {
         $this->idCompetencia = $idCompetencia;
     }
 
+    public function crearPasadaCompetidor($idCompetidor){
+        $idCompetencia = $this->idCompetencia;
+        $competidor = CompetenciaCompetidor::where('id_competidor', $idCompetidor)->where('id_competencia', $idCompetencia)->first();
+        // $categorias = CompetenciaCategoria::where('id_categoria', $competidor->id_categoria);
+        $poomsae = PoomsaeCompetenciaCategoria::where('id_graduacion', $competidor->user->id_graduacion)
+        ->where('id_competencia_categoria', $competidor->id_categoria)->first();
+        // dd($poomsae);
+
+        Pasada::create([
+            'ronda' => 1,
+            'id_poomsae' => $poomsae->id_poomsae1,
+            'id_competidor' => $idCompetidor,
+            'id_competencia' => $idCompetencia,
+        ]);
+        Pasada::create([
+            'ronda' => 2,
+            'id_poomsae' => $poomsae->id_poomsae2,
+            'id_competidor' => $idCompetidor,
+            'id_competencia' => $idCompetencia,
+        ]);
+    }
+
     public function aceptar($rol, $id, $actualizacion = null)
     {       
         if ($rol == "Competidor"){
             $participante = CompetenciaCompetidor::find($id);
-        }else{
-            $participante = CompetenciaJuez::find($id);
+            $this->crearPasadaCompetidor($participante->id_competidor);
         }
+        // Si envio una solicitud de modificacion, modificamos.
         if ($actualizacion != null){
             $participante->user->id_escuela = $actualizacion['id_escuela_nueva'];
             $participante->user->graduacion = $actualizacion['id_graduacion_nueva'];
