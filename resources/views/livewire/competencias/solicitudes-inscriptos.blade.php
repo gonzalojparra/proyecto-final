@@ -43,24 +43,28 @@
                     @foreach ($inscriptosPendientes as $inscripto )
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <td class="px-6 py-4">
-                        @if (isset($inscripto->actualizacion))
+                            <!-- @if (isset($inscripto->actualizacion))
                             <span class="text-xs font-bold text-black bg-orange-200">Hay datos editados</span><br> 
-                            @endif
+                            @endif -->
                             {{$inscripto->user->name}} {{$inscripto->user->apellido}}
                         </td>
                         <td class="px-6 py-4">
-                            <!-- @if (isset($inscripto->actualizacion))
-                                {{$inscripto->actualizacion->team->name}} <br> <span class="text-xs font-bold text-black bg-orange-200">Nuevo</span>
-                            @else -->
-                                {{$inscripto->user->team->name}} 
-                            <!-- @endif -->
+                            @if (isset($inscripto->actualizacion)&& $inscripto->actualizacion->id_escuela_nueva != null)
+                            {{$inscripto->actualizacion->team->name}} <br> <span class="text-xs font-bold text-black bg-orange-200">Nuevo</span>
+                            @else
+                            {{$inscripto->user->team->name}}
+                            @endif
                         </td>
                         <td class="px-6 py-4">
-                            <!-- @if (isset($inscripto->actualizacion))
+                            @if (isset($inscripto->actualizacion) && $inscripto->actualizacion->id_graduacion_nueva != null)
                             {{$inscripto->actualizacion->graduacion->nombre}} <br> <span class="text-xs font-bold text-black bg-orange-200">Nuevo</span>
-                            @else -->
-                            {{$inscripto->user->graduacion}}
-                            <!-- @endif -->
+                            @else
+                            @if($inscripto->user->graduacion !== null)
+                            {{$inscripto->user->graduacion->nombre}}
+                            @else
+                            -
+                            @endif
+                            @endif
                         </td>
                         <td class="px-6 py-4">
                             {{$inscripto->rol}}
@@ -133,7 +137,7 @@
                             @if (isset($juez->modificacion))
                             {{$juez->actualizacion->team->name}}
                             @else
-                            {{$juez->user->team->name}}       
+                            {{$juez->user->team->name}}
                             @endif
                         </td>
 
@@ -206,11 +210,11 @@
                             @if (isset($competidor->modificacion))
                             {{$competidor->actualizacion->team->name}}
                             @else
-                            {{$competidor->user->team->name}}       
+                            {{$competidor->user->team->name}}
                             @endif
                         </td>
                         <td class="px-6 py-4">
-                            {{$competidor->user->graduacion}}
+                            {{$competidor->user->graduacion->nombre}}
                         </td>
 
                         <td class="px-6 py-4">

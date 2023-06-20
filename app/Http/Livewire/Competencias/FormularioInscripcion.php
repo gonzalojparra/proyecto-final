@@ -130,6 +130,7 @@ class FormularioInscripcion extends Component
 
     public function create() {
         if ($this->idGraduacion != NULL) {
+            $this->idGraduacion = Graduacion::where('nombre', $this->graduacion)->pluck('id');
             $this->crearCompetidor();
         } else {
             $this->crearJuez();
@@ -179,7 +180,7 @@ class FormularioInscripcion extends Component
 
 
     public function compararDatos() {
-        $this->idGraduacion = Graduacion::where('nombre', $this->graduacion)->pluck('id');
+
         $actualizacion = new Actualizacion();
         $idEscuela =  Team::where('name', $this->escuela)->pluck('id');
         $actualizar = false;
