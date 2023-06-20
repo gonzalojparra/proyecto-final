@@ -43,21 +43,24 @@
                     @foreach ($inscriptosPendientes as $inscripto )
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <td class="px-6 py-4">
+                        @if (isset($inscripto->actualizacion))
+                            <span class="text-xs font-bold text-black bg-orange-200">Hay datos editados</span><br> 
+                            @endif
                             {{$inscripto->user->name}} {{$inscripto->user->apellido}}
                         </td>
                         <td class="px-6 py-4">
-                            @if (isset($inscripto->actualizacion))
+                            <!-- @if (isset($inscripto->actualizacion))
                                 {{$inscripto->actualizacion->team->name}} <br> <span class="text-xs font-bold text-black bg-orange-200">Nuevo</span>
-                            @else
+                            @else -->
                                 {{$inscripto->user->team->name}} 
-                            @endif
+                            <!-- @endif -->
                         </td>
                         <td class="px-6 py-4">
-                            @if (isset($inscripto->actualizacion))
+                            <!-- @if (isset($inscripto->actualizacion))
                             {{$inscripto->actualizacion->graduacion->nombre}} <br> <span class="text-xs font-bold text-black bg-orange-200">Nuevo</span>
-                            @else
+                            @else -->
                             {{$inscripto->user->graduacion}}
-                            @endif
+                            <!-- @endif -->
                         </td>
                         <td class="px-6 py-4">
                             {{$inscripto->rol}}

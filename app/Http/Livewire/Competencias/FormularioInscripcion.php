@@ -100,9 +100,12 @@ class FormularioInscripcion extends Component
     }
 
     public function graduacionesDisponibles() {
-        $this->graduacionInicial = Graduacion::where('id', $this->idGraduacionInicial)->pluck('nombre');
-        $idGraduacion = array_search($this->graduacionInicial[0], $this->graduaciones);
-        $this->graduacionesCompetidor = array_slice($this->graduaciones, $idGraduacion, null, true);
+        if($this->usuario->id_graduacion != null){
+            $this->graduacionInicial = Graduacion::where('id', $this->idGraduacionInicial)->pluck('nombre');
+            $idGraduacion = array_search($this->graduacionInicial[0], $this->graduaciones);
+            $this->graduacionesCompetidor = array_slice($this->graduaciones, $idGraduacion, null, true);
+        }
+
     }
 
 
@@ -178,10 +181,10 @@ class FormularioInscripcion extends Component
     public function compararDatos() {
         $this->idGraduacion = Graduacion::where('nombre', $this->graduacion)->pluck('id');
         $actualizacion = new Actualizacion();
+        $idEscuela =  Team::where('name', $this->escuela)->pluck('id');
         $actualizar = false;
         $actualizacion->id_user = $this->idUsuario;
         if ($this->escuelaInicial != $this->escuela) {
-            $idEscuela =  Team::where('name', $this->escuela)->pluck('id');
             $actualizacion->id_escuela_nueva = $idEscuela[0];
             if ($this->graduacionInicial != $this->graduacion) {
                 $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
@@ -196,7 +199,7 @@ class FormularioInscripcion extends Component
                 } else {
                     $actualizacion->gal_nuevo = NULL;
                 }
-                $actualizacion->id_graduacion_nueva = '-';
+                $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
             }
             $actualizar = true;
         } else  if ($this->graduacionInicial != $this->graduacion) {
@@ -205,13 +208,13 @@ class FormularioInscripcion extends Component
             } else {
                 $actualizacion->gal_nuevo = NULL;
             }
-            $actualizacion->id_escuela_nueva = 0;
+            $actualizacion->id_escuela_nueva = $idEscuela[0];
             $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
             $actualizar = true;
         } else {
             if ($this->galInicial != $this->gal) {
-                $actualizacion->id_escuela_nueva = 0;
-                $actualizacion->id_graduacion_nueva = '-';
+                $actualizacion->id_escuela_nueva = $idEscuela[0];
+                $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
                 $actualizacion->gal_nuevo = $this->gal;
                 $actualizar = true;
             }

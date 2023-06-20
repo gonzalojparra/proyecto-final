@@ -11,6 +11,7 @@ use App\Models\Competencia;
 use App\Models\CompetenciaCategoria;
 use App\Models\PoomsaeCompetenciaCategoria;
 use App\Models\Actualizacion;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 
@@ -93,6 +94,7 @@ class SolicitudesInscripcion extends Component {
 
     public function aceptar($rol, $id, $actualizacion = null)
     {
+        $usuario = Auth::user();
         $participante = CompetenciaJuez::find($id);
         if ($rol == "Competidor"){
             $participante = CompetenciaCompetidor::find($id);
@@ -102,6 +104,7 @@ class SolicitudesInscripcion extends Component {
         if ($actualizacion != null){
             $participante->user->id_escuela = $actualizacion['id_escuela_nueva'];
             $participante->user->id_graduacion = $actualizacion['id_graduacion_nueva'];
+            $participante->user->gal =  $actualizacion['gal_nuevo'];
             Actualizacion::where('id_user', $actualizacion['id_user'])->delete();
         }
         $participante->aprobado = true;
