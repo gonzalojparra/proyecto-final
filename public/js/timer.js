@@ -9,7 +9,7 @@ let selectPasada = document.getElementById('select-pasada');
 
 // Seteamos el timer con una duracion de 90 segundos
 let tiempo = 90;
-let temporizador;
+var temporizador;
 let tiempoTotal = 0;
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -80,22 +80,19 @@ const actualizarContador = () => {
     if (tiempo === 0) {
       // overtime
       timerElement.style.color = 'red';
-      timerElement.innerHTML = `${Math.abs(tiempo)} `;
-    }
-    else {
-      timerElement.innerHTML = `${Math.abs(tiempo)} `;
+      timerElement.innerHTML = Math.abs(tiempo);
+    } else {
+      timerElement.innerHTML = Math.abs(tiempo);
     }
     // tiempo normal
   } else {
-    timerElement.innerHTML = `${tiempo}`;
+    timerElement.innerHTML = tiempo;
   }
   tiempoTotal = 90 - tiempo;
 };
 
 function detenerTimer(idPasada) {
   btnDetener.addEventListener('click', () => {
-
-
     let url = `/api/pararTimer/${idPasada}`
     fetch(url)
       .then(response => response.json())
