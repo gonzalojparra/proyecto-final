@@ -1,4 +1,5 @@
 <div>
+    @if (!$mostrarPantallaEspera)
     <div class="contenedor">
         <div class="pulsador">
             <!-- En titulo va la variable $tipoPresentacion o algo asi donde vaya el titulo correspondiente del pulsador (Exactitud o Presentacion) -->
@@ -53,5 +54,9 @@
             </div>
         </div>
     </div>
+    @endif
+    @if ($mostrarPantallaEspera)
+        @include('livewire.competencias.pantalla-espera')
+    @endif
     <!-- Ver de hacer alguna segunda confirmacion de que se va a saltar el competidor -->
 </div>

@@ -22,17 +22,24 @@
 				<circle class="pl__ring pl__ring--c" cx="85" cy="120" r="70" fill="none" stroke="#000" stroke-width="20" stroke-dasharray="0 440" stroke-linecap="round"></circle>
 				<circle class="pl__ring pl__ring--d" cx="155" cy="120" r="70" fill="none" stroke="#000" stroke-width="20" stroke-dasharray="0 440" stroke-linecap="round"></circle>
 			</svg>
-			
+
 		</div>
 		<div class="texto">
-				<p>Esperando el resto de los votos...</p>
-			</div>
+			<p>Esperando el resto de los votos...</p>
+		</div>
 		<div class="no-celular">
 			<h1>ERROR</h1>
 			<h1>No disponible de forma vertical</h1>
 		</div>
 
 	</div>
+	<script>
+		// Esperar 5 segundos antes de redirigir
+		setTimeout(function() {
+			window.location.href = '/pulsador/1?tipoPuntaje={{ $tipoPuntaje }}'; // Reemplaza '/pulsador' con la URL de tu página de pulsador
+		}, 5000);
+	</script>
+
 </body>
 
 </html>
