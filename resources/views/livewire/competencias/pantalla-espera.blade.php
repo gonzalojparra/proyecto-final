@@ -8,7 +8,6 @@
 	<title>Pantalla Espera</title>
 	@vite(['resources/css/app.css', 'resources/js/app.js'])
 	@livewireStyles
-
 	<link rel="stylesheet" href="{{ asset('css/pantallaEspera.css') }}">
 </head>
 
@@ -33,12 +32,6 @@
 		</div>
 
 	</div>
-	<script>
-		// Esperar 5 segundos antes de redirigir
-		setTimeout(function() {
-			window.location.href = '/pulsador/1?tipoPuntaje={{ $tipoPuntaje }}'; // Reemplaza '/pulsador' con la URL de tu página de pulsador
-		}, 5000);
-	</script>
 
 </body>
 
