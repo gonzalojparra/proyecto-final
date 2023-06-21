@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class TimerController extends Controller {
 
+
     public function index() {
         $pasadas = Pasada::all();
         $pasadasArray = $pasadas->toArray();
@@ -42,10 +43,14 @@ class TimerController extends Controller {
         return $bandera;
     }
 
-    public function enviarPasada($idPasada) {
-        // Guardar el valor en una vista compartida
-        View::share('valorIdPasada', $idPasada);
-        return response()->json(['success' => true]);
+    public function seleccion($idPasada) {
+        $bandera = false;
+        if( $idPasada != null ){
+            Pasada::where('id', '!=', $idPasada)->update(['seleccionado' => 0]);
+            Pasada::where('id', $idPasada)->update(['seleccionado' => 1]);
+            $bandera = true;
+        }
+        return $bandera;
     }
 
     public function enviarTiempo($tiempo, $idPasada) {

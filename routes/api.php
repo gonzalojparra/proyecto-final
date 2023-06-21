@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Timer
-Route::get('/enviarPasada/{idPasada}', [TimerController::class, 'enviarPasada']);
+Route::get('/seleccion/{idPasada}', [TimerController::class, 'seleccion']);
 Route::get('/enviarTiempo/{tiempoTotal}.{idPasada}', [TimerController::class, 'enviarTiempo']);
 Route::post('/iniciarTimer/{idPasada}', [TimerController::class, 'iniciarTimer']);
 Route::post('/pararTimer/{idPasada}', [TimerController::class, 'pararTimer']);

@@ -27,21 +27,21 @@ function clickear(pasada) {
     let pasadaSeleccionada = e.target.value;
     iniciarTimer(pasadaSeleccionada);
     detenerTimer(pasadaSeleccionada);
-    enviarPasada(pasadaSeleccionada);
+    seleccion(pasadaSeleccionada);
   })
 };
 
-function enviarPasada(idPasada) {
-  let url = `/api/enviarPasada/${idPasada}`;
+function seleccion(idPasada){
+  let url = `/api/seleccion/${idPasada}`;
   fetch(url)
-  .then(response => response.json())
+  .then(response => response.text())
   .then(json => {
     console.log(json)
   })
   .catch(error => {
     console.error('Error:', error);
   });
-};
+}
 
 function iniciarTimer(idPasada) {
   btnIniciar.addEventListener('click', async function () {

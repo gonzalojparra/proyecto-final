@@ -1,8 +1,8 @@
-{{-- <div>
+<div>
     <div class="contenedor">
         @if ($pasada == null)
             <div class="pulsador">
-                <div class="titulo">Esperando Competidor...</div>
+                <div class="titulo"><button wire:click='traerPasada'>Traer pasada</button></div>
             </div>
         @else
         <div class="pulsador">
@@ -62,6 +62,4 @@
         </div>
     </div>
     <!-- Ver de hacer alguna segunda confirmacion de que se va a saltar el competidor -->
-</div> --}}
-
-<button wire:click='actualizaIdPasada(1)'>{{$valorIdPasada}}</button>
+</div>
