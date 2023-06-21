@@ -43,8 +43,8 @@ let temporizador;
 function iniciarTimer(idPasada) {
   btnIniciar.addEventListener('click', async function () {
     if (temporizador) {
-      console.log('Timer already running');
-      return; // If a timer is already running, exit the function
+      console.log('Timer ejecutandose');
+      return; // Si el timer está ejecutandose, se sale de la funcion
     }
     let url = `/api/iniciarTimer/${idPasada}`;
     await fetch(url, {
@@ -106,12 +106,12 @@ function detenerTimer(idPasada) {
       clearInterval(temporizador);
 
       btnDetener.classList.remove('hover:bg-red-600');
-      btnDetener.setAttribute('disabled', 'disabled'); // Set the disabled attribute
+      btnDetener.setAttribute('disabled', 'disabled');
       btnDetener.classList.remove('bg-red-500');
       btnDetener.classList.remove('hover:bg-red-600');
       btnDetener.classList.add('bg-gray-500');
 
-      btnReiniciar.removeAttribute('disabled'); // Remove the disabled attribute
+      btnReiniciar.removeAttribute('disabled');
       btnReiniciar.classList.remove('bg-gray-500');
       btnReiniciar.classList.add('bg-yellow-500');
       btnReiniciar.classList.add('hover:bg-yellow-600');
@@ -130,7 +130,7 @@ function detenerTimer(idPasada) {
       console.error(err);
     }
   });
-}
+};
 
 btnReiniciar.addEventListener('click', () => {
   window.location.reload()
