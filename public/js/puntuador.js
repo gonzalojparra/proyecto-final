@@ -99,15 +99,21 @@ function traerBotones() {
 
 traerPasada.addEventListener('click', async () => {
     try {
-        let botones = await traerBotones();
-        console.log(botones);
-        await esperarJueces(getPasada(), botones.botonUno, botones.botonTres);
-        await esperarTimer(pasadaId.value);
-        enviar(pasadaId.value);
+      let botones = await traerBotones();
+      console.log(botones);
+      getPasada()
+        .then(async (idPasada) => {
+          esperarJueces(idPasada, botones.botonUno, botones.botonTres);
+          await esperarTimer(idPasada);
+          //await enviar(idPasada);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     } catch (err) {
-        console.error(err);
+      console.error(err);
     }
-});
+  });
 
 const esperarJueces = (idPasada, botonUno, botonTres) => {
     deshabilitarBotones(botonUno, botonTres);
@@ -125,7 +131,7 @@ const esperarJueces = (idPasada, botonUno, botonTres) => {
                     body: JSON.stringify({ idPasada }),
                 });
                 const json = await response.json();
-                console.log(json);
+                console.log(idPasada, json);
                 if (json >= 3) {
                     clearInterval(interval);
                     resolve(json);
@@ -143,7 +149,7 @@ const esperarTimer = (idPasada, botonUno, botonTres) => {
     return new Promise((resolve, reject) => {
         let interval = setInterval(async function () {
             try {
-                let url = `/api/esperarTimer/${idPasada}`;
+                let url = `/api/esperarTimern/${idPasada}`;
                 const response = await fetch(url, {
                     headers: {
                         'Accept': 'application/json',
@@ -170,7 +176,8 @@ const enviar = (idPasada) => {
         let interval = setInterval(async function () {
             try {
                 let response;
-                response = await fetch('/api/enviar', {
+                let url = `/api/enviarn/${idPasada}`;
+                response = await fetch(url, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -192,8 +199,8 @@ const enviar = (idPasada) => {
 }
 
 const deshabilitarBotones = (botonUno, botonTres) => {
-    botonUno.setAttribute('disabled', true);
-    botonTres.setAttribute('disabled', true);
+    /* botonUno.disabled = true;
+    botonTres.disabled = true; */
 }
 
 const habilitarBotones = (botonUno, botonTres) => {
@@ -202,21 +209,25 @@ const habilitarBotones = (botonUno, botonTres) => {
 }
 
 const getPasada = () => {
-    fetch('/api/getPasada')
-        .then(function (res) {
-            if (res.ok) {
-                return res.json();
-            } else {
-                throw new Error('Error en la llamada AJAX');
-            }
-        })
-        .then(function (json) {
-            let pasada = json.pasada;
-            console.log(pasada);
-        })
-        .catch(function (err) {
-            console.log(err);
-        });
+    return new Promise((resolve, reject) => {
+        fetch('/api/getPasada')
+            .then(function (res) {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    throw new Error('Error en la llamada AJAX');
+                }
+            })
+            .then(function (json) {
+                let pasada = json.pasada;
+                console.log(pasada);
+                resolve(pasada); // Resolve the promise with the idPasada value
+            })
+            .catch(function (err) {
+                console.log(err);
+                reject(err);
+            });
+    });
 };
 
 // botonReseteo.addEventListener('touchstart', function(){
