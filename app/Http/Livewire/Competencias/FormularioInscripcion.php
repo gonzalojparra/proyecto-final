@@ -21,7 +21,7 @@ class FormularioInscripcion extends Component
 {
     //variables para abrir el modal
     public $open = false;
-    protected $listeners = ['abrirModal' => 'abrirModal'];
+    //protected $listeners = ['abrirModal' => 'abrirModal'];
 
     //datos del usuario
     public $nombre;
@@ -128,7 +128,7 @@ class FormularioInscripcion extends Component
 
     public function create()
     {
-        if ($this->idGraduacion != NULL) {
+        if (isset($this->idGraduacion)) {
             $this->crearCompetidor();
         } else {
             $this->crearJuez();

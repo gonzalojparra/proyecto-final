@@ -101,6 +101,8 @@ class SolicitudesInscripcion extends Component {
         if ($rol == "Competidor"){
             $participante = CompetenciaCompetidor::find($id);
             $this->crearPasadaCompetidor($participante->id_competidor);
+        }else{
+            $participante = CompetenciaJuez::find($id);
         }
         // Si envio una solicitud de modificacion, modificamos.
         if ($actualizacion != null){
@@ -111,16 +113,18 @@ class SolicitudesInscripcion extends Component {
         $participante->aprobado = true;
         $participante->user->save();
         $participante->save();
-        Mail::to($participante->user->email)->send(new EnvioMail($id,3));
+        Mail::to($participante->user->email)->send(new EnvioMail($participante->user->id,3));
     }
 
-    public function rechazar($rol, $id)
+    public function rechazar($rol, $id, $idCompetencia)
     {
         if ($rol == "Competidor"){
-            CompetenciaCompetidor::find($id)->delete();
+            $participante = CompetenciaCompetidor::find($id);
         } else {
-            CompetenciaJuez::find($id)->delete();
-        }
+            $participante = CompetenciaJuez::find($id);
+        }     
+        Mail::to($participante->user->email)->send(new EnvioMail($participante->user->id,4,$idCompetencia));
+        $participante->delete();
     }
 
     public function eliminarJuez($id)

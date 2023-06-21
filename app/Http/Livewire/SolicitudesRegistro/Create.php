@@ -19,6 +19,7 @@ class Create extends Component
 
     public function mostrarUsuario($user)
     {
+        
         $this->iduser = $user['id'];
         $this->nombre = $user['name'];
         $this->apellido = $user['apellido'];
@@ -31,7 +32,7 @@ class Create extends Component
         if ($user['id_graduacion'] !== null) {
             $queryGrad = Graduacion::where('id', $user['id_graduacion'])->get();
             $graduacionArray = $queryGrad->toArray();
-            $graduacion = $graduacionArray['nombre'];
+            $graduacion = $graduacionArray[0]['nombre'];
         } else {
             $graduacion = '';
         }

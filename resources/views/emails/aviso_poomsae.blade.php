@@ -57,25 +57,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://i.pinimg.com/736x/dd/ed/dd/ddeddd1e39c71945c5b1c70addd250cd--production-studio-psychedelic-art.jpg" alt="Cabecera del correo electrónico">
+            <img src="https://www.shutterstock.com/image-vector/korean-traditional-martial-arts-taekwondo-260nw-1435199405.jpg" alt="Cabecera del correo electrónico">
         </div>
         <h1>Estimado/a {{$apellido}}, {{$nombre}}</h1>,
 
-       <p>¡Es un placer comunicarte que tu solicitud para <b>{{$rol}}</b> ha sido aceptada! Queremos felicitarte y darte la bienvenida a <b>Zen Kicks</b>.</p>
+       <p>¡Es un placer comunicarte que los poomsaes que se te asignaron para la competencia <i>{{$nombreCompetencia}}</i> , ya estan visibles en la pagina de la competencia.</p>
 
-       <p>Valoramos tu interés y compromiso demostrado durante el proceso de solicitud. Estamos impresionados por tus habilidades, experiencia y el potencial que has demostrado. Creemos firmemente que harás una contribución significativa al poomsae.</p>
-
-       <p>Como participante aceptado/a, tendrás la oportunidad de <b>muchas cosas</b>. Este es un hito importante y estamos emocionados por tener la oportunidad de que participes en nuestro proyecto.</p>
-
-       </p>A continuación, compartimos algunos detalles importantes:</p>
-
-       <p><i>Por este medio se te notificaran las novedades, tanto de tu perfil como de competencias</i></p>
-       
-       <p>Te pedimos que revises detenidamente toda la información y sigas las instrucciones proporcionadas. Si tienes alguna pregunta o necesitas aclaraciones, no dudes en contactarnos. Estamos aquí para ayudarte y brindarte el apoyo que necesites.</p>
-
-       <p>Esperamos verte en <b>Zen Kicks</b> y deseamos que disfrutes de esta experiencia. No dudes en aprovechar al máximo esta oportunidad y compartir tus conocimientos con otros participantes. ¡Estamos seguros de que será una experiencia enriquecedora!</p>
-
-       <p>Una vez más, felicitaciones por ser seleccionado/a. Nos entusiasma trabajar contigo y esperamos una colaboración fructífera.</p>
+       <p>No Cuelgues en fijarte</p>
 
        <p>Si necesitas más información o si tienes alguna pregunta adicional, no dudes en comunicarte con nosotros. Estamos disponibles para asistirte en todo momento.</p>
 

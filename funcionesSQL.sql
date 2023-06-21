@@ -2,7 +2,7 @@
 -- Disparador del cambio de estado para la competencia, la cual al detectar que un juez es asignado a la competencia este dispara una funcion
 
 DELIMITER $$
-CREATE TRIGGER cambioEstadoCompetencia AFTER INSERT ON competencia_juez
+CREATE TRIGGER cambioEstadoCompetencia AFTER UPDATE ON competencia_juez
 FOR EACH ROW
 BEGIN
     DECLARE dummy INT;
@@ -29,21 +29,20 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE actualizarEstadosCompetencias()
 BEGIN
-    UPDATE competencias
-    SET estado = 2
-    WHERE id IN (
-        SELECT id_competencia
-        FROM competencia_juez
-        GROUP BY id_competencia
-        HAVING COUNT(*) = 3
-    );
+    UPDATE competencias AS c
+	SET estado = 2
+	WHERE (
+    SELECT COUNT(*) = 3
+    FROM competencia_juez AS cj
+    WHERE cj.id_competencia = c.id
+    AND cj.aprobado = 1
+);
 END $$
 DELIMITER ;
-
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Es un Disparador el cual se ejecuta por cada tupla que se inserta en competencia_juez, realizando que se actualice la columna de cant_jueces en cada tupla de competencias.
 
-CREATE TRIGGER countJuez AFTER INSERT ON competencia_juez
+CREATE TRIGGER countJuez AFTER UPDATE ON competencia_juez
 FOR EACH ROW
 UPDATE competencias
 SET cant_jueces = (

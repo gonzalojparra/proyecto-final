@@ -205,7 +205,7 @@ class Agregar extends Component
     {
         $competidores = CompetenciaCompetidor::where('id_competencia', $idCompetencia)->join('users', 'users.id', 'competencia_competidor.id_competidor')->select('email', 'users.id')->get();
         foreach ($competidores as $competidor) {
-            Mail::to($competidor->email)->send(new EnvioMail($competidor->id, 5));
+            Mail::to($competidor->email)->send(new EnvioMail($competidor->id, 5,$idCompetencia));
         }
     }
 }
