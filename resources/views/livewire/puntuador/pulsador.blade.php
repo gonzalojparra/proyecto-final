@@ -3,10 +3,12 @@
         @if ($pasada == null || $esJuez == false)
         <div class="pulsador">
             <div class="titulo">
-                <button id="traer-pasada" wire:click="traerPasada" wire:after="traerBotones">Traer pasada</button>
+                <button class="traer-pasada" id="traer-pasada" wire:click="traerPasada" wire:after="traerBotones">Traer pasada</button>
             </div>
             @if ($alerta != null)
+            <div class="mensaje-error">
             {{$alerta}}
+            </div>
             @endif
         </div>
         @else
