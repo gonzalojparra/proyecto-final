@@ -9,7 +9,6 @@ let selectPasada = document.getElementById('select-pasada');
 
 // Seteamos el timer con una duracion de 90 segundos
 let tiempo = 90;
-var temporizador;
 let tiempoTotal = 0;
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -39,8 +38,14 @@ function seleccion(idPasada) {
     .catch(error => console.error('Error:', error));
 }
 
+let temporizador;
+
 function iniciarTimer(idPasada) {
   btnIniciar.addEventListener('click', async function () {
+    if (temporizador) {
+      console.log('Timer already running');
+      return; // If a timer is already running, exit the function
+    }
     let url = `/api/iniciarTimer/${idPasada}`;
     await fetch(url, {
       headers: {
@@ -52,7 +57,7 @@ function iniciarTimer(idPasada) {
     })
       .then(res => res.json())
       .then(json => {
-        console.log(json)
+        console.log(json);
         if (json == 1) {
           console.log('Timer iniciado - ID Pasada: ', idPasada);
           temporizador = setInterval(actualizarContador, 1000);
@@ -92,39 +97,38 @@ const actualizarContador = () => {
 };
 
 function detenerTimer(idPasada) {
-  btnDetener.addEventListener('click', () => {
-    let url = `/api/pararTimer/${idPasada}`
-    fetch(url)
-      .then(response => response.json())
-      .then(json => {
-        console.log(json)
-        clearInterval(temporizador);
-        btnDetener.classList.remove('hover:bg-red-600')
-        // Cambiamos estilos a boton detener
-        btnDetener.setAttribute('disabled')
-        btnDetener.classList.remove('bg-red-500')
-        btnDetener.classList.remove('hover:bg-red-600')
-        btnDetener.classList.add('bg-gray-500')
-        // Cambiamos estilos a boton reiniciar
-        btnReiniciar.removeAttribute('disabled')
-        btnReiniciar.classList.remove('bg-gray-500')
-        btnReiniciar.classList.add('bg-yellow-500')
-        btnReiniciar.classList.add('hover:bg-yellow-600')
-      })
-      .catch(err => {
-        console.error(err);
-      });
+  btnDetener.addEventListener('click', async () => {
+    let url = `/api/pararTimer/${idPasada}`;
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
+      console.log(json);
+      clearInterval(temporizador);
 
-    contador.style.display = 'block'
-    if (tiempoTotal > 90) {
-      contador.style.color = 'red'
-      contador.innerHTML = `Tiempo guardado con: ${tiempoTotal} seg`;
+      btnDetener.classList.remove('hover:bg-red-600');
+      btnDetener.setAttribute('disabled', 'disabled'); // Set the disabled attribute
+      btnDetener.classList.remove('bg-red-500');
+      btnDetener.classList.remove('hover:bg-red-600');
+      btnDetener.classList.add('bg-gray-500');
+
+      btnReiniciar.removeAttribute('disabled'); // Remove the disabled attribute
+      btnReiniciar.classList.remove('bg-gray-500');
+      btnReiniciar.classList.add('bg-yellow-500');
+      btnReiniciar.classList.add('hover:bg-yellow-600');
+
+      contador.style.display = 'block';
+      if (tiempoTotal > 90) {
+        contador.style.color = 'red';
+        contador.innerHTML = `Tiempo guardado con: ${tiempoTotal} seg`;
+      } else {
+        contador.style.color = 'black';
+        contador.innerHTML = `Tiempo guardado con: ${tiempoTotal} seg`;
+      }
+
+      enviarDatos(idPasada);
+    } catch (err) {
+      console.error(err);
     }
-    else {
-      contador.style.color = 'black'
-      contador.innerHTML = `Tiempo guardado con: ${tiempoTotal} seg`;
-    }
-    enviarDatos(idPasada)
   });
 }
 
