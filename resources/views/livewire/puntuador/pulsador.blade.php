@@ -2,7 +2,7 @@
     <div class="contenedor">
         @if ($pasada == null || $esJuez == false)
             <div class="pulsador">
-                <div class="titulo"><button wire:click='traerPasada'>Traer pasada</button></div>
+                <div class="titulo"><button id="traer-pasada" wire:click='traerPasada'>Traer pasada</button></div>
                 @if ($alerta != null)
                 {{$alerta}}
                 @endif
@@ -20,7 +20,7 @@
             <div class="puntaje-pulsadores">
                 <div class="boton-izquierdo">
                     <div class="toggle">
-                        <input type="button" class="button" wire:click="resto1()">
+                        <input type="button" id="boton-uno" class="button" wire:click="resto1()">
                         <span class="button"><span class="label">-0.1</span></span>
                     </div>
                 </div>
@@ -38,9 +38,8 @@
                 </div>
                 <div class="boton-derecho">
                     <div class="toggle">
-                        <input type="button" class="button" wire:click="resto3()">
+                        <input type="button" id="boton-tres" class="button" wire:click="resto3()">
                         <span class="button"> <span class="label">-0.3</span></span>
-
                     </div>
                 </div>
             </div>
@@ -66,3 +65,5 @@
     </div>
     <!-- Ver de hacer alguna segunda confirmacion de que se va a saltar el competidor -->
 </div>
+
+<script src="{{ asset('js/puntuador.js') }}"></script>

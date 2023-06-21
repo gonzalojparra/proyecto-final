@@ -39,6 +39,14 @@ class Pulsador extends Component {
         }
     }
 
+    public function getPasada() {
+        $pasada = Pasada::where('tiempo_presentacion', null)->where('seleccionado', 1)->first();
+        if( $pasada != null ){
+            $this->pasada = $pasada;
+            echo json_encode(['pasada' => $this->pasada->id]);
+        }
+    }
+
     public function verificarJuez()
     {
         $pasadaJuez = PasadaJuez::where('id_juez', Auth::user()->id)->where('id_pasada', $this->pasada->id)->first();

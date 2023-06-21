@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TimerController;
+use App\Http\Livewire\Puntuador\Pulsador;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,7 @@ Route::post('/pararTimer/{idPasada}', [TimerController::class, 'pararTimer']);
 Route::post('/resetearTimer/{idPasada}', [TimerController::class, 'resetearTimer']);
 
 // Pulsador
-Route::post('/cantJuecesn/{idPasada}', [PulsadorController::class, 'cantJueces']);
-Route::post('/esperarTimern/{idPasada}', [PulsadorController::class, 'esperarTimer']);
-Route::post('/enviarn/{idPasada}', [PulsadorController::class, 'enviar']);
+Route::get('/getPasada', [Pulsador::class, 'getPasada']);
+Route::post('/cantJuecesn/{idPasada}', [Pulsador::class, 'cantJueces']);
+Route::post('/esperarTimern/{idPasada}', [Pulsador::class, 'esperarTimer']);
+Route::post('/enviarn/{idPasada}', [Pulsador::class, 'enviar']);

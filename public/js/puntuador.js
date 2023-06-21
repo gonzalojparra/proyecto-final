@@ -1,40 +1,40 @@
 const divPuntaje = document.querySelector('.puntaje')
 // const botonReseteo = document.querySelector('.boton-reseteo')
-const botonEnviar = document.querySelector('.boton-envio')
-const botonUno = document.querySelector('#uno')
-const botonTres = document.querySelector('#tres')
 
-const pasadaId = document.querySelector('.pasada');
+const traerPasada = document.querySelector('#traer-pasada');
 
 const puntaje = 10;
-localStorage.setItem('puntaje', puntaje)
-localStorage.setItem('puntajeActual', puntaje)
+/* localStorage.setItem('puntaje', puntaje)
+localStorage.setItem('puntajeActual', puntaje) */
 
-window.addEventListener('load', function(){
+/* window.addEventListener('load', function(){
     divPuntaje.innerHTML = 10
     console.log(puntaje)
-})
+}) */
 
-botonUno.addEventListener('touchstart', function(){
+/* botonUno.addEventListener('touchstart', function(){
     puntajeActual = localStorage.getItem('puntajeActual');
     if(puntajeActual>=0.1){
         puntajeActual = puntajeActual - 0.1
         localStorage.setItem('puntajeActual', puntajeActual)
         divPuntaje.innerHTML = puntajeActual.toFixed(2)
     }
-})
+}) */
 
-botonTres.addEventListener('touchstart', function(){
+/* botonTres.addEventListener('touchstart', function(){
     puntajeActual = localStorage.getItem('puntajeActual');
     if(puntajeActual>=0.3){
         puntajeActual = puntajeActual - 0.3
         localStorage.setItem('puntajeActual', puntajeActual)
         divPuntaje.innerHTML = puntajeActual.toFixed(2)
     }
-})
+}) */
 
-document.addEventListener('DOMContentLoaded', () => {
-    esperarJueces()
+traerPasada.addEventListener('click', () => {
+    const botonEnviar = document.getElementById('boton-enviar');
+    const botonUno = document.getElementById('boton-uno');
+    const botonTres = document.getElementById('boton-tres');
+    esperarJueces( getPasada(), botonUno, botonTres )
       .then( cantJueces => {
         esperarTimer(pasadaId.value).then( resp => {
             enviar(pasadaId.value);
@@ -44,13 +44,13 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 });
 
-const esperarJueces = (idPasada) => {
-    deshabilitarBotones();
+const esperarJueces = (idPasada, botonUno, botonTres) => {
+    deshabilitarBotones(botonUno, botonTres);
     return new Promise( (resolve, reject) => {
         let interval = setInterval( async function () {
             try {
                 let response;
-                let url = `/api/cantJueces/${idPasada}`;
+                let url = `/api/cantJuecesn/${idPasada}`;
                 response = await fetch( url, {
                     headers: {
                         'Accept': 'application/json',
@@ -60,6 +60,7 @@ const esperarJueces = (idPasada) => {
                     body: JSON.stringify({ pasada }),
                 });
                 const json = await response.json();
+                console.log(json);
                 if( json >= 3 ){
                     clearInterval(interval);
                     resolve(json);
@@ -72,8 +73,8 @@ const esperarJueces = (idPasada) => {
     });
 }
 
-const esperarTimer = (idPasada) => {
-    deshabilitarBotones();
+const esperarTimer = (idPasada, botonUno, botonTres) => {
+    deshabilitarBotones(botonUno, botonTres);
     return new Promise( (resolve, reject) => {
         let interval = setInterval( async function () {
             try {
@@ -125,15 +126,34 @@ const enviar = (idPasada) => {
     });
 }
 
-const deshabilitarBotones = () => {
+const deshabilitarBotones = (botonUno, botonTres) => {
+    console.log(botonUno, botonTres)
     botonUno.setAttribute('disabled', true);
     botonTres.setAttribute('disabled', true);
 }
 
-const habilitarBotones = () => {
+const habilitarBotones = (botonUno, botonTres) => {
     botonUno.removeAttribute('disabled');
     botonTres.removeAttribute('disabled');
 }
+
+const getPasada = () => {
+    fetch('/api/getPasada')
+        .then(function (res) {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw new Error('Error en la llamada AJAX');
+            }
+        })
+        .then(function (json) {
+            let pasada = json.pasada;
+            console.log(pasada);
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
+};
 
 // botonReseteo.addEventListener('touchstart', function(){
 //     divPuntaje.innerHTML = localStorage.getItem('puntaje')
