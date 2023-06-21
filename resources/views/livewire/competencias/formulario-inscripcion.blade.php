@@ -83,7 +83,7 @@
                         <button wire:click="$set('open',false)" id="closeModal" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                             Cerrar
                         </button>
-                        <button wire:click='submit' id="confirmModal" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150" data-modal-target="popup-modal" data-modal-toggle="popup-modal">
+                        <button wire:click='submit' id="confirmModal" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150 disabled:opacity-25" data-modal-target="popup-modal" data-modal-toggle="popup-modal" wire:loading.attr='disabled'>
                             Confirmar
                         </button>
                     </div>
