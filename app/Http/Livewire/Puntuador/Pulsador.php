@@ -5,26 +5,30 @@ namespace App\Http\Livewire\Puntuador;
 use Livewire\Component;
 use App\Models\PasadaJuez;
 use App\Models\Pasada;
-use App\Events\PuntajeEnviado;
+use App\Events\EnviarPasada;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 
 class Pulsador extends Component {
 
-    public $idPasada;
+    public $idPasada = 'asd';
     public $tipoPuntaje = 1;
     public $puntaje = 10;
     public $puntajeExactitud;
     public $puntajePresentacion;
 
+    protected $listeners = ['render' => 'render', 'EnviarPasada' => 'actualizaIdPasada'];
+
     public function render() {
         $pasada = Pasada::find($this->idPasada);
-        return view('livewire.puntuador.pulsador', ['pasada' => $pasada]);
+        return view('livewire.puntuador.pulsador', ['pasada' => $this->idPasada]);
     }
 
-    public function mount($idPasada) {
+    public function actualizaIdPasada($idPasada) {
+        // route('competencias.index');
         $this->idPasada = $idPasada;
+        // $this->emit('render');
     }
 
     public function store() {

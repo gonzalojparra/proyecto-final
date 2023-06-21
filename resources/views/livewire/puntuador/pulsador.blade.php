@@ -1,5 +1,10 @@
-<div>
+{{-- <div>
     <div class="contenedor">
+        @if ($pasada == null)
+            <div class="pulsador">
+                <div class="titulo">Esperando Competidor...</div>
+            </div>
+        @else
         <div class="pulsador">
             <!-- En titulo va la variable $tipoPresentacion o algo asi donde vaya el titulo correspondiente del pulsador (Exactitud o Presentacion) -->
             <div class="titulo">
@@ -45,6 +50,9 @@
 
             </div>
         </div>
+        @endif
+
+
         <div class="no-celular">
             <div class="titulo">ERROR</div>
             <div class="mensaje-error">
@@ -54,4 +62,6 @@
         </div>
     </div>
     <!-- Ver de hacer alguna segunda confirmacion de que se va a saltar el competidor -->
-</div>
+</div> --}}
+
+<button wire:click='actualizaIdPasada(1)'>{{$valorIdPasada}}</button>

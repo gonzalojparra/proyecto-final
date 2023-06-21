@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pasada;
+use App\Events\EnviarPasada;
+use Illuminate\Support\Facades\View;
+use Illuminate\Http\Request;
 
 class TimerController extends Controller {
 
@@ -37,6 +40,23 @@ class TimerController extends Controller {
             $bandera = true;
         }
         return $bandera;
+    }
+
+    public function enviarPasada($idPasada) {
+        // Guardar el valor en una vista compartida
+        View::share('valorIdPasada', $idPasada);
+        return response()->json(['success' => true]);
+    }
+
+    public function enviarTiempo($tiempo, $idPasada) {
+        $actualizo = false;
+        $pasada = Pasada::find($idPasada);
+        if ($pasada->exists()){
+            $pasada->tiempo_presentacion = $tiempo;
+            $pasada->save();
+            $actualizo = true;
+        }
+        return $actualizo;
     }
 
 }
