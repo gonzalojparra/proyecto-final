@@ -44,13 +44,14 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 });
 
-const esperarJueces = () => {
+const esperarJueces = (idPasada) => {
     deshabilitarBotones();
     return new Promise( (resolve, reject) => {
         let interval = setInterval( async function () {
             try {
                 let response;
-                response = await fetch('/api/cantJueces', {
+                let url = `/api/cantJueces/${idPasada}`;
+                response = await fetch( url, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -76,7 +77,8 @@ const esperarTimer = (idPasada) => {
     return new Promise( (resolve, reject) => {
         let interval = setInterval( async function () {
             try {
-                const response = await fetch('/api/esperarTimer', {
+                let url = `/api/esperarTimer/${idPasada}`;
+                const response = await fetch( url, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
