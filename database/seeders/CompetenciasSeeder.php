@@ -15,7 +15,7 @@ class CompetenciasSeeder extends Seeder {
         //
         Competencia::create([
             'titulo' => 'Juegos de Integración Patagónicos',
-            'flyer' => 'image/flyerLiga.jpeg',
+            'flyer' => 'competencias/flyerLiga.jpeg',
             'bases' => 'ni idea',
             'invitacion' => 'invitacion',
             'descripcion' => 'Compe complicadisima, no se anoten',
@@ -27,7 +27,7 @@ class CompetenciasSeeder extends Seeder {
         Competencia::create([
             'titulo' => 'Competencia de la Liga',
             'cant_jueces' => 3,
-            'flyer' => 'image/flyerLiga.jpeg',
+            'flyer' => 'competencias/flyerLiga.jpeg',
             'bases' => 'Bases y condiciones',
             'invitacion' => 'invitacion',
             'descripcion' => 'Competicion para todos',

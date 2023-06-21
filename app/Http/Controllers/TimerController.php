@@ -10,10 +10,9 @@ use Illuminate\Http\Request;
 class TimerController extends Controller {
 
 
-    public function index() {
-        $pasadas = Pasada::all();
-        $pasadasArray = $pasadas->toArray();
-        return view('timer', compact('pasadasArray'));
+    public function index(Request $request) {
+        $pasadas = Pasada::where('id_competencia', $request->idCompetencia)->where('tiempo_presentacion', null)->get();
+        return view('timer', compact('pasadas'));
     }
 
     public function iniciarTimer($idPasada) {
