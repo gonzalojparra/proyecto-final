@@ -30,6 +30,7 @@
                 <x-input class="block mt-1 w-full" wire:model="descripcion" type="text" id="descripcion" />
                 @error('descripcion') <span class="error">{{ $message }}</span> @enderror
             </div>
+            @if($boton == 'agregar')
             <div>
                 <x-label for="fecha_inicio">fecha_inicio</x-label>
                 <x-input class="block mt-1 w-full" wire:model="fecha_inicio" type="date" id="fecha_inicio" />
@@ -40,7 +41,6 @@
                 <x-input class="block mt-1 w-full" wire:model="fecha_fin" type="date" id="fecha_fin" />
                 @error('fecha_fin') <span class="error">{{ $message }}</span> @enderror
             </div>
-            @if($boton == 'agregar')
 
                 @if (count($categorias) > 0)
                     <x-label class="mt-2">Categorias</x-label>
@@ -80,8 +80,8 @@
             <div class="flex items-center justify-between mt-4">
                 <div>
                     @if($boton != 'agregar')
-                    <x-button type='submit' class="ml-4  bg-green-600" wire:click='cerrarConvocatoria({{$idCompetencia}})'>
-                        {{ __('Cerrar Convocatoria') }}
+                    <x-button type='submit' class="ml-4  bg-green-600 disabled:opacity-25" wire:click='{{$cambioEstado}}({{$idCompetencia}})' wire:loading.attr='disabled' wire:target='{{$cambioEstado}}' >
+                        {{ $nombreBoton }}
                     </x-button>
                     @endif
                 </div>

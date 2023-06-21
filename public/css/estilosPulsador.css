@@ -1,0 +1,149 @@
+.contenedor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+    background-color: #1a202c;
+}
+
+@media only screen and (orientation:landscape) {
+
+    .no-celular {
+        display: none;
+    }
+
+    .vista-previa{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    option:active{
+        background-color: #a0aec0;
+    }
+
+    .select-div{
+        display: flex;
+        justify-content: center;
+    }
+
+    .boton-entrar-pulsador{
+        display: flex;
+        align-items: center;
+        border-radius: 5px!important;
+    }
+
+    .categoria-select{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        vertical-align: middle;
+    }
+
+    .select{
+        width: 500px!important;
+        height: 50px;
+        border-radius: 10px;
+    }
+
+    .mensaje-error{
+        margin-top: 1rem;
+        color: #a0aec0;
+        font-size: 40px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family:sans-serif;
+    }
+
+    .puntaje-pulsadores {
+        display: flex;
+        flex-direction: row;
+        gap: 4rem;
+        justify-content: center;
+    }
+
+    .puntaje {
+        color: #a0aec0;
+        font-size: 150px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        font-family:sans-serif;
+        justify-content: center;
+    }
+
+    .puntaje-boton{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .boton-enviar, .entrar-pulsador{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .titulo {
+        color: #a0aec0;
+        font-size: 80px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family:sans-serif;
+    }
+
+    .info-ronda {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        justify-content: center;
+        font-size: 25px;
+        font-family:sans-serif;
+        color: #a0aec0;
+    }
+
+
+    .boton-izquierdo,
+    .boton-derecho {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+
+@media only screen and (min-height:500px){
+    .pulsador {
+        display: none;
+    }
+    .vistaPrevia{
+        display: none;
+    }
+    .no-celular{
+        display: block;
+    }
+    .titulo {
+        color: #a0aec0;
+        font-size: 80px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family:sans-serif;
+    }
+
+    .mensaje-error{
+        display: flex;
+        justify-content: center;
+        font-size: 40px;
+        font-family:sans-serif;
+        color: #a0aec0;
+        text-align: center;
+    }
+
+}

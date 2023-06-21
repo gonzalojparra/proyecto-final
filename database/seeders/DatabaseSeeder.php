@@ -18,17 +18,21 @@ class DatabaseSeeder extends Seeder {
             RoleSeeder::class,
             CategoriasSeeder::class,
             zTeamsSeeder::class,
+            GraduacionesSeeder::class,
             UserSeeder::class,
             CompetenciasSeeder::class,
+            CompetenciaCategoriaSeeder::class,
+            CompetenciaJuezSeeder::class,
+            CompetenciaCompetidorSeeder::class,
             PoomsaesSeeder::class,
-            GraduacionesSeeder::class,
-            PoomsaeCompetenciaCategoriaSeeder::class
+            PoomsaeCompetenciaCategoriaSeeder::class,
+            PasadasSeeder::class
         ]);
 
-        DB::insert('INSERT INTO competencia_competidor(id_competidor, id_competencia, id_categoria, calificacion, aprobado) VALUES(1, 1, 3, 1, 1)');
-        DB::insert('INSERT INTO competencia_competidor(id_competidor, id_competencia, id_categoria, calificacion, aprobado) VALUES(2, 1, 2, 1, 1)');
-        DB::insert('INSERT INTO competencia_competidor(id_competidor, id_competencia, id_categoria, calificacion, aprobado) VALUES(3, 2, 1, 2, 1)');
-        DB::insert('INSERT INTO competencia_competidor(id_competidor, id_competencia, id_categoria, calificacion, aprobado) VALUES(4, 2, 2, 3, 1)');
+        // DB::insert('INSERT INTO competencia_competidor(id_competidor, id_competencia, id_categoria, calificacion, aprobado) VALUES(1, 1, 3, 1, 1)');
+        // DB::insert('INSERT INTO competencia_competidor(id_competidor, id_competencia, id_categoria, calificacion, aprobado) VALUES(2, 1, 2, 1, 1)');
+        // DB::insert('INSERT INTO competencia_competidor(id_competidor, id_competencia, id_categoria, calificacion, aprobado) VALUES(3, 2, 1, 2, 1)');
+        // DB::insert('INSERT INTO competencia_competidor(id_competidor, id_competencia, id_categoria, calificacion, aprobado) VALUES(4, 2, 2, 3, 1)');
         // \App\Models\User::factory(100)->create();
 
         // \App\Models\User::factory(10)->create();

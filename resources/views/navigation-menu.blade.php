@@ -40,11 +40,11 @@
                         {{ __('Usuarios') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                {{-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('timer') }}" :active="request()->routeIs('timer')">
                         {{ __('Temporizador') }}
                     </x-nav-link>
-                </div>
+                </div> --}}
                 @endrole
                 @role('Juez')
                 <!-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -52,11 +52,11 @@
                         {{ __('Inscripción') }}
                     </x-nav-link>
                 </div> -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link href="{{ route('puntuador') }}" :active="request()->routeIs('timer')">
+                {{-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link href="{{ route('pulsador') }}" :active="request()->routeIs('timer')">
                         {{ __('Puntuador') }}
                     </x-nav-link>
-                </div>
+                </div> --}}
                 @endrole
 
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -253,11 +253,11 @@
                 {{ __('Usuarios') }}
             </x-responsive-nav-link>
         </div>
-        <div class="pt-2 pb-3 space-y-1">
+        {{-- <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link href="{{ route('timer') }}" :active="request()->routeIs('timer')">
                 {{ __('Temporizador') }}
             </x-responsive-nav-link>
-        </div>
+        </div> --}}
         @endrole
         @if(Auth::check())
 

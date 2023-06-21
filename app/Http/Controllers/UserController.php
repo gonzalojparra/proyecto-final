@@ -11,6 +11,7 @@ use App\Actions\Fortify\PasswordValidationRules;
 use App\Models\Categoria;
 use App\Models\Team;
 use App\Models\Competencia;
+use App\Models\Graduacion;
 use Spatie\Permission\Models\Role; // Spatie
 use Illuminate\Support\Facades\DB;
 
@@ -50,6 +51,15 @@ class UserController extends Controller {
         // Buscar categoría
         $catNombre = $input['categoria'];
         $catGraduacion = $input['graduacion'];
+        $graduacionQuery = Graduacion::where('nombre', $catGraduacion)->get();
+        $graduacion = $graduacionQuery->toArray();
+        
+        if(!empty($graduacion) ){
+            $graduacionFinal = $graduacion[0]['id'];
+            
+        } else {            
+            $graduacionFinal = null;
+        }
 
         $genero = null;
         if (array_key_exists('genero', $input)) {
@@ -75,7 +85,7 @@ class UserController extends Controller {
             'fecha_nac' => $input['fechaNac'],
             'gal' => $input['gal'],
             'genero' => $genero,
-            'graduacion' => $catGraduacion,
+            'id_graduacion' => $graduacionFinal,
             'id_escuela' => $escuela[0]->id,
         ]);
 

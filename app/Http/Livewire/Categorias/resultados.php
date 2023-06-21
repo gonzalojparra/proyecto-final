@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Categorias;
 
 use App\Models\Categoria;
+use App\Models\Graduacion;
 use App\Models\User;
 use Livewire\Component;
 
@@ -24,6 +25,12 @@ class Resultados extends Component {
         $categoriasPedidas = Categoria::where('nombre', 'like', '%' . $this->filtro . '%')->get();
 
         $competidores = User::where('clasificacion', '<>', 0)->orderBy('clasificacion', 'desc')->get();
+        $compGraduacion = [];
+        foreach( $competidores as $competidor ){
+            $graduacionQuery = Graduacion::where('id', $competidor->id_graduacion)->get();
+            $array = $graduacionQuery->toArray();
+            array_push($compGraduacion, $array);
+        }
 
         // if (isset($this->filtroFecha)) {
         //     if ($this->filtroFecha == 'en-curso') {
@@ -50,6 +57,6 @@ class Resultados extends Component {
         //     }
         // }
 
-        return view('livewire.categorias.resultados', ['categorias' => $categorias, 'categoriasPedidas' => $categoriasPedidas, 'competidores' => $competidores]);
+        return view('livewire.categorias.resultados', ['categorias' => $categorias, 'categoriasPedidas' => $categoriasPedidas, 'competidores' => $competidores, 'compGraduacion' => $compGraduacion]);
     }
 }

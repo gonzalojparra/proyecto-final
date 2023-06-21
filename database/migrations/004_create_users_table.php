@@ -24,7 +24,7 @@ return new class extends Migration {
             $table->string('gal')->nullable();
             $table->integer('du')->nullable();
             $table->float('clasificacion')->default(0);
-            $table->string('graduacion')->nullable();
+            $table->unsignedBigInteger('id_graduacion')->nullable();
             $table->string('genero')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('verificado')->default(false);
@@ -32,6 +32,8 @@ return new class extends Migration {
 
             $table->foreign('id_escuela')->references('id')
               ->on('teams');
+            $table->foreign('id_graduacion')->references('id')
+              ->on('graduaciones');
             
         });
     }

@@ -109,7 +109,7 @@
                                     {{$competidores[$i]->team->name}}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{$competidores[$i]->graduacion}}
+                                    {{ $compGraduacion[$i][0]['nombre'] }}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{$competidores[$i]->clasificacion}}

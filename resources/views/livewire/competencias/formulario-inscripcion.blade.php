@@ -1,4 +1,4 @@
-<x-modal wire:model='open' class="bg-white dark:bg-gray-800 ">
+<x-modal wire:model='open' >
     <!-- Mostrar mensaje de éxito -->
     <div wire:offline.remove>
         @if (session()->has('mensaje'))
@@ -17,17 +17,25 @@
         @endif
     </div>
 
-    <!-- ... -->
-    <form wire:submit.prevent='create' class="bg-white dark:bg-gray-900">
+    <form  wire:submit.prevent='create'>
         @csrf
         <!-- Modal con los datos del competidor/juez -->
-        <div class="inset-0 items-center rounded-lg  z-50 m-5 border-1  dark:bg-gray-800 rounded-lg shadow-lg p-6">
-            <div class="bg-white dark:bg-gray-900 rounded-lg">
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+        <div class="inset-0 items-center z-50 m-5 p-6">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
 
-                    <h3 class="text-lg font-bold mb-4 text-white">Inscripción - Informacion sobre mi</h3>
+                    <!-- inputs no editables -->
+                    <p class="mb-3 text-gray-500 dark:text-gray-400 text-lg">Nombre: <strong class="font-semibold text-gray-900 dark:text-white" >{{ $nombre }}</strong></p>
+                    <p class="mb-3 text-gray-500 dark:text-gray-400 text-lg">Apellido: <strong class="font-semibold text-gray-900 dark:text-white" >{{ $apellido }}</strong></p> 
+                    @role('Competidor')
+                    <p class="mb-3 text-gray-500 dark:text-gray-400 text-lg">DU: <strong class="font-semibold text-gray-900 dark:text-white" >{{ $du }}</strong></p>
+                    <p class="mb-3 text-gray-500 dark:text-gray-400 text-lg">Fecha Nacimiento: <strong class="font-semibold text-gray-900 dark:text-white" >{{date('d-m-Y', strtotime($fechaNac))}}</strong></p>
+                    @endrole
+                    <p class="mb-3 text-gray-500 dark:text-gray-400 text-lg">Email: <strong class="font-semibold text-gray-900 dark:text-white" >{{ $email }}</strong></p>
+
+                    <!-- Inputs editables -->
                     <div class="mb-4">
-                        <label for="nameTeam" class="block text-gray-700 dark:text-gray-300">Escuela: </label>
+                        <label for="nameTeam" class="block text-gray-700 dark:text-gray-300">Escuela (editable): </label>
                         <select id="nameTeam" type="text" class="w-full border-gray-300 rounded-md p-2" wire:model="escuela">
                             @foreach($escuelas as $unaEscuela)
                             <option>{{$unaEscuela['name']}}</option>
@@ -36,53 +44,32 @@
                     </div>
                     @role('Competidor')
                     <div class="mb-4">
-                        <label for="graduacion" class="block text-gray-700 dark:text-gray-300">Graduacion:</label>
+                        <label for="graduacion" class="block text-gray-700 dark:text-gray-300">Graduacion (editable):</label>
                         <select id="graduacion" type="text" class="w-full border-gray-300 rounded-md p-2" wire:model="graduacion">
                             @foreach($graduacionesCompetidor as $unaGraduacion)
                             <option>{{$unaGraduacion}}</option>
                             @endforeach
                         </select>
                     </div>
+                    @if($inputGal)
                     <div class="mb-4">
-                        <label for="gal" class="block text-gray-700 dark:text-gray-300">GAL:</label>
+                        <label for="gal" class="block text-gray-700 dark:text-gray-300">GAL (si no tenes GAL registrado, ingresalo acá):</label>
                         <input id="gal" type="gal" class="w-full border-gray-300 rounded-md p-2" wire:model="gal" {{$editarGal}}>
                         <button wire:click="editar()" id="actualizarGralBtn" type="button" class="inline-flex items-center mt-1 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                             {{$botonGal}}
                         </button>
                     </div>
-
-                    @endrole
-                    <div class="mb-4">
-                        <label for="email" class="block text-gray-700 dark:text-gray-300">Email:</label>
-                        <input id="email" type="email" class="w-full border-gray-300 rounded-md p-2" wire:model="email" readonly>
-                    </div>
-                    <div class="mb-4">
-                        <label for="nombre" class="block text-gray-700 dark:text-gray-300">Nombre:</label>
-                        <input id="nombre" type="Nombre" class="w-full border-gray-300 rounded-md p-2" wire:model="nombre" readonly>
-                    </div>
-                    <div class="mb-4">
-                        <label for="apellido" class="block text-gray-700 dark:text-gray-300">Apellido:</label>
-                        <input id="apellido" type="Apellido" class="w-full border-gray-300 rounded-md p-2" wire:model="apellido" readonly>
-                    </div>
-                    @role('Competidor')
-                    <div class="mb-4">
-                        <label for="dni" class="block text-gray-700 dark:text-gray-300">DU:</label>
-                        <input id="dni" type="email" class="w-full border-gray-300 rounded-md p-2" wire:model="du" readonly>
-                    </div>
+                    @endIf
                     @endrole
                     <div class="flex justify-end">
                         <button wire:click="$set('open',false)" id="closeModal" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                             Cerrar
                         </button>
-                        <button wire:click='submit' id="confirmModal" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150" data-modal-target="popup-modal" data-modal-toggle="popup-modal">
+                        <button wire:click='submit' id="confirmModal" type="button" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 active:bg-indigo-700 transition ease-in-out duration-150 disabled:opacity-25" data-modal-target="popup-modal" data-modal-toggle="popup-modal" wire:loading.attr='disabled'>
                             Confirmar
                         </button>
                     </div>
                 </div>
-            </div>
         </div>
-  
-
-   
   </form>
 </x-modal>

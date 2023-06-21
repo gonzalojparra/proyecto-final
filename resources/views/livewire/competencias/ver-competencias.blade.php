@@ -15,9 +15,29 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $competencia->titulo }}</h5>
                 </a>
                 <div class="flex justify-start items-center mt-2 text-gray-500">
-                    <span class="text-sm">Desde <b>{{ $competencia->fecha_inicio }}</b> hasta <b>{{ $competencia->fecha_fin }}</b></span>
+                    <span class="text-lg">Desde <b>{{date('d-m-Y', strtotime($competencia->fecha_inicio))}}</b> hasta <b>{{date('d-m-Y', strtotime($competencia->fecha_fin))}}</b></span>
                 </div>
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $competencia->descripcion }}</p>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                    @switch($competencia->estado)
+                    @case(1)
+                        Inscripcion solo jueces
+                        @break
+                    @case(2)
+                        Inscripciones abiertas.
+                        @break
+                    @case(3)
+                        Inscripciones cerradas.
+                    @break
+                    @case(4)
+                        Competencia en curso.
+                    @break
+                    @case(5)
+                        Competencia finalizada.
+                    @break
+                    @default
+                        Finalizada
+                @endswitch
+                </p>
                 @auth
                 <a href="{{ route('competencias.ver-una-competencia', ['competenciaId' => $competencia->id])}}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Ver más
