@@ -99,24 +99,28 @@ function traerBotones() {
 
 traerPasada.addEventListener('click', async () => {
     try {
-      let botones = await traerBotones();
-      console.log(botones);
-      getPasada()
-        .then(async (idPasada) => {
-          esperarJueces(idPasada, botones.botonUno, botones.botonTres);
-          await esperarTimer(idPasada);
-          //await enviar(idPasada);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+        let botones = await traerBotones();
+        console.log(botones);
+        getPasada()
+            .then(async (idPasada) => {
+                esperarJueces(idPasada).then(cantJueces => {
+                    esperarTimer(idPasada).then(resp => {
+                        enviar(idPasada);
+                    })
+                });
+                /* await esperarTimer(idPasada); */
+                //await enviar(idPasada);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     } catch (err) {
-      console.error(err);
+        console.error(err);
     }
-  });
+});
 
-const esperarJueces = (idPasada, botonUno, botonTres) => {
-    deshabilitarBotones(botonUno, botonTres);
+const esperarJueces = (idPasada) => {
+    deshabilitarBotones();
     return new Promise((resolve, reject) => {
         let interval = setInterval(async function () {
             try {
@@ -136,7 +140,7 @@ const esperarJueces = (idPasada, botonUno, botonTres) => {
                     clearInterval(interval);
                     resolve(json);
                 }
-            } catch (error) { // Add the error parameter here
+            } catch (error) {
                 clearInterval(interval);
                 reject(error);
             }
@@ -144,8 +148,8 @@ const esperarJueces = (idPasada, botonUno, botonTres) => {
     });
 }
 
-const esperarTimer = (idPasada, botonUno, botonTres) => {
-    deshabilitarBotones(botonUno, botonTres);
+const esperarTimer = (idPasada) => {
+    deshabilitarBotones();
     return new Promise((resolve, reject) => {
         let interval = setInterval(async function () {
             try {
@@ -161,6 +165,7 @@ const esperarTimer = (idPasada, botonUno, botonTres) => {
                 const json = await response.json();
                 if (json == 1) {
                     clearInterval(interval);
+                    habilitarBotones();
                     resolve(json);
                 }
             } catch (error) {
@@ -185,7 +190,20 @@ const enviar = (idPasada) => {
                     method: 'POST',
                     body: JSON.stringify({ idPasada }),
                 });
-                const json = await response.json();
+
+                if (!response.ok) {
+                    throw new Error('Error de network');
+                }
+
+                const text = await response.text();
+                let json;
+
+                try {
+                    json = JSON.parse(text);
+                } catch (error) {
+                    throw new Error('Data del json invalido');
+                }
+
                 if (json >= 1) {
                     clearInterval(interval);
                     resolve(json);
@@ -198,14 +216,18 @@ const enviar = (idPasada) => {
     });
 }
 
-const deshabilitarBotones = (botonUno, botonTres) => {
-    /* botonUno.disabled = true;
-    botonTres.disabled = true; */
-}
+const deshabilitarBotones = () => {
+    const buttons = document.querySelectorAll('input[type="button"]');
+    buttons.forEach((button) => {
+        button.disabled = true;
+    });
+};
 
-const habilitarBotones = (botonUno, botonTres) => {
-    botonUno.removeAttribute('disabled');
-    botonTres.removeAttribute('disabled');
+const habilitarBotones = () => {
+    const buttons = document.querySelectorAll('input[type="button"]');
+    buttons.forEach((button) => {
+        button.disabled = false;
+    });
 }
 
 const getPasada = () => {
@@ -221,7 +243,7 @@ const getPasada = () => {
             .then(function (json) {
                 let pasada = json.pasada;
                 console.log(pasada);
-                resolve(pasada); // Resolve the promise with the idPasada value
+                resolve(pasada);
             })
             .catch(function (err) {
                 console.log(err);
