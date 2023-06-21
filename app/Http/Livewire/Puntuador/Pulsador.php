@@ -26,9 +26,7 @@ class Pulsador extends Component {
         return view('livewire.puntuador.pulsador');
     }
 
-
-    public function traerPasada()
-    {
+    public function traerPasada() {
         $pasada = Pasada::where('tiempo_presentacion', null)->where('seleccionado', 1)->first();
         if ($pasada != null){
             $this->pasada = $pasada;
@@ -47,8 +45,7 @@ class Pulsador extends Component {
         }
     }
 
-    public function verificarJuez()
-    {
+    public function verificarJuez() {
         $pasadaJuez = PasadaJuez::where('id_juez', Auth::user()->id)->where('id_pasada', $this->pasada->id)->first();
         if ($pasadaJuez != null){
             if ($pasadaJuez->puntaje_exactitud == null && $pasadaJuez->puntaje_presentacion == null){
@@ -76,10 +73,11 @@ class Pulsador extends Component {
         }
     }
 
-    public function darVotoFinal(){
+    public function darVotoFinal() {
         $jueces = $pasadaJuez = PasadaJuez::where('id_pasada', $this->pasada->id)->get()->toArray();
         if (count($jueces) == $this->pasada->cant_votos){
             // Hacemos la logica si son 3 jueces
+            $cantVotos = $this->pasada->cant_votos;
             if ($cantVotos == 3){
                 $suma = 0;
                 foreach ($jueces as $juez) {
@@ -116,7 +114,7 @@ class Pulsador extends Component {
         $puntaje = $this->puntaje;
         if ($puntaje > 0.1){
             $this->puntaje = $puntaje - 0.1;
-        } else{
+        } else {
             $this->puntaje = 0;
         }
     }
@@ -147,7 +145,7 @@ class Pulsador extends Component {
      * Método para consultar la cantidad de jueces por pasada
      */
     public function cantJueces( $idPasada ){
-        $cantJuecesPasada = DB::table('pasada_juez')
+        $cantJuecesPasada = DB::table('pasadas_juez')
             ->where('id_pasada', $idPasada)
             ->count();
         return $cantJuecesPasada;

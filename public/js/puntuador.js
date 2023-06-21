@@ -1,7 +1,9 @@
 const divPuntaje = document.querySelector('.puntaje')
 // const botonReseteo = document.querySelector('.boton-reseteo')
 
-const traerPasada = document.querySelector('#traer-pasada');
+const traerPasada = document.getElementById('traer-pasada');
+
+
 
 const puntaje = 10;
 /* localStorage.setItem('puntaje', puntaje)
@@ -30,11 +32,34 @@ localStorage.setItem('puntajeActual', puntaje) */
     }
 }) */
 
-traerPasada.addEventListener('click', () => {
-    const botonEnviar = document.getElementById('boton-enviar');
-    const botonUno = document.getElementById('boton-uno');
-    const botonTres = document.getElementById('boton-tres');
-    esperarJueces( getPasada(), botonUno, botonTres )
+/* function traerBotones() {
+    return new Promise((resolve, reject) => {
+        document.addEventListener('DOMContentLoaded', function () {
+            const botones = {
+                'botonEnviar': document.getElementById('boton-enviar'),
+                'botonUno': document.getElementById('boton-uno'),
+                'botonTres': document.getElementById('boton-tres'),
+            };
+            resolve(botones);
+        });
+    });
+}
+
+traerPasada.addEventListener('click', async () => {
+    try {
+        let botones = await traerBotones();
+        console.log(botones);
+        await esperarJueces(getPasada(), botones.botonUno, botones.botonTres);
+        await esperarTimer(pasadaId.value);
+        enviar(pasadaId.value);
+    } catch (err) {
+        console.error(err);
+    }
+
+    // 
+    let botones = traerBotones();
+    console.log(botones);
+    esperarJueces( getPasada(), botones.botonUno, botones.botonTres )
       .then( cantJueces => {
         esperarTimer(pasadaId.value).then( resp => {
             enviar(pasadaId.value);
@@ -42,30 +67,70 @@ traerPasada.addEventListener('click', () => {
             console.error(err);
         })
       });
+}); */
+
+function traerBotones() {
+    return new Promise((resolve, reject) => {
+        const checkElements = () => {
+            const botonEnviar = document.getElementById('botonEnviar');
+            const botonUno = document.getElementById('botonUno');
+            const botonTres = document.getElementById('botonTres');
+
+            if (botonEnviar && botonUno && botonTres) {
+                const botones = {
+                    'botonEnviar': botonEnviar,
+                    'botonUno': botonUno,
+                    'botonTres': botonTres,
+                };
+                resolve(botones);
+            }
+        };
+
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            checkElements();
+        } else {
+            document.addEventListener('DOMContentLoaded', checkElements);
+        }
+
+        const observer = new MutationObserver(checkElements);
+        observer.observe(document.body, { childList: true, subtree: true });
+    });
+}
+
+traerPasada.addEventListener('click', async () => {
+    try {
+        let botones = await traerBotones();
+        console.log(botones);
+        await esperarJueces(getPasada(), botones.botonUno, botones.botonTres);
+        await esperarTimer(pasadaId.value);
+        enviar(pasadaId.value);
+    } catch (err) {
+        console.error(err);
+    }
 });
 
 const esperarJueces = (idPasada, botonUno, botonTres) => {
     deshabilitarBotones(botonUno, botonTres);
-    return new Promise( (resolve, reject) => {
-        let interval = setInterval( async function () {
+    return new Promise((resolve, reject) => {
+        let interval = setInterval(async function () {
             try {
                 let response;
                 let url = `/api/cantJuecesn/${idPasada}`;
-                response = await fetch( url, {
+                response = await fetch(url, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
                     method: 'POST',
-                    body: JSON.stringify({ pasada }),
+                    body: JSON.stringify({ idPasada }),
                 });
                 const json = await response.json();
                 console.log(json);
-                if( json >= 3 ){
+                if (json >= 3) {
                     clearInterval(interval);
                     resolve(json);
                 }
-            } catch {
+            } catch (error) { // Add the error parameter here
                 clearInterval(interval);
                 reject(error);
             }
@@ -75,11 +140,11 @@ const esperarJueces = (idPasada, botonUno, botonTres) => {
 
 const esperarTimer = (idPasada, botonUno, botonTres) => {
     deshabilitarBotones(botonUno, botonTres);
-    return new Promise( (resolve, reject) => {
-        let interval = setInterval( async function () {
+    return new Promise((resolve, reject) => {
+        let interval = setInterval(async function () {
             try {
                 let url = `/api/esperarTimer/${idPasada}`;
-                const response = await fetch( url, {
+                const response = await fetch(url, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -88,7 +153,7 @@ const esperarTimer = (idPasada, botonUno, botonTres) => {
                     body: JSON.stringify({ idPasada }),
                 });
                 const json = await response.json();
-                if( json == 1 ){
+                if (json == 1) {
                     clearInterval(interval);
                     resolve(json);
                 }
@@ -102,7 +167,7 @@ const esperarTimer = (idPasada, botonUno, botonTres) => {
 
 const enviar = (idPasada) => {
     return new Promise((resolve, reject) => {
-        let interval = setInterval( async function () {
+        let interval = setInterval(async function () {
             try {
                 let response;
                 response = await fetch('/api/enviar', {
@@ -114,7 +179,7 @@ const enviar = (idPasada) => {
                     body: JSON.stringify({ idPasada }),
                 });
                 const json = await response.json();
-                if( json >= 1 ){
+                if (json >= 1) {
                     clearInterval(interval);
                     resolve(json);
                 }
@@ -127,7 +192,6 @@ const enviar = (idPasada) => {
 }
 
 const deshabilitarBotones = (botonUno, botonTres) => {
-    console.log(botonUno, botonTres)
     botonUno.setAttribute('disabled', true);
     botonTres.setAttribute('disabled', true);
 }

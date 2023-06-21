@@ -1,12 +1,14 @@
 <div>
     <div class="contenedor">
         @if ($pasada == null || $esJuez == false)
-            <div class="pulsador">
-                <div class="titulo"><button id="traer-pasada" wire:click='traerPasada'>Traer pasada</button></div>
-                @if ($alerta != null)
-                {{$alerta}}
-                @endif
+        <div class="pulsador">
+            <div class="titulo">
+                <button id="traer-pasada" wire:click="traerPasada" wire:after="traerBotones">Traer pasada</button>
             </div>
+            @if ($alerta != null)
+            {{$alerta}}
+            @endif
+        </div>
         @else
         <div class="pulsador">
             <!-- En titulo va la variable $tipoPresentacion o algo asi donde vaya el titulo correspondiente del pulsador (Exactitud o Presentacion) -->
@@ -20,14 +22,14 @@
             <div class="puntaje-pulsadores">
                 <div class="boton-izquierdo">
                     <div class="toggle">
-                        <input type="button" id="boton-uno" class="button" wire:click="resto1()">
+                        <input type="button" id="botonUno" class="button" wire:click="resto1()">
                         <span class="button"><span class="label">-0.1</span></span>
                     </div>
                 </div>
                 <div class="puntaje-boton">
                     <div class="puntaje">{{$puntaje}}</div>
                     <div class="boton-enviar">&nbsp;
-                        <button class="enviar" wire:click="enviar()">
+                        <button id="botonEnviar" class="enviar" wire:click="enviar()">
                             @if ($tipoPuntaje == 1)
                             Siguiente
                             @else
@@ -38,7 +40,7 @@
                 </div>
                 <div class="boton-derecho">
                     <div class="toggle">
-                        <input type="button" id="boton-tres" class="button" wire:click="resto3()">
+                        <input type="button" id="botonTres" class="button" wire:click="resto3()">
                         <span class="button"> <span class="label">-0.3</span></span>
                     </div>
                 </div>
