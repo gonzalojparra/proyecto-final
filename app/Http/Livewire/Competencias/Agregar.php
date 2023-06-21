@@ -244,7 +244,7 @@ class Agregar extends Component
         foreach ($competenciaJuez as $juez) {
             foreach ($pasadas as $pasada) {
                 PasadaJuez::create([
-                    'id_juez' => $juez->id,
+                    'id_juez' => $juez->id_juez,
                     'id_pasada' => $pasada->id,
                 ]);
             }
