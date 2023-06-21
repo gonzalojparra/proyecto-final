@@ -34,6 +34,28 @@
                             <h1 class="text-lg font-semibold">Cantidad de jueces</h1>
                             {{ $cantJuecesCompetencia }}
                         </li>
+                        <li class="dark:bg-gray-800 dark:border-gray-700 rounded-md max-w-md p-2 mt-4">
+                            <h1 class="text-lg font-semibold">Estado</h1>
+                            @switch($data['estado'])
+                                @case(1)
+                                    Inscripcion solo jueces
+                                    @break
+                                @case(2)
+                                    Inscripciones abiertas.
+                                    @break
+                                @case(3)
+                                    Inscripciones cerradas.
+                                @break
+                                @case(4)
+                                    Competencia en curso.
+                                @break
+                                @case(5)
+                                    Competencia finalizada.
+                                @break
+                                @default
+                                    Finalizada
+                            @endswitch
+                        </li>
                     </ul>
                     <img src="storage/app/public/{{$data['flyer']}}" alt="">
                 </div>
@@ -51,7 +73,7 @@
                             Inscripcion en proceso
                             </span>
                         </button>
-                        @elseif( Auth::check() && Auth::user()->hasRole('Competidor') && $data['cant_jueces'] >= 3|| Auth::user()->hasRole('Juez') && $data['cant_jueces'] < 7 && !$mostrarPoomsaes) 
+                        @elseif( (Auth::check() && Auth::user()->hasRole('Competidor') && $data['estado'] == 2) || (Auth::user()->hasRole('Juez') && $data['estado'] == 1 || $data['estado'] == 2) && !$mostrarPoomsaes) 
                         <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
                             <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                 Inscripción

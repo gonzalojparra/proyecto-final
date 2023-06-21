@@ -11,6 +11,8 @@ use App\Models\Graduacion;
 use App\Models\Categoria;
 use App\Models\CompetenciaCompetidor;
 use App\Models\CompetenciaJuez;
+use App\Models\Pasada;
+use App\Models\PasadaJuez;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Livewire\WithFileUploads;
@@ -189,6 +191,7 @@ class Agregar extends Component
 
         if ($competencia->save()) {
             $this->enviarMailPoomsae($id);
+            $this->crearPasadasJuez($id);
             $this->emit('msjAccion', true);
             $bool = true;
         } else {
@@ -232,6 +235,19 @@ class Agregar extends Component
             $this->open = false;
         } else{
             $this->emit('msjAccion', false);
+        }
+    }
+
+    public function crearPasadasJuez($id){
+        $competenciaJuez = CompetenciaJuez::where('id_competencia', $id)->get();
+        $pasadas = Pasada::where('id_competencia', $id)->get();
+        foreach ($competenciaJuez as $juez) {
+            foreach ($pasadas as $pasada) {
+                PasadaJuez::create([
+                    'id_juez' => $juez->id_juez,
+                    'id_pasada' => $pasada->id,
+                ]);
+            }
         }
     }
 

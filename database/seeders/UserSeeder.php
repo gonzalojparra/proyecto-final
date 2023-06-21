@@ -167,45 +167,6 @@ class UserSeeder extends Seeder
                 'fecha_nac' => '2003-09-28',
                 'clasificacion' => 8
             ],
-            [
-                'name' => 'NombreCompetidor1',
-                'apellido' => 'ApellidoCompetidor1',
-                'password'=>'123',
-                'du'=>'12345678',
-                'genero' => 'Femenino',
-                'email' => 'competidor1@competidor.com',
-                'id_escuela' => 4,
-                'id_graduacion' => 6,
-                'gal' => NULL,
-                'fecha_nac' => '2003-09-28',
-                'clasificacion' => 8
-            ],
-            [
-                'name' => 'NombreCompetidor2',
-                'apellido' => 'ApellidoCompetidor2',
-                'password'=>'123',
-                'du'=>'12345678',
-                'genero' => 'Femenino',
-                'email' => 'competidor2@competidor.com',
-                'id_escuela' => 3,
-                'id_graduacion' => 3,
-                'gal' => NULL,
-                'fecha_nac' => '2003-09-28',
-                'clasificacion' => 8
-            ],
-            [
-                'name' => 'NombreCompetidor3',
-                'apellido' => 'ApellidoCompetidor3',
-                'password'=>'123',
-                'du'=>'12345678',
-                'genero' => 'Femenino',
-                'email' => 'competidor3@competidor.com',
-                'id_escuela' => 2,
-                'id_graduacion' => 4,
-                'gal' => NULL,
-                'fecha_nac' => '2003-09-28',
-                'clasificacion' => 8
-            ],
         ];
 
         foreach ($users as $user) {
@@ -266,32 +227,32 @@ class UserSeeder extends Seeder
             'verificado' => 1
         ])->assignRole('Juez');
 
-        User::create([
-            'name' => 'NombreJuez1',
-            'apellido' => 'ApellidoJuez1',
-            'email' => 'juez1@juez.com',
-            'password' => Hash::make('123'),
-            'id_escuela' => 4,
-            'verificado' => 1
-        ])->assignRole('Juez');
+        // User::create([
+        //     'name' => 'NombreJuez1',
+        //     'apellido' => 'ApellidoJuez1',
+        //     'email' => 'juez1@juez.com',
+        //     'password' => Hash::make('123'),
+        //     'id_escuela' => 4,
+        //     'verificado' => 1
+        // ])->assignRole('Juez');
 
-        User::create([
-            'name' => 'NombreJuez2',
-            'apellido' => 'ApellidoJuez2',
-            'email' => 'juez2@juez.com',
-            'password' => Hash::make('123'),
-            'id_escuela' => 3,
-            'verificado' => 1
-        ])->assignRole('Juez');
+        // User::create([
+        //     'name' => 'NombreJuez2',
+        //     'apellido' => 'ApellidoJuez2',
+        //     'email' => 'juez2@juez.com',
+        //     'password' => Hash::make('123'),
+        //     'id_escuela' => 3,
+        //     'verificado' => 1
+        // ])->assignRole('Juez');
 
-        User::create([
-            'name' => 'NombreJuez3',
-            'apellido' => 'ApellidoJuez3',
-            'email' => 'juez3@juez.com',
-            'password' => Hash::make('123'),
-            'id_escuela' => 5,
-            'verificado' => 1
-        ])->assignRole('Juez');
+        // User::create([
+        //     'name' => 'NombreJuez3',
+        //     'apellido' => 'ApellidoJuez3',
+        //     'email' => 'juez3@juez.com',
+        //     'password' => Hash::make('123'),
+        //     'id_escuela' => 5,
+        //     'verificado' => 1
+        // ])->assignRole('Juez');
 
         User::create([
             'name' => 'Admin',

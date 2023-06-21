@@ -144,7 +144,7 @@ const esperarJueces = (idPasada) => {
                 clearInterval(interval);
                 reject(error);
             }
-        }, 1000);
+        }, 3000);
     });
 }
 
@@ -172,7 +172,7 @@ const esperarTimer = (idPasada) => {
                 clearInterval(interval);
                 reject(error);
             }
-        }, 1000);
+        }, 3000);
     });
 }
 
@@ -212,7 +212,7 @@ const enviar = (idPasada) => {
                 clearInterval(interval);
                 reject(error);
             }
-        }, 1000);
+        }, 3000);
     });
 }
 
