@@ -5,48 +5,110 @@ namespace App\Http\Livewire\Puntuador;
 use Livewire\Component;
 use App\Models\PasadaJuez;
 use App\Models\Pasada;
-use App\Events\PuntajeEnviado;
+use App\Events\EnviarPasada;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
-class Pulsador extends Component
-{
 
-    public $idPasada;
+class Pulsador extends Component {
+
+    public $pasada = null;
+    public $esJuez = false;
     public $tipoPuntaje = 1;
     public $puntaje = 10;
     public $puntajeExactitud;
     public $puntajePresentacion;
-    public $mostrarPantallaEspera = false;
-    public $totalJueces;
-    public $juecesVotaron;
+    public $alerta = null;
 
-    public function render()
-    {
-        $pasada = Pasada::find($this->idPasada);
-        return view('livewire.puntuador.pulsador', ['pasada' => $pasada]);
+    protected $listeners = ['render' => 'render'];
+
+    public function render() {
+        return view('livewire.puntuador.pulsador');
     }
 
-    public function mount($idPasada)
-    {
-        $this->juecesVotaron = collect();
-        $this->cantJueces($idPasada);
-        $this->mostrarPantallaEspera = false;
-        $this->idPasada = $idPasada;
-        $this->tipoPuntaje = request()->get('tipoPuntaje', 1); // Obtener el valor de $tipoPuntaje de la URL, si no se proporciona, se establecerá en 1 por defecto
-        $this->puntajeExactitud = Cache::get('puntaje_exactitud');
+    public function traerPasada() {
+        $pasada = Pasada::where('tiempo_presentacion', null)->where('seleccionado', 1)->first();
+        if ($pasada != null){
+            $this->pasada = $pasada;
+            $this->verificarJuez();
+            $this->emit('render');
+        } else{
+            $this->alerta = "Aun no se elige un competidor.";
+        }
     }
 
-    public function store()
-    {
-        $this->puntajePresentacion = $this->puntaje;
-        $idJuez = Auth::id();
-        $idPasada = $this->idPasada;
-        $pasadaJuez = PasadaJuez::where('id_juez', $idJuez)->where('id_pasada', $idPasada)->first();
-        $pasadaJuez->puntaje_exactitud = $this->puntajeExactitud;
-        $pasadaJuez->puntaje_presentacion = $this->puntajePresentacion;
-        $pasadaJuez->save();
+    public function getPasada() {
+        $pasada = Pasada::where('tiempo_presentacion', null)->where('seleccionado', 1)->first();
+        if( $pasada != null ){
+            $this->pasada = $pasada;
+            echo json_encode(['pasada' => $this->pasada->id]);
+        }
+    }
+
+    public function verificarJuez() {
+        $pasadaJuez = PasadaJuez::where('id_juez', Auth::user()->id)->where('id_pasada', $this->pasada->id)->first();
+        if ($pasadaJuez != null){
+            if ($pasadaJuez->puntaje_exactitud == null && $pasadaJuez->puntaje_presentacion == null){
+                $this->esJuez = true;
+            } else {
+                $this->alerta = "Ya votaste esta pasada.";
+            }
+        } else{
+            $this->alerta = "No eres juez de esta competencia.";
+        }
+    }
+
+    public function store() {
+        $pasadaJuez = PasadaJuez::where('id_pasada', $this->pasada->id)->first();
+        if ($pasadaJuez != null){
+            $pasadaJuez->puntaje_exactitud = $this->puntajeExactitud;
+            $pasadaJuez->puntaje_presentacion = $this->puntajePresentacion;
+            $pasadaJuez->save();
+            $this->pasada->cant_votos = $this->pasada->cant_votos + 1;
+            $this->pasada->save();
+            $this->darVotoFinal();
+            $this->reset('esJuez');
+            $this->alerta = 'Tu voto se envio correctamente';
+            $this->emit('render');
+        }
+    }
+
+    public function darVotoFinal() {
+        $jueces = $pasadaJuez = PasadaJuez::where('id_pasada', $this->pasada->id)->get()->toArray();
+        if (count($jueces) == $this->pasada->cant_votos){
+            // Hacemos la logica si son 3 jueces
+            $cantVotos = $this->pasada->cant_votos;
+            if ($cantVotos == 3){
+                $suma = 0;
+                foreach ($jueces as $juez) {
+                    $suma = $suma + $juez->puntaje_exactitud + $juez->puntaje_presentacion;
+                }
+                $promedio = $suma/3;
+                $this->pasada->calificacion = $promedio;
+                $this->reset('pasada');
+            // Hacemos la logica si son 5 o 7 jueces
+            } else{
+                $suma = 0;
+                $votos = array();
+                // Obtenemos todos los votos.
+                foreach ($jueces as $juez) {
+                    $votos[] = $juez->puntaje_exactitud + $juez->puntaje_presentacion;
+                }
+                // Obtenemos el voto mas alto.
+                $masAlto = max($votos);
+                // Obtenemos el voto mas bajo.
+                $masBajo = min($votos);
+                foreach ($votos as $voto) {
+                    if ($voto != $masAlto && $voto != $masBajo){
+                        $suma = $suma + $voto;
+                    }
+                }
+                $promedio = $suma/count($jueces);
+                $this->pasada->calificacion = $promedio;
+                $this->reset('pasada');
+            }
+        }
     }
 
     public function resto1()
@@ -80,6 +142,7 @@ class Pulsador extends Component
             $this->mostrarPantallaEspera = true;
         } elseif ($tipoPuntaje == 2) {
             $this->puntajePresentacion = $this->puntaje;
+            $this->puntaje = 10;
             $this->store();
             $this->mostrarPantallaEspera = true;
             $this->tipoPuntaje = 1;
@@ -91,17 +154,28 @@ class Pulsador extends Component
             $this->mostrarPantallaEspera = false;
         }
     }
+    
 
 
     /**
      * Método para consultar la cantidad de jueces por pasada
      */
+<<<<<<< HEAD
     public function cantJueces($idPasada)
     {
+=======
+    public function cantJueces( $idPasada ){
+>>>>>>> Develop
         $cantJuecesPasada = DB::table('pasadas_juez')
             ->where('id_pasada', $idPasada)
             ->count();
         $this->totalJueces = $cantJuecesPasada;
         return $cantJuecesPasada;
     }
-}
+    public function esperarTimer($idPasada) {
+        $estadoTimer = Pasada::where('id', $idPasada)
+            ->where('estado_timer', 1)
+            ->get()
+            ->count();
+        return $estadoTimer;
+    }

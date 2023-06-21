@@ -15,7 +15,7 @@ class CompetenciasSeeder extends Seeder {
         //
         Competencia::create([
             'titulo' => 'Juegos de Integración Patagónicos',
-            'flyer' => 'image/flyerLiga.jpeg',
+            'flyer' => 'competencias/flyerLiga.jpeg',
             'bases' => 'ni idea',
             'invitacion' => 'invitacion',
             'descripcion' => 'Compe complicadisima, no se anoten',
@@ -27,18 +27,18 @@ class CompetenciasSeeder extends Seeder {
         Competencia::create([
             'titulo' => 'Competencia de la Liga',
             'cant_jueces' => 3,
-            'flyer' => 'image/flyerLiga.jpeg',
+            'flyer' => 'competencias/flyerLiga.jpeg',
             'bases' => 'Bases y condiciones',
             'invitacion' => 'invitacion',
             'descripcion' => 'Competicion para todos',
             'fecha_inicio' => '2023-06-23',
             'fecha_fin' => '2023-06-30',
-            'estado' => 1
+            'estado' => 2
         ]);
 
-        DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 1)");
-        DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 2)");
-        DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 3)");
+        // DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 1)");
+        // DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 2)");
+        // DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 3)");
     }
 
 }

@@ -25,11 +25,12 @@ class VerUnaCompetencia extends Component
     public $graduaciones;
     public $dato;
     public $competenciaId;
+    public $inscripcionAceptada;
     public $inscripcionAceptadaJuez = null;
     public $inscripcionAceptadaCompe = null;
     public $formAceptado = false;
     public $bandera = true;
-    public $cantJuecesCompetencia;
+    public $cantJuecesCompetencia = 0;
 
     public $mostrarResultados = false;
     public $mostrarPoomsaes = false;
@@ -234,7 +235,7 @@ class VerUnaCompetencia extends Component
                 ->where('aprobado', 1) //y el aprobado del competencia_juez es 1 
                 ->get(); //se obtiene el juez 
 
-            $this->cantJuecesCompetencia = $inscriptosJuez->count();//se cuenta la cantidad de jueces aprobados y se asigna a la variable publica cantJuecesCompetencia
+            $this->cantJuecesCompetencia = $inscriptosJuez->count();//se cuenta la cantidad de jueces aprobados y se asigna a la variable publica  cantJuecesCompetencia 
         }
     }
 }

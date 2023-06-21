@@ -56,6 +56,10 @@ return [
         'redis' => [
             'driver' => 'redis',
             'connection' => 'default',
+            'routes' => [
+                'prefix' => 'broadcast',
+                'middleware' => ['web'],
+            ],
         ],
 
         'log' => [

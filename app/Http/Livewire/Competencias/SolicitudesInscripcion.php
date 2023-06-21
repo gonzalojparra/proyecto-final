@@ -2,18 +2,21 @@
 
 namespace App\Http\Livewire\Competencias;
 
+use App\Mail\EnvioMail;
 use App\Models\User;
 use App\Models\CompetenciaCompetidor;
 use App\Models\Pasada;
+use App\Models\Graduacion;
 use App\Models\PasadaJuez;
 use App\Models\CompetenciaJuez;
 use App\Models\Competencia;
 use App\Models\CompetenciaCategoria;
 use App\Models\PoomsaeCompetenciaCategoria;
 use App\Models\Actualizacion;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Mail;
 
 class SolicitudesInscripcion extends Component {
 
@@ -21,6 +24,9 @@ class SolicitudesInscripcion extends Component {
     public $idCompetencia = null;
     public $filtro;
     public $filtroRol;
+    public $escuelaNueva = false;
+    public $graduacionNueva = false;
+    public $galNuevo = false;
 
     protected $listeners = ['render'=>'render'];
 
@@ -46,9 +52,11 @@ class SolicitudesInscripcion extends Component {
                 // Guardamos las peticiones de los jueces
                 foreach ($inscriptosJuez as $inscripto) {
                     if ($inscripto->id_competencia == $this->idCompetencia && $inscripto->aprobado == 0){
-                        $peticionModificacion = Actualizacion::where('id_user', $inscripto->id_juez)->get();
-                        if (count($peticionModificacion) > 0){
+                        $peticionModificacion = Actualizacion::where('id_user', $inscripto->id_juez)->first();
+                        if ($peticionModificacion){
+                            // dd($peticionModificacion);
                             $inscripto->actualizacion = $peticionModificacion;
+                            // dd($inscripto->actualizacion->id_escuela_nueva);
                         }
                         $inscripto->rol = 'Juez';
                         $inscriptosPendientes[] = $inscripto;
@@ -61,6 +69,10 @@ class SolicitudesInscripcion extends Component {
         $jueces = CompetenciaJuez::where('id_competencia', $this->idCompetencia)->where('aprobado', 1)->get();
 
         return view('livewire.competencias.solicitudes-inscriptos', ['competencia' => $competencia, 'inscriptosPendientes' => $inscriptosPendientes, 'competidores' => $competidores, 'jueces' => $jueces]);
+    }
+
+    public function mostrarSolicitud($id){
+        $this->emit('mostrarCambioSilicitado',$id);
     }
 
     // Con esta funcion 'Mount' recibimos los datos enviados desde la URL
@@ -93,31 +105,42 @@ class SolicitudesInscripcion extends Component {
 
     public function aceptar($rol, $id, $actualizacion = null)
     {
+        $usuario = Auth::user();
         $participante = CompetenciaJuez::find($id);
         if ($rol == "Competidor"){
             $participante = CompetenciaCompetidor::find($id);
             $this->crearPasadaCompetidor($participante->id_competidor);
+        }else{
+            $participante = CompetenciaJuez::find($id);
         }
         // Si envio una solicitud de modificacion, modificamos.
         if ($actualizacion != null){
-            $participante->user->id_escuela = $actualizacion['id_escuela_nueva'];
-            $participante->user->graduacion = $actualizacion['id_graduacion_nueva'];
+            if($actualizacion['id_escuela_nueva'] != null){
+                $participante->user->id_escuela = $actualizacion['id_escuela_nueva'];
+            }
+            if( $actualizacion['id_graduacion_nueva']!= null){
+                $participante->user->id_graduacion = $actualizacion['id_graduacion_nueva'];
+            }
+            if( $actualizacion['gal_nuevo']){
+                $participante->user->gal =  $actualizacion['gal_nuevo'];
+            }
             Actualizacion::where('id_user', $actualizacion['id_user'])->delete();
         }
         $participante->aprobado = 1;
         $participante->user->save();
         $participante->save();
+        Mail::to($participante->user->email)->send(new EnvioMail($participante->user->id,3));
     }
 
-    public function rechazar($rol, $id)
+    public function rechazar($rol, $id, $idCompetencia)
     {
         if ($rol == "Competidor"){
-            // CompetenciaCompetidor::find($id)->delete();
-            CompetenciaCompetidor::where('id_competencia', $this->idCompetencia)->where('aprobado', 0)->update(['aprobado' => 2]);
+            $participante = CompetenciaCompetidor::find($id);
         } else {
-            // CompetenciaJuez::find($id)->delete();
-            CompetenciaJuez::where('id_competencia', $this->idCompetencia)->where('aprobado', 0)->update(['aprobado' => 2]);
-        }
+            $participante = CompetenciaJuez::find($id);
+        }     
+        Mail::to($participante->user->email)->send(new EnvioMail($participante->user->id,4,$idCompetencia));
+        $participante->delete();
     }
 
     public function eliminarJuez($id)
