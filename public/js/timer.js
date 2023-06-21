@@ -26,8 +26,22 @@ function clickear(pasada) {
   pasada.addEventListener('change', function (e) {
     let pasadaSeleccionada = e.target.value;
     iniciarTimer(pasadaSeleccionada);
+    detenerTimer(pasadaSeleccionada);
+    seleccion(pasadaSeleccionada);
   })
 };
+
+function seleccion(idPasada){
+  let url = `/api/seleccion/${idPasada}`;
+  fetch(url)
+  .then(response => response.text())
+  .then(json => {
+    console.log(json)
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
 
 function iniciarTimer(idPasada) {
   btnIniciar.addEventListener('click', async function () {
@@ -42,13 +56,21 @@ function iniciarTimer(idPasada) {
     })
       .then(res => res.json())
       .then(json => {
+        console.log(json)
         if (json == 1) {
           console.log('Timer iniciado - ID Pasada: ', idPasada);
           temporizador = setInterval(actualizarContador, 1000);
+          // Cambiamos estilos a boton iniciar
           btnIniciar.setAttribute('disabled')
+          btnIniciar.classList.remove('bg-green-500')
           btnIniciar.classList.remove('hover:bg-green-600')
+          btnIniciar.classList.add('bg-gray-500')
+          // Cambiamos estilos a boton detener
           btnDetener.removeAttribute('disabled')
+          btnDetener.classList.remove('bg-gray-500')
+          btnDetener.classList.add('bg-red-500')
           btnDetener.classList.add('hover:bg-red-600')
+
           contador.innerHTML = '&nbsp;'
         }
       })
@@ -73,38 +95,64 @@ const actualizarContador = () => {
     // tiempo normal
   } else {
     timerElement.innerHTML = `${tiempo}`;
-
-
   }
   tiempoTotal = 90 - tiempo;
 
 };
 
-btnDetener.addEventListener('click', () => {
-  clearInterval(temporizador);
-  btnDetener.setAttribute('disabled')
-  btnDetener.classList.remove('hover:bg-red-600')
-
-  btnIniciar.removeAttribute('disabled')
-  btnIniciar.classList.add('hover:bg-green-600')
-
-  contador.style.display = 'block'
-
-  if (tiempoTotal > 90) {
-    contador.style.color = 'red'
-    contador.innerHTML = `Tiempo Total: ${tiempoTotal} seg`;
-
-  }
-  else {
-    contador.style.color = 'black'
-    contador.innerHTML = `Tiempo Total: ${tiempoTotal} seg`;
-  }
-
-});
+function detenerTimer (idPasada){
+  btnDetener.addEventListener('click', () => {
+    clearInterval(temporizador);
+    btnDetener.classList.remove('hover:bg-red-600')
+    // Cambiamos estilos a boton detener
+    btnDetener.setAttribute('disabled')
+    btnDetener.classList.remove('bg-red-500')
+    btnDetener.classList.remove('hover:bg-red-600')
+    btnDetener.classList.add('bg-gray-500')
+    // Cambiamos estilos a boton reiniciar
+    btnReiniciar.removeAttribute('disabled')
+    btnReiniciar.classList.remove('bg-gray-500')
+    btnReiniciar.classList.add('bg-yellow-500')
+    btnReiniciar.classList.add('hover:bg-yellow-600')
+  
+    contador.style.display = 'block'
+  
+    if (tiempoTotal > 90) {
+      contador.style.color = 'red'
+      contador.innerHTML = `Tiempo guardado con: ${tiempoTotal} seg`;
+  
+    }
+    else {
+      contador.style.color = 'black'
+      contador.innerHTML = `Tiempo guardado con: ${tiempoTotal} seg`;
+    }
+    enviarDatos(idPasada)
+  });
+}
 
 btnReiniciar.addEventListener('click', () => {
   window.location.reload()
 });
+
+
+function enviarDatos(idPasada) {
+  // let datos = {
+  //   'tiempo': tiempoTotal,
+  //   'idPasada': idPasada,
+  // }
+  let url = `/api/enviarTiempo/${tiempoTotal}.${idPasada}`;
+  fetch(url)
+  .then(response => response.json())
+  .then(json => {
+    console.log(json)
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+};
+
+
+
 
 /*// Temporizador en segundos
     var seconds = 90;

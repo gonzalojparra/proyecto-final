@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pasada;
+use App\Events\EnviarPasada;
+use Illuminate\Support\Facades\View;
+use Illuminate\Http\Request;
 
 class TimerController extends Controller {
+
 
     public function index() {
         $pasadas = Pasada::all();
@@ -37,6 +41,27 @@ class TimerController extends Controller {
             $bandera = true;
         }
         return $bandera;
+    }
+
+    public function seleccion($idPasada) {
+        $bandera = false;
+        if( $idPasada != null ){
+            Pasada::where('id', '!=', $idPasada)->update(['seleccionado' => 0]);
+            Pasada::where('id', $idPasada)->update(['seleccionado' => 1]);
+            $bandera = true;
+        }
+        return $bandera;
+    }
+
+    public function enviarTiempo($tiempo, $idPasada) {
+        $actualizo = false;
+        $pasada = Pasada::find($idPasada);
+        if ($pasada->exists()){
+            $pasada->tiempo_presentacion = $tiempo;
+            $pasada->save();
+            $actualizo = true;
+        }
+        return $actualizo;
     }
 
 }

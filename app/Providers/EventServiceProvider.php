@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Events\PuntajeEnviado;
-use App\Listeners\ValidarPuntajeListener;
+use App\Events\EnviarPasada;
+use App\Listeners\ActualizarIdPasadaListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -19,9 +19,9 @@ class EventServiceProvider extends ServiceProvider {
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        PuntajeEnviado::class => [
-            ValidarPuntajeListener::class,
-        ]
+        EnviarPasada::class => [
+            ActualizarIdPasadaListener::class,
+        ],
     ];
 
     /**
