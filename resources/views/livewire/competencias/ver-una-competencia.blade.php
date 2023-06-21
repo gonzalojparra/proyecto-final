@@ -1,11 +1,4 @@
 
-@if($cantJuecesCompetencia < 3 && Auth::user()->hasRole('Competidor'))
-    <div class="bg-red-200 text-red-800 pt-4 m-6 mt-4 mb-4 p-4 text-lg rounded border border-red-300 my-3">
-        Por el momento no se puede incribir a esta competencia <br>Por favor, vuelve más tarde para poder inscribirse. <br>
-        <a href="{{asset('competencias/show')}}" class="font-medium text-red-800 dark:text-red-800 hover:underline">Volver</a>
-    </div>
-    <div class="p-4 "></div>
-    @else
     <div class="info-competencia mt-6 mb-8 pb-8">
         <div>
             <h1 class="text-6xl flex justify-center font-semibold dark:text-gray-400 ">{{ $data['titulo'] }}</h1>
@@ -43,6 +36,12 @@
                         <button id="openModal" disabled type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white">
                             <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
                                 No verificado para inscribirse 
+                            </span>
+                        </button>
+                        @elseif ($cantJuecesCompetencia < 3 && Auth::user()->hasRole('Competidor'))
+                        <button id="openModal" style="display:none; " type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white">
+                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
+                                Inscripción
                             </span>
                         </button>
                         @elseif( Auth::check() && $bandera == 0 )
@@ -155,9 +154,6 @@
             modal2.setAttribute('aria-hidden', 'true'); 
             modal2.style.display = 'none';
             botonInscripcion.style.display = 'none';
-            // botonInscripcion.setAttribute('disabled');
-            // botonInscripcion.innerHTML = 'Inscripcion Aceptada';
-
         });
     </script>
     @elseif(($inscripcionAceptadaJuez == 2 && $inscripcionAceptadaCompe == null) || ($inscripcionAceptadaCompe == 2 && $inscripcionAceptadaJuez == null) )
@@ -219,6 +215,4 @@
             </div>
         </div>
     </div>
-    @endif
-
     @endif
