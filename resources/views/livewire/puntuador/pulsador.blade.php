@@ -29,13 +29,15 @@
                 <div class="puntaje-boton">
                     <div class="puntaje">{{$puntaje}}</div>
                     <div class="boton-enviar">&nbsp;
-                        <button id="botonEnviar" class="enviar" wire:click="enviar()">
-                            @if ($tipoPuntaje == 1)
-                            Siguiente
-                            @else
-                            Enviar
-                            @endif
-                        </button>
+                        <input id="botonEnviar" type="button" class="enviar" wire:click="enviar()">
+                            <span class="label">
+                                @if ($tipoPuntaje == 1)
+                                Siguiente
+                                @else
+                                Enviar
+                                @endif
+                            </span>
+                        </input>
                     </div>
                 </div>
                 <div class="boton-derecho">

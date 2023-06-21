@@ -31,7 +31,7 @@ function clickear(pasada) {
   })
 };
 
-function seleccion(idPasada){
+function seleccion(idPasada) {
   let url = `/api/seleccion/${idPasada}`;
   fetch(url)
     .then(response => response.text())
@@ -92,21 +92,32 @@ const actualizarContador = () => {
   tiempoTotal = 90 - tiempo;
 };
 
-function detenerTimer (idPasada){
+function detenerTimer(idPasada) {
   btnDetener.addEventListener('click', () => {
-    clearInterval(temporizador);
-    btnDetener.classList.remove('hover:bg-red-600')
-    // Cambiamos estilos a boton detener
-    btnDetener.setAttribute('disabled')
-    btnDetener.classList.remove('bg-red-500')
-    btnDetener.classList.remove('hover:bg-red-600')
-    btnDetener.classList.add('bg-gray-500')
-    // Cambiamos estilos a boton reiniciar
-    btnReiniciar.removeAttribute('disabled')
-    btnReiniciar.classList.remove('bg-gray-500')
-    btnReiniciar.classList.add('bg-yellow-500')
-    btnReiniciar.classList.add('hover:bg-yellow-600')
-  
+
+
+    let url = `/api/pararTimer/${idPasada}`
+    fetch(url)
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+        clearInterval(temporizador);
+        btnDetener.classList.remove('hover:bg-red-600')
+        // Cambiamos estilos a boton detener
+        btnDetener.setAttribute('disabled')
+        btnDetener.classList.remove('bg-red-500')
+        btnDetener.classList.remove('hover:bg-red-600')
+        btnDetener.classList.add('bg-gray-500')
+        // Cambiamos estilos a boton reiniciar
+        btnReiniciar.removeAttribute('disabled')
+        btnReiniciar.classList.remove('bg-gray-500')
+        btnReiniciar.classList.add('bg-yellow-500')
+        btnReiniciar.classList.add('hover:bg-yellow-600')
+      })
+      .catch(err => {
+        console.error(err);
+      });
+
     contador.style.display = 'block'
     if (tiempoTotal > 90) {
       contador.style.color = 'red'
@@ -128,13 +139,13 @@ btnReiniciar.addEventListener('click', () => {
 function enviarDatos(idPasada) {
   let url = `/api/enviarTiempo/${tiempoTotal}.${idPasada}`;
   fetch(url)
-  .then(response => response.json())
-  .then(json => {
-    console.log(json)
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+    .then(response => response.json())
+    .then(json => {
+      console.log(json)
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 };
 
 
