@@ -120,10 +120,10 @@ Route::post('/obtenerEscuelas',)->name('acciones.obtenerEscuelas');
 //Puntuador
 Route::group(['middleware' => ['role:Juez']], function() {
     // Route::view('/competencias/puntuador','competencias.puntuador')->name('puntuador');
+    Route::view('/pantallaEspera','livewire.competencias.pantalla-espera')->name('competencias.pantalla-espera');
     Route::view('/pulsador','competencia.pulsador')->name('pulsador');
 });
 
-Route::view('/competencias/pantallaEspera','livewire.competencias.pantalla-espera')->name('competencias.pantalla-espera');
 
 // livewire.pantalla-espera
 // TESTEOS

@@ -10,6 +10,7 @@ use App\Models\PoomsaeCompetenciaCategoria;
 use App\Models\Graduacion;
 use App\Models\Categoria;
 use App\Models\CompetenciaCompetidor;
+use App\Models\CompetenciaJuez;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Livewire\WithFileUploads;
@@ -41,14 +42,15 @@ class Agregar extends Component
 
     public function abrirModal($accion)
     {
+        $this->reset();
         $this->boton = $accion;
         $this->accionForm = 'create';
         $this->open = true;
     }
     public function cerrarModal()
     {
-        $this->open = false;
         $this->reset();
+        $this->open = false;
     }
 
     public function create()
@@ -149,15 +151,11 @@ class Agregar extends Component
         $validate = $this->validate([
             'titulo' => ['required', 'max:120'],
             'descripcion' => ['required', 'max:120'],
-            'fecha_inicio' => ['required', 'date', 'after_or_equal:today'],
-            'fecha_fin' => ['required', 'date', 'after:fecha_inicio'],
         ]);
 
         $competencia = Competencia::find($this->idCompetencia);
         $competencia->titulo = $validate['titulo'];
         $competencia->descripcion = $validate['descripcion'];
-        $competencia->fecha_inicio = $validate['fecha_inicio'];
-        $competencia->fecha_fin = $validate['fecha_fin'];
 
 
 
@@ -224,11 +222,17 @@ class Agregar extends Component
 
     public function abrirInscripciones($id)
     {
-        $competencia = Competencia::find($id);
-        $competencia->estado = 2;
-        $competencia->save();
-        $this->emit('recarga');
-        $this->open = false;
+        $cantJueces = CompetenciaJuez::where('id_competencia', $id)->count();
+        // Verificamos que esta la cantidad de jueces necesaria para pasar de estado.
+        if ($cantJueces == 3 || $cantJueces == 5 || $cantJueces == 7){
+            $competencia = Competencia::find($id);
+            $competencia->estado = 2;
+            $competencia->save();
+            $this->emit('recarga');
+            $this->open = false;
+        } else{
+            $this->emit('msjAccion', false);
+        }
     }
 
 

@@ -30,6 +30,7 @@
                 <x-input class="block mt-1 w-full" wire:model="descripcion" type="text" id="descripcion" />
                 @error('descripcion') <span class="error">{{ $message }}</span> @enderror
             </div>
+            @if($boton == 'agregar')
             <div>
                 <x-label for="fecha_inicio">fecha_inicio</x-label>
                 <x-input class="block mt-1 w-full" wire:model="fecha_inicio" type="date" id="fecha_inicio" />
@@ -40,7 +41,6 @@
                 <x-input class="block mt-1 w-full" wire:model="fecha_fin" type="date" id="fecha_fin" />
                 @error('fecha_fin') <span class="error">{{ $message }}</span> @enderror
             </div>
-            @if($boton == 'agregar')
 
                 @if (count($categorias) > 0)
                     <x-label class="mt-2">Categorias</x-label>

@@ -1,8 +1,11 @@
 <div>
     <div class="contenedor">
-        @if ($pasada == null)
+        @if ($pasada == null || $esJuez == false)
             <div class="pulsador">
                 <div class="titulo"><button wire:click='traerPasada'>Traer pasada</button></div>
+                @if ($alerta != null)
+                {{$alerta}}
+                @endif
             </div>
         @else
         <div class="pulsador">
@@ -43,11 +46,10 @@
             </div>
             <div class="info-ronda">
                 <div class="nombre-competidor">{{$pasada->user->name}} {{$pasada->user->apellido}}</div>
-                <div class="separa-info">-</div>
-                <div class="numero-ronda">RONDA {{$pasada->ronda}}</div>
-                <div class="separa-info">-</div>
+                <div class="separa-info">|</div>
+                <div class="numero-ronda">Pasada {{$pasada->ronda}}</div>
+                <div class="separa-info">|</div>
                 <div class="info-poomsae">{{$pasada->poomsae->nombre}}</div>
-                <div class="id">{{$pasada->id}}</div>
 
             </div>
         </div>
