@@ -70,7 +70,7 @@ Route::middleware([
 // Middleware Admin
 Route::group(['middleware' => ['role:Admin']], function() {
     Route::get('roles', [Security\RolesController::class, 'index'])->name('roles.index');
-    Route::get('timer', [TimerController::class, 'index'])->name('timer');
+    Route::get('timer/{idCompetencia}', [TimerController::class, 'index'])->name('timer');
 
     // Solicitudes registros
     Route::view('/usuarios-pendientes','solicitudes-registro.show')->name('solicitudes-registro');
