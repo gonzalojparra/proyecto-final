@@ -19,7 +19,7 @@ class CompetenciaJuezSeeder extends Seeder {
                 'aprobado' => 1
             ],
             [
-                'id_juez' => 12,
+                'id_juez' => 11,
                 'id_competencia' => 2,
                 'aprobado' => 1
             ],
