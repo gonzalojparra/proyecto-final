@@ -34,14 +34,20 @@ class Pulsador extends Component {
         }
     }
 
-    public function store() {
-        $this->puntajePresentacion = $this->puntaje;
+    public function store($idPasada) {
+        $bandera = false;
         $idJuez = Auth::id();
-        $pasada = $this->pasada;
-        $pasadaJuez = PasadaJuez::where('id_juez', $idJuez)->where('id_pasada', $idPasada)->first();
-        $pasadaJuez->puntaje_exactitud = $this->puntajeExactitud;
-        $pasadaJuez->puntaje_presentacion = $this->puntajePresentacion;
-        $pasadaJuez->save();
+        $pasada = Pasada::where('id', $idPasada)->get()->first();
+        if( $pasada->ronda == 1 ){
+            $this->puntajeExactitud = $this->puntaje;
+            $bandera = true;
+        } elseif( $pasada->ronda == 2 ){
+            $this->puntajePresentacion = $this->puntaje;
+            $bandera = true;
+        }
+        /* $pasadaJuez = PasadaJuez::where('id_juez', $idJuez)->where('id_pasada', $idPasada)->first();
+        $pasadaJuez->save(); */
+        return $bandera;
     }
 
     public function resto1() {
@@ -70,7 +76,7 @@ class Pulsador extends Component {
             $this->tipoPuntaje = 2;
         } elseif ($tipoPuntaje == 2){
             $this->puntajePresentacion = $this->puntaje;
-            $this->store();
+            $this->store($this->pasada->id);
         }
     }
 
@@ -82,6 +88,14 @@ class Pulsador extends Component {
             ->where('id_pasada', $idPasada)
             ->count();
         return $cantJuecesPasada;
+    }
+
+    public function esperarTimer($idPasada) {
+        $estadoTimer = Pasada::where('id', $idPasada)
+            ->where('estado_timer', 1)
+            ->get()
+            ->count();
+        return $estadoTimer;
     }
 
 }

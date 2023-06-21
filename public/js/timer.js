@@ -34,13 +34,9 @@ function clickear(pasada) {
 function seleccion(idPasada){
   let url = `/api/seleccion/${idPasada}`;
   fetch(url)
-  .then(response => response.text())
-  .then(json => {
-    console.log(json)
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+    .then(response => response.text())
+    .then(json => console.log(json))
+    .catch(error => console.error('Error:', error));
 }
 
 function iniciarTimer(idPasada) {
@@ -80,24 +76,20 @@ function iniciarTimer(idPasada) {
 
 const actualizarContador = () => {
   tiempo--;
-
   if (tiempo <= 0) {
     if (tiempo === 0) {
       // overtime
       timerElement.style.color = 'red';
       timerElement.innerHTML = `${Math.abs(tiempo)} `;
-
     }
     else {
       timerElement.innerHTML = `${Math.abs(tiempo)} `;
-
     }
     // tiempo normal
   } else {
     timerElement.innerHTML = `${tiempo}`;
   }
   tiempoTotal = 90 - tiempo;
-
 };
 
 function detenerTimer (idPasada){
@@ -116,11 +108,9 @@ function detenerTimer (idPasada){
     btnReiniciar.classList.add('hover:bg-yellow-600')
   
     contador.style.display = 'block'
-  
     if (tiempoTotal > 90) {
       contador.style.color = 'red'
       contador.innerHTML = `Tiempo guardado con: ${tiempoTotal} seg`;
-  
     }
     else {
       contador.style.color = 'black'
@@ -136,10 +126,6 @@ btnReiniciar.addEventListener('click', () => {
 
 
 function enviarDatos(idPasada) {
-  // let datos = {
-  //   'tiempo': tiempoTotal,
-  //   'idPasada': idPasada,
-  // }
   let url = `/api/enviarTiempo/${tiempoTotal}.${idPasada}`;
   fetch(url)
   .then(response => response.json())

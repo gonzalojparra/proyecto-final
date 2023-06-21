@@ -47,6 +47,7 @@
                 <div class="numero-ronda">RONDA {{$pasada->ronda}}</div>
                 <div class="separa-info">-</div>
                 <div class="info-poomsae">{{$pasada->poomsae->nombre}}</div>
+                <div class="id">{{$pasada->id}}</div>
 
             </div>
         </div>
