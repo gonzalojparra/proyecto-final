@@ -2,16 +2,19 @@
 
 namespace App\Http\Livewire\Competencias;
 
+use App\Mail\EnvioMail;
 use App\Models\Competencia;
 use App\Models\CompetenciaCategoria;
 use App\Models\Poomsae;
 use App\Models\PoomsaeCompetenciaCategoria;
 use App\Models\Graduacion;
 use App\Models\Categoria;
+use App\Models\CompetenciaCompetidor;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Livewire\WithFileUploads;
 use Exception;
+use Illuminate\Support\Facades\Mail;
 
 class Agregar extends Component
 {
@@ -20,7 +23,7 @@ class Agregar extends Component
     protected $competencia;
     protected $categorias;
     public $open = false;
-    public $boton, $accionForm;
+    public $boton, $accionForm, $cambioEstado, $nombreBoton;
     public $titulo, $flyer, $bases, $descripcion, $fecha_inicio, $fecha_fin, $idCompetencia, $invitacion;
     public $categoria = array();
 
@@ -175,16 +178,90 @@ class Agregar extends Component
         $this->fecha_inicio = $competencia->fecha_inicio;
         $this->fecha_fin = $competencia->fecha_fin;
 
+        $this->manejoEstadosCompetencias($competencia->estado);
+
         $this->open = true;
     }
 
     public function cerrarConvocatoria($id)
     {
+        $bool = false;
         $competencia = Competencia::find($id);
         $competencia->estado = 3;
 
-        $competencia->save() ? $this->emit('msjAccion', true) : $this->emit('msjAccion', false);
-        $this->open = false;
+        if ($competencia->save()) {
+            $this->enviarMailPoomsae($id);
+            $this->emit('msjAccion', true);
+            $bool = true;
+        } else {
+            $this->emit('msjAccion', false);
+        }
+
+        if ($bool) {
+            $this->open = false;
+        }
+
         $this->emit('recarga');
+    }
+
+    public function iniciarCompetencia($id)
+    {
+        $competencia = Competencia::find($id);
+        $competencia->estado = 4;
+        $competencia->save();
+        $this->emit('recarga');
+        $this->open = false;
+    }
+
+    public function terminarCompetencia($id)
+    {
+        $competencia = Competencia::find($id);
+        $competencia->estado = 5;
+        $competencia->save();
+        $this->emit('recarga');
+        $this->open = false;
+    }
+
+    public function abrirInscripciones($id)
+    {
+        $competencia = Competencia::find($id);
+        $competencia->estado = 2;
+        $competencia->save();
+        $this->emit('recarga');
+        $this->open = false;
+    }
+
+
+
+    private function enviarMailPoomsae($idCompetencia)
+    {
+        $competidores = CompetenciaCompetidor::where('id_competencia', $idCompetencia)->join('users', 'users.id', 'competencia_competidor.id_competidor')->select('email', 'users.id')->get();
+        foreach ($competidores as $competidor) {
+            Mail::to($competidor->email)->send(new EnvioMail($competidor->id, 5, $idCompetencia));
+        }
+    }
+
+    private function manejoEstadosCompetencias($estado)
+    {
+
+        switch ($estado) {
+            case '2':
+                $this->nombreBoton = "Cerrar Convocatoria";
+                $this->cambioEstado = "cerrarConvocatoria";
+                break;
+            case '3':
+                $this->nombreBoton = "Iniciar Competencia";
+                $this->cambioEstado = "iniciarCompetencia";
+                break;
+            case '4':
+                $this->nombreBoton = "Terminar Competencia";
+                $this->cambioEstado = "terminarCompetencia";
+                break;
+
+            default:
+                $this->nombreBoton = "Abrir Inscripciones";
+                $this->cambioEstado = "abrirInscripciones";
+                break;
+        }
     }
 }

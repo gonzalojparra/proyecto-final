@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Competencias;
 
+use App\Mail\EnvioMail;
 use App\Models\User;
 use App\Models\CompetenciaCompetidor;
 use App\Models\Pasada;
@@ -15,7 +16,7 @@ use App\Models\Actualizacion;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Mail;
 
 class SolicitudesInscripcion extends Component {
 
@@ -70,6 +71,10 @@ class SolicitudesInscripcion extends Component {
         return view('livewire.competencias.solicitudes-inscriptos', ['competencia' => $competencia, 'inscriptosPendientes' => $inscriptosPendientes, 'competidores' => $competidores, 'jueces' => $jueces]);
     }
 
+    public function mostrarSolicitud($id){
+        $this->emit('mostrarCambioSilicitado',$id);
+    }
+
     // Con esta funcion 'Mount' recibimos los datos enviados desde la URL
     public function mount($idCompetencia)
     {
@@ -105,6 +110,8 @@ class SolicitudesInscripcion extends Component {
         if ($rol == "Competidor"){
             $participante = CompetenciaCompetidor::find($id);
             $this->crearPasadaCompetidor($participante->id_competidor);
+        }else{
+            $participante = CompetenciaJuez::find($id);
         }
         // Si envio una solicitud de modificacion, modificamos.
         if ($actualizacion != null){
@@ -122,17 +129,18 @@ class SolicitudesInscripcion extends Component {
         $participante->aprobado = 1;
         $participante->user->save();
         $participante->save();
+        Mail::to($participante->user->email)->send(new EnvioMail($participante->user->id,3));
     }
 
-    public function rechazar($rol, $id)
+    public function rechazar($rol, $id, $idCompetencia)
     {
         if ($rol == "Competidor"){
-            // CompetenciaCompetidor::find($id)->delete();
-            CompetenciaCompetidor::where('id_competencia', $this->idCompetencia)->where('aprobado', 0)->update(['aprobado' => 2]);
+            $participante = CompetenciaCompetidor::find($id);
         } else {
-            // CompetenciaJuez::find($id)->delete();
-            CompetenciaJuez::where('id_competencia', $this->idCompetencia)->where('aprobado', 0)->update(['aprobado' => 2]);
-        }
+            $participante = CompetenciaJuez::find($id);
+        }     
+        Mail::to($participante->user->email)->send(new EnvioMail($participante->user->id,4,$idCompetencia));
+        $participante->delete();
     }
 
     public function eliminarJuez($id)

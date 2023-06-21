@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->foreignId('id_escuela_nueva')->nullable()->constrained('teams');
             $table->foreignId('id_graduacion_nueva')->nullable()->constrained('graduaciones');
             $table->string('gal_nuevo')->nullable();
+            $table->boolean('resuelto')->default(false);
             $table->timestamps();
         });
     }

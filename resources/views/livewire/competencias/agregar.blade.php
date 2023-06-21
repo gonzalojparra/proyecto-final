@@ -80,8 +80,8 @@
             <div class="flex items-center justify-between mt-4">
                 <div>
                     @if($boton != 'agregar')
-                    <x-button type='submit' class="ml-4  bg-green-600" wire:click='cerrarConvocatoria({{$idCompetencia}})'>
-                        {{ __('Cerrar Convocatoria') }}
+                    <x-button type='submit' class="ml-4  bg-green-600 disabled:opacity-25" wire:click='{{$cambioEstado}}({{$idCompetencia}})' wire:loading.attr='disabled' wire:target='{{$cambioEstado}}' >
+                        {{ $nombreBoton }}
                     </x-button>
                     @endif
                 </div>

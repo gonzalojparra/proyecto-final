@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompetidorController;
+use App\Http\Controllers\MailControler;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -8,6 +9,9 @@ use App\Http\Controllers\Security;
 use App\Http\Livewire\Competencias\Competencias;
 use App\Http\Livewire\Competencias\VerCompetencias;
 use App\Http\Livewire\Competencias\VerUnaCompetencia;
+use App\Mail\ContactanosMail;
+use App\Mail\MailPrueba;
+use Illuminate\Support\Facades\Mail;
 use Whoops\Run;
 use App\Http\Controllers\TimerController;
 
@@ -124,3 +128,9 @@ Route::view('/competencias/pantallaEspera','livewire.competencias.pantalla-esper
 // livewire.pantalla-espera
 // TESTEOS
 // Route::get('/test.{id}', [UserController::class, 'show']);
+
+//Test de Mails
+/* Route::get('/testMail',function(){
+    Mail::to('lunalaureanoluna@gmail.com')->send(new MailPrueba('aceptado'));
+    return "email eviado;";
+})->name('enviar-correo'); */
