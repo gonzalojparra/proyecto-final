@@ -42,10 +42,7 @@ let temporizador;
 
 function iniciarTimer(idPasada) {
   btnIniciar.addEventListener('click', async function () {
-    if (temporizador) {
-      console.log('Timer ejecutandose');
-      return; // Si el timer está ejecutandose, se sale de la funcion
-    }
+    temporizador = setInterval(actualizarContador, 1000);
     let url = `/api/iniciarTimer/${idPasada}`;
     await fetch(url, {
       headers: {
@@ -60,7 +57,6 @@ function iniciarTimer(idPasada) {
         console.log(json);
         if (json == 1) {
           console.log('Timer iniciado - ID Pasada: ', idPasada);
-          temporizador = setInterval(actualizarContador, 1000);
           // Cambiamos estilos a boton iniciar
           btnIniciar.setAttribute('disabled')
           btnIniciar.classList.remove('bg-green-500')
@@ -71,13 +67,13 @@ function iniciarTimer(idPasada) {
           btnDetener.classList.remove('bg-gray-500')
           btnDetener.classList.add('bg-red-500')
           btnDetener.classList.add('hover:bg-red-600')
-
+          
           contador.innerHTML = '&nbsp;'
         }
       })
       .catch(err => console.log(err));
-  });
-};
+    });
+  };
 
 const actualizarContador = () => {
   tiempo--;
