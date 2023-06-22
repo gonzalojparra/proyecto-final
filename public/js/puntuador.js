@@ -1,10 +1,6 @@
 const divPuntaje = document.querySelector('.puntaje')
 // const botonReseteo = document.querySelector('.boton-reseteo')
-
 const traerPasada = document.getElementById('traer-pasada');
-
-
-
 const puntaje = 10;
 /* localStorage.setItem('puntaje', puntaje)
 localStorage.setItem('puntajeActual', puntaje) */
@@ -144,9 +140,9 @@ const esperarJueces = (idPasada) => {
                 clearInterval(interval);
                 reject(error);
             }
-        }, 3000);
+        }, 5000);
     });
-}
+};
 
 const esperarTimer = (idPasada) => {
     deshabilitarBotones();
@@ -174,7 +170,7 @@ const esperarTimer = (idPasada) => {
             }
         }, 3000);
     });
-}
+};
 
 const enviar = (idPasada) => {
     return new Promise((resolve, reject) => {
@@ -214,7 +210,7 @@ const enviar = (idPasada) => {
             }
         }, 3000);
     });
-}
+};
 
 const deshabilitarBotones = () => {
     const buttons = document.querySelectorAll('input[type="button"]');
@@ -228,7 +224,7 @@ const habilitarBotones = () => {
     buttons.forEach((button) => {
         button.disabled = false;
     });
-}
+};
 
 const getPasada = () => {
     return new Promise((resolve, reject) => {
