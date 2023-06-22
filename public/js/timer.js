@@ -7,85 +7,77 @@ let contador = document.getElementById("contador");
 let pasadas = document.querySelectorAll('.pasada');
 let selectPasada = document.getElementById('select-pasada');
 
-// Seteamos el timer con una duracion de 90 segundos
+// Variables
 let tiempo = 90;
 let tiempoTotal = 0;
-
-document.addEventListener('DOMContentLoaded', function () {
-  iniciar();
-});
-
-function iniciar() {
-  Array.from(pasadas).forEach((pasada) => {
-    clickear(selectPasada);
-  })
-};
-
-function clickear(pasada) {
-  pasada.addEventListener('change', function (e) {
-    let pasadaSeleccionada = e.target.value;
-    iniciarTimer(pasadaSeleccionada);
-    detenerTimer(pasadaSeleccionada);
-    seleccion(pasadaSeleccionada);
-  })
-};
-
-function seleccion(idPasada) {
-  let url = `/api/seleccion/${idPasada}`;
-  fetch(url)
-    .then(response => response.text())
-    .then(json => console.log(json))
-    .catch(error => console.error('Error:', error));
-}
-
 let temporizador;
 
-function iniciarTimer(idPasada) {
-  btnIniciar.addEventListener('click', async function () {
-    temporizador = setInterval(actualizarContador, 1000);
-    let url = `/api/iniciarTimer/${idPasada}`;
-    await fetch(url, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      body: JSON.stringify({ idPasada }),
-    })
-      .then(res => res.json())
-      .then(json => {
-        console.log(json);
-        if (json == 1) {
-          console.log('Timer iniciado - ID Pasada: ', idPasada);
-          // Cambiamos estilos a boton iniciar
-          btnIniciar.setAttribute('disabled')
-          btnIniciar.classList.remove('bg-green-500')
-          btnIniciar.classList.remove('hover:bg-green-600')
-          btnIniciar.classList.add('bg-gray-500')
-          // Cambiamos estilos a boton detener
-          btnDetener.removeAttribute('disabled')
-          btnDetener.classList.remove('bg-gray-500')
-          btnDetener.classList.add('bg-red-500')
-          btnDetener.classList.add('hover:bg-red-600')
-          
-          contador.innerHTML = '&nbsp;'
-        }
-      })
-      .catch(err => console.log(err));
+// Métodos
+function iniciar() {
+  Array.from(pasadas).forEach((pasada) => {
+    selectPasada.addEventListener('change', function (e) {
+      const pasadaSeleccionada = e.target.value;
+      //console.log('Pasada seleccionada: ', pasadaSeleccionada);
+      seleccion(pasadaSeleccionada);
     });
-  };
+  });
+}
+
+function seleccion(idPasada) {
+  //console.log('Llamando API: seleccion. Id: ', idPasada);
+  const url = `/api/seleccion/${idPasada}`;
+  fetch(url)
+    .then(response => response.text())
+    .then(data => {
+      //console.log('Respuestas de la API:', data);
+    })
+    .catch(error => {
+      console.error('Error API:', error);
+    });
+}
+
+function iniciarTimer(idPasada) {
+  temporizador = setInterval(actualizarContador, 1000);
+  const url = `/api/iniciarTimer/${idPasada}`;
+  fetch(url, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify({ idPasada }),
+  })
+    .then(res => res.json())
+    .then(json => {
+      console.log(json);
+      if (json == 1) {
+        //console.log('Timer iniciado - ID Pasada:', idPasada);
+        // Cambio estilos al boton iniciar
+        btnIniciar.disabled = true;
+        btnIniciar.classList.remove('bg-green-500', 'hover:bg-green-600');
+        btnIniciar.classList.add('bg-gray-500');
+        // Cambio estilos al boton detener
+        btnDetener.disabled = false;
+        btnDetener.classList.remove('bg-gray-500');
+        btnDetener.classList.add('bg-red-500', 'hover:bg-red-600');
+
+        contador.innerHTML = '&nbsp;';
+      }
+    })
+    .catch(err => console.log(err));
+}
 
 const actualizarContador = () => {
   tiempo--;
   if (tiempo <= 0) {
     if (tiempo === 0) {
-      // overtime
+      // Overtime
       timerElement.style.color = 'red';
       timerElement.innerHTML = Math.abs(tiempo);
     } else {
       timerElement.innerHTML = Math.abs(tiempo);
     }
-    // tiempo normal
+    // Tiempo normal
   } else {
     timerElement.innerHTML = tiempo;
   }
@@ -93,57 +85,66 @@ const actualizarContador = () => {
 };
 
 function detenerTimer(idPasada) {
-  btnDetener.addEventListener('click', async () => {
-    let url = `/api/pararTimer/${idPasada}`;
-    try {
-      const response = await fetch(url);
-      const json = await response.json();
-      console.log(json);
-      clearInterval(temporizador);
-
-      btnDetener.classList.remove('hover:bg-red-600');
-      btnDetener.setAttribute('disabled', 'disabled');
-      btnDetener.classList.remove('bg-red-500');
-      btnDetener.classList.remove('hover:bg-red-600');
-      btnDetener.classList.add('bg-gray-500');
-
-      btnReiniciar.removeAttribute('disabled');
-      btnReiniciar.classList.remove('bg-gray-500');
-      btnReiniciar.classList.add('bg-yellow-500');
-      btnReiniciar.classList.add('hover:bg-yellow-600');
-
-      contador.style.display = 'block';
-      if (tiempoTotal > 90) {
-        contador.style.color = 'red';
-        contador.innerHTML = `Tiempo guardado con: ${tiempoTotal} seg`;
-      } else {
-        contador.style.color = 'black';
-        contador.innerHTML = `Tiempo guardado con: ${tiempoTotal} seg`;
-      }
-
-      enviarDatos(idPasada);
-    } catch (err) {
-      console.error(err);
-    }
-  });
-};
-
-btnReiniciar.addEventListener('click', () => {
-  window.location.reload()
-});
-
-
-function enviarDatos(idPasada) {
-  let url = `/api/enviarTiempo/${tiempoTotal}.${idPasada}`;
+  const url = `/api/pararTimer/${idPasada}`;
   fetch(url)
     .then(response => response.json())
     .then(json => {
-      console.log(json)
+      //console.log(`Se paró el timer, bandera: ${json}`);
+      clearInterval(temporizador);
+
+      btnDetener.classList.remove('hover:bg-red-600');
+      btnDetener.disabled = true;
+      btnDetener.classList.remove('bg-red-500', 'hover:bg-red-600');
+      btnDetener.classList.add('bg-gray-500');
+
+      btnReiniciar.disabled = false;
+      btnReiniciar.classList.remove('bg-gray-500');
+      btnReiniciar.classList.add('bg-yellow-500', 'hover:bg-yellow-600');
+
+      contador.style.display = 'block';
+      contador.style.color = tiempoTotal > 90 ? 'red' : 'black';
+      contador.innerHTML = `Tiempo guardado con: ${tiempoTotal} seg`;
+
+      enviarDatos(idPasada);
+    })
+    .catch(err => console.error(err));
+}
+
+function enviarDatos(idPasada) {
+  const url = `/api/enviarTiempo/${tiempoTotal}.${idPasada}`;
+  fetch(url)
+    .then(response => response.json())
+    .then(json => {
+      console.log(`Se envio el dato, bandera: ${json}`);
     })
     .catch(error => {
       console.error('Error:', error);
     });
-};
+}
+
+// Eventos
+btnIniciar.addEventListener('click', () => {
+  const pasadaSeleccionada = document.querySelector('.pasada:checked');
+  if (pasadaSeleccionada) {
+    const idPasada = pasadaSeleccionada.value;
+    iniciarTimer(idPasada);
+  }
+});
+
+btnDetener.addEventListener('click', () => {
+  const pasadaSeleccionada = document.querySelector('.pasada:checked');
+  if (pasadaSeleccionada) {
+    const idPasada = pasadaSeleccionada.value;
+    detenerTimer(idPasada);
+  }
+});
+
+btnReiniciar.addEventListener('click', () => {
+  window.location.reload();
+});
+
+// Llamo al método después de definirlo
+iniciar();
 
 
 
