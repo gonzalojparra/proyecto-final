@@ -6,6 +6,14 @@
     </x-slot>
     {{-- MOSTRAMOS SOLICITUDES --}}
     <div class='max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8'>
+        <a href="{{route('competencias.administrar-competencias')}}">
+            <x-button class="ml-4  bg-grey-600 disabled:opacity-25">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                </svg>                  
+                Volver a competencias
+            </x-button>
+        </a>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <p class="text-gray-500 text-center m-2">Solicitudes ({{count($inscriptosPendientes)}})</p>
             @if (count($inscriptosPendientes) > 0)
@@ -73,19 +81,21 @@
                         <td class="px-6 py-4">
                             <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800 disabled:opacity-25" wire:click="aceptar('{{ $inscripto->rol }}', {{ $inscripto->id }}, {{$inscripto->actualizacion}})" wire:loading.attr='disabled' wire:target='aceptar'>  
                                 <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                    Aceptar
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>                                      
                                 </span>
                             </button>
                             <button class="relative inline-flex items-center justify-center p-0.5 mb-2 ml-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-orange-500 to-red-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800 mt-2 disabled:opacity-25" wire:click="rechazar('{{ $inscripto->rol }}', {{ $inscripto->id }}, {{$competencia->id}})" wire:loading.attr='disabled' wire:target='rechazar'>
                                 <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                    Rechazar
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>                                      
                                 </span>
                             </button>
                         </td>
                     </tr>
                     @endforeach
-
-
                 </tbody>
             </table>
             @else
