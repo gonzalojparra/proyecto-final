@@ -221,7 +221,7 @@ class FormularioInscripcion extends Component
         if ($this->escuelaInicial != $this->escuela) {
             $actualizacion->id_escuela_nueva = $idEscuela[0];
             if ($this->graduacionInicial != $this->graduacion) {
-                $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
+                $actualizacion->id_graduacion_nueva = $this->idGraduacion;
                 if ($this->galInicial != $this->gal) {
                     $actualizacion->gal_nuevo = $this->gal;
                 } else {
@@ -243,7 +243,7 @@ class FormularioInscripcion extends Component
                 $actualizacion->gal_nuevo = NULL;
             }
             $actualizacion->id_escuela_nueva = null;
-            $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
+            $actualizacion->id_graduacion_nueva = $this->idGraduacion;
             $actualizar = true;
         } else {
             if ($this->galInicial != $this->gal) {
