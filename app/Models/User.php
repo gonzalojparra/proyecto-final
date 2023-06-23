@@ -68,4 +68,7 @@ class User extends Authenticatable {
         return $this->hasOne(Team::class, 'id', 'id_escuela');
     }
 
+    public function graduacion() {
+        return $this->hasOne(Graduacion::class, 'id', 'id_graduacion');
+    }
 }

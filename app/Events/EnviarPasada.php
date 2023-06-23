@@ -10,19 +10,16 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PuntajeEnviado {
+class EnviarPasada
+{
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /* public $juezId;
-    public $puntajeExactitud;
-    public $puntajePresentacion; */
     public $idPasada;
-
     /**
      * Create a new event instance.
      */
-    public function __construct($idPasada) {
-        //
+    public function __construct($idPasada)
+    {
         $this->idPasada = $idPasada;
     }
 
@@ -31,7 +28,8 @@ class PuntajeEnviado {
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn(): array {
+    public function broadcastOn(): array
+    {
         return [
             new PrivateChannel('channel-name'),
         ];

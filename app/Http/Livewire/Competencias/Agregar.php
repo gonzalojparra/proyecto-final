@@ -10,6 +10,9 @@ use App\Models\PoomsaeCompetenciaCategoria;
 use App\Models\Graduacion;
 use App\Models\Categoria;
 use App\Models\CompetenciaCompetidor;
+use App\Models\CompetenciaJuez;
+use App\Models\Pasada;
+use App\Models\PasadaJuez;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Livewire\WithFileUploads;
@@ -20,7 +23,7 @@ class Agregar extends Component
 {
     use WithFileUploads;
 
-    protected $competencia;
+    public $competencia;
     protected $categorias;
     public $open = false;
     public $boton, $accionForm, $cambioEstado, $nombreBoton;
@@ -41,14 +44,15 @@ class Agregar extends Component
 
     public function abrirModal($accion)
     {
+        $this->reset();
         $this->boton = $accion;
         $this->accionForm = 'create';
         $this->open = true;
     }
     public function cerrarModal()
     {
-        $this->open = false;
         $this->reset();
+        $this->open = false;
     }
 
     public function create()
@@ -101,15 +105,16 @@ class Agregar extends Component
                         'id_categoria' => $idCategoria,
                     ]);
 
-                    // Obtenemos un poomsae aleatorio para la primer pasada.
-                    $poomsaeRandom1 = Poomsae::inRandomOrder()->first();;
-                    // Obtenemos un poomsae aleatorio para la segunda pasada.
-                    $poomsaeRandom2 = Poomsae::inRandomOrder()->first();;
-
 
                     // Sorteamos los poomsaes para cada graduacion de cada categoria.
                     if (count($graduaciones) > 0) {
                         foreach ($graduaciones as $graduacion) {
+
+                            // Obtenemos un poomsae aleatorio para la primer pasada.
+                            $poomsaeRandom1 = Poomsae::inRandomOrder()->first();
+                            // Obtenemos un poomsae aleatorio para la segunda pasada.
+                            $poomsaeRandom2 = Poomsae::inRandomOrder()->first();
+
                             $poomsaeC = PoomsaeCompetenciaCategoria::create([
                                 'id_competencia_categoria' => $competenciaCategoria->id,
                                 'id_poomsae1' => $poomsaeRandom1->id,
@@ -118,11 +123,11 @@ class Agregar extends Component
                             ]);
                         }
                     } else {
-                        throw new Exception("Error al agregar competencia.");
+                        throw new Exception("Error al agregar competencia. Agrega graduaciones e intenta de nuevo.");
                     }
                 }
             } else {
-                throw new Exception("Error al agregar competencia.");
+                throw new Exception("Error al agregar competencia. Agrega categorias e intenta de nuevo.");
             }
 
 
@@ -131,10 +136,10 @@ class Agregar extends Component
             session()->flash('msj', 'Competencia creada exitosamente.');
             // Confirmamos las transacciones si no hubo ningun error.
             DB::commit();
-            $this->emit('msjAccion', true);
+            $this->emit('msjAccion', [true, 'Se agrego la competencia']);
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->emit('msjAccion', false);
+            $this->emit('msjAccion', [false, $e->message]);
             // session()->flash('msj', [$e->getMessage(), false]);
         }
 
@@ -148,19 +153,15 @@ class Agregar extends Component
         $validate = $this->validate([
             'titulo' => ['required', 'max:120'],
             'descripcion' => ['required', 'max:120'],
-            'fecha_inicio' => ['required', 'date', 'after_or_equal:today'],
-            'fecha_fin' => ['required', 'date', 'after:fecha_inicio'],
         ]);
 
         $competencia = Competencia::find($this->idCompetencia);
         $competencia->titulo = $validate['titulo'];
         $competencia->descripcion = $validate['descripcion'];
-        $competencia->fecha_inicio = $validate['fecha_inicio'];
-        $competencia->fecha_fin = $validate['fecha_fin'];
 
 
 
-        $competencia->save() ? $this->emit('msjAccion', true) : $this->emit('msjAccion', false);
+        $competencia->save() ? $this->emit('msjAccion', [true, 'Se actualizo la competencia']) : $this->emit('msjAccion', [false, 'Error al actualizar, intente de nuevo.']);
         $this->open = false;
         $this->emit('recarga');
     }
@@ -171,17 +172,38 @@ class Agregar extends Component
         $this->accionForm = 'update';
 
         $competencia = Competencia::find($parametros[0]);
+        $this->competencia = $competencia;
         $this->idCompetencia = $competencia->id;
         $this->titulo = $competencia->titulo;
         $this->descripcion = $competencia->descripcion;
         $this->fecha_inicio = $competencia->fecha_inicio;
         $this->fecha_fin = $competencia->fecha_fin;
 
-        $this->manejoEstadosCompetencias($competencia->estado);
+        // $this->manejoEstadosCompetencias($competencia->estado);
 
         $this->open = true;
     }
 
+    // Competencia en estado 1 la modificamos a estado 2
+    public function abrirInscripciones($id)
+    {
+        $cantJueces = CompetenciaJuez::where('id_competencia', $id)->count();
+        // Verificamos que esta la cantidad de jueces necesaria para pasar de estado.
+        if ($cantJueces == 3 || $cantJueces == 5 || $cantJueces == 7){
+            $competencia = Competencia::find($id);
+            $competencia->estado = 2;
+            $competencia->save();
+            $this->emit('recarga');
+            $this->emit('msjAccion', [true, 'Se abrieron las inscripciones correctamente.']);
+            $this->open = false;
+        } else{
+            $msj = 'Se deben inscribir 3, 5 o 7 jueces para abrir inscripciones. Hay '.$cantJueces.' Inscriptos';
+            $this->emit('msjAccion', [false, $msj]);
+            $this->open = false;
+        }
+    }
+
+    // Competencia en estado 2 la modificamos a estado 3
     public function cerrarConvocatoria($id)
     {
         $bool = false;
@@ -190,10 +212,12 @@ class Agregar extends Component
 
         if ($competencia->save()) {
             $this->enviarMailPoomsae($id);
-            $this->emit('msjAccion', true);
+            $this->crearPasadasJuez($id);
+            $competenciaCompetidor = CompetenciaCompetidor::where('id_competencia', $id)->where('aprobado', 0)->delete();
+            $this->emit('msjAccion', [true, 'Se cerro la convocatoria correctamente']);
             $bool = true;
         } else {
-            $this->emit('msjAccion', false);
+            $this->emit('msjAccion', [false, 'Error al cambiar de estado la competencia']);
         }
 
         if ($bool) {
@@ -203,31 +227,54 @@ class Agregar extends Component
         $this->emit('recarga');
     }
 
+    // Competencia en estado 3 la modificamos a estado 4
     public function iniciarCompetencia($id)
     {
         $competencia = Competencia::find($id);
+        $fechaActual = date('Y-m-d');
         $competencia->estado = 4;
+        $competencia->fecha_inicio = $fechaActual;
         $competencia->save();
         $this->emit('recarga');
+        $this->emit('msjAccion', [true, 'Empezo la competencia correctamente.']);
         $this->open = false;
     }
 
+    // Competencia en estado 4 la modificamos a estado 5
     public function terminarCompetencia($id)
     {
         $competencia = Competencia::find($id);
+        $fechaActual = date('Y-m-d');
         $competencia->estado = 5;
+        $competencia->fecha_fin = $fechaActual;
         $competencia->save();
         $this->emit('recarga');
+        $this->emit('msjAccion', [true, 'Finalizo la competencia correctamente.']);
         $this->open = false;
     }
 
-    public function abrirInscripciones($id)
-    {
+    // Competencia en estado 5 la modificamos a estado 0
+    public function delete($id) {
         $competencia = Competencia::find($id);
-        $competencia->estado = 2;
+        $competencia->estado = 0;
         $competencia->save();
         $this->emit('recarga');
+        $this->emit('msjAccion', [true, 'Se elimino la competencia correctamente.']);
         $this->open = false;
+    }
+
+
+    public function crearPasadasJuez($id){
+        $competenciaJuez = CompetenciaJuez::where('id_competencia', $id)->get();
+        $pasadas = Pasada::where('id_competencia', $id)->get();
+        foreach ($competenciaJuez as $juez) {
+            foreach ($pasadas as $pasada) {
+                PasadaJuez::create([
+                    'id_juez' => $juez->id_juez,
+                    'id_pasada' => $pasada->id,
+                ]);
+            }
+        }
     }
 
 
@@ -255,11 +302,6 @@ class Agregar extends Component
             case '4':
                 $this->nombreBoton = "Terminar Competencia";
                 $this->cambioEstado = "terminarCompetencia";
-                break;
-
-            default:
-                $this->nombreBoton = "Abrir Inscripciones";
-                $this->cambioEstado = "abrirInscripciones";
                 break;
         }
     }

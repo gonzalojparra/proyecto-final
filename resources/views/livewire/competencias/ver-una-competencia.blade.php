@@ -1,4 +1,4 @@
-@if($data['cant_jueces'] < 3 && Auth::user()->hasRole('Competidor'))
+@if($cantJuecesCompetencia < 3 && Auth::user()->hasRole('Competidor'))
     <div class="bg-red-200 text-red-800 pt-4 m-6 mt-4 mb-4 p-4 text-lg rounded border border-red-300 my-3">
         Por el momento no se puede incribir a esta competencia <br>Por favor, vuelve más tarde para poder inscribirse. <br>
         <a href="{{asset('competencias/show')}}" class="font-medium text-red-800 dark:text-red-800 hover:underline">Volver</a>
@@ -14,7 +14,7 @@
                 <img class="rounded-t-lg w-auto" src="{{ Storage::url($data['flyer']) }}" alt="flyer" />
             </div>
             @livewire('competencias.formulario-inscripcion', ['competenciaId' => $data['id']])
-            <div class="flex flex-col">
+            <div grid justify-items-center class="flex flex-col">
                 <div class="data dark:text-gray-400 mb-2" style="height: 80%;">
                     <ul>
                         <li class="dark:bg-gray-800 dark:border-gray-700 rounded-md max-w-md p-2">
@@ -31,33 +31,82 @@
                         </li>
                         <li class="dark:bg-gray-800 dark:border-gray-700 rounded-md max-w-md p-2 mt-4">
                             <h1 class="text-lg font-semibold">Cantidad de jueces</h1>
-                            {{ $data['cant_jueces'] }}
+                            {{ $cantJuecesCompetencia }}
+                        </li>
+                        <li class="dark:bg-gray-800 dark:border-gray-700 rounded-md max-w-md p-2 mt-4">
+                            <h1 class="text-lg font-semibold">Estado</h1>
+                            @switch($data['estado'])
+                            @case(1)
+                            Inscripcion solo jueces
+                            @break
+                            @case(2)
+                            Inscripciones abiertas.
+                            @break
+                            @case(3)
+                            Inscripciones cerradas.
+                            @break
+                            @case(4)
+                            Competencia en curso.
+                            @break
+                            @case(5)
+                            Competencia finalizada.
+                            @break
+                            @default
+                            Finalizada
+                            @endswitch
                         </li>
                     </ul>
                     <img src="storage/app/public/{{$data['flyer']}}" alt="">
                 </div>
                 <div class="flex flex-row justify-center items-end mt-8 text-gray-500 ml-5" style="height: 20%;">
-                    <div grid justify-items-center>
-                        @if( Auth::check() && $bandera == 0 )
+                    <div class="flex flex-row justify-center" >
+                        @if(Auth::user()->verificado == 0)
+                        <button id="openModal" disabled type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white">
+                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
+                                No verificado para inscribirse
+                            </span>
+                        </button>
+                        @elseif ($cantJuecesCompetencia < 3 && Auth::user()->hasRole('Competidor'))
+                        <button id="openModal" style="display:none; " type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white">
+                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
+                                Inscripción
+                            </span>
+                        </button>
+                        @elseif( Auth::check() && $bandera == 0 )
                         <button id="openModal" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white">
                             <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
                                 Inscripcion en proceso
                             </span>
                         </button>
-                        @elseif( Auth::check() && Auth::user()->hasRole('Competidor') && $data['cant_jueces'] >= 3|| Auth::user()->hasRole('Juez') && $data['cant_jueces'] < 7 && !$mostrarPoomsaes) <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
+                        @elseif( (Auth::check() && Auth::user()->hasRole('Competidor') && $data['estado'] == 2) || (Auth::user()->hasRole('Juez') && $data['estado'] == 1 || $data['estado'] == 2) && !$mostrarPoomsaes)
+                        <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
                             <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                 Inscripción
                             </span>
-                            </button>
-                            @endif
-                            <!-- <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                        </button>
+                        @endif
+                        <!-- <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                         Inscribirme
                     </button> -->
+                        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
+                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                Bases y condiciones
+                            </span>
+                        </button>
+                        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
+                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                Invitacion
+                            </span>
+                        </button>
+                        @role('Admin')
+                        <a href="{{route('timer', [$data['id']])}}">
                             <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
                                 <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                    Bases y condiciones
+                                    Timer
                                 </span>
                             </button>
+                        </a>
+                        @endrole
                     </div>
                 </div>
             </div>
@@ -138,9 +187,6 @@
             modal2.setAttribute('aria-hidden', 'true');
             modal2.style.display = 'none';
             botonInscripcion.style.display = 'none';
-            // botonInscripcion.setAttribute('disabled');
-            // botonInscripcion.innerHTML = 'Inscripcion Aceptada';
-
         });
     </script>
     @elseif(($inscripcionAceptadaJuez == 2 && $inscripcionAceptadaCompe == null) || ($inscripcionAceptadaCompe == 2 && $inscripcionAceptadaJuez == null) )
@@ -202,7 +248,4 @@
             </div>
         </div>
     </div>
-    @endif
-
-    @endif
     @endif

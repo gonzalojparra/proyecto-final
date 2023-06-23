@@ -13,10 +13,6 @@
         </div>
         @endif
 
-        @isset($graduacion)
-    @dd($graduacion)
-    @endisset
-
         <form wire:submit.prevent="{{$accionForm}}" enctype="multipart/form-data">
             @csrf
 
@@ -30,6 +26,7 @@
                 <x-input class="block mt-1 w-full" wire:model="descripcion" type="text" id="descripcion" />
                 @error('descripcion') <span class="error">{{ $message }}</span> @enderror
             </div>
+            @if($boton == 'agregar')
             <div>
                 <x-label for="fecha_inicio">fecha_inicio</x-label>
                 <x-input class="block mt-1 w-full" wire:model="fecha_inicio" type="date" id="fecha_inicio" />
@@ -40,7 +37,6 @@
                 <x-input class="block mt-1 w-full" wire:model="fecha_fin" type="date" id="fecha_fin" />
                 @error('fecha_fin') <span class="error">{{ $message }}</span> @enderror
             </div>
-            @if($boton == 'agregar')
 
                 @if (count($categorias) > 0)
                     <x-label class="mt-2">Categorias</x-label>
@@ -79,14 +75,47 @@
             @endif
             <div class="flex items-center justify-between mt-4">
                 <div>
-                    @if($boton != 'agregar')
-                    <x-button type='submit' class="ml-4  bg-green-600 disabled:opacity-25" wire:click='{{$cambioEstado}}({{$idCompetencia}})' wire:loading.attr='disabled' wire:target='{{$cambioEstado}}' >
-                        {{ $nombreBoton }}
-                    </x-button>
+                    @if (isset($competencia))
+                        @if($boton != 'agregar' && $competencia->estado != 5)
+                            @switch($competencia->estado)
+                                @case(1)
+                                    <x-button type='reset' class="ml-4  bg-green-600 disabled:opacity-25" wire:click='abrirInscripciones({{$competencia->id}})'>
+                                        Abrir inscripciones
+                                    </x-button>
+                                    <x-button type='reset' class="ml-4  bg-red-600 disabled:opacity-25" wire:click='delete({{$competencia->id}})'>
+                                        <svg fill="none" stroke="currentColor" class="w-5 m-auto" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="false">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path>
+                                        </svg>
+                                    </x-button>
+                                    @break
+                                @case(2)
+                                    <x-button type='reset' class="ml-4  bg-green-600 disabled:opacity-25" wire:click='cerrarConvocatoria({{$competencia->id}})'>
+                                        Cerrar Inscripciones
+                                    </x-button>
+                                    <x-button type='reset' class="ml-4  bg-red-600 disabled:opacity-25" wire:click='delete({{$competencia->id}})'>
+                                        <svg fill="none" stroke="currentColor" class="w-5 m-auto" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="false">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path>
+                                        </svg>
+                                    </x-button>
+                                    @break
+                                @case(3)
+                                    <x-button type='reset' class="ml-4  bg-green-600 disabled:opacity-25" wire:click='iniciarCompetencia({{$competencia->id}})'>
+                                        Empezar competencia
+                                    </x-button>
+                                @break
+                                @case(4)
+                                    <x-button type='reset' class="ml-4  bg-green-600 disabled:opacity-25" wire:click='terminarCompetencia({{$competencia->id}})'>
+                                        Finalizar competencia
+                                    </x-button>
+                                @break
+                                @default
+                                    
+                            @endswitch
+                        @endif
                     @endif
                 </div>
                 <div>
-                    <x-button type='submit' class="ml-4">
+                    <x-button type='submit' class="ml-4 bg-green-600">
                         {{ __('Guardar') }}
                     </x-button>
                     <x-button type='reset' class="ml-4 bg-red-600" wire:click="cerrarModal">
