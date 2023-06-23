@@ -58,14 +58,14 @@
                         </td>
                         <td class="px-6 py-4">
                             @if (isset($inscripto->actualizacion)&& $inscripto->actualizacion->id_escuela_nueva != null)
-                            {{$inscripto->actualizacion->team->name}} <br> <span class="text-xs font-bold text-black bg-orange-200">Nuevo</span>
+                            <span style="color: #d97706;">{{$inscripto->actualizacion->team->name}}</span>
                             @else
                             {{$inscripto->user->team->name}}
                             @endif
                         </td>
                         <td class="px-6 py-4">
                             @if (isset($inscripto->actualizacion) && $inscripto->actualizacion->id_graduacion_nueva != null)
-                            {{$inscripto->actualizacion->graduacion->nombre}} <br> <span class="text-xs font-bold text-black bg-orange-200">Nuevo</span>
+                            <span<span style="color: #d97706;">{{$inscripto->actualizacion->graduacion->nombre}}</span>
                             @else
                             @if($inscripto->user->graduacion !== null)
                             {{$inscripto->user->graduacion->nombre}}
