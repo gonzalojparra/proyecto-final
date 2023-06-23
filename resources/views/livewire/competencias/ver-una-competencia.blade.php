@@ -1,4 +1,3 @@
-
 @if($data['cant_jueces'] < 3 && Auth::user()->hasRole('Competidor'))
     <div class="bg-red-200 text-red-800 pt-4 m-6 mt-4 mb-4 p-4 text-lg rounded border border-red-300 my-3">
         Por el momento no se puede incribir a esta competencia <br>Por favor, vuelve más tarde para poder inscribirse. <br>
@@ -39,10 +38,10 @@
                 </div>
                 <div class="flex flex-row justify-center items-end mt-8 text-gray-500 ml-5" style="height: 20%;">
                     <div grid justify-items-center>
-                    @if( Auth::check() && $bandera == 0 )
+                        @if( Auth::check() && $bandera == 0 )
                         <button id="openModal" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white">
                             <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
-                            Inscripcion en proceso
+                                Inscripcion en proceso
                             </span>
                         </button>
                         @elseif( Auth::check() && Auth::user()->hasRole('Competidor') && $data['cant_jueces'] >= 3|| Auth::user()->hasRole('Juez') && $data['cant_jueces'] < 7 && !$mostrarPoomsaes) <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
@@ -64,11 +63,11 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Modales con los estados del proceso de incripcion de un competidor/juez a una competencia -->
     @if(($inscripcionAceptadaJuez == 0 && $inscripcionAceptadaCompe == null) || ($inscripcionAceptadaCompe == 0 && $inscripcionAceptadaJuez == null))
     <!-- Modal que muestra que la inscripcion fue enviada  -->
-    <div id="popup-modal"   tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ">
+    <div id="popup-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ">
         <div class="relative w-full max-w-md max-h-full">
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal">
@@ -93,21 +92,21 @@
         const botonInscripcion1 = document.getElementById("openModal");
 
         modalButton.addEventListener('click', () => {
-            modal.classList.add('block'); 
+            modal.classList.add('block');
             modal.classList.remove('hidden');
-            modal.setAttribute('aria-hidden', 'false'); 
+            modal.setAttribute('aria-hidden', 'false');
         });
 
         const closeButton = modal.querySelector('[data-modal-hide="popup-modal"]');
         closeButton.addEventListener('click', () => {
             modal.classList.remove('block');
             modal.classList.add('hidden');
-            modal.setAttribute('aria-hidden', 'true'); 
+            modal.setAttribute('aria-hidden', 'true');
             modal.style.display = 'none';
             botonInscripcion1.setAttribute('disabled');
         });
     </script>
-    @elseif(($inscripcionAceptadaJuez == 1 && $inscripcionAceptadaCompe == null) || ($inscripcionAceptadaCompe == 1 && $inscripcionAceptadaJuez == null)) 
+    @elseif(($inscripcionAceptadaJuez == 1 && $inscripcionAceptadaCompe == null) || ($inscripcionAceptadaCompe == 1 && $inscripcionAceptadaJuez == null))
     <!-- Modal que muestra que la inscripcion fue aceptada -->
     <div id="popup-modal2" tabindex="-1" style="display:flex; align-items:center;  justify-content: center;" class="fixed flex align-items-center top-0 left-0 right-0 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ">
         <div class="relative w-full max-w-md max-h-full">
@@ -131,12 +130,12 @@
     <script>
         const modal2 = document.querySelector('#popup-modal2');
         const botonInscripcion = document.getElementById("openModal")
-       
+
         const closeButton2 = modal2.querySelector('[data-modal-hide="popup-modal2"]');
         closeButton2.addEventListener('click', () => {
-            modal2.classList.remove('block'); 
-            modal2.classList.add('hidden'); 
-            modal2.setAttribute('aria-hidden', 'true'); 
+            modal2.classList.remove('block');
+            modal2.classList.add('hidden');
+            modal2.setAttribute('aria-hidden', 'true');
             modal2.style.display = 'none';
             botonInscripcion.style.display = 'none';
             // botonInscripcion.setAttribute('disabled');
@@ -169,12 +168,12 @@
     <script>
         const modal3 = document.querySelector('#popup-modal3');
         const botonInscripcion3 = document.getElementById("openModal")
-       
+
         const closeButton3 = modal3.querySelector('[data-modal-hide="popup-modal3"]');
         closeButton3.addEventListener('click', () => {
-            modal3.classList.remove('block'); 
-            modal3.classList.add('hidden'); 
-            modal3.setAttribute('aria-hidden', 'true'); 
+            modal3.classList.remove('block');
+            modal3.classList.add('hidden');
+            modal3.setAttribute('aria-hidden', 'true');
             modal3.style.display = 'none';
             botonInscripcion3.style.display = 'none';
             // botonInscripcion3.setAttribute('disabled');
@@ -205,4 +204,5 @@
     </div>
     @endif
 
+    @endif
     @endif
