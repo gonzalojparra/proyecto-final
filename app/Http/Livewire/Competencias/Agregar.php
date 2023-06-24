@@ -60,6 +60,28 @@ class Agregar extends Component
         $this->reset();
         $this->open = false;
     }
+    
+    public function show($parametros)
+    {
+        $this->emit('recarga');
+        $this->resetValidation();
+        $this->boton = $parametros[1];
+        $this->accionForm = 'update';
+
+        $competencia = Competencia::find($parametros[0]);
+        $competenciaCategoria = CompetenciaCategoria::where('id_competencia', $competencia->id)->get();
+        $this->competencia = $competencia;
+        $this->idCompetencia = $competencia->id;
+        $this->titulo = $competencia->titulo;
+        $this->descripcion = $competencia->descripcion;
+        $this->fecha_inicio = $competencia->fecha_inicio;
+        $this->fecha_fin = $competencia->fecha_fin;
+        $this->categoriasSeleccionadas = $competenciaCategoria;
+
+        // $this->manejoEstadosCompetencias($competencia->estado);
+
+        $this->open = true;
+    }
 
     public function create()
     {
@@ -79,10 +101,10 @@ class Agregar extends Component
         $urlInvitacion = $this->invitacion->store('competencias/invitacion', 'public');
         // guardamos el array con las categorias asignadas a la competencia.
         $categoria = $validate['categoria'];
-
+        
         // Iniciamos la transaccion para multiples operaciones.
         DB::beginTransaction();
-
+        
         try {
 
             // Creamos una competencia.
@@ -246,27 +268,6 @@ class Agregar extends Component
         $this->emit('recarga');
     }
 
-    public function show($parametros)
-    {
-        $this->emit('recarga');
-        $this->resetValidation();
-        $this->boton = $parametros[1];
-        $this->accionForm = 'update';
-
-        $competencia = Competencia::find($parametros[0]);
-        $competenciaCategoria = CompetenciaCategoria::where('id_competencia', $competencia->id)->get();
-        $this->competencia = $competencia;
-        $this->idCompetencia = $competencia->id;
-        $this->titulo = $competencia->titulo;
-        $this->descripcion = $competencia->descripcion;
-        $this->fecha_inicio = $competencia->fecha_inicio;
-        $this->fecha_fin = $competencia->fecha_fin;
-        $this->categoriasSeleccionadas = $competenciaCategoria;
-
-        // $this->manejoEstadosCompetencias($competencia->estado);
-
-        $this->open = true;
-    }
 
     // Competencia en estado 1 la modificamos a estado 2
     public function abrirInscripciones($id)
