@@ -15,11 +15,6 @@ class CompetenciaJuezSeeder extends Seeder {
         $jueces = [
             [
                 'id_juez' => 11,
-                'id_competencia' => 1,
-                'aprobado' => 1
-            ],
-            [
-                'id_juez' => 11,
                 'id_competencia' => 2,
                 'aprobado' => 1
             ],
@@ -35,7 +30,7 @@ class CompetenciaJuezSeeder extends Seeder {
             ],
             [
                 'id_juez' => 14,
-                'id_competencia' => 1,
+                'id_competencia' => 2,
                 'aprobado' => 0
             ],
 
