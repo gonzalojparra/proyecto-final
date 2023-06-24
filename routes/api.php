@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/seleccion/{idPasada}', [TimerController::class, 'seleccion']);
 Route::get('/enviarTiempo/{tiempoTotal}.{idPasada}', [TimerController::class, 'enviarTiempo']);
 Route::post('/iniciarTimer/{idPasada}', [TimerController::class, 'iniciarTimer']);
-Route::post('/pararTimer/{idPasada}', [TimerController::class, 'pararTimer']);
+Route::get('/pararTimer/{idPasada}', [TimerController::class, 'pararTimer']);
 Route::post('/resetearTimer/{idPasada}', [TimerController::class, 'resetearTimer']);
 
 // Pulsador

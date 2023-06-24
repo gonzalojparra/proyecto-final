@@ -1,0 +1,17 @@
+.div-botones{
+display: flex;
+flex-direction: row;
+justify-content: center;
+margin-top: 1rem;
+}
+
+.div-acciones{
+    display: flex;
+    flex-direction: column;
+}
+
+.guardar-cancelar{
+    margin-top: 1rem;
+    /* display: flex;
+    justify-content: end; */
+}

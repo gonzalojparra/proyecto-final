@@ -87,11 +87,15 @@ class FormularioInscripcion extends Component
         $this->idCompetencia = $competenciaId;
     }
 
-    public function render() {
+    public function render()
+    {
         $this->usuario = Auth::user();
         $this->idGraduacionInicial = $this->usuario->id_graduacion;
-        $this->graduacionesDisponibles();
-        if($this->graduacion == "1 DAN, Negro"){
+        $this->graduacionInicial = Graduacion::where('id', $this->idGraduacionInicial)->pluck('nombre');
+        if ($this->usuario->id_graduacion != null) {
+            $this->graduacionesDisponibles();
+        }
+        if ($this->graduacion == "1 DAN, Negro") {
             $this->inputGal = true;
         }
         $this->categorias = Categoria::All();
@@ -102,7 +106,7 @@ class FormularioInscripcion extends Component
 
     public function graduacionesDisponibles()
     {
-        $idGraduacion = array_search($this->graduacionInicial, $this->graduaciones);
+        $idGraduacion = array_search($this->graduacionInicial[0], $this->graduaciones);
         $this->graduacionesCompetidor = array_slice($this->graduaciones, $idGraduacion, null, true);
     }
 
@@ -124,7 +128,6 @@ class FormularioInscripcion extends Component
         $this->open = true;
         $this->idCompetencia = $idCompetencia;
         $this->escuelaInicial = Team::where('id', $this->usuario->id_escuela)->pluck('name');
-        $this->graduacionInicial = Graduacion::where('id', $this->idGraduacion)->pluck('nombre');
     }
 
     public function create()
@@ -137,7 +140,8 @@ class FormularioInscripcion extends Component
         $this->open = false;
     }
 
-    public function submit() {
+    public function submit()
+    {
         if ($this->graduacion == "1 DAN, Negro") {
             $this->rules = [
                 'gal' => 'required|regex:/^[A-Za-z]{3}\d{7}$/'
@@ -162,7 +166,6 @@ class FormularioInscripcion extends Component
         $competencia_competidor->calificacion = null;
         $competencia_competidor->aprobado = 0;
         $competencia_competidor->save();
-        
     }
 
 
@@ -198,7 +201,8 @@ class FormularioInscripcion extends Component
 
 
     //hay que modificar la bd, inscripto es un timestamp, y no se puede mandar nulo, debería ser "aceptado" como en competencia_competidor
-    public function crearJuez() {
+    public function crearJuez()
+    {
         /* $esta = $this->revisarSiUserEsta(); */
         $this->compararDatos();
         $competencia_juez = new CompetenciaJuez();
@@ -206,13 +210,13 @@ class FormularioInscripcion extends Component
         $competencia_juez->id_juez = $this->idUsuario;
         $competencia_juez->aprobado = false;
         if ($competencia_juez->save()) {
-            
         }
     }
     // ? $this->emit('confirmacion', true) : $this->emit('confirmacion', false)
 
 
-    public function compararDatos() {
+    public function compararDatos()
+    {
 
         $actualizacion = new Actualizacion();
         $idEscuela =  Team::where('name', $this->escuela)->pluck('id');
@@ -221,7 +225,7 @@ class FormularioInscripcion extends Component
         if ($this->escuelaInicial != $this->escuela) {
             $actualizacion->id_escuela_nueva = $idEscuela[0];
             if ($this->graduacionInicial != $this->graduacion) {
-                $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
+                $actualizacion->id_graduacion_nueva = $this->idGraduacion;
                 if ($this->galInicial != $this->gal) {
                     $actualizacion->gal_nuevo = $this->gal;
                 } else {
@@ -243,7 +247,7 @@ class FormularioInscripcion extends Component
                 $actualizacion->gal_nuevo = NULL;
             }
             $actualizacion->id_escuela_nueva = null;
-            $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
+            $actualizacion->id_graduacion_nueva = $this->idGraduacion;
             $actualizar = true;
         } else {
             if ($this->galInicial != $this->gal) {

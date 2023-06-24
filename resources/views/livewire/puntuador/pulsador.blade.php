@@ -3,10 +3,12 @@
         @if ($pasada == null || $esJuez == false)
         <div class="pulsador">
             <div class="titulo">
-                <button id="traer-pasada" wire:click="traerPasada" wire:after="traerBotones">Traer pasada</button>
+                <button class="traer-pasada" id="traer-pasada" wire:click="traerPasada" wire:after="traerBotones">Traer pasada</button>
             </div>
             @if ($alerta != null)
+            <div class="mensaje-error">
             {{$alerta}}
+            </div>
             @endif
         </div>
         @else
@@ -29,13 +31,14 @@
                 <div class="puntaje-boton">
                     <div class="puntaje">{{$puntaje}}</div>
                     <div class="boton-enviar">&nbsp;
-                        <button id="botonEnviar" class="enviar" wire:click="enviar()">
+                        {{-- <input id="botonEnviar" type="button" class="enviar" wire:click="enviar()"> --}}
+                        <span class="label">
                             @if ($tipoPuntaje == 1)
-                            Siguiente
+                            <input id="botonEnviar" type="button" class="enviar" wire:click="enviar()" value='siguiente'>
                             @else
-                            Enviar
+                            <input id="botonEnviar" type="button" class="enviar" wire:click="enviar()" value='enviar'>
                             @endif
-                        </button>
+                        </span>
                     </div>
                 </div>
                 <div class="boton-derecho">
