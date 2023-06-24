@@ -19,7 +19,7 @@ use Livewire\WithFileUploads;
 use Exception;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class Agregar extends Component
 {
@@ -51,6 +51,7 @@ class Agregar extends Component
         $this->reset();
         $this->boton = $accion;
         $this->accionForm = 'create';
+        $this->emit('recarga');
         $this->open = true;
     }
     public function cerrarModal()
@@ -74,8 +75,8 @@ class Agregar extends Component
         ]);
         // Definimos las rutas de los archivos.
         $urlImagen = $this->flyer->store('competencias', 'public');
-        $urlBases = $this->bases->store('competencias', 'public');
-        $urlInvitacion = $this->invitacion->store('competencias', 'public');
+        $urlBases = $this->bases->store('competencias/bases', 'public');
+        $urlInvitacion = $this->invitacion->store('competencias/invitacion', 'public');
         // guardamos el array con las categorias asignadas a la competencia.
         $categoria = $validate['categoria'];
 
@@ -159,6 +160,7 @@ class Agregar extends Component
     {
         $competencia = Competencia::find($this->idCompetencia);
         $seModifico = false;
+        $datosModificados = array();
 
         // Validamos que el nuevo dato sea diferente al actual para cambiarlo.
         if ($this->titulo != $competencia->titulo){
@@ -167,6 +169,7 @@ class Agregar extends Component
             ]);
             $competencia->titulo = $this->titulo;
             $seModifico = true;
+            $datosModificados[] = 'titulo';
         }
 
         if ($this->descripcion != $competencia->descripcion){
@@ -175,6 +178,7 @@ class Agregar extends Component
             ]);
             $competencia->descripcion = $this->descripcion;
             $seModifico = true;
+            $datosModificados[] = 'descripcion';
         }
 
         if ($this->fecha_inicio != $competencia->fecha_inicio){
@@ -183,6 +187,7 @@ class Agregar extends Component
             ]);
             $competencia->fecha_inicio = $this->fecha_inicio;
             $seModifico = true;
+            $datosModificados[] = 'fecha inicio';
         }
 
         if ($this->fecha_fin != $competencia->fecha_fin){
@@ -191,37 +196,51 @@ class Agregar extends Component
             ]);
             $competencia->fecha_fin = $this->fecha_fin;
             $seModifico = true;
+            $datosModificados[] = 'fecha fin';
         }
 
         if ($this->bases != null){
-            $urlBases = $this->bases->store('competencias', 'public');
+            Storage::disk('public')->delete($competencia->bases);
+            $urlBases = $this->bases->store('competencias/bases', 'public');
             $this->validate([
                 'bases' => ['required', 'mimes:pdf,docx'],
             ]);
             $competencia->bases = $urlBases;
             $seModifico = true;
+            $datosModificados[] = 'bases';
         }
 
         if ($this->flyer != null){
+            Storage::disk('public')->delete($competencia->flyer);
             $urlImagen = $this->flyer->store('competencias', 'public');
             $this->validate([
                 'flyer' => ['required', 'image', 'max:2048'],
             ]);
             $competencia->flyer = $urlImagen;
             $seModifico = true;
+            $datosModificados[] = 'flyer';
         }
 
         if ($this->invitacion != null){
-            $urlInvitacion = $this->invitacion->store('competencias', 'public');
+            Storage::disk('public')->delete($competencia->invitacion);
+            $urlInvitacion = $this->invitacion->store('competencias/invitacion', 'public');
             $this->validate([
                 'invitacion' => ['required', 'mimes:pdf,docx'],
             ]);
             $competencia->invitacion = $urlInvitacion;
             $seModifico = true;
+            $datosModificados[] = 'invitacion';
         }
 
         if ($seModifico){
-            $competencia->save() ? $this->emit('msjAccion', [true, 'Se actualizo la competencia']) : $this->emit('msjAccion', [false, 'Error al actualizar, intente de nuevo.']);
+            if (count($datosModificados) > 1){
+                $items = collect($datosModificados)->slice(0, -1)->implode(', ');
+                $items .= ' y ' . last($datosModificados);
+            } else{
+                $items = $datosModificados[0];
+            }
+            $msj = "Se actualizo: $items, en la competencia $competencia->titulo";
+            $competencia->save() ? $this->emit('msjAccion', [true, $msj]) : $this->emit('msjAccion', [false, 'Error al actualizar, intente de nuevo.']);
         }
         $this->open = false;
         $this->emit('recarga');
@@ -229,6 +248,7 @@ class Agregar extends Component
 
     public function show($parametros)
     {
+        $this->emit('recarga');
         $this->resetValidation();
         $this->boton = $parametros[1];
         $this->accionForm = 'update';
