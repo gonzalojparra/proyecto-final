@@ -90,6 +90,7 @@ class FormularioInscripcion extends Component
     public function render() {
         $this->usuario = Auth::user();
         $this->idGraduacionInicial = $this->usuario->id_graduacion;
+        $this->graduacionInicial = Graduacion::where('id', $this->idGraduacionInicial)->pluck('nombre');
         $this->graduacionesDisponibles();
         if($this->graduacion == "1 DAN, Negro"){
             $this->inputGal = true;
@@ -102,7 +103,7 @@ class FormularioInscripcion extends Component
 
     public function graduacionesDisponibles()
     {
-        $idGraduacion = array_search($this->graduacionInicial, $this->graduaciones);
+        $idGraduacion = array_search($this->graduacionInicial[0], $this->graduaciones);
         $this->graduacionesCompetidor = array_slice($this->graduaciones, $idGraduacion, null, true);
     }
 
@@ -124,7 +125,6 @@ class FormularioInscripcion extends Component
         $this->open = true;
         $this->idCompetencia = $idCompetencia;
         $this->escuelaInicial = Team::where('id', $this->usuario->id_escuela)->pluck('name');
-        $this->graduacionInicial = Graduacion::where('id', $this->idGraduacion)->pluck('nombre');
     }
 
     public function create()
