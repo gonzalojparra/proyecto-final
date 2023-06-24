@@ -44,6 +44,7 @@ class Agregar extends Component
 
     public function abrirModal($accion)
     {
+        $this->resetValidation();
         $this->reset();
         $this->boton = $accion;
         $this->accionForm = 'create';
@@ -51,6 +52,7 @@ class Agregar extends Component
     }
     public function cerrarModal()
     {
+        $this->resetValidation();
         $this->reset();
         $this->open = false;
     }
@@ -168,6 +170,7 @@ class Agregar extends Component
 
     public function show($parametros)
     {
+        $this->resetValidation();
         $this->boton = $parametros[1];
         $this->accionForm = 'update';
 
