@@ -84,7 +84,7 @@
         <!-- Graduacio -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="graduacion" class="" value="{{ __('Graduacion') }}" />
-            <select disabled id="graduacion" class="block mt-1 w-full" type="text" name="graduacion" require  autocomplete="graduacion">
+            <select disabled id="graduacion" class="block mt-1 w-full" type="text" name="graduacion" require autocomplete="graduacion">
                 <option>{{$this->user->graduacion}}</option>
                 <option value="1 GUP, Rojo borde negro">1ro GUP</option>
                 <option value="2 GUP, Rojo">2do GUP</option>
@@ -116,7 +116,7 @@
         @if($this->user->gal != null)
         <div id="cinturonNegro" class="col-span-6 sm:col-span-4">
             <x-label for="galCompetidor" class="" value="{{ __('GAL') }}" />
-            <x-input id="galCompetidor" class="block mt-1 w-full" type="text" name="gal"  autocomplete="gal" require readonly />
+            <x-input id="galCompetidor" class="block mt-1 w-full" type="text" name="gal" autocomplete="gal" require readonly />
             <div id="galFeedback" class="input-feedback" for="galCompetidor">&nbsp;</div>
             <x-input-error for="galCompetidor" class="mt-2" />
         </div>
@@ -194,6 +194,7 @@
     @endif
     @break
     @case(2)
+    @livewire('perfil.ver-resultados')
     <h1 class="text-center text-2xl uppercase mb-5"> Competencia Finalizadas </h1>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         @if (count($competenciasFinalizadas) > 0)
@@ -206,10 +207,10 @@
                     Nombre
                 </th>
                 <th class="px-6 py-3">
-                    Estado
+                    Fechas
                 </th>
                 <th class="px-6 py-3">
-                    Fecha de Inscripcion
+                    resultados
                 </th>
             </thead>
             <tbody>
@@ -222,15 +223,17 @@
                         {{$competencia->nombreCompetencia}}
                     </td>
                     <td class="px-6 py-4">
-
-                        @if ($competencia->estado === 0)
-                        Solicitud en tramite
-                        @else
-                        Solicitud Aprobada
-                        @endif
+                        {{$competencia->fecha_inscripcion}}
                     </td>
                     <td class="px-6 py-4">
-                        {{$competencia->fecha_inscripcion}}
+                        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 ml-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-green-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800 mt-2">
+                            <span @popper(Ver competencia) class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </span>
+                        </button>
                     </td>
                 </tr>
                 @endforeach
