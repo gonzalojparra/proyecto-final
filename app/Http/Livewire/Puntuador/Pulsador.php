@@ -20,7 +20,7 @@ class Pulsador extends Component
     public $puntajeExactitud;
     public $puntajePresentacion;
     public $alerta = null;
-    public $mostrarPantallaEspera = false;
+    public $mostrarModalEspera = false;
     public $totalJueces;
     public $juecesVotaron;
 
@@ -35,7 +35,6 @@ class Pulsador extends Component
     {
         $this->totalJueces = $this->cantJueces();
         $this->juecesVotaron = collect();
-        $this->mostrarPantallaEspera = false;
         $this->tipoPuntaje = request()->get('tipoPuntaje', 1); // Obtener el valor de $tipoPuntaje de la URL, si no se proporciona, se establecerá en 1 por defecto
     }
 
@@ -76,7 +75,9 @@ class Pulsador extends Component
 
     public function store()
     {
-        $pasadaJuez = PasadaJuez::where('id_pasada', $this->pasada->id)->first();
+        $pasadaJuez = PasadaJuez::where('id_pasada', $this->pasada->id)
+            ->where('id_juez', Auth::user()->id)
+            ->first();
         if ($pasadaJuez != null) {
             $pasadaJuez->puntaje_exactitud = $this->puntajeExactitud;
             $pasadaJuez->puntaje_presentacion = $this->puntajePresentacion;
@@ -155,22 +156,75 @@ class Pulsador extends Component
             $this->puntajeExactitud = $this->puntaje;
             $this->puntaje = 10;
             $this->tipoPuntaje = 2;
-            $this->mostrarPantallaEspera = true;
+            $this->mostrarModalEspera = true;
+            $this->votoExactitud();
         } elseif ($tipoPuntaje == 2) {
             $this->puntajePresentacion = $this->puntaje;
             $this->puntaje = 10;
             $this->store();
-            $this->mostrarPantallaEspera = true;
+            $this->mostrarModalEspera = true;
             $this->tipoPuntaje = 1;
         }
-        $this->juecesVotaron->push(Auth::user()->id); 
+        $this->juecesVotaron->push(Auth::user()->id);
+
+        $this->algo();
     }
 
-    public function chequearJuecesVotados(){
-        if ($this->juecesVotaron->count() == $this->totalJueces) {
-            $this->mostrarPantallaEspera = false;
+    public function algo()
+    {
+        $pasadasJuez = PasadaJuez::where('id_pasada', $this->pasada->id)
+            ->where('puntaje_exactitud', 20)
+            ->get();
+
+        if ($pasadasJuez->isEmpty()) {
+            // La colección está vacía, no se encontraron registros
+            // Realiza alguna acción en caso de que no se encuentren registros
+            $this->mostrarModalEspera = false;
+        } elseif ($pasadasJuez->count() == $this->totalJueces) {
+            $this->mostrarModalEspera = false;
+        } else {
+            $this->mostrarModalEspera = true;
         }
     }
+
+    public function votoExactitud()
+    {
+        $pasadaJuez = PasadaJuez::where('id_pasada', $this->pasada->id)
+            ->where('id_juez', Auth::user()->id)
+            ->first();
+
+        // usaremos el valor 20 simbolicamente para tener solo una referencia de que en el pulsador ya se ha votado por exactitud
+        $pasadaJuez->puntaje_exactitud = 20;
+        $pasadaJuez->save();
+    }
+
+    public function votoPresentacion()
+    {
+        $pasadaJuez = PasadaJuez::where('id_pasada', $this->pasada->id)
+            ->where('id_juez', Auth::user()->id)
+            ->first();
+
+        // usaremos el valor 20 simbolicamente para tener solo una referencia de que en el pulsador ya se ha votado por presentacion
+        $pasadaJuez->puntaje_presentacion = 20;
+        $pasadaJuez->save();
+    }
+    /* public function chequearJuecesVotados(){
+        if ($this->juecesVotaron->count() == $this->totalJueces) {
+            $this->mostrarModalEspera = false;
+            $this->juecesVotaron = null;
+        }
+    } */
+
+    public function chequearJuecesVotados()
+    {
+        // Lógica para verificar si todos los jueces han votado
+        if ($this->juecesVotaron == null) {
+            return response()->json(true); // Todos los jueces han votado
+        } elseif ($this->juecesVotaron != null) {
+            return response()->json(false); // Al menos un juez no ha votado todavía
+        }
+    }
+
 
     /**
      * Método para consultar la cantidad de jueces por pasada
@@ -183,9 +237,9 @@ class Pulsador extends Component
             ->join('users', 'users.id', '=', 'competencia_juez.id_juez')
             ->select('users.*')
             ->get();
-        
+
         $totalJueces = $jueces->count();
-    
+
         return $totalJueces;
         /* $cantJuecesPasada = DB::table('pasadas_juez')
             ->where('id_pasada', $idPasada)

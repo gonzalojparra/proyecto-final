@@ -96,7 +96,7 @@ function traerBotones() {
 traerPasada.addEventListener('click', async () => {
     try {
         let botones = await traerBotones();
-        console.log(botones);
+    // console.log(botones);
         getPasada()
             .then(async (idPasada) => {
                 esperarJueces(idPasada).then(cantJueces => {
@@ -131,7 +131,7 @@ const esperarJueces = (idPasada) => {
                     body: JSON.stringify({ idPasada }),
                 });
                 const json = await response.json();
-                console.log(idPasada, json);
+                // console.log(idPasada, json);
                 if (json >= 3) {
                     clearInterval(interval);
                     resolve(json);
@@ -238,11 +238,11 @@ const getPasada = () => {
             })
             .then(function (json) {
                 let pasada = json.pasada;
-                console.log(pasada);
+                // console.log(pasada);
                 resolve(pasada);
             })
             .catch(function (err) {
-                console.log(err);
+                // console.log(err);
                 reject(err);
             });
     });

@@ -1,5 +1,6 @@
 <div>
-    @if (!$mostrarPantallaEspera)
+    @livewireStyles
+    <link rel="stylesheet" href="{{ asset('css/pantallaEspera.css') }}">
     <div class="contenedor">
         @if ($pasada == null || $esJuez == false)
         <div class="pulsador">
@@ -8,7 +9,7 @@
             </div>
             @if ($alerta != null)
             <div class="mensaje-error">
-            {{$alerta}}
+                {{$alerta}}
             </div>
             @endif
         </div>
@@ -60,7 +61,6 @@
         </div>
         @endif
 
-
         <div class="no-celular">
             <div class="titulo">ERROR</div>
             <div class="mensaje-error">
@@ -69,11 +69,30 @@
             </div>
         </div>
     </div>
-    @endif
-    @if ($mostrarPantallaEspera)
-        @include('livewire.competencias.pantalla-espera')
-    @endif
-    <!-- Ver de hacer alguna segunda confirmacion de que se va a saltar el competidor -->
-</div>
 
+
+    @if($mostrarModalEspera)
+    <div>
+        <div class="pantallaEspera">
+            <div class="texto">
+                <p>Esperando el resto de los votos...</p>
+            </div>
+            <input id="botonChequear" type="button" wire:click="algo()" value='Chequear'>
+            <div class="no-celular">
+                <h1>ERROR</h1>
+                <h1>No disponible de forma vertical</h1>
+            </div>
+            <svg class="pl" width="240" height="240" viewBox="0 0 240 240">
+                <circle class="pl__ring pl__ring--a" cx="120" cy="120" r="105" fill="none" stroke="#000" stroke-width="20" stroke-dasharray="0 660" stroke-dashoffset="-330" stroke-linecap="round"></circle>
+                <circle class="pl__ring pl__ring--b" cx="120" cy="120" r="35" fill="none" stroke="#000" stroke-width="20" stroke-dasharray="0 220" stroke-dashoffset="-110" stroke-linecap="round"></circle>
+                <circle class="pl__ring pl__ring--c" cx="85" cy="120" r="70" fill="none" stroke="#000" stroke-width="20" stroke-dasharray="0 440" stroke-linecap="round"></circle>
+                <circle class="pl__ring pl__ring--d" cx="155" cy="120" r="70" fill="none" stroke="#000" stroke-width="20" stroke-dasharray="0 440" stroke-linecap="round"></circle>
+            </svg>
+
+        </div>
+
+
+    </div>
+    @endif
+</div>
 <script src="{{ asset('js/puntuador.js') }}"></script>
