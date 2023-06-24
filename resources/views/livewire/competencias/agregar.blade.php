@@ -6,7 +6,6 @@
         </x-slot>
 
         <x-validation-errors class="mb-4" />
-
         @if (session('status'))
         <div class="mb-4 font-medium text-sm text-green-600">
             {{ session('status') }}
@@ -26,35 +25,38 @@
                 <x-input class="block mt-1 w-full" wire:model="descripcion" type="text" id="descripcion" />
                 @error('descripcion') <span class="error">{{ $message }}</span> @enderror
             </div>
-            @if($boton == 'agregar')
+            {{-- @if($boton == 'agregar') --}}
             <div>
-                <x-label for="fecha_inicio">fecha_inicio</x-label>
+                <x-label for="fecha_inicio">fecha inicio</x-label>
                 <x-input class="block mt-1 w-full" wire:model="fecha_inicio" type="date" id="fecha_inicio" />
                 @error('fecha_inicio') <span class="error">{{ $message }}</span> @enderror
             </div>
             <div>
-                <x-label for="fecha_fin">fecha_fin</x-label>
+                <x-label for="fecha_fin">fecha fin</x-label>
                 <x-input class="block mt-1 w-full" wire:model="fecha_fin" type="date" id="fecha_fin" />
                 @error('fecha_fin') <span class="error">{{ $message }}</span> @enderror
             </div>
-
+            @if ($boton == 'agregar')
                 @if (count($categorias) > 0)
                     <x-label class="mt-2">Categorias</x-label>
                     <ul class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                        {{$mismaCat = ""}}
                         @foreach ($categorias as $categoria)
-                            @if ($mismaCat != $categoria->nombre)
-                                <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                                    <div class="flex items-center pl-3">
-                                        <input id="{{$categoria->id}}" wire:model="categoria" type="checkbox" value="{{$categoria->id}}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                        <label for="{{$categoria->id}}" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{$categoria->nombre}}</label>
-                                    </div>
-                                </li>
-                                <?php $mismaCat = $categoria->nombre ?>
-                            @endif
+                            <?php $seleccionado = false?>
+                            <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                                @foreach ($categoriasSeleccionadas as $categoriaSeleccionada)
+                                    @if ($categoria->id == $categoriaSeleccionada->id_categoria)
+                                        <?php $seleccionado = true?>
+                                    @endif
+                                @endforeach
+                                <div class="flex items-center pl-3">
+                                    <input id="{{$categoria->id}}" wire:model="categoria" type="checkbox" value="{{$categoria->id}}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                    <label for="{{$categoria->id}}" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{$categoria->nombre}}</label>
+                                </div>
+                            </li>
                         @endforeach
                     </ul>
                 @endif
+            @endif
 
             <div class="mt-4">
                 <x-label for="bases">Bases</x-label>
@@ -72,7 +74,7 @@
                 @error('flyer') <span class="error">{{ $message }}</span> @enderror
             </div>
             
-            @endif
+            {{-- @endif --}}
             <div class="flex items-center justify-between mt-4">
                 <div>
                     @if (isset($competencia))
