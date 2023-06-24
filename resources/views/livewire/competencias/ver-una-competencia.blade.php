@@ -67,46 +67,9 @@
                             </span>
                         </button>
                         @elseif ($cantJuecesCompetencia < 3 && Auth::user()->hasRole('Competidor'))
-                        <button id="openModal" style="display:none; " type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white">
-                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
-                                Inscripción
-                            </span>
-                        </button>
-                        @elseif( Auth::check() && $bandera == 0 )
-                        <button id="openModal" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white">
-                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
-                                Inscripcion en proceso
-                            </span>
-                        </button>
-                        @elseif( (Auth::check() && Auth::user()->hasRole('Competidor') && $data['estado'] == 2) || (Auth::user()->hasRole('Juez') && $data['estado'] == 1 || $data['estado'] == 2) && !$mostrarPoomsaes)
-                        <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
-                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                Inscripción
-                            </span>
-                        </button>
-                        @endif
-                        <!-- <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                        Inscribirme
-                    </button> -->
-                        <a href="{{ Storage::url($data['bases']) }}" target="_blank" rel="noopener noreferrer">
-                            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
-                                <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                    Bases y condiciones
-                                </span>
-                            </button>
-                        </a>
-                        <a href="{{ Storage::url($data['invitacion']) }}" target="_blank" rel="noopener noreferrer">
-                            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
-                                <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                    Invitacion
-                                </span>
-                            </button>
-                        </a>
-                        @role('Admin')
-                        <a href="{{route('timer', [$data['id']])}}">
-                            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
-                                <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                    Timer
+                            <button id="openModal" style="display:none; " type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white">
+                                <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
+                                    Inscripción
                                 </span>
                             </button>
                             @elseif( Auth::check() && $bandera == 0 )
@@ -125,16 +88,20 @@
                             <!-- <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                         Inscribirme
                     </button> -->
-                            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
-                                <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                    Bases y condiciones
-                                </span>
-                            </button>
-                            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
-                                <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                    Invitacion
-                                </span>
-                            </button>
+                            <a href="{{ Storage::url($data['bases']) }}" target="_blank" rel="noopener noreferrer">
+                                <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
+                                    <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                        Bases y condiciones
+                                    </span>
+                                </button>
+                            </a>
+                            <a href="{{ Storage::url($data['invitacion']) }}" target="_blank" rel="noopener noreferrer">
+                                <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
+                                    <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                        Invitacion
+                                    </span>
+                                </button>
+                            </a>
                             @role('Admin')
                             <a href="{{route('timer', [$data['id']])}}">
                                 <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
@@ -286,4 +253,4 @@
         </div>
     </div>
     @endif
-    @endif
+@endif

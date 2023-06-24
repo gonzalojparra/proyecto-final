@@ -87,12 +87,15 @@ class FormularioInscripcion extends Component
         $this->idCompetencia = $competenciaId;
     }
 
-    public function render() {
+    public function render()
+    {
         $this->usuario = Auth::user();
         $this->idGraduacionInicial = $this->usuario->id_graduacion;
         $this->graduacionInicial = Graduacion::where('id', $this->idGraduacionInicial)->pluck('nombre');
-        $this->graduacionesDisponibles();
-        if($this->graduacion == "1 DAN, Negro"){
+        if ($this->usuario->id_graduacion != null) {
+            $this->graduacionesDisponibles();
+        }
+        if ($this->graduacion == "1 DAN, Negro") {
             $this->inputGal = true;
         }
         $this->categorias = Categoria::All();
@@ -137,7 +140,8 @@ class FormularioInscripcion extends Component
         $this->open = false;
     }
 
-    public function submit() {
+    public function submit()
+    {
         if ($this->graduacion == "1 DAN, Negro") {
             $this->rules = [
                 'gal' => 'required|regex:/^[A-Za-z]{3}\d{7}$/'
@@ -162,7 +166,6 @@ class FormularioInscripcion extends Component
         $competencia_competidor->calificacion = null;
         $competencia_competidor->aprobado = 0;
         $competencia_competidor->save();
-        
     }
 
 
@@ -198,7 +201,8 @@ class FormularioInscripcion extends Component
 
 
     //hay que modificar la bd, inscripto es un timestamp, y no se puede mandar nulo, debería ser "aceptado" como en competencia_competidor
-    public function crearJuez() {
+    public function crearJuez()
+    {
         /* $esta = $this->revisarSiUserEsta(); */
         $this->compararDatos();
         $competencia_juez = new CompetenciaJuez();
@@ -206,13 +210,13 @@ class FormularioInscripcion extends Component
         $competencia_juez->id_juez = $this->idUsuario;
         $competencia_juez->aprobado = false;
         if ($competencia_juez->save()) {
-            
         }
     }
     // ? $this->emit('confirmacion', true) : $this->emit('confirmacion', false)
 
 
-    public function compararDatos() {
+    public function compararDatos()
+    {
 
         $actualizacion = new Actualizacion();
         $idEscuela =  Team::where('name', $this->escuela)->pluck('id');
