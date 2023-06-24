@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompetidorController;
+use App\Http\Livewire\Puntuador\Pulsador;
 use App\Http\Controllers\MailControler;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -134,3 +135,6 @@ Route::group(['middleware' => ['role:Juez']], function() {
     Mail::to('lunalaureanoluna@gmail.com')->send(new MailPrueba('aceptado'));
     return "email eviado;";
 })->name('enviar-correo'); */
+
+Route::get('/chequearJuecesVotados', [Pulsador::class, 'chequearJuecesVotados'])->name('chequearJuecesVotados');
+
