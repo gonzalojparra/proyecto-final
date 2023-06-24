@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Graduacion extends Model {
+class Graduacion extends Model
+{
     use HasFactory;
 
     protected $table = 'graduaciones';
@@ -14,4 +15,8 @@ class Graduacion extends Model {
         'nombre'
     ];
 
+    public function getNombreGraduacion()
+    {
+        return $this->nombre;
+    }
 }

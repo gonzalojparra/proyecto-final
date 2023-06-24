@@ -106,11 +106,11 @@
                     <x-dropdown align="right" width="60">
                         <x-slot name="trigger">
                             <span class="inline-flex rounded-md">
-                                <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                                <button disabled type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                                     {{ Auth::user()->currentTeam->name }}
-                                    <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <!-- <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                                    </svg>
+                                    </svg> -->
                                 </button>
                             </span>
                         </x-slot>
@@ -247,6 +247,39 @@
             </x-responsive-nav-link>
         </div>
 
+        <div class="pt-2 pb-3 space-y-1">
+                    <div  class="pt-2 pb-3 space-y-1">
+                        <x-dropdown align="right" width="45">
+                            <x-slot name="trigger">
+
+                                <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                                    <span class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
+                                        {{ __('Competencias') }}
+                                    </span>
+                                    <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                                    </svg>
+                                </button>
+                            </x-slot>
+
+                            <x-slot name="content">
+                                <x-responsive-nav-link href="{{ route('competencias.index') }}" :active="request()->routeIs('competencias')">
+                                    {{ __('Ver competencias') }}
+                                </x-responsive-nav-link>
+
+                                <div class="border-t border-gray-200">
+                                    @role('Admin')
+                                    <x-responsive-nav-link href="{{ route('competencias.administrar-competencias') }}" :active="request()->routeIs('competencias')">
+                                        {{ __('Administrar competencias') }}
+                                    </x-responsive-nav-link>
+                                    @endrole
+                                </div>
+
+                            </x-slot>
+                        </x-dropdown>
+                    </div>
+        </div>
+
         @role('Admin')
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link href="{{ route('solicitudes-registro') }}" :active="request()->routeIs('roles')">
@@ -301,9 +334,9 @@
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures() && Auth::user()->current_team_id)
                 <div class="border-t border-gray-200"></div>
 
-                <div class="block px-4 py-2 text-xs text-gray-400">
+                <!-- <div class="block px-4 py-2 text-xs text-gray-400">
                     {{ __('Administrar escuela') }}
-                </div>
+                </div> -->
 
                 <!-- Team Settings -->
 
