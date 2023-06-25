@@ -135,12 +135,12 @@ class Pulsador extends Component {
         $tipoPuntaje = $this->tipoPuntaje;
         if( $tipoPuntaje == 1 ){ // Exactitud
             $this->puntajeExactitud = $this->puntaje;
-            $this->puntaje = 4; // Empieza con 10 o 4?
+            $this->puntaje = 4;
             $this->tipoPuntaje = 2;
             $bandera['resp'] = true;
         } elseif( $tipoPuntaje == 2 ){ // Presentación
             $this->puntajePresentacion = $this->puntaje;
-            $this->puntaje = 6; // Empieza con 10 o 6?
+            $this->puntaje = 6;
             $this->store();
             $bandera['resp'] = true;
         }
