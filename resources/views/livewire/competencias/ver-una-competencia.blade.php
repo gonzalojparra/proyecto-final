@@ -1,7 +1,7 @@
 @if($cantJuecesCompetencia < 3 && Auth::user()->hasRole('Competidor'))
     <div class="bg-red-200 text-red-800 pt-4 m-6 mt-4 mb-4 p-4 text-lg rounded border border-red-300 my-3">
         Por el momento no se puede incribir a esta competencia <br>Por favor, vuelve más tarde para poder inscribirse. <br>
-        <a href="{{asset('competencias/show')}}" class="font-medium text-red-800 dark:text-red-800 hover:underline">Volver</a>
+        <a href="{{route('competencias.index')}}" class="font-medium text-red-800 dark:text-red-800 hover:underline">Volver</a>
     </div>
     <div class="p-4 "></div>
     @else

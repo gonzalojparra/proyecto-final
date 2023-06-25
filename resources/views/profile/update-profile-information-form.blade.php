@@ -2,38 +2,18 @@
     <x-slot name="title">
         <span class="text-slate-100 text-xl">{{ __('Información del perfil') }}</span>
     </x-slot>
-    <!-- Perfil -->
+
     <x-slot name="description" class="text-white">
         <span class="text-slate-200 text-lg">{{ __('Actualiza la información de tu perfil') }}</span>
         <x-section-border />
-        <!-- <div class="col-span-4">
-            <x-label />
-            <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-5">
-                <div class="flex justify-center">
-                    <img class=" w-38 h-38 rounded-full object-cover" src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}">
-                </div>
-                <div class=" tracking-wide ">
-                    <div class="leading-tight whitespace-pre-line ">
-                        <div class="text-gray-100 text-2xl text-center uppercase">{{ $this->user->name }} {{$this->user->apellido}}</div>
-                        <hr class="mt-2 mb-2">
-                        <div class="text-gray-100 text-lg mt-1">Correo electrónico: {{ $this->user->email }}</div>
-                        @role('Juez')
-                        <div class="text-gray-100 text-lg">Escuela: {{Auth::user()->currentTeam->name}}</div>
-                        @endrole
-                        @role('Competidor')
-                        <div class="text-gray-100 text-lg">DU: {{ $this->user->du }}</div>
-                        <div class="text-gray-100  text-lg">Nacimiento: {{ date('d/m/Y', strtotime ($this->user->fecha_nac)) }}</div>
-                        <div class="text-gray-100 text-lg ">Genero: {{ $this->user->genero }}</div>
-                        <div class="text-gray-100 text-lg"> Graduacion: {{ $this->user->graduacion->nombre }} </div>
-                        <div class="text-gray-100 text-lg"> Escuela: {{ Auth::user()->currentTeam->name }}</div>
-                        @if($this->user->gal != null)
-                        <div class="text-gray-100 text-lg uppercase">Gal: {{ $this->user->gal }}</div>
-                        @endif
-                        @endrole
-                    </div>
-                </div>
-            </div>
-        </div> -->
+        <a href="{{url('user/profile')}}">
+            <x-button class="ml-4  bg-grey-600 disabled:opacity-25">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                </svg>                  
+                Volver al Perfil
+            </x-button>
+        </a>
     </x-slot>
 
     <x-slot name="form">
@@ -96,26 +76,26 @@
             <div class="checks" id="generoChecks" required>
                 @if($this->user->genero === 'Femenino')
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Femenino" value="Femenino" checked>
+                    <input class="form-check-input" type="radio" name="genero" id="Femenino"  checked>
                     <label class="form-check-label" for="femenino">
                         Femenino
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Masculino" value="Masculino">
+                    <input class="form-check-input" type="radio" name="genero" id="Masculino">
                     <label class="form-check-label" for="masculino">
                         Masculino
                     </label>
                 </div>
                 @elseif($this->user->genero === 'Masculino')
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Femenino" value="Femenino">
+                    <input class="form-check-input" type="radio" name="genero" id="Femenino">
                     <label class="form-check-label" for="femenino">
                         Femenino
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Masculino" value="Masculino" checked>
+                    <input class="form-check-input" type="radio" name="genero" id="Masculino" checked>
                     <label class="form-check-label" for="masculino">
                         Masculino
                     </label>
@@ -125,7 +105,6 @@
             <!-- <x-input-error for="generoChecks" class="mt-2" /> -->
             <!-- <div class="input-feedback" class="input-feedback" id="generoChecksFeedback" for="checks">&nbsp;</div> -->
         </div>
-
 
         <!-- Graduacio -->
         <div class="col-span-6 sm:col-span-4">
