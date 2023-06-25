@@ -29,6 +29,6 @@ Route::post('/resetearTimer/{idPasada}', [TimerController::class, 'resetearTimer
 
 // Pulsador
 Route::get('/getPasada', [Pulsador::class, 'getPasada']);
-Route::post('/cantJuecesn/{idPasada}', [Pulsador::class, 'cantJueces']);
-Route::post('/esperarTimern/{idPasada}', [Pulsador::class, 'esperarTimer']);
-Route::post('/enviarn/{idPasada}', [Pulsador::class, 'enviar']);
+Route::post('/cantJueces/{idPasada}', [Pulsador::class, 'cantJueces']);
+Route::post('/esperarTimer/{idPasada}', [Pulsador::class, 'esperarTimer']);
+Route::post('/enviar/{idPasada}', [Pulsador::class, 'enviar']);
