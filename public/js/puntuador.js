@@ -11,10 +11,10 @@ traerPasada.addEventListener('click', async () => {
         getPasada() // Obtengo la pasada seleccionada desde el timer
             .then(async (idPasada) => {
                 esperarJueces(idPasada).then(cantJueces => { // Se consulta la cantidad de jueces en la puntuacion
-                    console.log(cantJueces)
+                    //console.log(`Cantidad de jueces: ${cantJueces}`)
                     esperarTimer(idPasada).then(resp => { // Se espera a que se habilite el timer
-                        console.log(resp);
-                        enviar(idPasada).then( resp => console.log(resp) ); 
+                        //console.log(`Esperar timer: ${resp.resp}`);
+                        /* enviar(idPasada).then( resp => console.log(`Enviar: ${resp.resp}`) );  */
                     })
                 });
                 //await esperarTimer(idPasada);
@@ -72,7 +72,7 @@ const esperarJueces = (idPasada) => {
                     body: JSON.stringify({ idPasada }),
                 });
                 const json = await response.json();
-                console.log(idPasada, json);
+                //console.log(idPasada, json);
                 if (json >= 3) {
                     clearInterval(interval);
                     resolve(json);
@@ -87,9 +87,11 @@ const esperarJueces = (idPasada) => {
 
 const esperarTimer = (idPasada) => {
     deshabilitarBotones();
+    deshabilitarEnviar();
     return new Promise((resolve, reject) => {
         let interval = setInterval(async function () {
             try {
+                console.log(`Esperando timer: ${idPasada}`);
                 let url = `/api/esperarTimer/${idPasada}`;
                 const response = await fetch(url, {
                     headers: {
@@ -101,8 +103,47 @@ const esperarTimer = (idPasada) => {
                 });
                 const json = await response.json();
                 if (json.resp) {
+                    console.log(json.resp);
                     clearInterval(interval);
-                    habilitarBotones();
+                    habilitarBotonesPuntuar();
+                    deshabilitarEnviar();
+                    resolve(json);
+                    esperarTimerPausao(idPasada)
+                        .then(resp => console.log(`Esperar timer pausao: ${resp.resp}`))
+                        .then(resp => enviar(idPasada))
+                        .catch(error => console.error(error));
+                }
+            } catch (error) {
+                clearInterval(interval);
+                reject(error);
+            }
+        }, 3000);
+    });
+};
+
+const esperarTimerPausao = (idPasada) => {
+    habilitarBotonesPuntuar();
+    return new Promise((resolve, reject) => {
+        let interval = setInterval(async function () {
+            try {
+                console.log(`Esperando timer: ${idPasada}`);
+                let url = `/api/esperarTimerPausao/${idPasada}`;
+                const response = await fetch(url, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'POST',
+                    body: JSON.stringify({ idPasada }),
+                });
+                const json = await response.json();
+                console.log(json);
+                deshabilitarEnviar();
+                if (json.resp) {
+                    console.log(json.resp);
+                    clearInterval(interval);
+                    deshabilitarBotones();
+                    habilitarEnviar();
                     resolve(json);
                 }
             } catch (error) {
@@ -165,7 +206,6 @@ const getPasada = () => {
             })
             .then(function (json) {
                 let pasada = json.pasada;
-                console.log(pasada);
                 resolve(pasada);
             })
             .catch(function (err) {
@@ -176,15 +216,25 @@ const getPasada = () => {
 };
 
 const deshabilitarBotones = () => {
-    const buttons = document.querySelectorAll('input[type="button"]');
-    buttons.forEach((button) => {
-        button.disabled = true;
-    });
+    const buttonRestaUno = document.querySelector('#botonUno');
+    const buttonRestaTres = document.querySelector('#botonTres');
+    buttonRestaTres.disabled = true;
+    buttonRestaUno.disabled = true;
 };
 
-const habilitarBotones = () => {
-    const buttons = document.querySelectorAll('input[type="button"]');
-    buttons.forEach((button) => {
-        button.disabled = false;
-    });
+const habilitarBotonesPuntuar = () => {
+    const buttonRestaUno = document.querySelector('#botonUno');
+    const buttonRestaTres = document.querySelector('#botonTres');
+    buttonRestaTres.disabled = false;
+    buttonRestaUno.disabled = false;
 };
+
+const deshabilitarEnviar = () => {
+    const buttonEnviar = document.querySelector('#botonEnviar');
+    buttonEnviar.disabled = true;
+}
+
+const habilitarEnviar = () => {
+    const buttonEnviar = document.querySelector('#botonEnviar');
+    buttonEnviar.disabled = false;
+}

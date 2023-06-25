@@ -15,7 +15,7 @@ class Pulsador extends Component {
     public $pasada = null;
     public $esJuez = false;
     public $tipoPuntaje = 1;
-    public $puntaje = 10;
+    public $puntaje = 4;
     public $puntajeExactitud;
     public $puntajePresentacion;
     public $alerta = null;
@@ -59,7 +59,9 @@ class Pulsador extends Component {
     }
 
     public function store() {
-        $pasadaJuez = PasadaJuez::where('id_pasada', $this->pasada->id)->first();
+        $pasadaJuez = PasadaJuez::where('id_pasada', $this->pasada->id)
+            ->where('id_juez', Auth::user()->id)
+            ->first();
         if( $pasadaJuez != null ){
             $pasadaJuez->puntaje_exactitud = $this->puntajeExactitud;
             $pasadaJuez->puntaje_presentacion = $this->puntajePresentacion;
@@ -162,6 +164,21 @@ class Pulsador extends Component {
         $bandera['resp'] = false;
         $estadoTimer = Pasada::where('id', $idPasada)
             ->where('estado_timer', 1)
+            ->get()
+            ->toArray();
+        //return $estadoTimer;
+        //return is_array($estadoTimer);
+        if( is_array($estadoTimer) && count($estadoTimer) > 0 ){
+            $bandera['resp'] = true;
+        }
+         //->count();
+        return $bandera;
+    }
+
+    public function esperarTimerPausao( $idPasada ){
+        $bandera['resp'] = false;
+        $estadoTimer = Pasada::where('id', $idPasada)
+            ->where('estado_timer', 0)
             ->get()
             ->toArray();
         //return $estadoTimer;
