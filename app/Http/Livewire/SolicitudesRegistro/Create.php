@@ -56,6 +56,11 @@ class Create extends Component
         $usuario = User::find($user);
         if ($usuario !== null) {
             if ($usuario->verificado == false) {
+                if ($usuario->rolRequerido == 1){
+                    $usuario->assignRole('Competidor'); 
+                } elseif($usuario->rolRequerido == 2){
+                    $usuario->assignRole('Juez'); 
+                }
                 $usuario->verificado = true;
                 if ($usuario->save()) {
                     $this->emit('render');

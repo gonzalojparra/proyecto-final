@@ -28,6 +28,7 @@ return new class extends Migration {
             $table->string('genero')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('verificado')->default(false);
+            $table->integer('rolRequerido'); // 1 = Competidor / 2 = Juez
             $table->timestamps();
 
             $table->foreign('id_escuela')->references('id')
