@@ -26,15 +26,12 @@ class Show extends Component {
         $usuariosPendientes = array();
         foreach ($usuarios as $usuario) {
             if ($usuario['verificado'] == false){
-                $roles = $usuario->roles()->pluck('name'); // Buscamos que rol tiene el usuario
-                $nombreRol = $roles[0];
-                $usuario['rol'] = $nombreRol; // Agregamos el rol al usuario.
                 if ($this->filtroRol == 'competidor'){
-                    if ($usuario['rol'] == 'Competidor'){
+                    if ($usuario['rolRequerido'] == 1){
                         $usuariosPendientes[] = $usuario;
                     }
                 } elseif ($this->filtroRol == 'juez'){
-                    if ($usuario['rol'] == 'Juez'){
+                    if ($usuario['rolRequerido'] == 2){
                         $usuariosPendientes[] = $usuario;
                     }
                 } else{
