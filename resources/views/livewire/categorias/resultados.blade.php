@@ -36,7 +36,7 @@
                         <li>{{$podio[0]->team->name}}</li>
                     </ul>
                     <div class="w-full h-6 bg-gray-200 rounded dark:bg-gray-700 mt-2">
-                        <div class="h-6 bg-yellow-400 rounded dark:text-yellow-500" style="width: 100%"></div>
+                        <div class="h-6 bg-amber-500 rounded" style="width: 100%"></div>
                     </div>
                 </a>
                 @else
@@ -50,7 +50,7 @@
                         <li>&nbsp;</li>
                     </ul>
                     <div class="w-full h-6 bg-gray-200 rounded dark:bg-gray-700 mt-2">
-                        <div class="h-6 bg-yellow-400 rounded dark:text-yellow-500" style="width: 100%"></div>
+                        <div class="h-6 bg-amber-500 rounded" style="width: 100%"></div>
                     </div>
                 </a>
                 @endif
@@ -66,7 +66,7 @@
                         <li>{{$podio[1]->team->name}}</li>
                     </ul>
                     <div class="w-full h-6 bg-gray-200 rounded dark:bg-gray-700 mt-2">
-                        <div class="h-6 bg-yellow-400 rounded dark:text-yellow-500" style="width: 100%"></div>
+                        <div class="h-6 bg-amber-500 rounded " style="width: 100%"></div>
                     </div>
                 </a>
                 @else
@@ -80,7 +80,7 @@
                         <li>&nbsp;</li>
                     </ul>
                     <div class="w-full h-6 bg-gray-200 rounded dark:bg-gray-700 mt-2">
-                        <div class="h-6 bg-yellow-400 rounded dark:text-yellow-500" style="width: 100%"></div>
+                        <div class="h-6 bg-amber-500 rounded" style="width: 100%"></div>
                     </div>
                 </a>
                 @endif
@@ -96,7 +96,7 @@
                         <li>{{$podio[2]->team->name}}</li>
                     </ul>
                     <div class="w-full h-6 bg-gray-200 rounded dark:bg-gray-700 mt-2">
-                        <div class="h-6 bg-yellow-400 rounded dark:text-yellow-500" style="width: 100%"></div>
+                        <div class="h-6 bg-amber-500 rounded" style="width: 100%"></div>
                     </div>
                 </a>
                 @else <a href="#" class="elemento block m-2 p-6  max-w-sm bg-white border border-gray-200 rounded shadow dark:border-gray-400 ">
@@ -109,7 +109,7 @@
                         <li>&nbsp;</li>
                     </ul>
                     <div class="w-full h-6 bg-gray-200 rounded dark:bg-gray-700 mt-2">
-                        <div class="h-6 bg-yellow-400 rounded dark:text-yellow-500" style="width: 100%"></div>
+                        <div class="h-6 bg-amber-500 rounded " style="width: 100%"></div>
                     </div>
                 </a>
                 @endif

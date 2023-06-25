@@ -105,7 +105,7 @@
 
                 </div>
 
-                <div>
+                <!-- <div>
                     <x-label for="categoriaCompetidor" value="{{ __('Categoria') }}" />
                     <select id="categoriaCompetidor" class="block mt-1 w-full" type="text" name="categoria" :value="old('categoria')"  autocomplete="categoria">
                         <option value="">Seleccione una categoría</option>
@@ -113,7 +113,7 @@
                         <option value="Juveniles">Juveniles</option>
                     </select>
                     <div id="categoriaFeedback" class="input-feedback" for="categoriaCompetidor">&nbsp;</div>
-                </div>
+                </div> -->
 
                 <div>
                     <x-label for="graduacionCompetidor" value="{{ __('Graduacion') }}" />

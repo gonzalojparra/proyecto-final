@@ -145,3 +145,40 @@ btnReiniciar.addEventListener('click', () => {
 
 // Llamo al método después de definirlo
 iniciar();
+
+async function cargarPasadas() {
+  const selectedCategoria = document.getElementById('select-categoria').value;
+  const selectPasada = document.getElementById('select-pasada');
+  selectPasada.innerHTML = '<option selected disabled>Cargando pasadas...</option>';
+
+  if (selectedCategoria === 'Elegi la categoría') {
+    selectPasada.innerHTML = '<option selected disabled>Elegi la pasada</option>';
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/get-pasadas/${selectedCategoria}`);
+    if (!response.ok) {
+      throw new Error('Error al buscar pasadas');
+    }
+    const pasadas = await response.json();
+    let options = '<option selected disabled>Elegi la pasada</option>';
+
+    for (let i = 0; i < pasadas.length; i++) {
+      const competidorId = pasadas[i].id_competidor;
+      let url = `/api/get-competidor/${competidorId}`
+      const competidorResponse = await fetch(url);
+      if (!competidorResponse.ok) {
+        throw new Error('Error al buscar competidor');
+      }
+      const competidor = await competidorResponse.json();
+      const competidorName = competidor ? competidor.name : '';
+
+      options += `<option class="pasada" value="${pasadas[i].id}">${competidorName} | Pasada ${pasadas[i].ronda}</option>`;
+    }
+
+    selectPasada.innerHTML = options;
+  } catch (error) {
+    console.error(error);
+  }
+}

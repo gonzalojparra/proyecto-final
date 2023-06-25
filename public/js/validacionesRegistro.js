@@ -316,7 +316,6 @@ function validarFormulario() {
               if (duValidado) {
                 if (edadValidada) {
                   if (generoValidado) {
-                    if (categoriaValidada) {
                       if (graduacionValidada) {
                         if (tipoGraduacion === 'elite') {
                           if (galValidado) {
@@ -326,7 +325,6 @@ function validarFormulario() {
                           formularioValido = true
                         }
                       }
-                    }
                   }
                 }
               }
