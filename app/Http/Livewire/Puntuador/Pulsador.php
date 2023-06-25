@@ -90,42 +90,47 @@ class Pulsador extends Component
         }
     }
 
-    public function darVotoFinal() {
-        $jueces = PasadaJuez::where('id_pasada', $this->pasada->id)->get()->toArray();
-        if( count($jueces) == $this->pasada->cant_votos ){
-            // Hacemos la logica si son 3 jueces
+    public function darVotoFinal()
+    {
+        $jueces = PasadaJuez::where('id_pasada', $this->pasada->id)->get(); // Eliminamos ->toArray()
+
+        if (count($jueces) == $this->pasada->cant_votos) {
             $cantVotos = $this->pasada->cant_votos;
-            if( $cantVotos == 3 ){
+
+            if ($cantVotos == 3) {
                 $suma = 0;
-                foreach( $jueces as $juez ){
-                    $suma = $suma + $juez->puntaje_exactitud + $juez->puntaje_presentacion;
+
+                foreach ($jueces as $juez) {
+                    $suma = $suma + $juez['puntaje_exactitud'] + $juez['puntaje_presentacion']; // Accedemos a los valores del array
                 }
+
                 $promedio = $suma / 3;
                 $this->pasada->calificacion = $promedio;
-                $this->reset( 'pasada' );
-            // Hacemos la logica si son 5 o 7 jueces
+                $this->reset('pasada');
             } else {
                 $suma = 0;
                 $votos = array();
-                // Obtenemos todos los votos.
-                foreach( $jueces as $juez ){
-                    $votos[] = $juez->puntaje_exactitud + $juez->puntaje_presentacion;
+
+                foreach ($jueces as $juez) {
+                    $votos[] = $juez['puntaje_exactitud'] + $juez['puntaje_presentacion']; // Accedemos a los valores del array
                 }
-                // Obtenemos el voto mas alto.
-                $masAlto = max( $votos );
-                // Obtenemos el voto mas bajo.
-                $masBajo = min( $votos );
-                foreach( $votos as $voto ){
-                    if( $voto != $masAlto && $voto != $masBajo ){
+
+                $masAlto = max($votos);
+                $masBajo = min($votos);
+
+                foreach ($votos as $voto) {
+                    if ($voto != $masAlto && $voto != $masBajo) {
                         $suma = $suma + $voto;
                     }
                 }
-                $promedio = $suma/count( $jueces );
+
+                $promedio = $suma / count($jueces);
                 $this->pasada->calificacion = $promedio;
                 $this->reset( 'pasada' );
             }
         }
     }
+
 
     public function resto1()
     {
@@ -159,9 +164,30 @@ class Pulsador extends Component
             $this->puntajePresentacion = $this->puntaje;
             $this->puntaje = 6; // Empieza con 10 o 6?
             $this->store();
-            $bandera['resp'] = true;
+            $this->mostrarModalEspera = true;
+            $this->tipoPuntaje = 1;
         }
-        return $bandera;
+        $this->juecesVotaron->push(Auth::user()->id);
+
+        $this->algo();
+    }
+
+    public function algo()
+    {
+        $pasadasJuez = PasadaJuez::where('id_pasada', $this->pasada->id)
+            ->where('puntaje_exactitud', 20)
+            ->get();
+
+        if ($pasadasJuez->isEmpty()) {
+            // La colección está vacía, no se encontraron registros
+            // Realiza alguna acción en caso de que no se encuentren registros
+            $this->mostrarModalEspera = false;
+        } elseif ($pasadasJuez->count() == $this->totalJueces) {
+            $this->mostrarModalEspera = false;
+        } else {
+
+            $this->mostrarModalEspera = true;
+        }
     }
 
     public function votoExactitud()
@@ -213,6 +239,7 @@ class Pulsador extends Component
         $jueces = CompetenciaJuez::where('id_competencia', $idCompetencia)
             ->join('users', 'users.id', '=', 'competencia_juez.id_juez')
             ->select('users.*')
+            ->where('aprobado', 1)
             ->get();
 
         $totalJueces = $jueces->count();
