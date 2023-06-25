@@ -224,7 +224,7 @@ class FormularioInscripcion extends Component
 
     public function compararDatos()
     {
-
+        $this->idGraduacion = Graduacion::where('nombre', $this->graduacion)->pluck('id');
         $actualizacion = new Actualizacion();
         $idEscuela =  Team::where('name', $this->escuela)->pluck('id');
         $actualizar = false;
@@ -232,7 +232,7 @@ class FormularioInscripcion extends Component
         if ($this->escuelaInicial != $this->escuela) {
             $actualizacion->id_escuela_nueva = $idEscuela[0];
             if ($this->graduacionInicial != $this->graduacion) {
-                $actualizacion->id_graduacion_nueva = $this->idGraduacion;
+                $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
                 if ($this->galInicial != $this->gal) {
                     $actualizacion->gal_nuevo = $this->gal;
                 } else {
@@ -254,7 +254,7 @@ class FormularioInscripcion extends Component
                 $actualizacion->gal_nuevo = NULL;
             }
             $actualizacion->id_escuela_nueva = null;
-            $actualizacion->id_graduacion_nueva = $this->idGraduacion;
+            $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
             $actualizar = true;
         } else {
             if ($this->galInicial != $this->gal) {
