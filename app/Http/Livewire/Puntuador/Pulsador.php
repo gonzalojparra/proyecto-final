@@ -93,41 +93,45 @@ class Pulsador extends Component
 
     public function darVotoFinal()
     {
-        $jueces = $pasadaJuez = PasadaJuez::where('id_pasada', $this->pasada->id)->get()->toArray();
+        $jueces = PasadaJuez::where('id_pasada', $this->pasada->id)->get(); // Eliminamos ->toArray()
+
         if (count($jueces) == $this->pasada->cant_votos) {
-            // Hacemos la logica si son 3 jueces
             $cantVotos = $this->pasada->cant_votos;
+
             if ($cantVotos == 3) {
                 $suma = 0;
+
                 foreach ($jueces as $juez) {
-                    $suma = $suma + $juez->puntaje_exactitud + $juez->puntaje_presentacion;
+                    $suma = $suma + $juez['puntaje_exactitud'] + $juez['puntaje_presentacion']; // Accedemos a los valores del array
                 }
+
                 $promedio = $suma / 3;
                 $this->pasada->calificacion = $promedio;
                 $this->reset('pasada');
-                // Hacemos la logica si son 5 o 7 jueces
             } else {
                 $suma = 0;
                 $votos = array();
-                // Obtenemos todos los votos.
+
                 foreach ($jueces as $juez) {
-                    $votos[] = $juez->puntaje_exactitud + $juez->puntaje_presentacion;
+                    $votos[] = $juez['puntaje_exactitud'] + $juez['puntaje_presentacion']; // Accedemos a los valores del array
                 }
-                // Obtenemos el voto mas alto.
+
                 $masAlto = max($votos);
-                // Obtenemos el voto mas bajo.
                 $masBajo = min($votos);
+
                 foreach ($votos as $voto) {
                     if ($voto != $masAlto && $voto != $masBajo) {
                         $suma = $suma + $voto;
                     }
                 }
+
                 $promedio = $suma / count($jueces);
                 $this->pasada->calificacion = $promedio;
                 $this->reset('pasada');
             }
         }
     }
+
 
     public function resto1()
     {
@@ -183,6 +187,7 @@ class Pulsador extends Component
         } elseif ($pasadasJuez->count() == $this->totalJueces) {
             $this->mostrarModalEspera = false;
         } else {
+
             $this->mostrarModalEspera = true;
         }
     }
@@ -236,6 +241,7 @@ class Pulsador extends Component
         $jueces = CompetenciaJuez::where('id_competencia', $idCompetencia)
             ->join('users', 'users.id', '=', 'competencia_juez.id_juez')
             ->select('users.*')
+            ->where('aprobado', 1)
             ->get();
 
         $totalJueces = $jueces->count();
