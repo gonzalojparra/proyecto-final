@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Pasada;
+use App\Models\PasadaJuez;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -61,6 +62,118 @@ class PasadasSeeder extends Seeder {
                 'ronda' => $pasada['ronda'],
                 'tiempo_presentacion'=>$pasada['tiempo_presentacion'],
                 'cant_votos'=>$pasada['cant_votos']
+            ]);
+        }
+
+        $pasadasJuez = [
+            // Juez Pepa (pasadas de competencia con id 2)
+            [
+                'id_juez' => 11,
+                'id_pasada' => 1,
+                'puntaje_exactitud' => null,
+                'puntaje_presentacion' => null
+            ],
+            [
+                'id_juez' => 11,
+                'id_pasada' => 2,
+                'puntaje_exactitud' => null,
+                'puntaje_presentacion' => null
+            ],
+            [
+                'id_juez' => 11,
+                'id_pasada' => 3,
+                'puntaje_exactitud' => null,
+                'puntaje_presentacion' => null
+            ],
+            [
+                'id_juez' => 11,
+                'id_pasada' => 4,
+                'puntaje_exactitud' => null,
+                'puntaje_presentacion' => null
+            ],
+            // Juez Palma (pasadas de competencia con id 2)
+            [
+                'id_juez' => 12,
+                'id_pasada' => 1,
+                'puntaje_exactitud' => null,
+                'puntaje_presentacion' => null
+            ],
+            [
+                'id_juez' => 12,
+                'id_pasada' => 2,
+                'puntaje_exactitud' => null,
+                'puntaje_presentacion' => null
+            ],
+            [
+                'id_juez' => 12,
+                'id_pasada' => 3,
+                'puntaje_exactitud' => null,
+                'puntaje_presentacion' => null
+            ],
+            [
+                'id_juez' => 12,
+                'id_pasada' => 4,
+                'puntaje_exactitud' => null,
+                'puntaje_presentacion' => null
+            ],
+            // Juez Argento (pasadas de competencia con id 2)
+            [
+                'id_juez' => 13,
+                'id_pasada' => 1,
+                'puntaje_exactitud' => null,
+                'puntaje_presentacion' => null
+            ],
+            [
+                'id_juez' => 13,
+                'id_pasada' => 2,
+                'puntaje_exactitud' => null,
+                'puntaje_presentacion' => null
+            ],
+            [
+                'id_juez' => 13,
+                'id_pasada' => 3,
+                'puntaje_exactitud' => null,
+                'puntaje_presentacion' => null
+            ],
+            [
+                'id_juez' => 13,
+                'id_pasada' => 4,
+                'puntaje_exactitud' => null,
+                'puntaje_presentacion' => null
+            ],
+            // Juez Fermopolis (pasadas de competencia con id 2)
+            [
+                'id_juez' => 14,
+                'id_pasada' => 1,
+                'puntaje_exactitud' => null,
+                'puntaje_presentacion' => null
+            ],
+            [
+                'id_juez' => 14,
+                'id_pasada' => 2,
+                'puntaje_exactitud' => null,
+                'puntaje_presentacion' => null
+            ],
+            [
+                'id_juez' => 14,
+                'id_pasada' => 3,
+                'puntaje_exactitud' => null,
+                'puntaje_presentacion' => null
+            ],
+            [
+                'id_juez' => 14,
+                'id_pasada' => 4,
+                'puntaje_exactitud' => null,
+                'puntaje_presentacion' => null
+            ],
+        ];
+
+        foreach( $pasadasJuez as $pasadaJuez){
+            PasadaJuez::create([
+                'id_juez' => $pasadaJuez['id_juez'],
+                'id_pasada' => $pasadaJuez['id_pasada'],
+                'puntaje_exactitud' => $pasadaJuez['puntaje_exactitud'],
+                'puntaje_presentacion' => $pasadaJuez['puntaje_presentacion']
             ]);
         }
 

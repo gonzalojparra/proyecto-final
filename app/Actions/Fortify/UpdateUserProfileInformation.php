@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 
+
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
     /**
@@ -18,28 +19,45 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     public function update(User $user, array $input): void
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'apellido' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255','alpha'],
+            'apellido' => ['required', 'string', 'max:255','alpha'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
         ])->validateWithBag('updateProfileInformation');
 
-        if (isset($input['photo'])) {
-            $user->updateProfilePhoto($input['photo']);
-        }
-
-        if ($input['email'] !== $user->email &&
-            $user instanceof MustVerifyEmail) {
-            $this->updateVerifiedUser($user, $input);
-        } else {
+        if ($user->hasRole('Juez')) {
             $user->forceFill([
                 'name' => $input['name'],
                 'apellido' => $input['apellido'],
                 'email' => $input['email'],
             ])->save();
+        } else {
+            Validator::make($input, [
+                'fecha_nac' => ['required', 'date'],
+                'du' => ['required', 'integer', 'min:8', Rule::unique('users')->ignore($user->id)],
+                'genero' => ['required','in:Femenino,Masculino'],
+            ])->validateWithBag('updateProfileInformation');
+
+            if (isset($input['photo'])) {
+                $user->updateProfilePhoto($input['photo']);
+            }
+
+            if ($input['email'] !== $user->email && $user instanceof MustVerifyEmail) {
+                $this->updateVerifiedUser($user, $input);
+            } else {
+                $user->forceFill([
+                    'name' => $input['name'],
+                    'apellido' => $input['apellido'],
+                    'email' => $input['email'],
+                    'fecha_nac' => $input['fecha_nac'],
+                    'du' => $input['du'],
+                    'genero' => $input['genero'],
+                    // dd($input['genero']),
+                ])->save();
+            }
         }
     }
-
+   
     /**
      * Update the given verified user's profile information.
      *
@@ -51,6 +69,9 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'name' => $input['name'],
             'apellido' => $input['apellido'],
             'email' => $input['email'],
+            'fecha_nac' => $input['fecha_nac'],
+            'du' => $input['du'],
+            'genero' => $input['genero'],
             'email_verified_at' => null,
         ])->save();
 

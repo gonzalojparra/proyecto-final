@@ -26,7 +26,6 @@ class Competencias extends Component {
 
 
     public function render() {
-        
         //metodo de renderizar la tabla de competencias
         $competencias = Competencia::where('titulo', 'like', '%' . $this->filtro . '%')->where('estado', '<>', 0)->where('estado', '<>', 5)->orderBy('estado', 'desc')->get();
         $competenciasPedidas = $competencias;
@@ -36,11 +35,13 @@ class Competencias extends Component {
     }
 
     public function agregarCompetencia() {
+        $this->reset();
         $this->emit('abrirModal','agregar');
 
     }
 
     public function mostrarCompetencia($id) {
+        $this->reset();
         $this->emit('mostrarDatos',[$id,'editar']);
     }
 
