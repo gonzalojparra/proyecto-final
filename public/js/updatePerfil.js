@@ -5,13 +5,13 @@ const inputDU = document.querySelector('#du')
 const inputEdad = document.querySelector('#fecha_nac')
 const inputGal = document.querySelector('#galCompetidor')
 
-let guardarDatos = document.getElementById("guardarDatos");
+/* let guardarDatos = document.getElementById("guardarDatos");
 guardarDatos.addEventListener("click", function() {
    
     setTimeout(function() {
         window.location.href = "http://127.0.0.1:8000/user/profile";
     }, 5000);
-});
+}); */
 
 let botonPerfil = document.getElementById("botonPerfil");
 let form = document.getElementById("formUpdate");

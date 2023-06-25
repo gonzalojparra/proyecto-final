@@ -6,34 +6,6 @@
     <x-slot name="description" class="text-white">
         <span class="text-slate-200 text-lg">{{ __('Actualiza la información de tu perfil') }}</span>
         <x-section-border />
-        <!-- <div class="col-span-4">
-            <x-label />
-            <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-5">
-                <div class="flex justify-center">
-                    <img class=" w-38 h-38 rounded-full object-cover" src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}">
-                </div>
-                <div class=" tracking-wide ">
-                    <div class="leading-tight whitespace-pre-line ">
-                        <div class="text-gray-100 text-2xl text-center uppercase">{{ $this->user->name }} {{$this->user->apellido}}</div>
-                        <hr class="mt-2 mb-2">
-                        <div class="text-gray-100 text-lg mt-1">Correo electrónico: {{ $this->user->email }}</div>
-                        @role('Juez')
-                        <div class="text-gray-100 text-lg">Escuela: {{Auth::user()->currentTeam->name}}</div>
-                        @endrole
-                        @role('Competidor')
-                        <div class="text-gray-100 text-lg">DU: {{ $this->user->du }}</div>
-                        <div class="text-gray-100  text-lg">Nacimiento: {{ date('d/m/Y', strtotime ($this->user->fecha_nac)) }}</div>
-                        <div class="text-gray-100 text-lg ">Genero: {{ $this->user->genero }}</div>
-                        <div class="text-gray-100 text-lg"> Graduacion: {{ $this->user->graduacion->nombre }} </div>
-                        <div class="text-gray-100 text-lg"> Escuela: {{ Auth::user()->currentTeam->name }}</div>
-                        @if($this->user->gal != null)
-                        <div class="text-gray-100 text-lg uppercase">Gal: {{ $this->user->gal }}</div>
-                        @endif
-                        @endrole
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </x-slot>
 
     <x-slot name="form">
@@ -122,8 +94,6 @@
                 </div>
                 @endif
             </div>
-            <!-- <x-input-error for="generoChecks" class="mt-2" /> -->
-            <!-- <div class="input-feedback" class="input-feedback" id="generoChecksFeedback" for="checks">&nbsp;</div> -->
         </div>
 
 
@@ -154,22 +124,6 @@
             <x-input id="email" type="email" class="mt-1 block w-full" require wire:model.defer="state.email" autocomplete="email" />
             <x-input-error for="email" class="mt-2" />
             <div id="emailFeedback" class="input-feedback" for="email">&nbsp;</div>
-
-            <!-- @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user->hasVerifiedEmail())
-            <p class="text-sm mt-2">
-                {{ __('Tu dirección email no está verificada.') }}
-
-                <button type="button" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" wire:click.prevent="sendEmailVerification">
-                    {{ __('Clickea aquí para reenvíar la confirmación') }}
-                </button>
-            </p>
-
-            @if ($this->verificationLinkSent)
-            <p class="mt-2 font-medium text-sm text-green-600">
-                {{ __('Un nuevo link de verificación se ha enviado a su correo!') }}
-            </p>
-            @endif
-            @endif -->
         </div>
 
     </x-slot>
