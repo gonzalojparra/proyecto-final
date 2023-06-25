@@ -35,12 +35,12 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             Validator::make($input, [
                 'fecha_nac' => ['required', 'date'],
                 'du' => ['required', 'integer', 'min:8', Rule::unique('users')->ignore($user->id)],
-                'genero' => ['required','in:Femenino,Masculino'],
+                'genero' => ['required', Rule::in(['Femenino', 'Masculino'])],
             ])->validateWithBag('updateProfileInformation');
 
-            if (isset($input['photo'])) {
-                $user->updateProfilePhoto($input['photo']);
-            }
+            // if (isset($input['photo'])) {
+            //     $user->updateProfilePhoto($input['photo']);
+            // }
 
             if ($input['email'] !== $user->email && $user instanceof MustVerifyEmail) {
                 $this->updateVerifiedUser($user, $input);

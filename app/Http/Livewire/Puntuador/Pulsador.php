@@ -16,7 +16,7 @@ class Pulsador extends Component
     public $pasada = null;
     public $esJuez = false;
     public $tipoPuntaje = 1;
-    public $puntaje = 10;
+    public $puntaje = 4;
     public $puntajeExactitud;
     public $puntajePresentacion;
     public $alerta = null;
@@ -41,7 +41,7 @@ class Pulsador extends Component
     public function traerPasada()
     {
         $pasada = Pasada::where('tiempo_presentacion', null)->where('seleccionado', 1)->first();
-        if ($pasada != null) {
+        if( $pasada != null ){
             $this->pasada = $pasada;
             $this->verificarJuez();
             $this->emit('render');
@@ -62,8 +62,8 @@ class Pulsador extends Component
     public function verificarJuez()
     {
         $pasadaJuez = PasadaJuez::where('id_juez', Auth::user()->id)->where('id_pasada', $this->pasada->id)->first();
-        if ($pasadaJuez != null) {
-            if ($pasadaJuez->puntaje_exactitud == null && $pasadaJuez->puntaje_presentacion == null) {
+        if( $pasadaJuez != null ){
+            if( $pasadaJuez->puntaje_exactitud == null && $pasadaJuez->puntaje_presentacion == null ){
                 $this->esJuez = true;
             } else {
                 $this->alerta = "Ya votaste esta pasada.";
@@ -73,12 +73,11 @@ class Pulsador extends Component
         }
     }
 
-    public function store()
-    {
+    public function store() {
         $pasadaJuez = PasadaJuez::where('id_pasada', $this->pasada->id)
             ->where('id_juez', Auth::user()->id)
             ->first();
-        if ($pasadaJuez != null) {
+        if( $pasadaJuez != null ){
             $pasadaJuez->puntaje_exactitud = $this->puntajeExactitud;
             $pasadaJuez->puntaje_presentacion = $this->puntajePresentacion;
             $pasadaJuez->save();
@@ -127,7 +126,7 @@ class Pulsador extends Component
 
                 $promedio = $suma / count($jueces);
                 $this->pasada->calificacion = $promedio;
-                $this->reset('pasada');
+                $this->reset( 'pasada' );
             }
         }
     }
@@ -136,7 +135,7 @@ class Pulsador extends Component
     public function resto1()
     {
         $puntaje = $this->puntaje;
-        if ($puntaje > 0.1) {
+        if( $puntaje > 0.1 ){
             $this->puntaje = $puntaje - 0.1;
         } else {
             $this->puntaje = 0;
@@ -146,25 +145,24 @@ class Pulsador extends Component
     public function resto3()
     {
         $puntaje = $this->puntaje;
-        if ($puntaje > 0.3) {
+        if( $puntaje > 0.3 ){
             $this->puntaje = $puntaje - 0.3;
         } else {
             $this->puntaje = 0;
         }
     }
 
-    public function enviar()
-    {
+    public function enviar() {
+        $bandera['resp'] = false;
         $tipoPuntaje = $this->tipoPuntaje;
-        if ($tipoPuntaje == 1) {
+        if( $tipoPuntaje == 1 ){ // Exactitud
             $this->puntajeExactitud = $this->puntaje;
-            $this->puntaje = 10;
+            $this->puntaje = 4; // Empieza con 10 o 4?
             $this->tipoPuntaje = 2;
-            $this->mostrarModalEspera = true;
-            $this->votoExactitud();
-        } elseif ($tipoPuntaje == 2) {
+            $bandera['resp'] = true;
+        } elseif( $tipoPuntaje == 2 ){ // Presentación
             $this->puntajePresentacion = $this->puntaje;
-            $this->puntaje = 10;
+            $this->puntaje = 6; // Empieza con 10 o 6?
             $this->store();
             $this->mostrarModalEspera = true;
             $this->tipoPuntaje = 1;
@@ -254,12 +252,36 @@ class Pulsador extends Component
         return $cantJuecesPasada; */
     }
 
-    public function esperarTimer($idPasada)
-    {
+    /**
+     * Método para consultar si el timer esta activo
+     */
+    public function esperarTimer( $idPasada ){
+        $bandera['resp'] = false;
         $estadoTimer = Pasada::where('id', $idPasada)
             ->where('estado_timer', 1)
             ->get()
-            ->count();
-        return $estadoTimer;
+            ->toArray();
+        //return $estadoTimer;
+        //return is_array($estadoTimer);
+        if( is_array($estadoTimer) && count($estadoTimer) > 0 ){
+            $bandera['resp'] = true;
+        }
+         //->count();
+        return $bandera;
+    }
+
+    public function esperarTimerPausao( $idPasada ){
+        $bandera['resp'] = false;
+        $estadoTimer = Pasada::where('id', $idPasada)
+            ->where('estado_timer', 0)
+            ->get()
+            ->toArray();
+        //return $estadoTimer;
+        //return is_array($estadoTimer);
+        if( is_array($estadoTimer) && count($estadoTimer) > 0 ){
+            $bandera['resp'] = true;
+        }
+         //->count();
+        return $bandera;
     }
 }
