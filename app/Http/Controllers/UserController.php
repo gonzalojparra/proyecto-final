@@ -49,8 +49,8 @@ class UserController extends Controller {
         ])->validate();
 
         // Buscar categoría
-        $catNombre = $input['categoria'];
-        $catGraduacion = $input['graduacion'];
+        // $catNombre = $input['categoria'];
+         $catGraduacion = $input['graduacion'];
         $graduacionQuery = Graduacion::where('nombre', $catGraduacion)->get();
         $graduacion = $graduacionQuery->toArray();
         
@@ -65,13 +65,13 @@ class UserController extends Controller {
         if (array_key_exists('genero', $input)) {
             $genero = $input['genero'];
         }
-        if ($catNombre == null && $catGraduacion == null) {
-            $categoriaFinalId = null;
-            $categoriaFinalGr = null;
-        } else {
-            $categoriaFinal = Categoria::where('nombre', $catNombre)->get();
-            $categoriaFinalId = $categoriaFinal[0]['id'];
-        }
+        // if ($catNombre == null && $catGraduacion == null) {
+        //     $categoriaFinalId = null;
+        //     $categoriaFinalGr = null;
+        // } else {
+        //     $categoriaFinal = Categoria::where('nombre', $catNombre)->get();
+        //     $categoriaFinalId = $categoriaFinal[0]['id'];
+        // }
 
 
         // Buscar escuela
