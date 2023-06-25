@@ -159,6 +159,8 @@ class Pulsador extends Component
             $this->puntajeExactitud = $this->puntaje;
             $this->puntaje = 4; // Empieza con 10 o 4?
             $this->tipoPuntaje = 2;
+            $this->mostrarModalEspera = true;
+            $this->votoExactitud();
             $bandera['resp'] = true;
         } elseif( $tipoPuntaje == 2 ){ // Presentación
             $this->puntajePresentacion = $this->puntaje;
@@ -167,12 +169,12 @@ class Pulsador extends Component
             $this->mostrarModalEspera = true;
             $this->tipoPuntaje = 1;
         }
-        $this->juecesVotaron->push(Auth::user()->id);
+        // $this->juecesVotaron->push(Auth::user()->id);
 
-        $this->algo();
+        $this->mostrarPantallaEspera();
     }
 
-    public function algo()
+    public function mostrarPantallaEspera()
     {
         $pasadasJuez = PasadaJuez::where('id_pasada', $this->pasada->id)
             ->where('puntaje_exactitud', 20)
@@ -211,14 +213,9 @@ class Pulsador extends Component
         $pasadaJuez->puntaje_presentacion = 20;
         $pasadaJuez->save();
     }
-    /* public function chequearJuecesVotados(){
-        if ($this->juecesVotaron->count() == $this->totalJueces) {
-            $this->mostrarModalEspera = false;
-            $this->juecesVotaron = null;
-        }
-    } */
 
-    public function chequearJuecesVotados()
+
+    /* public function chequearJuecesVotados()
     {
         // Lógica para verificar si todos los jueces han votado
         if ($this->juecesVotaron == null) {
@@ -226,7 +223,7 @@ class Pulsador extends Component
         } elseif ($this->juecesVotaron != null) {
             return response()->json(false); // Al menos un juez no ha votado todavía
         }
-    }
+    } */
 
 
     /**
