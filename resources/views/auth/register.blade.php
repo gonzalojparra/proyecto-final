@@ -57,13 +57,13 @@
                 <div>Tipo de cuenta requerida</div>
                 <div class="checks" id="rolChecks" required>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="rol" id="competidor" value="Competidor">
+                        <input class="form-check-input" type="radio" name="rolRequerido" id="competidor" value="1">
                         <label class="form-check-label" for="competidor">
                             Competidor
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="rol" id="juez" value="Juez">
+                        <input class="form-check-input" type="radio" name="rolRequerido" id="juez" value="2">
                         <label class="form-check-label" for="juez">
                             Jurado
                         </label>

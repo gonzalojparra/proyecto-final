@@ -2,9 +2,25 @@ const inputNombre = document.querySelector('#name')
 const inputApellido = document.querySelector('#apellido')
 const inputEmail = document.querySelector('#email')
 const inputDU = document.querySelector('#du')
-const inputEdad = document.querySelector('#fechaNacCompetidor')
+const inputEdad = document.querySelector('#fecha_nac')
 const inputGal = document.querySelector('#galCompetidor')
 
+let guardarDatos = document.getElementById("guardarDatos");
+guardarDatos.addEventListener("click", function() {
+   
+    setTimeout(function() {
+        window.location.href = "http://127.0.0.1:8000/user/profile";
+    }, 5000);
+});
+
+let botonPerfil = document.getElementById("botonPerfil");
+let form = document.getElementById("formUpdate");
+let show = document.getElementById("showDatos");
+
+botonPerfil.addEventListener('click', () => {
+    form.style.display = 'block';
+    show.style.display = 'none';
+});
 
 //funcion que comprueba que el campo no esté vacío
 function validarCampo(input) {
@@ -67,13 +83,13 @@ function validarLongitud(input, type) {
     const fechaActual = new Date(); //se obtiene la clase date para saber el año actual
     const anioActual = fechaActual.getFullYear(); // devuelve el año actual  
     const edad = anioActual - anioNac;
-    if (edad < 6) {
+    if (edad < 12) {
       // edadInput.style.borderColor = "red";
       fechaNacFeedback.style.color = 'red';
       fechaNacFeedback.style.fontSize = '12px';
-      fechaNacFeedback.innerHTML = 'Debe tener al menos 6 años de edad'
+      fechaNacFeedback.innerHTML = 'Debe tener al menos 12 años de edad'
       return false;
-    } else if (edad > 6) {
+    } else if (edad >= 12) {
       // edadInput.style.borderColor = "green";
       fechaNacFeedback.innerHTML = '&nbsp'
       return true;
@@ -214,3 +230,40 @@ inputDU.addEventListener('blur', function () {
 
 })
  
+
+//hacer una variable con un array de los valores
+// function validarFormulario() {
+//   formularioValido = false;
+//   if (nombreValidado) {
+//     if (apellidoValidado) {
+//       if (emailValidado) {
+//         if (contraseniasValidas) {
+//           if (checkRolValido) {
+//             if (selectedRol === 'competidor') {
+//               if (duValidado) {
+//                 if (edadValidada) {
+//                   if (generoValidado) {
+//                     if (categoriaValidada) {
+//                       if (graduacionValidada) {
+//                         if (tipoGraduacion === 'elite') {
+//                           if (galValidado) {
+//                             formularioValido = true
+//                           }
+//                         } else {
+//                           formularioValido = true
+//                         }
+//                       }
+//                     }
+//                   }
+//                 }
+//               }
+//             } else {
+//               formularioValido = true;
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+//   return formularioValido
+// }

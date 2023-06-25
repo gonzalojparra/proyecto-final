@@ -22,81 +22,56 @@
                     </x-nav-link>
                 </div>
 
+                @role('Admin|Competidor|Juez')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link href="{{ route('tablaCompetidores') }}" :active="request()->routeIs('verCompetidores')">
-                        {{ __('Competidores') }}
+                    <x-nav-link href="{{ route('competencias.index') }}" :active="request()->routeIs('competencias')">
+                        {{ __('Competencias') }}
                     </x-nav-link>
                 </div>
-                <!-- @role('Competidor')
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link href="{{ route('inscripcion') }}" :active="request()->routeIs('inscripcion')">
-                        {{ __('Inscripción') }}
-                    </x-nav-link>
-                </div>
-                @endrole -->
-                @role('Admin')
+                @endrole
+
+                {{-- @role('Admin')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('solicitudes-registro') }}" :active="request()->routeIs('roles')">
                         {{ __('Usuarios') }}
                     </x-nav-link>
                 </div>
-                {{-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link href="{{ route('timer') }}" :active="request()->routeIs('timer')">
-                        {{ __('Temporizador') }}
-                    </x-nav-link>
-                </div> --}}
-                @endrole
-                @role('Juez')
-                <!-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link href="{{ route('inscripcion') }}" :active="request()->routeIs('inscripcion')">
-                        {{ __('Inscripción') }}
-                    </x-nav-link>
-                </div> -->
-                {{-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link href="{{ route('pulsador') }}" :active="request()->routeIs('timer')">
-                        {{ __('Puntuador') }}
-                    </x-nav-link>
-                </div> --}}
-                @endrole
+                @endrole --}}
 
-                <div class="hidden sm:flex sm:items-center sm:ml-6">
-                    <div class="ml-3 relative">
-                        <x-dropdown align="right" width="48">
-                            <x-slot name="trigger">
+                @role('Admin')
+                    <div class="hidden sm:flex sm:items-center sm:ml-6">
+                        <div class="ml-3 relative">
+                            <x-dropdown align="right" width="48">
+                                <x-slot name="trigger">
 
-                                <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                                    <span class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
-                                        {{ __('Competencias') }}
-                                    </span>
-                                    <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                                    </svg>
-                                </button>
-                            </x-slot>
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                                        <span class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
+                                            {{ __('Administrar') }}
+                                        </span>
+                                        <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                                        </svg>
+                                    </button>
+                                </x-slot>
 
-                            <x-slot name="content">
-                                <x-dropdown-link href="{{ route('competencias.index') }}" :active="request()->routeIs('competencias')">
-                                    {{ __('Ver competencias') }}
-                                </x-dropdown-link>
-
-                                <div class="border-t border-gray-200">
-                                    @role('Admin')
-                                    <x-dropdown-link href="{{ route('competencias.administrar-competencias') }}" :active="request()->routeIs('competencias')">
-                                        {{ __('Administrar competencias') }}
+                                <x-slot name="content">
+                                    <x-dropdown-link href="{{ route('solicitudes-registro') }}" :active="request()->routeIs('roles')">
+                                        {{ __('Peticiones') }}
                                     </x-dropdown-link>
-                                    @endrole
-                                </div>
 
-                            </x-slot>
-                        </x-dropdown>
+                                    <div class="border-t border-gray-200">
+                                        @role('Admin')
+                                        <x-dropdown-link href="{{ route('competencias.administrar-competencias') }}" :active="request()->routeIs('competencias')">
+                                            {{ __('Competencias') }}
+                                        </x-dropdown-link>
+                                        @endrole
+                                    </div>
+
+                                </x-slot>
+                            </x-dropdown>
+                        </div>
                     </div>
-                </div>
-                <!-- 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link href="{{ route('competidores.index') }}" :active="request()->routeIs('competidores.index')">
-                        {{ __('Competidores') }}
-                    </x-nav-link>
-                </div> -->
+                @endrole
             </div>
             @if (Auth::check())
             <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -106,11 +81,11 @@
                     <x-dropdown align="right" width="60">
                         <x-slot name="trigger">
                             <span class="inline-flex rounded-md">
-                                <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                                <button disabled type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                                     {{ Auth::user()->currentTeam->name }}
-                                    <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <!-- <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                                    </svg>
+                                    </svg> -->
                                 </button>
                             </span>
                         </x-slot>
@@ -243,24 +218,49 @@
 
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link href="{{ route('resultados') }}" :active="request()->routeIs('resultados')">
-                {{ __('Resultados') }}
+                {{ __('Ranking') }}
             </x-responsive-nav-link>
         </div>
-
-        @role('Admin')
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('solicitudes-registro') }}" :active="request()->routeIs('roles')">
-                {{ __('Usuarios') }}
-            </x-responsive-nav-link>
-        </div>
-        {{-- <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('timer') }}" :active="request()->routeIs('timer')">
-                {{ __('Temporizador') }}
-            </x-responsive-nav-link>
-        </div> --}}
+        @role('Admin|Competidor|Juez')
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link href="{{ route('competencias.index') }}" :active="request()->routeIs('competencias')">
+                    {{ __('Competencias') }}
+                </x-responsive-nav-link>
+            </div>
         @endrole
-        @if(Auth::check())
+        <div class="pt-2 pb-3 space-y-1">
+                    <div  class="pt-2 pb-3 space-y-1">
+                        <x-dropdown align="right" width="45">
+                            <x-slot name="trigger">
 
+                                <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                                    <span class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
+                                        {{ __('Admistrar') }}
+                                    </span>
+                                    <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                                    </svg>
+                                </button>
+                            </x-slot>
+
+                            <x-slot name="content">
+                                <x-responsive-nav-link href="{{ route('solicitudes-registro') }}" :active="request()->routeIs('roles')">
+                                    {{ __('Peticiones') }}
+                                </x-responsive-nav-link>
+
+                                <div class="border-t border-gray-200">
+                                    @role('Admin')
+                                    <x-responsive-nav-link href="{{ route('competencias.administrar-competencias') }}" :active="request()->routeIs('competencias')">
+                                        {{ __('Competencias') }}
+                                    </x-responsive-nav-link>
+                                    @endrole
+                                </div>
+
+                            </x-slot>
+                        </x-dropdown>
+                    </div>
+        </div>
+        @if(Auth::check())
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="flex items-center px-4">
@@ -269,7 +269,6 @@
                     <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                 </div>
                 @endif
-
                 <div>
                     <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
@@ -301,9 +300,9 @@
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures() && Auth::user()->current_team_id)
                 <div class="border-t border-gray-200"></div>
 
-                <div class="block px-4 py-2 text-xs text-gray-400">
+                <!-- <div class="block px-4 py-2 text-xs text-gray-400">
                     {{ __('Administrar escuela') }}
-                </div>
+                </div> -->
 
                 <!-- Team Settings -->
 

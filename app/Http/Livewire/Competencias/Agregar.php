@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\DB;
 use Livewire\WithFileUploads;
 use Exception;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class Agregar extends Component
 {
@@ -27,8 +29,9 @@ class Agregar extends Component
     protected $categorias;
     public $open = false;
     public $boton, $accionForm, $cambioEstado, $nombreBoton;
-    public $titulo, $flyer, $bases, $descripcion, $fecha_inicio, $fecha_fin, $idCompetencia, $invitacion;
+    public $titulo, $flyer = null, $bases = null, $descripcion, $fecha_inicio, $fecha_fin, $idCompetencia, $invitacion = null;
     public $categoria = array();
+    public $categoriasSeleccionadas = array();
 
     protected $listeners = [
         'abrirModal',
@@ -44,40 +47,64 @@ class Agregar extends Component
 
     public function abrirModal($accion)
     {
+        $this->resetValidation();
         $this->reset();
         $this->boton = $accion;
         $this->accionForm = 'create';
+        $this->emit('recarga');
         $this->open = true;
     }
     public function cerrarModal()
     {
+        $this->resetValidation();
         $this->reset();
         $this->open = false;
+    }
+    
+    public function show($parametros)
+    {
+        $this->emit('recarga');
+        $this->resetValidation();
+        $this->boton = $parametros[1];
+        $this->accionForm = 'update';
+
+        $competencia = Competencia::find($parametros[0]);
+        $competenciaCategoria = CompetenciaCategoria::where('id_competencia', $competencia->id)->get();
+        $this->competencia = $competencia;
+        $this->idCompetencia = $competencia->id;
+        $this->titulo = $competencia->titulo;
+        $this->descripcion = $competencia->descripcion;
+        $this->fecha_inicio = $competencia->fecha_inicio;
+        $this->fecha_fin = $competencia->fecha_fin;
+        $this->categoriasSeleccionadas = $competenciaCategoria;
+
+        // $this->manejoEstadosCompetencias($competencia->estado);
+
+        $this->open = true;
     }
 
     public function create()
     {
-
         $validate = $this->validate([
             'titulo' => ['required', 'max:120', 'unique:competencias'],
             'flyer' => ['required', 'image', 'max:2048'],
             'bases' => ['required', 'mimes:pdf,docx'],
             'invitacion' => ['required', 'mimes:pdf,docx'],
             'descripcion' => ['required', 'max:120'],
-            'fecha_inicio' => ['required', 'date', 'after_or_equal:today'],
+            'fecha_inicio' => ['required', 'date', 'after_or_equal:today', 'before:fecha_fin'],
             'fecha_fin' => ['required', 'date', 'after:fecha_inicio'],
             'categoria' => ['required', 'array'],
         ]);
         // Definimos las rutas de los archivos.
         $urlImagen = $this->flyer->store('competencias', 'public');
-        $urlBases = $this->bases->store('competencias', 'public');
-        $urlInvitacion = $this->bases->store('competencias', 'public');
+        $urlBases = $this->bases->store('competencias/bases', 'public');
+        $urlInvitacion = $this->invitacion->store('competencias/invitacion', 'public');
         // guardamos el array con las categorias asignadas a la competencia.
         $categoria = $validate['categoria'];
-
+        
         // Iniciamos la transaccion para multiples operaciones.
         DB::beginTransaction();
-
+        
         try {
 
             // Creamos una competencia.
@@ -93,39 +120,7 @@ class Agregar extends Component
 
 
             if (count($categoria) > 0) {
-                // Obtenemos todas las graduaciones para asignarle 2 poomsaes a cada una.
-                $graduaciones = Graduacion::get();
-
-                // Creamos un registro por cada categoria que se asigno a la competencia.
-                foreach ($categoria as $idCategoria) {
-
-                    // Crear registros en la tabla CompetenciaCategoria, segun las categorias asignadas a la competencia creada.
-                    $competenciaCategoria = CompetenciaCategoria::create([
-                        'id_competencia' => $competencia->id,
-                        'id_categoria' => $idCategoria,
-                    ]);
-
-
-                    // Sorteamos los poomsaes para cada graduacion de cada categoria.
-                    if (count($graduaciones) > 0) {
-                        foreach ($graduaciones as $graduacion) {
-
-                            // Obtenemos un poomsae aleatorio para la primer pasada.
-                            $poomsaeRandom1 = Poomsae::inRandomOrder()->first();
-                            // Obtenemos un poomsae aleatorio para la segunda pasada.
-                            $poomsaeRandom2 = Poomsae::inRandomOrder()->first();
-
-                            $poomsaeC = PoomsaeCompetenciaCategoria::create([
-                                'id_competencia_categoria' => $competenciaCategoria->id,
-                                'id_poomsae1' => $poomsaeRandom1->id,
-                                'id_poomsae2' => $poomsaeRandom2->id,
-                                'id_graduacion' => $graduacion->id,
-                            ]);
-                        }
-                    } else {
-                        throw new Exception("Error al agregar competencia. Agrega graduaciones e intenta de nuevo.");
-                    }
-                }
+                $this->crearCompetenciaCategoriaYPoomsaes($categoria, $competencia);
             } else {
                 throw new Exception("Error al agregar competencia. Agrega categorias e intenta de nuevo.");
             }
@@ -147,42 +142,132 @@ class Agregar extends Component
         $this->emit('recarga');
     }
 
+    public function crearCompetenciaCategoriaYPoomsaes($categoria, $competencia){
+        // Obtenemos todas las graduaciones para asignarle 2 poomsaes a cada una.
+        $graduaciones = Graduacion::get();
+        // Creamos un registro por cada categoria que se asigno a la competencia.
+        foreach ($categoria as $idCategoria) {
+
+            // Crear registros en la tabla CompetenciaCategoria, segun las categorias asignadas a la competencia creada.
+            $competenciaCategoria = CompetenciaCategoria::create([
+                'id_competencia' => $competencia->id,
+                'id_categoria' => $idCategoria,
+            ]);
+
+
+            // Sorteamos los poomsaes para cada graduacion de cada categoria.
+            if (count($graduaciones) > 0) {
+                foreach ($graduaciones as $graduacion) {
+
+                    // Obtenemos un poomsae aleatorio para la primer pasada.
+                    $poomsaeRandom1 = Poomsae::inRandomOrder()->first();
+                    // Obtenemos un poomsae aleatorio para la segunda pasada.
+                    $poomsaeRandom2 = Poomsae::inRandomOrder()->first();
+
+                    $poomsaeC = PoomsaeCompetenciaCategoria::create([
+                        'id_competencia_categoria' => $competenciaCategoria->id,
+                        'id_poomsae1' => $poomsaeRandom1->id,
+                        'id_poomsae2' => $poomsaeRandom2->id,
+                        'id_graduacion' => $graduacion->id,
+                    ]);
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     public function update()
     {
-
-        $validate = $this->validate([
-            'titulo' => ['required', 'max:120'],
-            'descripcion' => ['required', 'max:120'],
-        ]);
-
         $competencia = Competencia::find($this->idCompetencia);
-        $competencia->titulo = $validate['titulo'];
-        $competencia->descripcion = $validate['descripcion'];
+        $seModifico = false;
+        $datosModificados = array();
 
+        // Validamos que el nuevo dato sea diferente al actual para cambiarlo.
+        if ($this->titulo != $competencia->titulo){
+            $this->validate([
+                'titulo' => ['required', 'max:120', 'unique:competencias'],
+            ]);
+            $competencia->titulo = $this->titulo;
+            $seModifico = true;
+            $datosModificados[] = 'titulo';
+        }
 
+        if ($this->descripcion != $competencia->descripcion){
+            $this->validate([
+                'descripcion' => ['required', 'max:120'],
+            ]);
+            $competencia->descripcion = $this->descripcion;
+            $seModifico = true;
+            $datosModificados[] = 'descripcion';
+        }
 
-        $competencia->save() ? $this->emit('msjAccion', [true, 'Se actualizo la competencia']) : $this->emit('msjAccion', [false, 'Error al actualizar, intente de nuevo.']);
+        if ($this->fecha_inicio != $competencia->fecha_inicio){
+            $this->validate([
+                'fecha_inicio' => ['required', 'date', 'after_or_equal:today', 'before:fecha_fin'],
+            ]);
+            $competencia->fecha_inicio = $this->fecha_inicio;
+            $seModifico = true;
+            $datosModificados[] = 'fecha inicio';
+        }
+
+        if ($this->fecha_fin != $competencia->fecha_fin){
+            $this->validate([
+                'fecha_fin' => ['required', 'date', 'after:fecha_inicio'],
+            ]);
+            $competencia->fecha_fin = $this->fecha_fin;
+            $seModifico = true;
+            $datosModificados[] = 'fecha fin';
+        }
+
+        if ($this->bases != null){
+            Storage::disk('public')->delete($competencia->bases);
+            $urlBases = $this->bases->store('competencias/bases', 'public');
+            $this->validate([
+                'bases' => ['required', 'mimes:pdf,docx'],
+            ]);
+            $competencia->bases = $urlBases;
+            $seModifico = true;
+            $datosModificados[] = 'bases';
+        }
+
+        if ($this->flyer != null){
+            Storage::disk('public')->delete($competencia->flyer);
+            $urlImagen = $this->flyer->store('competencias', 'public');
+            $this->validate([
+                'flyer' => ['required', 'image', 'max:2048'],
+            ]);
+            $competencia->flyer = $urlImagen;
+            $seModifico = true;
+            $datosModificados[] = 'flyer';
+        }
+
+        if ($this->invitacion != null){
+            Storage::disk('public')->delete($competencia->invitacion);
+            $urlInvitacion = $this->invitacion->store('competencias/invitacion', 'public');
+            $this->validate([
+                'invitacion' => ['required', 'mimes:pdf,docx'],
+            ]);
+            $competencia->invitacion = $urlInvitacion;
+            $seModifico = true;
+            $datosModificados[] = 'invitacion';
+        }
+
+        if ($seModifico){
+            if (count($datosModificados) > 1){
+                $items = collect($datosModificados)->slice(0, -1)->implode(', ');
+                $items .= ' y ' . last($datosModificados);
+            } else{
+                $items = $datosModificados[0];
+            }
+            $msj = "Se actualizo: $items, en la competencia $competencia->titulo";
+            $competencia->save() ? $this->emit('msjAccion', [true, $msj]) : $this->emit('msjAccion', [false, 'Error al actualizar, intente de nuevo.']);
+        }
         $this->open = false;
         $this->emit('recarga');
     }
 
-    public function show($parametros)
-    {
-        $this->boton = $parametros[1];
-        $this->accionForm = 'update';
-
-        $competencia = Competencia::find($parametros[0]);
-        $this->competencia = $competencia;
-        $this->idCompetencia = $competencia->id;
-        $this->titulo = $competencia->titulo;
-        $this->descripcion = $competencia->descripcion;
-        $this->fecha_inicio = $competencia->fecha_inicio;
-        $this->fecha_fin = $competencia->fecha_fin;
-
-        // $this->manejoEstadosCompetencias($competencia->estado);
-
-        $this->open = true;
-    }
 
     // Competencia en estado 1 la modificamos a estado 2
     public function abrirInscripciones($id)

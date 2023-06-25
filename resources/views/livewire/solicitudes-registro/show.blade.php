@@ -73,7 +73,11 @@
                             {{$usuario->email}}
                         </td>
                         <td class="px-6 py-4">
-                            {{$usuario->rol}}
+                            @if ($usuario->rolRequerido == 1)
+                                Competidor
+                            @else
+                                Juez
+                            @endif
                         </td>
                         <td class="px-6 py-4">
                             No Habilitado

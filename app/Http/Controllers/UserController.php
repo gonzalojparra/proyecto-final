@@ -87,15 +87,16 @@ class UserController extends Controller {
             'genero' => $genero,
             'id_graduacion' => $graduacionFinal,
             'id_escuela' => $escuela[0]->id,
+            'rolRequerido' => $input['rolRequerido'],
         ]);
 
         if ($escuela !== null) {
             // Asignar rol en tabla de spatie
-            $usuario->assignRole($input['rol']);
+            // $usuario->assignRole($input['rol']);
             // Asignar usuario a la escuela en tabla de team
             $escuela[0]->users()->attach(
                 Jetstream::findUserByEmailOrFail($input['email']),
-                ['role' => $input['rol']]
+                ['role' => $input['rolRequerido']]
             );
             $usuario->switchTeam($escuela[0]);
             $usuario->ownedTeams()->save($escuela[0]);
