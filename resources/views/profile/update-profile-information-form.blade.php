@@ -39,7 +39,7 @@
         <!-- Escuelas -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="escuela" value="{{ __('Escuela') }}" />
-            <x-input readonly id="escuela" class="block mt-1 w-full bg-gray-200" disabled type="text" name="escuela" value="{{$this->user->currentTeam->name}} " />
+            <x-input readonly id="escuela" class="block mt-1 w-full bg-gray-200" disabled type="text" name="escuela" value="{{$this->user->team->name}} " />
             <x-input-error for="escuela" class="mt-2" />
             <div id="escuelaFeedback" class="input-feedback" for="escuelaUsuario">&nbsp;</div>
         </div>
@@ -49,7 +49,7 @@
         <!-- Escuelas -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="escuela" value="{{ __('Escuela') }}" />
-            <x-input readonly id="escuela" class="block mt-1 w-full bg-gray-200" disabled type="text" name="escuela" value="{{$this->user->currentTeam->name}} " />
+            <x-input readonly id="escuela" class="block mt-1 w-full bg-gray-200" disabled type="text" name="escuela" value="{{$this->user->team->name}} " />
             <x-input-error for="escuela" class="mt-2" />
             <div id="escuelaFeedback" class="input-feedback" for="escuelaUsuario">&nbsp;</div>
         </div>
