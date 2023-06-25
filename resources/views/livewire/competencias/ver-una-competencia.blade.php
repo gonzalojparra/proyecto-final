@@ -14,7 +14,7 @@
                 <img class="rounded-t-lg w-auto" src="{{ Storage::url($data['flyer']) }}" alt="flyer" />
             </div>
             @livewire('competencias.formulario-inscripcion', ['competenciaId' => $data['id']])
-            <div grid justify-items-center class="flex flex-col">
+            <div grid justify-items-center class="flex flex-col align-items-center">
                 <div class="data dark:text-gray-400 mb-2" style="height: 80%;">
                     <ul>
                         <li class="dark:bg-gray-800 dark:border-gray-700 rounded-md max-w-md p-2">
@@ -58,15 +58,15 @@
                     </ul>
                     <img src="storage/app/public/{{$data['flyer']}}" alt="">
                 </div>
-                <div class="flex flex-row justify-center items-end mt-8 text-gray-500 ml-5" style="height: 20%;">
+                <div class="flex flex-row justify-center align-items-center items-end mt-8 text-gray-500" style="height: 20%;">
                     <div class="flex flex-row justify-center">
                         @if(Auth::user()->hasRole('Admin'))
-                        <button id="openModal" style="display: none;" disabled type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white">
+                        <button style="display: none;" id="openModal" disabled type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white">
                             <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
                                 No verificado para inscribirse
                             </span>
                         </button>
-                        @elseif ($cantJuecesCompetencia < 3 && Auth::user()->hasRole('Competidor'))
+                        @elseif ($cantJuecesCompetencia < 3 && Auth::user()->hasRole('Competidor') )
                             <button id="openModal" style="display:none; " type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white">
                                 <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
                                     Inscripción
