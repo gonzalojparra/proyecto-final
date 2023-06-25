@@ -224,7 +224,10 @@ class FormularioInscripcion extends Component
 
     public function compararDatos()
     {
-        $this->idGraduacion = Graduacion::where('nombre', $this->graduacion)->pluck('id');
+        if ($this->idGraduacion != null) {
+            $this->idGraduacion = Graduacion::where('nombre', $this->graduacion)->pluck('id');
+            
+        }
         $actualizacion = new Actualizacion();
         $idEscuela =  Team::where('name', $this->escuela)->pluck('id');
         $actualizar = false;
