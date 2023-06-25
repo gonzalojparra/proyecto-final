@@ -18,21 +18,22 @@
                 <div class="text-gray-100 text-xl"><strong>Informacion Personal</strong></div>
                 <div class="text-gray-100 text-lg mt-1">Email: {{ $user->email }}</div>
                 @role('Juez')
-                <div class="text-gray-100 text-lg">Escuela: {{Auth::user()->currentTeam->name}}</div>
+                <div class="text-gray-100 text-lg">Escuela: {{$user->team->name}}</div>
                 @endrole
                 @role('Competidor')
                 <div class="text-gray-100 text-lg">DU: {{ $user->du }}</div>
                 <div class="text-gray-100  text-lg">Nacimiento: {{ $user->fecha_nac }}</div>
                 <div class="text-gray-100 text-lg ">Genero: {{ $user->genero }}</div>
                 <div class="text-gray-100 text-lg"> Graduacion: {{ $user->graduacion->nombre }}</div>
-                <div class="text-gray-100 text-lg"> Escuela: {{Auth::user()->currentTeam->name}}</div>
+                <div class="text-gray-100 text-lg"> Escuela: {{$user->team->name}}</div>
                 @if($user->gal != null)
                 <div class="text-gray-100 text-lg uppercase">Gal: {{ $user->gal }}</div>
                 @endif
                 @endrole
             </div>
         </div>
-      
+
+        @if(Auth::user()->verificado == 1)
         <div class="flex justify-end mb-3">
             <button id="botonPerfil" class="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
                 <span class="relative px-5 py-2.5 inline transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
@@ -43,6 +44,9 @@
                 </span>
             </button>
         </div>
+        @endif
+
+       
     </div>
     <div class="p-1"></div>
 

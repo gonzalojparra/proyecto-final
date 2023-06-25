@@ -57,7 +57,11 @@ class EnvioMail extends Mailable
         }
         $this->nombre = $user['name'];
         $this->apellido = $user['apellido'];
-        $this->rol = $user->roles()->pluck('name')[0];
+        if ($user['rolRequerido'] == 1) {
+            $this->rol = 'Competidor';
+        }else{
+            $this->rol = 'Juez';
+        }
     }
 
     /**

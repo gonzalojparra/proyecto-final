@@ -30,10 +30,10 @@
                     <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                         <span class="font-medium text-gray-600 dark:text-gray-300">1°</span>
                     </div>
-                    <h5 class="mb-2 ml-auto text-2xl font-bold tracking-tight text-gray-900 inline-flex">{{$podio[0]['name']}} {{$podio[0]['apellido']}}</h5>
+                    <h5 class="mb-2 ml-auto text-2xl font-bold tracking-tight text-gray-900 inline-flex">{{$podio[0]->name}} {{$podio[0]->apellido}}</h5>
                     <ul class="style-none text-center font-bold text-md">
-                        <li>{{$podio[0]['clasificacion']}} Pts</li>
-                        <li>{{$podio[0]['id_escuela']}}</li>
+                        <li>{{$podio[0]->clasificacion}} Pts</li>
+                        <li>{{$podio[0]->team->name}}</li>
                     </ul>
                     <div class="w-full h-6 bg-gray-200 rounded dark:bg-gray-700 mt-2">
                         <div class="h-6 bg-yellow-400 rounded dark:text-yellow-500" style="width: 100%"></div>
@@ -60,10 +60,10 @@
                     <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                         <span class="font-medium text-gray-600 dark:text-gray-300">2°</span>
                     </div>
-                    <h5 class="mb-2 ml-auto text-2xl font-bold tracking-tight text-gray-900 inline-flex">{{$podio[1]['name']}} {{$podio[1]['apellido']}}</h5>
+                    <h5 class="mb-2 ml-auto text-2xl font-bold tracking-tight text-gray-900 inline-flex">{{$podio[1]->name}} {{$podio[1]->apellido}}</h5>
                     <ul class="style-none text-center font-bold text-md">
-                        <li>{{$podio[1]['clasificacion']}} Pts</li>
-                        <li>{{$podio[1]['id_escuela']}}</li>
+                        <li>{{$podio[1]->clasificacion}} Pts</li>
+                        <li>{{$podio[1]->team->name}}</li>
                     </ul>
                     <div class="w-full h-6 bg-gray-200 rounded dark:bg-gray-700 mt-2">
                         <div class="h-6 bg-yellow-400 rounded dark:text-yellow-500" style="width: 100%"></div>
@@ -90,10 +90,10 @@
                     <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                         <span class="font-medium text-gray-600 dark:text-gray-300">3°</span>
                     </div>
-                    <h5 class="mb-2 ml-auto text-2xl font-bold tracking-tight text-gray-900 inline-flex">{{$podio[2]['name']}} {{$podio[2]['apellido']}}</h5>
+                    <h5 class="mb-2 ml-auto text-2xl font-bold tracking-tight text-gray-900 inline-flex">{{$podio[2]->name}} {{$podio[2]->apellido}}</h5>
                     <ul class="style-none text-center font-bold text-md">
-                        <li>{{$podio[2]['clasificacion']}} Pts</li>
-                        <li>{{$podio[2]['id_escuela']}}</li>
+                        <li>{{$podio[2]->clasificacion}} Pts</li>
+                        <li>{{$podio[2]->team->name}}</li>
                     </ul>
                     <div class="w-full h-6 bg-gray-200 rounded dark:bg-gray-700 mt-2">
                         <div class="h-6 bg-yellow-400 rounded dark:text-yellow-500" style="width: 100%"></div>
@@ -143,28 +143,29 @@
                         </tr>
                     </thead>
                     <tbody>
-
+                        <?php $i=1 ?>
                         @foreach ($compGraduacion as $unCompetidor)
                         <tr class="hover:bg-gray-300 dark:bg-gray-100 dark:border-gray-700 ">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-700 whitespace-nowrap">
-                                1
+                                {{$i}}
                             </th>
                             <th class="px-6 py-4">
-                                {{$unCompetidor['name']}} {{$unCompetidor['apellido']}}
+                                {{$unCompetidor->name}} {{$unCompetidor->apellido}}
                             </th>
                             <td class="px-6 py-4">
-                                {{$unCompetidor['genero']}}
+                                {{$unCompetidor->genero}}
                             </td>
                             <td class="px-6 py-4">
-                                {{$unCompetidor['id_escuela']}}
+                                {{$unCompetidor->team->name}}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $unCompetidor['id_graduacion'] }}
+                                {{$unCompetidor->graduacion->nombre}}
                             </td>
                             <td class="px-6 py-4">
-                                {{$unCompetidor['clasificacion']}}
+                                {{$unCompetidor->clasificacion}}
                             </td>
                         </tr>
+                        <?php $i++ ?>
                         @endforeach
                     </tbody>
                 </table>

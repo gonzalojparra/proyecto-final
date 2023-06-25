@@ -1,7 +1,7 @@
 @if($cantJuecesCompetencia < 3 && Auth::user()->hasRole('Competidor'))
     <div class="bg-red-200 text-red-800 pt-4 m-6 mt-4 mb-4 p-4 text-lg rounded border border-red-300 my-3">
         Por el momento no se puede incribir a esta competencia <br>Por favor, vuelve más tarde para poder inscribirse. <br>
-        <a href="{{asset('competencias/show')}}" class="font-medium text-red-800 dark:text-red-800 hover:underline">Volver</a>
+        <a href="{{route('competencias.index')}}" class="font-medium text-red-800 dark:text-red-800 hover:underline">Volver</a>
     </div>
     <div class="p-4 "></div>
     @else
@@ -72,7 +72,7 @@
                                     Inscripción
                                 </span>
                             </button>
-                            @elseif( Auth::check() && $bandera == 0 )
+                            @elseif( Auth::check() && $bandera == 0 && $data['estado']< 4)
                             <button id="openModal" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white">
                                 <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
                                     Inscripcion en proceso
@@ -111,6 +111,17 @@
                                 </button>
                             </a>
                             @endrole
+                            @if($data['estado']==4)
+                            @role('Juez')
+                            <a href="{{route('pulsador')}}">
+                                <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
+                                    <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                        Pulsador
+                                    </span>
+                                </button>
+                            </a>
+                            @endrole
+                            @endif
                     </div>
                 </div>
             </div>

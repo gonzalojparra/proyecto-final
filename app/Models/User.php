@@ -35,7 +35,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'apellido', 'email', 'password',
         'fecha_nac', 'id_escuela', 'gal', 'du',
-        'clasificacion', 'id_graduacion', 'id_categoria', 'genero'
+        'clasificacion', 'id_graduacion', 'id_categoria', 'genero', 'rolRequerido'
     ];
 
     /**
@@ -72,17 +72,23 @@ class User extends Authenticatable
     {
         return $this->hasOne(Team::class, 'id', 'id_escuela');
     }
+    public function teamNombre()
+    {
+        return $this->belongsTo(Team::class, 'id_escuela');
+    }
+    public function getNombreEscuela()
+    {
+        return $this->team->name;
+    }
 
     public function graduacion()
     {
         return $this->belongsTo(Graduacion::class, 'id_graduacion');
     }
-
     public function graduacionNombre()
     {
         return $this->belongsTo(Graduacion::class, 'id_graduacion');
     }
-
     public function getNombreGraduacion()
     {
         return $this->graduacion->nombre;

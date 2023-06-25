@@ -145,25 +145,3 @@ btnReiniciar.addEventListener('click', () => {
 
 // Llamo al método después de definirlo
 iniciar();
-
-
-
-
-/*// Temporizador en segundos
-    var seconds = 90;
-
-    // Función para actualizar el temporizador
-    function updateCountdown() {
-      var countdownElement = document.getElementById("countdown");
-      countdownElement.textContent = seconds;
-
-      if (seconds > 0) {
-        seconds--;
-        setTimeout(updateCountdown, 1000);
-      }
-    }
-
-    // Iniciar el temporizador al cargar la página
-    window.onload = function () {
-      updateCountdown();
-    };*/ 
