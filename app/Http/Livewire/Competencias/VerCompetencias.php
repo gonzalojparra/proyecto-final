@@ -19,8 +19,8 @@ class VerCompetencias extends Component
 
         $competencias = Competencia::where('estado', '<>', 0)->get();
         $user = Auth::user();
- 
-        if ($user->hasRole('Competidor')) {
+     
+        if ($user && $user->hasRole('Competidor')) {
             $competenciasPublicas = [];
             
             foreach ($competencias as $competencia) {
@@ -55,7 +55,10 @@ class VerCompetencias extends Component
             // dd($competenciasPublicas);
             return view('livewire.competencias.ver-competencias', ['competencias' => $competenciasPublicas]);
         }
-        return view('livewire.competencias.ver-competencias', ['competencias' => $competencias]);
+        else{
+            return view('livewire.competencias.ver-competencias', ['competencias' => $competencias]);
+
+        }
         
     }
 
