@@ -60,31 +60,19 @@
                 </div>
                 <div class="flex flex-row justify-center items-end mt-8 text-gray-500 ml-5" style="height: 20%;">
                     <div class="flex flex-row justify-center">
-                        @if(Auth::user()->verificado == 0)
-                        <button id="openModal" disabled type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white">
-                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
-                                No verificado para inscribirse
-                            </span>
-                        </button>
-                        @elseif ($cantJuecesCompetencia < 3 && Auth::user()->hasRole('Competidor'))
-                            <button id="openModal" style="display:none; " type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white">
-                                <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
-                                    Inscripción
-                                </span>
-                            </button>
-                            @elseif( Auth::check() && $bandera == 0 && $data['estado']< 4)
+                        @if($bandera == 0 && $data['estado']< 4)
                             <button id="openModal" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white">
                                 <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
                                     Inscripcion en proceso
                                 </span>
                             </button>
-                            @elseif( (Auth::check() && Auth::user()->hasRole('Competidor') && $data['estado'] == 2) || (Auth::user()->hasRole('Juez') && $data['estado'] == 1 || $data['estado'] == 2) && !$mostrarPoomsaes)
+                        @elseif( (Auth::user()->hasRole('Competidor') && $data['estado'] == 2) || (Auth::user()->hasRole('Juez') && $data['estado'] == 1 || Auth::user()->hasRole('Juez') && $data['estado'] == 2) && !$mostrarPoomsaes)
                             <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white">
                                 <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                     Inscripción
                                 </span>
                             </button>
-                            @endif
+                        @endif
                             <!-- <button id="openModal" wire:click="mostrarInscripcion({{$data['id']}})" type="button" class="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                         Inscribirme
                     </button> -->
