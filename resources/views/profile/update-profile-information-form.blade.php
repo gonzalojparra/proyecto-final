@@ -2,10 +2,18 @@
     <x-slot name="title">
         <span class="text-slate-100 text-xl">{{ __('Información del perfil') }}</span>
     </x-slot>
-    <!-- Perfil -->
+
     <x-slot name="description" class="text-white">
         <span class="text-slate-200 text-lg">{{ __('Actualiza la información de tu perfil') }}</span>
         <x-section-border />
+        <a href="{{url('user/profile')}}">
+            <x-button class="ml-4  bg-grey-600 disabled:opacity-25">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                </svg>                  
+                Volver al Perfil
+            </x-button>
+        </a>
     </x-slot>
 
     <x-slot name="form">
@@ -31,7 +39,7 @@
         <!-- Escuelas -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="escuela" value="{{ __('Escuela') }}" />
-            <x-input readonly id="escuela" class="block mt-1 w-full bg-gray-200" disabled type="text" name="escuela" value="{{$this->user->currentTeam->name}} " />
+            <x-input readonly id="escuela" class="block mt-1 w-full bg-gray-200" disabled type="text" name="escuela" value="{{$this->user->team->name}} " />
             <x-input-error for="escuela" class="mt-2" />
             <div id="escuelaFeedback" class="input-feedback" for="escuelaUsuario">&nbsp;</div>
         </div>
@@ -41,7 +49,7 @@
         <!-- Escuelas -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="escuela" value="{{ __('Escuela') }}" />
-            <x-input readonly id="escuela" class="block mt-1 w-full bg-gray-200" disabled type="text" name="escuela" value="{{$this->user->currentTeam->name}} " />
+            <x-input readonly id="escuela" class="block mt-1 w-full bg-gray-200" disabled type="text" name="escuela" value="{{$this->user->team->name}} " />
             <x-input-error for="escuela" class="mt-2" />
             <div id="escuelaFeedback" class="input-feedback" for="escuelaUsuario">&nbsp;</div>
         </div>
@@ -68,26 +76,26 @@
             <div class="checks" id="generoChecks" required>
                 @if($this->user->genero === 'Femenino')
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Femenino" value="Femenino" checked>
+                    <input class="form-check-input" type="radio" name="genero" id="Femenino"  checked>
                     <label class="form-check-label" for="femenino">
                         Femenino
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Masculino" value="Masculino">
+                    <input class="form-check-input" type="radio" name="genero" id="Masculino">
                     <label class="form-check-label" for="masculino">
                         Masculino
                     </label>
                 </div>
                 @elseif($this->user->genero === 'Masculino')
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Femenino" value="Femenino">
+                    <input class="form-check-input" type="radio" name="genero" id="Femenino">
                     <label class="form-check-label" for="femenino">
                         Femenino
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Masculino" value="Masculino" checked>
+                    <input class="form-check-input" type="radio" name="genero" id="Masculino" checked>
                     <label class="form-check-label" for="masculino">
                         Masculino
                     </label>
@@ -95,7 +103,6 @@
                 @endif
             </div>
         </div>
-
 
         <!-- Graduacio -->
         <div class="col-span-6 sm:col-span-4">

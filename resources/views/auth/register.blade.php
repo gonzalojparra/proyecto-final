@@ -57,13 +57,13 @@
                 <div>Tipo de cuenta requerida</div>
                 <div class="checks" id="rolChecks" required>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="rol" id="competidor" value="Competidor">
+                        <input class="form-check-input" type="radio" name="rolRequerido" id="competidor" value="1">
                         <label class="form-check-label" for="competidor">
                             Competidor
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="rol" id="juez" value="Juez">
+                        <input class="form-check-input" type="radio" name="rolRequerido" id="juez" value="2">
                         <label class="form-check-label" for="juez">
                             Jurado
                         </label>
@@ -105,7 +105,7 @@
 
                 </div>
 
-                <div>
+                <!-- <div>
                     <x-label for="categoriaCompetidor" value="{{ __('Categoria') }}" />
                     <select id="categoriaCompetidor" class="block mt-1 w-full" type="text" name="categoria" :value="old('categoria')"  autocomplete="categoria">
                         <option value="">Seleccione una categoría</option>
@@ -113,7 +113,7 @@
                         <option value="Juveniles">Juveniles</option>
                     </select>
                     <div id="categoriaFeedback" class="input-feedback" for="categoriaCompetidor">&nbsp;</div>
-                </div>
+                </div> -->
 
                 <div>
                     <x-label for="graduacionCompetidor" value="{{ __('Graduacion') }}" />

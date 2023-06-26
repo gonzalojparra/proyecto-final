@@ -18,14 +18,14 @@
                 <div class="text-gray-100 text-xl"><strong>Informacion Personal</strong></div>
                 <div class="text-gray-100 text-lg mt-1">Email: {{ $user->email }}</div>
                 @role('Juez')
-                <div class="text-gray-100 text-lg">Escuela: {{Auth::user()->currentTeam->name}}</div>
+                <div class="text-gray-100 text-lg">Escuela: {{$user->team->name}}</div>
                 @endrole
                 @role('Competidor')
                 <div class="text-gray-100 text-lg">DU: {{ $user->du }}</div>
                 <div class="text-gray-100  text-lg">Nacimiento: {{ $user->fecha_nac }}</div>
                 <div class="text-gray-100 text-lg ">Genero: {{ $user->genero }}</div>
                 <div class="text-gray-100 text-lg"> Graduacion: {{ $user->graduacion->nombre }}</div>
-                <div class="text-gray-100 text-lg"> Escuela: {{Auth::user()->currentTeam->name}}</div>
+                <div class="text-gray-100 text-lg"> Escuela: {{$user->team->name}}</div>
                 @if($user->gal != null)
                 <div class="text-gray-100 text-lg uppercase">Gal: {{ $user->gal }}</div>
                 @endif
@@ -67,6 +67,9 @@
                 </span>
             </button>
         </div>
+        @endif
+
+       
     </div>
     <div class="p-1"></div>
 

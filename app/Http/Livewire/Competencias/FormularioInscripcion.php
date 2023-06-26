@@ -6,6 +6,7 @@ use App\Http\Middleware\Authenticate;
 use App\Mail\EnvioMail;
 use App\Models\Actualizacion;
 use App\Models\Categoria;
+use App\Models\Competencia;
 use App\Models\CompetenciaCategoria;
 use App\Models\CompetenciaCompetidor;
 use App\Models\CompetenciaJuez;
@@ -42,6 +43,8 @@ class FormularioInscripcion extends Component
     public $categoria;
     public $idCategoria;
     public $idCompetencia;
+
+    public $categoriaValida = false;
 
     //variables para manejar el input del gal
     public $editarGal = 'readonly';
@@ -159,6 +162,7 @@ class FormularioInscripcion extends Component
         $this->calcularCategoria();
         $this->compararDatos();
         // $this->sortPoomsae($this->graduacion);
+       if($this->categoriaValida){
         $competencia_competidor = new CompetenciaCompetidor();
         $competencia_competidor->id_competencia = $this->idCompetencia;
         $competencia_competidor->id_competidor = $this->idUsuario;
@@ -166,6 +170,9 @@ class FormularioInscripcion extends Component
         $competencia_competidor->calificacion = null;
         $competencia_competidor->aprobado = 0;
         $competencia_competidor->save();
+       } else {
+        //aca habria que tirar un mensaje de error
+       }
     }
 
 
@@ -217,7 +224,10 @@ class FormularioInscripcion extends Component
 
     public function compararDatos()
     {
-
+        if ($this->idGraduacion != null) {
+            $this->idGraduacion = Graduacion::where('nombre', $this->graduacion)->pluck('id');
+            
+        }
         $actualizacion = new Actualizacion();
         $idEscuela =  Team::where('name', $this->escuela)->pluck('id');
         $actualizar = false;
@@ -225,7 +235,7 @@ class FormularioInscripcion extends Component
         if ($this->escuelaInicial != $this->escuela) {
             $actualizacion->id_escuela_nueva = $idEscuela[0];
             if ($this->graduacionInicial != $this->graduacion) {
-                $actualizacion->id_graduacion_nueva = $this->idGraduacion;
+                $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
                 if ($this->galInicial != $this->gal) {
                     $actualizacion->gal_nuevo = $this->gal;
                 } else {
@@ -247,7 +257,7 @@ class FormularioInscripcion extends Component
                 $actualizacion->gal_nuevo = NULL;
             }
             $actualizacion->id_escuela_nueva = null;
-            $actualizacion->id_graduacion_nueva = $this->idGraduacion;
+            $actualizacion->id_graduacion_nueva = $this->idGraduacion[0];
             $actualizar = true;
         } else {
             if ($this->galInicial != $this->gal) {
@@ -279,9 +289,11 @@ class FormularioInscripcion extends Component
         }
     }
 
+    //para verCompetencias habria que pasar por parametro un $idCompetencia y que ya no se use el $this->idCompetencia
+    //esto aplica unicamente al competidor
     private function calcularCategoria()
     {
-        $categoria = '';
+        $categoriasPermitidas = CompetenciaCategoria::where('id_competencia', $this->idCompetencia)->get();
         $fechaActual = time();
         $fechaNac = strtotime($this->fechaNac);
         $edad = round(($fechaActual - $fechaNac) / 31563000);
@@ -300,36 +312,13 @@ class FormularioInscripcion extends Component
         if ($edad >= 50.0) {
             $this->idCategoria = 5;
         }
+
+        foreach ($categoriasPermitidas as $categoria) {
+            if($categoria->id_categoria == $this->idCategoria){
+                $this->categoriaValida = true;
+            }
+        }
+        //en lugar de ser un $this->categoriaValida, deberia ser un return true o false
     }
 
-
-
-
-    //poomsaes
-    //gup 10 -> IL
-    //gup 9 - 7 -> IL - SAM
-    //gup 6 - 4 -> I - YOUK
-    //gup 3 - 1 -> SAM - PAL
-    //dan cadete -> SA - KEUMGANG (4 - 10)
-    //dan juvenil -> SA - TAEBACK (4 - 11)
-    //dan senior 1 -> SA - PYONKWONG (4 - 12)
-    //dan senior2-master1 -> SA - SIPJIN (4 - 13)
-    //dan master 2 -> SA - HANSU (4 - 16)
-
-    //ESTA FUNCION PERTENECE A APROBAR INSCRIPCION
-    public function asignarPoomsae()
-    {
-        //$this->idCategoria y $this->idCompetencia son de formularioInscripción, los van a tener que sacar del objeto traido de competencia_competidor
-        $poomsaesCompetidor = [];
-        $competenciaCategoria = CompetenciaCategoria::where('id_competencia', $this->idCompetencia)->where('id_categoria', $this->idCategoria)->pluck('id');
-        $idGraduacion = Graduacion::where('nombre', $this->graduacion)->pluck('id');
-        $poomsaesCompetidor['ronda1'] = PoomsaeCompetenciaCategoria::where('id_competencia_categoria', $competenciaCategoria[0])->where('id_graduacion', $idGraduacion)->pluck('id_poomsae1')[0];
-        $poomsaesCompetidor['ronda2'] = PoomsaeCompetenciaCategoria::where('id_competencia_categoria', $competenciaCategoria[0])->where('id_graduacion', $idGraduacion)->pluck('id_poomsae2')[0];
-        //van a tener que crear un modelo de Pasada para poder cargar
-        //$pasadaCompetidor1 y $pasadaCompetidor2 con los datos
-        // $idCompetencia
-        // $ronda 
-        // $idPoomsae (el correspondiente a la ronda)
-        // $idCompetidor
-    }
 }

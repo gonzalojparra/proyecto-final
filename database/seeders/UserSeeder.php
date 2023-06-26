@@ -182,7 +182,8 @@ class UserSeeder extends Seeder
                 'du'=>$user['du'],
                 'fecha_nac' => $user['fecha_nac'],
                 'clasificacion' => $user['clasificacion'],
-                'verificado' => 1
+                'verificado' => 1,
+                'rolRequerido' => 1
             ])->assignRole('Competidor');
         };
 
@@ -197,7 +198,8 @@ class UserSeeder extends Seeder
             'email' => 'pepa@example.com',
             'password' => Hash::make('123'),
             'id_escuela' => 3,
-            'verificado' => 1
+            'verificado' => 1,
+            'rolRequerido' => 2
         ])->assignRole('Juez');
         
         User::create([
@@ -206,7 +208,8 @@ class UserSeeder extends Seeder
             'email' => 'loren@example.com',
             'password' => Hash::make('123'),
             'id_escuela' => 15,
-            'verificado' => 1
+            'verificado' => 1,
+            'rolRequerido' => 2
         ])->assignRole('Juez');
 
         User::create([
@@ -215,7 +218,8 @@ class UserSeeder extends Seeder
             'email' => 'mari.ar@example.com',
             'password' => Hash::make('123'),
             'id_escuela' => 3,
-            'verificado' => 1
+            'verificado' => 1,
+            'rolRequerido' => 2
         ])->assignRole('Juez');
 
         User::create([
@@ -224,7 +228,8 @@ class UserSeeder extends Seeder
             'email' => 'soffer@example.com',
             'password' => Hash::make('123'),
             'id_escuela' => 7,
-            'verificado' => 1
+            'verificado' => 1,
+            'rolRequerido' => 2
         ])->assignRole('Juez');
 
         // User::create([
@@ -260,7 +265,8 @@ class UserSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => Hash::make('admin'),
             'id_escuela' => 4,
-            'verificado' => 1
+            'verificado' => 1,
+            'rolRequerido' => 0
         ])->assignRole('Admin');
 
 

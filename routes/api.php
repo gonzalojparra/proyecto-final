@@ -26,9 +26,12 @@ Route::get('/enviarTiempo/{tiempoTotal}.{idPasada}', [TimerController::class, 'e
 Route::post('/iniciarTimer/{idPasada}', [TimerController::class, 'iniciarTimer']);
 Route::get('/pararTimer/{idPasada}', [TimerController::class, 'pararTimer']);
 Route::post('/resetearTimer/{idPasada}', [TimerController::class, 'resetearTimer']);
+Route::get('/get-pasadas/{categoriaId}', [TimerController::class, 'getPasadas']);
+Route::get('/get-competidor/{competidorId}', [TimerController::class, 'getCompetidor']);
 
 // Pulsador
 Route::get('/getPasada', [Pulsador::class, 'getPasada']);
-Route::post('/cantJuecesn/{idPasada}', [Pulsador::class, 'cantJueces']);
-Route::post('/esperarTimern/{idPasada}', [Pulsador::class, 'esperarTimer']);
-Route::post('/enviarn/{idPasada}', [Pulsador::class, 'enviar']);
+Route::post('/cantJueces/{idPasada}', [Pulsador::class, 'cantJueces']);
+Route::post('/esperarTimer/{idPasada}', [Pulsador::class, 'esperarTimer']);
+Route::post('/esperarTimerPausao/{idPasada}', [Pulsador::class, 'esperarTimerPausao']);
+Route::post('/enviar/{idPasada}', [Pulsador::class, 'enviar']);

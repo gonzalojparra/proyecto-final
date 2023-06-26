@@ -2,11 +2,13 @@
 
 namespace App\Http\Livewire\Categorias;
 
+use App\Models\CompetenciaCompetidor;
 use App\Models\Categoria;
 use App\Models\Graduacion;
 use App\Models\User;
 use App\Models\Team;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 
 
 class Resultados extends Component
@@ -57,11 +59,13 @@ class Resultados extends Component
 
         $compCategoria = array();
         foreach ($this->competidores as $competidor) {
+            // $competenciaCompetidor = CompetenciaCompetidor::where('id_competidor', $competidor->id)->get();
+            // dd($competenciaCompetidor);
             $fechaNac = strtotime($competidor->fecha_nac);
             $edad = round(($fechaActual - $fechaNac) / 31563000);
             if ($edad <= $categoria[0]['edad_hasta'] && $edad >= $categoria[0]['edad_desde'] && !in_array($competidor, $compCategoria)) {
-                $unCompetidor = $competidor->toArray();
-                array_push($compCategoria, $unCompetidor);
+                //$unCompetidor = $competidor->toArray();
+                array_push($compCategoria, $competidor);
             }
         }
 
@@ -69,7 +73,7 @@ class Resultados extends Component
             $this->compGraduacion = [];
             $idGraduacion =  Graduacion::where('nombre', $this->graduacionSeleccionada)->pluck('id');
             foreach ($compCategoria as $competidor) {
-                if ($idGraduacion[0] == $competidor['id_graduacion'] && !in_array($competidor, $this->compGraduacion)) {
+                if ($idGraduacion[0] == $competidor->id_graduacion && !in_array($competidor, $this->compGraduacion)) {
                     array_push($this->compGraduacion, $competidor);
                 }
             }

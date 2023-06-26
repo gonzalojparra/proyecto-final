@@ -132,13 +132,18 @@ class SolicitudesInscripcion extends Component {
         Mail::to($participante->user->email)->send(new EnvioMail($participante->user->id,3,$participante->id_competencia));
     }
 
-    public function rechazar($rol, $id, $idCompetencia)
+    public function rechazar($rol, $id, $idCompetencia, $actualizacion)
     {
         if ($rol == "Competidor"){
             $participante = CompetenciaCompetidor::find($id);
         } else {
             $participante = CompetenciaJuez::find($id);
         }     
+
+        if ($actualizacion != null){
+            Actualizacion::where('id_user', $actualizacion['id_user'])->delete();
+        }
+
         Mail::to($participante->user->email)->send(new EnvioMail($participante->user->id,4,$idCompetencia));
         $participante->delete();
     }
