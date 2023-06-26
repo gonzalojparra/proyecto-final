@@ -7,7 +7,7 @@
         <div class="grid gap-8 lg:grid-cols-2">
         @foreach ( $competencias as $competencia )
         @role('Competidor') 
-        @if($competencia->estado == 2 )
+        @if($competencia->estado != 1 )
         <div class=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="#">
                 <img class="rounded-t-lg w-auto" src="{{ Storage::url($competencia->flyer) }}" alt="flyer" />
