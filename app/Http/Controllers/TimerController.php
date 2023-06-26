@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Pasada;
 use App\Models\Categoria;
+use App\Models\Competencia;
 use App\Models\CompetenciaCategoria;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TimerController extends Controller {
+
+    public $idCompetencia;
 
     public function index(Request $request) {
         $categorias = [];
@@ -28,21 +32,30 @@ class TimerController extends Controller {
 
             array_push($categorias, $categoria[0]);
         }
-        return view('timer', compact('pasadas', 'categorias'));
+
+        $this->idCompetencia = intval($request->idCompetencia);
+        $competencia = Competencia::find($this->idCompetencia);
+
+        return view('timer', ['pasadas' => $pasadas, 'categorias' => $categorias, 'competencia' => $competencia]);
     }
 
-    public function getPasadas($categoriaId) {
-        $competenciaCategoria = CompetenciaCategoria::where('id_categoria', $categoriaId)->first();
+    public function getCompetencia() {
+        return $this->idCompetencia;
+    }
 
+    public function getPasadas($competenciaId, $categoriaId) {
+        $competenciaCategoria = CompetenciaCategoria::where('id_categoria', $categoriaId)
+            ->where('id_competencia', $competenciaId)
+            ->first();
+    
         if (!$competenciaCategoria) {
             return response()->json([]);
         }
-
-        $idCompetencia = $competenciaCategoria['id_competencia'];
-        $pasadas = Pasada::where('id_competencia', $idCompetencia)
+    
+        $pasadas = Pasada::where('id_competencia', $competenciaCategoria->id_competencia)
             ->where('tiempo_presentacion', null)
             ->get();
-
+    
         return $pasadas->toJson();
     }
 
