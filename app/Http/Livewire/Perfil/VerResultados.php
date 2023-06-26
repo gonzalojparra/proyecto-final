@@ -97,9 +97,13 @@ class VerResultados extends Component
             )->where('competencias.estado', '=', 5)
             ->where('id_competidor', '=', $id)
             ->orderBy('competencia_competidor.id', 'asc')
-            ->get();
-
-        $this->obtenerPosicion($cosa[0]->idCompetencia);
+            ->get()->toArray();
+        
+        if(!empty($cosa)){
+           for ($i=0; $i < count($cosa) ; $i++) { 
+                $cosa[$i]['posicion'] = $this->obtenerPosicion($cosa[$i]['idCompetencia']);
+           }            
+        }
         return $cosa;
     }
 
@@ -115,16 +119,17 @@ class VerResultados extends Component
             ->groupBy('id_competidor')
             ->orderBy('puntos', 'desc')
             ->get();
-        $this->catParticipantes = count($resultados);
+        
         $i = 0;
         $bool = true;
         while ($bool && $i < count($resultados)) {
             if ($resultados[$i]->id === $this->user->id) {
                 $bool = true;
-                $this->posicion = $i + 1;
+                $posicion = $i + 1;
             }
             $i++;
         };
+        return $posicion;
     }
 
     private function obtenerInscripcionesJuez($id)
