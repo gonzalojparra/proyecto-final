@@ -1,10 +1,15 @@
-# Zen Kicks
-
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+## Zen Kicks
 
 Proyecto full-stack de competencias de taekwondo.
 
 ![Zen Kicks](https://github.com/gonzalojparra/proyecto-final/blob/main/public/image/zenkicks.png)
+
+## Tech-Stack
+
+- Laravel
+- Jetstream
+- Livewire
+- Tailwind
 
 ## Instalación
 
