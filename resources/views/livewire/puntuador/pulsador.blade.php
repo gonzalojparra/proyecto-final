@@ -29,12 +29,15 @@
                     </div>
                 </div>
                 <div class="puntaje-boton">
-                    <div class="puntaje">{{$puntaje}}</div>
+                    @if ($tipoPuntaje == 1)
+                    <div class="puntaje">{{$puntajeExactitudInicial}}</div>
+                    @else
+                    <div class="puntaje">{{$puntajePresentacionInicial}}</div>
+                    @endif
                     <div class="boton-enviar">&nbsp;
-                        {{-- <input id="botonEnviar" type="button" class="enviar" wire:click="enviar()"> --}}
                         <span class="label">
                             @if ($tipoPuntaje == 1)
-                            <input id="botonEnviar" type="button" class="enviar" wire:click="enviar()" value='siguiente'>
+                            <input id="botonEnviar" hidden type="button" class="enviar" wire:click="enviar()" value='siguiente'>
                             @else
                             <input id="botonEnviar" type="button" class="enviar" wire:click="enviar()" value='enviar'>
                             @endif

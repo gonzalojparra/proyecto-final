@@ -350,7 +350,10 @@ class Agregar extends Component
 
 
     public function crearPasadasJuez($id){
-        $competenciaJuez = CompetenciaJuez::where('id_competencia', $id)->get();
+        $competenciaJuez = CompetenciaJuez::where('id_competencia', $id)
+            ->where('aprobado', 1)
+            ->get();
+        //return dd('entro a crear pasadas jue<');
         $pasadas = Pasada::where('id_competencia', $id)->get();
         foreach ($competenciaJuez as $juez) {
             foreach ($pasadas as $pasada) {

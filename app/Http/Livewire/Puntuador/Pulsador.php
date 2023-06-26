@@ -15,7 +15,8 @@ class Pulsador extends Component {
     public $pasada = null;
     public $esJuez = false;
     public $tipoPuntaje = 1;
-    public $puntaje = 4;
+    public $puntajeExactitudInicial = 4;
+    public $puntajePresentacionInicial = 6;
     public $puntajeExactitud;
     public $puntajePresentacion;
     public $alerta = null;
@@ -76,25 +77,31 @@ class Pulsador extends Component {
     }
 
     public function darVotoFinal() {
-        $jueces = PasadaJuez::where('id_pasada', $this->pasada->id)->get()->toArray();
+        $jueces = PasadaJuez::where('id_pasada', $this->pasada->id)
+            ->get()
+            ->toArray();
         if( count($jueces) == $this->pasada->cant_votos ){
             // Hacemos la logica si son 3 jueces
             $cantVotos = $this->pasada->cant_votos;
             if( $cantVotos == 3 ){
                 $suma = 0;
                 foreach( $jueces as $juez ){
-                    $suma = $suma + $juez->puntaje_exactitud + $juez->puntaje_presentacion;
+                    $suma = $suma + $juez['puntaje_exactitud'] + $juez['puntaje_presentacion'];
                 }
                 $promedio = $suma/3;
+                if( $this->pasada->tiempo_presentacion > 90 ){
+                    $promedio = $promedio - 0.3;
+                }
                 $this->pasada->calificacion = $promedio;
+                $this->pasada->save();
                 $this->reset( 'pasada' );
-            // Hacemos la logica si son 5 o 7 jueces
             } else {
+                // Hacemos la logica si son 5 o 7 jueces
                 $suma = 0;
                 $votos = array();
                 // Obtenemos todos los votos.
                 foreach( $jueces as $juez ){
-                    $votos[] = $juez->puntaje_exactitud + $juez->puntaje_presentacion;
+                    $votos[] = $juez['puntaje_exactitud'] + $juez['puntaje_presentacion'];
                 }
                 // Obtenemos el voto mas alto.
                 $masAlto = max( $votos );
@@ -105,42 +112,68 @@ class Pulsador extends Component {
                         $suma = $suma + $voto;
                     }
                 }
-                $promedio = $suma/count( $jueces );
+                $promedio = $suma/(count( $jueces ) - 2);
+                //return dd( $promedio);
+                if( $this->pasada->tiempo_presentacion > 90 ){
+                    $promedio = $promedio - 0.3;
+                }
                 $this->pasada->calificacion = $promedio;
+                $this->pasada->save();
                 $this->reset( 'pasada' );
             }
         }
     }
 
     public function resto1() {
-        $puntaje = $this->puntaje;
-        if( $puntaje > 0.1 ){
-            $this->puntaje = $puntaje - 0.1;
+        $puntajeExactitud = $this->puntajeExactitudInicial;
+        $puntajePresentacion = $this->puntajePresentacionInicial;
+        
+        if( $this->tipoPuntaje == 1 ){
+            if( $puntajeExactitud > 0.1 ){
+                $this->puntajeExactitudInicial = $puntajeExactitud - 0.1;
+            } else {
+                $this->puntajeExactitudInicial = 0;
+            }
         } else {
-            $this->puntaje = 0;
+            if( $puntajePresentacion > 0.1 ){
+                $this->puntajePresentacionInicial = $puntajePresentacion - 0.1;
+            } else {
+                $this->puntajePresentacionInicial = 0;
+            }
         }
     }
 
     public function resto3() {
-        $puntaje = $this->puntaje;
-        if( $puntaje > 0.3 ){
-            $this->puntaje = $puntaje - 0.3;
+        $puntajeExactitud = $this->puntajeExactitudInicial;
+        $puntajePresentacion = $this->puntajePresentacionInicial;
+        
+        if( $this->tipoPuntaje == 1 ){
+            if( $puntajeExactitud > 0.3 ){
+                $this->puntajeExactitudInicial = $puntajeExactitud - 0.3;
+            } else {
+                $this->puntajeExactitudInicial = 0;
+            }
         } else {
-            $this->puntaje = 0;
+            if( $puntajePresentacion > 0.3 ){
+                $this->puntajePresentacionInicial = $puntajePresentacion - 0.3;
+            } else {
+                $this->puntajePresentacionInicial = 0;
+            }
         }
+
     }
 
     public function enviar() {
         $bandera['resp'] = false;
         $tipoPuntaje = $this->tipoPuntaje;
         if( $tipoPuntaje == 1 ){ // Exactitud
-            $this->puntajeExactitud = $this->puntaje;
-            $this->puntaje = 4;
+            $this->puntajeExactitud = $this->puntajeExactitudInicial;
+            $this->puntajeExactitudInicial = 4;
             $this->tipoPuntaje = 2;
             $bandera['resp'] = true;
         } elseif( $tipoPuntaje == 2 ){ // Presentación
-            $this->puntajePresentacion = $this->puntaje;
-            $this->puntaje = 6;
+            $this->puntajePresentacion = $this->puntajePresentacionInicial;
+            $this->puntajePresentacionInicial = 6;
             $this->store();
             $bandera['resp'] = true;
         }
