@@ -166,12 +166,9 @@ class Pulsador extends Component {
             ->where('estado_timer', 1)
             ->get()
             ->toArray();
-        //return $estadoTimer;
-        //return is_array($estadoTimer);
         if( is_array($estadoTimer) && count($estadoTimer) > 0 ){
             $bandera['resp'] = true;
         }
-         //->count();
         return $bandera;
     }
 
@@ -181,12 +178,9 @@ class Pulsador extends Component {
             ->where('estado_timer', 0)
             ->get()
             ->toArray();
-        //return $estadoTimer;
-        //return is_array($estadoTimer);
         if( is_array($estadoTimer) && count($estadoTimer) > 0 ){
             $bandera['resp'] = true;
         }
-         //->count();
         return $bandera;
     }
 
