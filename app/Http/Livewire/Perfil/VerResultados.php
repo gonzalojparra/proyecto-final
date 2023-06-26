@@ -99,8 +99,15 @@ class VerResultados extends Component
             ->orderBy('competencia_competidor.id', 'asc')
             ->get();
 
-        $this->obtenerPosicion($cosa[0]->idCompetencia);
+        // $this->obtenerPosicion($cosa[0]->idCompetencia);
+        // return $cosa;
+
+        if ($cosa->count() > 0) {
+            $this->obtenerPosicion($cosa[0]->idCompetencia);
+        }
+        
         return $cosa;
+        
     }
 
     // private function obtenerPosicion($idCompetencia)
