@@ -16,9 +16,9 @@ class Competencias extends Component {
     protected $competencias;
     public $competencia;
     public $open = false;
-    public $msj;
+    public $msj = null;
     public $filtro;// filtro de la tabla
-    public $filtroFecha = "Todos";//filtro de la tabla por fecha
+    public $filtroFecha = 1;//filtro de la tabla por fecha
     public $titulo, $flyer, $bases, $descripcion, $fecha_inicio, $fecha_fin; //variables para el manejo de los datos del form
 
 
@@ -26,53 +26,23 @@ class Competencias extends Component {
 
 
     public function render() {
-        
         //metodo de renderizar la tabla de competencias
-        $competencias = Competencia::where('titulo', 'like', '%' . $this->filtro . '%')
-                                    ->where('estado', '<>', 0)->get();
-        
-        $fechaActual = date("Y-m-d");
+        $competencias = Competencia::where('titulo', 'like', '%' . $this->filtro . '%')->where('estado', '<>', 0)->where('estado', '<>', 5)->orderBy('estado', 'desc')->get();
         $competenciasPedidas = $competencias;
+        $competenciasFinalizadas = Competencia::where('titulo', 'like', '%' . $this->filtro . '%')->where('estado', '=', 5)->orderBy('fecha_fin', 'desc')->get();
 
-        if (isset($this->filtroFecha)) {
-            if ($this->filtroFecha == 'en-curso') {
-                $competenciasPedidas = array();
-                foreach ($competencias as $competencia) {
-                    if ($competencia['fecha_inicio'] <= $fechaActual && $fechaActual <= $competencia['fecha_fin']){
-                        $competenciasPedidas[] = $competencia;
-                    }
-                }
-            } elseif ($this->filtroFecha == 'proximos') {
-                $competenciasPedidas = array();
-                foreach ($competencias as $competencia) {
-                    if ($competencia['fecha_inicio'] > $fechaActual){
-                        $competenciasPedidas[] = $competencia;
-                    }
-                }
-            } elseif ($this->filtroFecha == 'finalizados'){ 
-                $competenciasPedidas = array();
-                foreach ($competencias as $competencia) {
-                    if ($competencia['fecha_fin'] < $fechaActual){
-                        $competenciasPedidas[] = $competencia;
-                    }
-                }
-            }
-        }
-
-        return view('livewire.competencias.index', ['competencias' => $competenciasPedidas]);
+        return view('livewire.competencias.index', ['competencias' => $competenciasPedidas, 'competenciasFinalizadas' => $competenciasFinalizadas]);
     }
 
     public function agregarCompetencia() {
+        $this->reset();
         $this->emit('abrirModal','agregar');
 
     }
 
     public function mostrarCompetencia($id) {
+        $this->reset();
         $this->emit('mostrarDatos',[$id,'editar']);
-    }
-
-    public function verCompetencia($id) {
-        return redirect()->route('competencias.ver-una-competencia', $id);
     }
 
     public function delete($id) {
@@ -81,9 +51,11 @@ class Competencias extends Component {
         $competencia->save();
     }
 
-    public function msjAccion($bool){
-        $this->msj[0] = ($bool) ? "Cambio Realizado" : "Algo Salio Mal !!!";
-        $this->msj[1] = $bool;
+    public function msjAccion($data){
+        // dd($data);
+        $this->msj[0] = $data[1];
+        $this->msj[1] = $data[0];
+        $this->emit('render');
     }
 
 }

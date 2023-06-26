@@ -49,8 +49,8 @@ class UserController extends Controller {
         ])->validate();
 
         // Buscar categoría
-        $catNombre = $input['categoria'];
-        $catGraduacion = $input['graduacion'];
+        // $catNombre = $input['categoria'];
+         $catGraduacion = $input['graduacion'];
         $graduacionQuery = Graduacion::where('nombre', $catGraduacion)->get();
         $graduacion = $graduacionQuery->toArray();
         
@@ -65,13 +65,13 @@ class UserController extends Controller {
         if (array_key_exists('genero', $input)) {
             $genero = $input['genero'];
         }
-        if ($catNombre == null && $catGraduacion == null) {
-            $categoriaFinalId = null;
-            $categoriaFinalGr = null;
-        } else {
-            $categoriaFinal = Categoria::where('nombre', $catNombre)->get();
-            $categoriaFinalId = $categoriaFinal[0]['id'];
-        }
+        // if ($catNombre == null && $catGraduacion == null) {
+        //     $categoriaFinalId = null;
+        //     $categoriaFinalGr = null;
+        // } else {
+        //     $categoriaFinal = Categoria::where('nombre', $catNombre)->get();
+        //     $categoriaFinalId = $categoriaFinal[0]['id'];
+        // }
 
 
         // Buscar escuela
@@ -87,15 +87,16 @@ class UserController extends Controller {
             'genero' => $genero,
             'id_graduacion' => $graduacionFinal,
             'id_escuela' => $escuela[0]->id,
+            'rolRequerido' => $input['rolRequerido'],
         ]);
 
         if ($escuela !== null) {
             // Asignar rol en tabla de spatie
-            $usuario->assignRole($input['rol']);
+            // $usuario->assignRole($input['rol']);
             // Asignar usuario a la escuela en tabla de team
             $escuela[0]->users()->attach(
                 Jetstream::findUserByEmailOrFail($input['email']),
-                ['role' => $input['rol']]
+                ['role' => $input['rolRequerido']]
             );
             $usuario->switchTeam($escuela[0]);
             $usuario->ownedTeams()->save($escuela[0]);

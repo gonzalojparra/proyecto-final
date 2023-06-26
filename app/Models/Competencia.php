@@ -19,4 +19,9 @@ class Competencia extends Model {
         'fecha_inicio', 'fecha_fin', 'invitacion'
     ];
     
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'id_categoria');
+    }
+
 }

@@ -64,9 +64,9 @@
                 <x-secondary-button wire:click="rechazarSolicitud({{$iduser}})" wire:loading.attr='disabled' class="disabled:opacity-25" wire:target='rechazarSolicitud'>
                     Rechazar
                 </x-secondary-button>
-                <x-danger-button wire:click="aceptarSolicitud({{$iduser}})" wire:loading.attr='disabled' class="disabled:opacity-25">
+                <x-button wire:click="aceptarSolicitud({{$iduser}})" wire:loading.attr='disabled' class="ml-4 bg-green-600 disabled:opacity-25">
                     Aceptar
-                </x-danger-button>
+                </x-button>
                
             </div>
         </x-slot>

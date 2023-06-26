@@ -11,10 +11,14 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Team;
+use App\Models\Graduacion;
+use Illuminate\Http\Request;
+
 
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable {
+class User extends Authenticatable
+{
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
@@ -31,7 +35,7 @@ class User extends Authenticatable {
     protected $fillable = [
         'name', 'apellido', 'email', 'password',
         'fecha_nac', 'id_escuela', 'gal', 'du',
-        'clasificacion', 'id_graduacion', 'id_categoria', 'genero'
+        'clasificacion', 'id_graduacion', 'id_categoria', 'genero', 'rolRequerido'
     ];
 
     /**
@@ -64,11 +68,41 @@ class User extends Authenticatable {
         'profile_photo_url',
     ];
 
-    public function team() {
+    public function team()
+    {
         return $this->hasOne(Team::class, 'id', 'id_escuela');
     }
-
-    public function graduacion() {
-        return $this->hasOne(Graduacion::class, 'id', 'id_graduacion');
+    public function teamNombre()
+    {
+        return $this->belongsTo(Team::class, 'id_escuela');
     }
+    public function getNombreEscuela()
+    {
+        return $this->team->name;
+    }
+
+    public function graduacion()
+    {
+        return $this->belongsTo(Graduacion::class, 'id_graduacion');
+    }
+    public function graduacionNombre()
+    {
+        return $this->belongsTo(Graduacion::class, 'id_graduacion');
+    }
+    public function getNombreGraduacion()
+    {
+        return $this->graduacion->nombre;
+    }
+
+    public function updatePerfil(Request $request, User $user)
+    {
+   
+        if ($user->hasRole('Juez')) {
+            $user->updateJuez($request->all());
+        } else {
+            $user->update($request->all());
+        }
+       
+    }
+
 }
