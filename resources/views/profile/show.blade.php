@@ -67,7 +67,6 @@
                 </span>
             </button>
         </div>
-        @endif
 
        
     </div>
