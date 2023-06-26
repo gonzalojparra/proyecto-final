@@ -123,6 +123,7 @@ const esperarTimer = (idPasada) => {
 
 const esperarTimerPausao = (idPasada) => {
     habilitarBotonesPuntuar();
+    deshabilitarEnviar();
     return new Promise((resolve, reject) => {
         let interval = setInterval(async function () {
             try {
@@ -139,7 +140,7 @@ const esperarTimerPausao = (idPasada) => {
                 const json = await response.json();
                 console.log(json);
                 deshabilitarEnviar();
-                if (json.resp) {
+                if (json.resp == true) {
                     console.log(json.resp);
                     clearInterval(interval);
                     deshabilitarBotones();
@@ -231,10 +232,10 @@ const habilitarBotonesPuntuar = () => {
 
 const deshabilitarEnviar = () => {
     const buttonEnviar = document.querySelector('#botonEnviar');
-    buttonEnviar.disabled = true;
+    buttonEnviar.hidden = true;
 }
 
 const habilitarEnviar = () => {
     const buttonEnviar = document.querySelector('#botonEnviar');
-    buttonEnviar.disabled = false;
+    buttonEnviar.hidden = false;
 }
