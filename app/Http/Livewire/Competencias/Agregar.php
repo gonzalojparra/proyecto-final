@@ -298,7 +298,8 @@ class Agregar extends Component
         if ($competencia->save()) {
             $this->enviarMailPoomsae($id);
             $this->crearPasadasJuez($id);
-            $competenciaCompetidor = CompetenciaCompetidor::where('id_competencia', $id)->where('aprobado', 0)->delete();
+            CompetenciaCompetidor::where('id_competencia', $id)->where('aprobado', 0)->delete();
+            CompetenciaJuez::where('id_competencia', $id)->where('aprobado', 0)->delete();
             $this->emit('msjAccion', [true, 'Se cerro la convocatoria correctamente']);
             $bool = true;
         } else {
