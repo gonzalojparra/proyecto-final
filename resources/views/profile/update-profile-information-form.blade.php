@@ -7,7 +7,7 @@
         <span class="text-slate-200 text-lg">{{ __('Actualiza la información de tu perfil') }}</span>
         <x-section-border />
         <a href="{{url('user/profile')}}">
-            <x-button class="ml-4  bg-grey-600 disabled:opacity-25">
+            <x-button class="ml-4  bg-grey-600 ">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
                 </svg>                  
@@ -15,7 +15,7 @@
             </x-button>
         </a>
     </x-slot>
-
+    
     <x-slot name="form">
 
         <!-- Name -->
