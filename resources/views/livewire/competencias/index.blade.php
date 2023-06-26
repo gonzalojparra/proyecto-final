@@ -235,23 +235,23 @@
                     <?php $cant = 1; ?>
                     @foreach ($competenciasFinalizadas as $competencia )
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <th scope="row" class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{$cant++}}
                         </th>
-                        <td class="px-2">
+                        <td class="px-6 py-3">
                             {{$competencia->titulo}}
                         </td>
-                        <td class="px-2">
+                        <td class="px-6 py-3">
                             {{$competencia->descripcion}}
                         </td>
-                        <td class="px-2 ">
+                        <td class="px-6 py-3 ">
                             Finalizada
                         </td>
-                        <td class="px-2">
+                        <td class="px-6 py-3">
                             <?php $fechaInicio = date('d/m/Y', strtotime($competencia->fecha_inicio))?>
                             {{$fechaInicio}}
                         </td>
-                        <td class="px-2">
+                        <td class="px-6 py-3">
                             <?php $fechaFin = date('d/m/Y', strtotime($competencia->fecha_fin))?>
                             {{$fechaFin}}
                         </td>

@@ -102,8 +102,6 @@
                 </div>
                 @endif
             </div>
-            <!-- <x-input-error for="generoChecks" class="mt-2" /> -->
-            <!-- <div class="input-feedback" class="input-feedback" id="generoChecksFeedback" for="checks">&nbsp;</div> -->
         </div>
 
         <!-- Graduacio -->
@@ -133,22 +131,6 @@
             <x-input id="email" type="email" class="mt-1 block w-full" require wire:model.defer="state.email" autocomplete="email" />
             <x-input-error for="email" class="mt-2" />
             <div id="emailFeedback" class="input-feedback" for="email">&nbsp;</div>
-
-            <!-- @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user->hasVerifiedEmail())
-            <p class="text-sm mt-2">
-                {{ __('Tu dirección email no está verificada.') }}
-
-                <button type="button" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" wire:click.prevent="sendEmailVerification">
-                    {{ __('Clickea aquí para reenvíar la confirmación') }}
-                </button>
-            </p>
-
-            @if ($this->verificationLinkSent)
-            <p class="mt-2 font-medium text-sm text-green-600">
-                {{ __('Un nuevo link de verificación se ha enviado a su correo!') }}
-            </p>
-            @endif
-            @endif -->
         </div>
 
     </x-slot>
