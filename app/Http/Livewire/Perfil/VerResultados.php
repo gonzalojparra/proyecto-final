@@ -83,22 +83,22 @@ class VerResultados extends Component
 
     private function obtenerCompetenciasParticipadas($id)
     {
-        $cosa = CompetenciaCompetidor::join('competencias', 'competencia_competidor.id_competencia', 'competencias.id')
-            ->join('categorias', 'categorias.id', 'competencia_competidor.id')
-            ->join('users', 'competencia_competidor.id_competidor', 'users.id')
-            ->join('graduaciones', 'graduaciones.id', 'users.id_graduacion')
-            ->select(
-                'competencias.titulo as nombreCompetencia',
-                'competencias.id as idCompetencia',
-                'competencia_competidor.aprobado as estado',
-                'competencia_competidor.created_at as fecha_inscripcion',
-                'categorias.nombre as nombreCategoria',
-                'graduaciones.nombre as graduacion'
-            )->where('competencias.estado', '=', 5)
-            ->where('id_competidor', '=', $id)
-            ->orderBy('competencia_competidor.id', 'asc')
-            ->get()->toArray();
-        
+        $cosa = CompetenciaCompetidor::select(
+            'competencias.titulo as nombreCompetencia', 
+            'competencias.id as idCompetencia', 
+            'competencia_competidor.aprobado', 
+            'competencia_competidor.created_at as fecha_inscripcion', 
+            'categorias.nombre as nombreCategoria', 
+            'graduaciones.nombre as graduacion'
+        )
+        ->join('competencias', 'competencia_competidor.id_competencia', '=', 'competencias.id')
+        ->join('users', 'competencia_competidor.id_competidor', '=', 'users.id')
+        ->join('categorias', 'categorias.id', '=', 'competencia_competidor.id_categoria')
+        ->join('graduaciones', 'graduaciones.id', '=', 'users.id_graduacion')
+        ->where('competencias.estado', '=', 5)
+        ->where('competencia_competidor.id_competidor', '=', $id)
+        ->get()->toArray();
+            
         if(!empty($cosa)){
            for ($i=0; $i < count($cosa) ; $i++) { 
                 $cosa[$i]['posicion'] = $this->obtenerPosicion($cosa[$i]['idCompetencia']);

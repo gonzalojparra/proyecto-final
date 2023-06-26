@@ -69,10 +69,10 @@
                     Competencia
                 </th>
                 @role('Competidor')
-                <th class="px-6 py-3">
+                <th class="px-6 py-3 hidden">
                     fecha de finalizacion
                 </th>
-                <th class="px-6 py-3">
+                <th class="px-6 py-3 hidden" >
                     categoria / graduacion
                 </th>
                 <th class="px-6 py-3">
@@ -97,11 +97,11 @@
                         {{$inscripcion['nombreCompetencia'] }}
                     </td>
                     @role('Competidor')
-                    <td class="px-6 py-4 uppercase">
+                    <td class="px-6 py-4 uppercase" hidden>
                         <?php $inscripcion['fecha_inscripcion'] = date('d/m/Y', strtotime($inscripcion['fecha_inscripcion'])) ?>
                         {{$inscripcion['fecha_inscripcion']}}
                     </td>
-                    <td class="px-6 py-4 uppercase">
+                    <td class="px-6 py-4 uppercase" hidden>
                         {{$inscripcion['nombreCategoria']}} <b>/</b> {{$inscripcion['graduacion']}}
                     </td>
                     <td class="px-6 py-4 uppercase">
