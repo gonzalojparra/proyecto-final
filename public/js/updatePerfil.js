@@ -3,8 +3,9 @@ const inputApellido = document.querySelector('#apellido')
 const inputEmail = document.querySelector('#email')
 const inputDU = document.querySelector('#du')
 const inputEdad = document.querySelector('#fecha_nac')
-const inputGal = document.querySelector('#galCompetidor')
+const inputGenero = document.querySelector('#genero')
 
+const botonEnviar = document.getElementById("guardarDatos");
 
 let botonPerfil = document.getElementById("botonPerfil");
 let form = document.getElementById("formUpdate");
@@ -14,6 +15,7 @@ botonPerfil.addEventListener('click', () => {
     form.style.display = 'block';
     show.style.display = 'none';
 });
+
 
 //funcion que comprueba que el campo no esté vacío
 function validarCampo(input) {
@@ -79,7 +81,7 @@ function validarLongitud(input, type) {
     if (edad < 12) {
       // edadInput.style.borderColor = "red";
       fechaNacFeedback.style.color = 'red';
-      fechaNacFeedback.style.fontSize = '12px';
+      fechaNacFeedback.style.fontSize = 'small';
       fechaNacFeedback.innerHTML = 'Debe tener al menos 12 años de edad'
       return false;
     } else if (edad >= 12) {
@@ -95,7 +97,7 @@ function validarLongitud(input, type) {
     if (!regexGal.test(inputGal.value.toUpperCase())) {
       inputGal.style.borderColor = "red";
       galFeedback.style.color = 'red'
-      galFeedback.style.fontSize = '12px'
+      galFeedback.style.fontSize = 'small'
       galFeedback.innerHTML = 'Ingrese 3 letras y 7 números'
       return false;
     } else {
@@ -105,6 +107,7 @@ function validarLongitud(input, type) {
     }
   
   }
+  
 
 //validacion del nombre
   inputNombre.addEventListener('blur', function () {
@@ -116,16 +119,41 @@ function validarLongitud(input, type) {
         nombreFeedback.innerHTML = ' &nbsp;'
       } else {
         nombreFeedback.style.color = 'red'
-        nombreFeedback.style.fontSize = '12px'
+        nombreFeedback.style.fontSize = 'small'
         nombreFeedback.innerHTML = 'Ha ingresado números y/o demasiados caracteres'
       }
     } else {
       nombreFeedback.style.color = 'red'
-      nombreFeedback.style.fontSize = '12px'
+      nombreFeedback.style.fontSize = 'small'
       nombreFeedback.innerHTML = 'Complete este campo'
     }
   })
   
+//validacion el genero
+inputGenero.addEventListener('blur', function () {
+  generoValida = validarCampo(inputGenero)
+  if (generoValida) {
+    // console.log(inputGenero.value)
+    if (inputGenero.value == 'Femenino' || inputGenero.value == 'Masculino') {
+      inputGenero.style.borderColor = "green";
+      generoFeedback.innerHTML = ' &nbsp;'
+
+    } else {
+      inputGenero.style.borderColor = "red";
+      generoFeedback.style.color = 'red'
+      generoFeedback.style.fontSize = 'small'
+      generoFeedback.innerHTML = 'El genero debe ser unicamente Masculino o Femenino'; 
+
+    }
+  } else {
+    generoFeedback.style.color = 'red'
+    generoFeedback.style.fontSize = 'small'
+    generoFeedback.innerHTML = 'Complete este campo'
+  }
+})
+
+
+
 //validacion del apellido
   inputApellido.addEventListener('blur', function () {
     campoCompleto = validarCampo(inputApellido)
@@ -136,12 +164,12 @@ function validarLongitud(input, type) {
         apellidoFeedback.innerHTML = ' &nbsp;'
       } else {
         apellidoFeedback.style.color = 'red'
-        apellidoFeedback.style.fontSize = '12px'
+        apellidoFeedback.style.fontSize = 'small'
         apellidoFeedback.innerHTML = 'Ha ingresado números y/o demasiados caracteres'
       }
     } else {
       apellidoFeedback.style.color = 'red'
-      apellidoFeedback.style.fontSize = '12px'
+      apellidoFeedback.style.fontSize = 'small'
       apellidoFeedback.innerHTML = 'Complete este campo'
     }
   })
@@ -172,7 +200,7 @@ inputDU.addEventListener('blur', function () {
       if (isNaN(inputDU.value)) {
         inputDU.style.borderColor = 'red';
         duFeedback.style.color = 'red'
-        duFeedback.style.fontSize = '12px'
+        duFeedback.style.fontSize = 'small'
         duFeedback.innerHTML = 'El du ingresado no es válido'
       } else {
         if ( inputDU.value.length === 8){
@@ -182,81 +210,33 @@ inputDU.addEventListener('blur', function () {
         } else {
           inputDU.style.borderColor = 'red';
           duFeedback.style.color = 'red'
-          duFeedback.style.fontSize = '12px'
+          duFeedback.style.fontSize = 'small'
           duFeedback.innerHTML = 'El du ingresado no es válido'
         }
       }
     } else {
       duFeedback.style.color = 'red'
-      duFeedback.style.fontSize = '12px'
+      duFeedback.style.fontSize = 'small'
       duFeedback.innerHTML = 'Complete este campo'
     }
   
   }) 
   
-//valida que el competidor sea mayor de 6 años
-  inputEdad.addEventListener('blur', function () {
-    edadValida = validarCampo(inputEdad)
-    if (edadValida) {
-      if (validarEdad(inputEdad.value)) {
-        inputEdad.style.borderColor = "green";
-      } else {
-        inputEdad.style.borderColor = "red";
-      }
+
+  //valida que el competidor sea mayor de 12 años
+inputEdad.addEventListener('blur', function () {
+  edadValida = validarCampo(inputEdad)
+  if (edadValida) {
+    if (validarEdad(inputEdad.value)) {
+      inputEdad.style.borderColor = "green";
     } else {
-      fechaNacFeedback.style.color = 'red'
-      fechaNacFeedback.style.fontSize = '12px'
-      fechaNacFeedback.innerHTML = 'Complete este campo'
+      inputEdad.style.borderColor = "red";
     }
-  })
-
- //validacion del gal
- inputGal.addEventListener('blur', function () {
-  console.log(validarCampo(inputGal))
-  if (validarCampo(inputGal)) {
-    galValido = validarGal(inputGal)
   } else {
-    galFeedback.style.color = 'red';
-    galFeedback.innerHTML = 'Complete este campo'
+    fechaNacFeedback.style.color = 'red'
+    fechaNacFeedback.style.fontSize = 'small'
+    fechaNacFeedback.innerHTML = 'Complete este campo'
   }
-
-
 })
- 
 
-//hacer una variable con un array de los valores
-// function validarFormulario() {
-//   formularioValido = false;
-//   if (nombreValidado) {
-//     if (apellidoValidado) {
-//       if (emailValidado) {
-//         if (contraseniasValidas) {
-//           if (checkRolValido) {
-//             if (selectedRol === 'competidor') {
-//               if (duValidado) {
-//                 if (edadValidada) {
-//                   if (generoValidado) {
-//                     if (categoriaValidada) {
-//                       if (graduacionValidada) {
-//                         if (tipoGraduacion === 'elite') {
-//                           if (galValidado) {
-//                             formularioValido = true
-//                           }
-//                         } else {
-//                           formularioValido = true
-//                         }
-//                       }
-//                     }
-//                   }
-//                 }
-//               }
-//             } else {
-//               formularioValido = true;
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-//   return formularioValido
-// }
+ 

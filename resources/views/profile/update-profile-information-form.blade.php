@@ -72,36 +72,10 @@
 
         <!-- Genero -->
         <div class="col-span-6 sm:col-span-4">
-            <div>Genero</div>
-            <div class="checks" id="generoChecks" required>
-                @if($this->user->genero === 'Femenino')
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Femenino"  checked>
-                    <label class="form-check-label" for="femenino">
-                        Femenino
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Masculino">
-                    <label class="form-check-label" for="masculino">
-                        Masculino
-                    </label>
-                </div>
-                @elseif($this->user->genero === 'Masculino')
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Femenino">
-                    <label class="form-check-label" for="femenino">
-                        Femenino
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Masculino" checked>
-                    <label class="form-check-label" for="masculino">
-                        Masculino
-                    </label>
-                </div>
-                @endif
-            </div>
+            <x-label for="genero" value="{{ __('Género') }}" />
+            <x-input id="genero" class="block mt-1 w-full" type="text" name="genero" require wire:model.defer="state.genero" autocomplete="genero"/>
+            <x-input-error for="genero" class="mt-2" /> 
+            <div  class="input-feedback" id="generoFeedback" for="genero">&nbsp;</div>
         </div>
 
         <!-- Graduacio -->
