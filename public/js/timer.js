@@ -17,14 +17,12 @@ function iniciar() {
   Array.from(pasadas).forEach((pasada) => {
     selectPasada.addEventListener('change', function (e) {
       const pasadaSeleccionada = e.target.value;
-      //console.log('Pasada seleccionada: ', pasadaSeleccionada);
       seleccion(pasadaSeleccionada);
     });
   });
 }
 
 function seleccion(idPasada) {
-  //console.log('Llamando API: seleccion. Id: ', idPasada);
   const url = `/api/seleccion/${idPasada}`;
   fetch(url)
     .then(response => response.text())
@@ -49,9 +47,7 @@ function iniciarTimer(idPasada) {
   })
     .then(res => res.json())
     .then(json => {
-      console.log(json);
       if (json == 1) {
-        //console.log('Timer iniciado - ID Pasada:', idPasada);
         // Cambio estilos al boton iniciar
         btnIniciar.disabled = true;
         btnIniciar.classList.remove('bg-green-500', 'hover:bg-green-600');
@@ -115,36 +111,12 @@ function enviarDatos(idPasada) {
   fetch(url)
     .then(response => response.json())
     .then(json => {
-      console.log(`Se envio el dato, bandera: ${json}`);
+      //console.log(`Se envio el dato, bandera: ${json}`);
     })
     .catch(error => {
       console.error('Error:', error);
     });
 }
-
-// Eventos
-btnIniciar.addEventListener('click', () => {
-  const pasadaSeleccionada = document.querySelector('.pasada:checked');
-  if (pasadaSeleccionada) {
-    const idPasada = pasadaSeleccionada.value;
-    iniciarTimer(idPasada);
-  }
-});
-
-btnDetener.addEventListener('click', () => {
-  const pasadaSeleccionada = document.querySelector('.pasada:checked');
-  if (pasadaSeleccionada) {
-    const idPasada = pasadaSeleccionada.value;
-    detenerTimer(idPasada);
-  }
-});
-
-btnReiniciar.addEventListener('click', () => {
-  window.location.reload();
-});
-
-// Llamo al método después de definirlo
-iniciar();
 
 async function cargarPasadas() {
   const selectedCategoria = document.getElementById('select-categoria').value;
@@ -178,7 +150,30 @@ async function cargarPasadas() {
     }
 
     selectPasada.innerHTML = options;
+    iniciar();
   } catch (error) {
     console.error(error);
   }
 }
+
+
+// Eventos
+btnIniciar.addEventListener('click', () => {
+  const pasadaSeleccionada = document.querySelector('.pasada:checked');
+  if (pasadaSeleccionada) {
+    const idPasada = pasadaSeleccionada.value;
+    iniciarTimer(idPasada);
+  }
+});
+
+btnDetener.addEventListener('click', () => {
+  const pasadaSeleccionada = document.querySelector('.pasada:checked');
+  if (pasadaSeleccionada) {
+    const idPasada = pasadaSeleccionada.value;
+    detenerTimer(idPasada);
+  }
+});
+
+btnReiniciar.addEventListener('click', () => {
+  window.location.reload();
+});

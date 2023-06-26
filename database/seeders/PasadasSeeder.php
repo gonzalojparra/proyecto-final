@@ -65,7 +65,7 @@ class PasadasSeeder extends Seeder {
             ]);
         }
 
-        $pasadasJuez = [
+        /* $pasadasJuez = [
             // Juez Pepa (pasadas de competencia con id 2)
             [
                 'id_juez' => 11,
@@ -160,12 +160,6 @@ class PasadasSeeder extends Seeder {
                 'puntaje_exactitud' => null,
                 'puntaje_presentacion' => null
             ],
-            [
-                'id_juez' => 14,
-                'id_pasada' => 4,
-                'puntaje_exactitud' => null,
-                'puntaje_presentacion' => null
-            ],
         ];
 
         foreach( $pasadasJuez as $pasadaJuez){
@@ -175,7 +169,7 @@ class PasadasSeeder extends Seeder {
                 'puntaje_exactitud' => $pasadaJuez['puntaje_exactitud'],
                 'puntaje_presentacion' => $pasadaJuez['puntaje_presentacion']
             ]);
-        }
+        } */
 
     }
 }

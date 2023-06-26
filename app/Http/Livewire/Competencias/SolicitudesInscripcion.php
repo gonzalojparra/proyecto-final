@@ -106,7 +106,7 @@ class SolicitudesInscripcion extends Component {
     public function aceptar($rol, $id, $actualizacion = null)
     {
         $usuario = Auth::user();
-        $participante = CompetenciaJuez::find($id);
+        /* $participante = CompetenciaJuez::find($id); */
         if ($rol == "Competidor"){
             $participante = CompetenciaCompetidor::find($id);
             $this->crearPasadaCompetidor($participante->id_competidor);
@@ -129,7 +129,7 @@ class SolicitudesInscripcion extends Component {
         $participante->aprobado = 1;
         $participante->user->save();
         $participante->save();
-        Mail::to($participante->user->email)->send(new EnvioMail($participante->user->id,3));
+        Mail::to($participante->user->email)->send(new EnvioMail($participante->user->id,3,$participante->id_competencia));
     }
 
     public function rechazar($rol, $id, $idCompetencia, $actualizacion)

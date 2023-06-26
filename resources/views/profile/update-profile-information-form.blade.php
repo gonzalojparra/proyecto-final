@@ -72,38 +72,10 @@
 
         <!-- Genero -->
         <div class="col-span-6 sm:col-span-4">
-            <div>Genero</div>
-            <div class="checks" id="generoChecks" required>
-                @if($this->user->genero === 'Femenino')
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Femenino"  checked>
-                    <label class="form-check-label" for="femenino">
-                        Femenino
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Masculino">
-                    <label class="form-check-label" for="masculino">
-                        Masculino
-                    </label>
-                </div>
-                @elseif($this->user->genero === 'Masculino')
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Femenino">
-                    <label class="form-check-label" for="femenino">
-                        Femenino
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Masculino" checked>
-                    <label class="form-check-label" for="masculino">
-                        Masculino
-                    </label>
-                </div>
-                @endif
-            </div>
-            <!-- <x-input-error for="generoChecks" class="mt-2" /> -->
-            <!-- <div class="input-feedback" class="input-feedback" id="generoChecksFeedback" for="checks">&nbsp;</div> -->
+            <x-label for="genero" value="{{ __('Género') }}" />
+            <x-input id="genero" class="block mt-1 w-full" type="text" name="genero" require wire:model.defer="state.genero" autocomplete="genero"/>
+            <x-input-error for="genero" class="mt-2" /> 
+            <div  class="input-feedback" id="generoFeedback" for="genero">&nbsp;</div>
         </div>
 
         <!-- Graduacio -->
@@ -133,22 +105,6 @@
             <x-input id="email" type="email" class="mt-1 block w-full" require wire:model.defer="state.email" autocomplete="email" />
             <x-input-error for="email" class="mt-2" />
             <div id="emailFeedback" class="input-feedback" for="email">&nbsp;</div>
-
-            <!-- @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user->hasVerifiedEmail())
-            <p class="text-sm mt-2">
-                {{ __('Tu dirección email no está verificada.') }}
-
-                <button type="button" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" wire:click.prevent="sendEmailVerification">
-                    {{ __('Clickea aquí para reenvíar la confirmación') }}
-                </button>
-            </p>
-
-            @if ($this->verificationLinkSent)
-            <p class="mt-2 font-medium text-sm text-green-600">
-                {{ __('Un nuevo link de verificación se ha enviado a su correo!') }}
-            </p>
-            @endif
-            @endif -->
         </div>
 
     </x-slot>
