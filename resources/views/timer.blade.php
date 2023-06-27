@@ -19,12 +19,15 @@
 
                     <div class="mb-7 mt-2flex justify-center">
 
-                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
-                        <select id="select-pasada" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option selected disabled>Elegi la pasada</option>
-                            @foreach ( $pasadas as $pasada )
-                            <option class="pasada" value="{{$pasada->id}}">{{ $pasada->user->name }} {{ $pasada->user->apellido }} | Pasada {{ $pasada->ronda }}</option>
+                        <select id="select-categoria" onchange="cargarPasadas()" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option selected disabled>Elegi la categoría</option>
+                            @foreach ($categorias as $categoria)
+                            <option class="categoria" value="{{ $categoria['id'] }}">{{ $categoria['nombre'] }} {{ $categoria['edad_desde'] }} | Categoría {{ $categoria['edad_hasta'] }}</option>
                             @endforeach
+                        </select>
+
+                        <select id="select-pasada" class="mt-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option class="pasada" selected disabled>Elegi la pasada</option>
                         </select>
 
                     </div>
@@ -62,4 +65,5 @@
             </div>
         </div>
     </div>
+
 </x-app-layout>

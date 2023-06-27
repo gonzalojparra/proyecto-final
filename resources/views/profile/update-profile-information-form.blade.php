@@ -1,21 +1,11 @@
 <x-form-section submit="updateProfileInformation" id="formUpdate">
     <x-slot name="title">
-        <span class="text-slate-100 text-xl">{{ __('Información del perfil') }}</span>
-    </x-slot>
-
-    <x-slot name="description" class="text-white">
+        <span class="text-slate-100 text-xl">{{ __('Información del perfil') }}</span> <br>
         <span class="text-slate-200 text-lg">{{ __('Actualiza la información de tu perfil') }}</span>
         <x-section-border />
-        <a href="{{url('user/profile')}}">
-            <x-button class="ml-4  bg-grey-600 disabled:opacity-25">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
-                </svg>                  
-                Volver al Perfil
-            </x-button>
-        </a>
     </x-slot>
 
+    
     <x-slot name="form">
 
         <!-- Name -->
@@ -72,38 +62,10 @@
 
         <!-- Genero -->
         <div class="col-span-6 sm:col-span-4">
-            <div>Genero</div>
-            <div class="checks" id="generoChecks" required>
-                @if($this->user->genero === 'Femenino')
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Femenino"  checked>
-                    <label class="form-check-label" for="femenino">
-                        Femenino
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Masculino">
-                    <label class="form-check-label" for="masculino">
-                        Masculino
-                    </label>
-                </div>
-                @elseif($this->user->genero === 'Masculino')
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Femenino">
-                    <label class="form-check-label" for="femenino">
-                        Femenino
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="genero" id="Masculino" checked>
-                    <label class="form-check-label" for="masculino">
-                        Masculino
-                    </label>
-                </div>
-                @endif
-            </div>
-            <!-- <x-input-error for="generoChecks" class="mt-2" /> -->
-            <!-- <div class="input-feedback" class="input-feedback" id="generoChecksFeedback" for="checks">&nbsp;</div> -->
+            <x-label for="genero" value="{{ __('Género') }}" />
+            <x-input id="genero" class="block mt-1 w-full" type="text" name="genero" require wire:model.defer="state.genero" autocomplete="genero"/>
+            <x-input-error for="genero" class="mt-2" /> 
+            <div  class="input-feedback" id="generoFeedback" for="genero">&nbsp;</div>
         </div>
 
         <!-- Graduacio -->
@@ -133,22 +95,6 @@
             <x-input id="email" type="email" class="mt-1 block w-full" require wire:model.defer="state.email" autocomplete="email" />
             <x-input-error for="email" class="mt-2" />
             <div id="emailFeedback" class="input-feedback" for="email">&nbsp;</div>
-
-            <!-- @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user->hasVerifiedEmail())
-            <p class="text-sm mt-2">
-                {{ __('Tu dirección email no está verificada.') }}
-
-                <button type="button" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" wire:click.prevent="sendEmailVerification">
-                    {{ __('Clickea aquí para reenvíar la confirmación') }}
-                </button>
-            </p>
-
-            @if ($this->verificationLinkSent)
-            <p class="mt-2 font-medium text-sm text-green-600">
-                {{ __('Un nuevo link de verificación se ha enviado a su correo!') }}
-            </p>
-            @endif
-            @endif -->
         </div>
 
     </x-slot>
@@ -164,5 +110,6 @@
             {{ __('Guardar') }}
         </x-button>
     </x-slot>
+    
 </x-form-section>
 <script src="{{ asset('js/updatePerfil.js') }}"></script>

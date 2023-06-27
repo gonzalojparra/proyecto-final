@@ -17,14 +17,12 @@ function iniciar() {
   Array.from(pasadas).forEach((pasada) => {
     selectPasada.addEventListener('change', function (e) {
       const pasadaSeleccionada = e.target.value;
-      //console.log('Pasada seleccionada: ', pasadaSeleccionada);
       seleccion(pasadaSeleccionada);
     });
   });
 }
 
 function seleccion(idPasada) {
-  //console.log('Llamando API: seleccion. Id: ', idPasada);
   const url = `/api/seleccion/${idPasada}`;
   fetch(url)
     .then(response => response.text())
@@ -49,9 +47,7 @@ function iniciarTimer(idPasada) {
   })
     .then(res => res.json())
     .then(json => {
-      console.log(json);
       if (json == 1) {
-        //console.log('Timer iniciado - ID Pasada:', idPasada);
         // Cambio estilos al boton iniciar
         btnIniciar.disabled = true;
         btnIniciar.classList.remove('bg-green-500', 'hover:bg-green-600');
@@ -115,12 +111,54 @@ function enviarDatos(idPasada) {
   fetch(url)
     .then(response => response.json())
     .then(json => {
-      console.log(`Se envio el dato, bandera: ${json}`);
+      //console.log(`Se envio el dato, bandera: ${json}`);
     })
     .catch(error => {
       console.error('Error:', error);
     });
 }
+
+async function cargarPasadas() {
+  const selectedCategoria = document.getElementById('select-categoria').value;
+  const selectPasada = document.getElementById('select-pasada');
+  selectPasada.innerHTML = '<option selected disabled>Cargando pasadas...</option>';
+
+  if (selectedCategoria === 'Elegi la categoría') {
+    selectPasada.innerHTML = '<option selected disabled>Elegi la pasada</option>';
+    return;
+  }
+
+  const idCompetencia = window.location.pathname.split('/').pop();
+
+  try {
+    const response = await fetch(`/api/get-pasadas/${idCompetencia}/${selectedCategoria}`);
+    if (!response.ok) {
+      throw new Error('Error al buscar pasadas');
+    }
+    const pasadas = await response.json();
+    let options = '<option selected disabled>Elegi la pasada</option>';
+
+    for (let i = 0; i < pasadas.length; i++) {
+      const competidorId = pasadas[i].id_competidor;
+      let url = `/api/get-competidor/${competidorId}`
+      const competidorResponse = await fetch(url);
+      if (!competidorResponse.ok) {
+        throw new Error('Error al buscar competidor');
+      }
+      const competidor = await competidorResponse.json();
+      console.log(competidor);
+      const competidorName = competidor ? competidor.name : '';
+
+      options += `<option class="pasada" value="${pasadas[i].id}">${competidorName} | Pasada ${pasadas[i].ronda}</option>`;
+    }
+
+    selectPasada.innerHTML = options;
+    iniciar();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 
 // Eventos
 btnIniciar.addEventListener('click', () => {
@@ -142,6 +180,3 @@ btnDetener.addEventListener('click', () => {
 btnReiniciar.addEventListener('click', () => {
   window.location.reload();
 });
-
-// Llamo al método después de definirlo
-iniciar();

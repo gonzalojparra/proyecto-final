@@ -26,6 +26,9 @@ Route::get('/enviarTiempo/{tiempoTotal}.{idPasada}', [TimerController::class, 'e
 Route::post('/iniciarTimer/{idPasada}', [TimerController::class, 'iniciarTimer']);
 Route::get('/pararTimer/{idPasada}', [TimerController::class, 'pararTimer']);
 Route::post('/resetearTimer/{idPasada}', [TimerController::class, 'resetearTimer']);
+Route::get('/get-pasadas/{competenciaId}/{categoriaId}', [TimerController::class, 'getPasadas']);
+Route::get('/get-competidor/{competidorId}', [TimerController::class, 'getCompetidor']);
+Route::get('/get-competencia', [TimerController::class, 'getCompetencia']);
 
 // Pulsador
 Route::get('/getPasada', [Pulsador::class, 'getPasada']);
