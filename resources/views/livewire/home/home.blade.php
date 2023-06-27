@@ -73,7 +73,7 @@
                 </a>
             </div>
             <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-                <img src="{{asset('image/flyerLiga.jpeg')}}" class="lg:h-auto lg:w-96 lg:rounded-3xl " alt="mockup">
+                <img src="{{asset('storage/competencias/flyerLiga.jpeg')}}" class="lg:h-auto lg:w-96 lg:rounded-3xl " alt="mockup">
             </div>
         </div>
     </section>
