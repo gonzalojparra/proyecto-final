@@ -35,7 +35,7 @@ BEGIN
     SELECT COUNT(*) = 3
     FROM competencia_juez AS cj
     WHERE cj.id_competencia = c.id
-    AND cj.aprobado = 1
+    AND cj.aprobado = 1 AND c.estado <> 5
 );
 END $$
 DELIMITER ;

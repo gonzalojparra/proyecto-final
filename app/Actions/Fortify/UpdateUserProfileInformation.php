@@ -19,8 +19,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     public function update(User $user, array $input): void
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255','alpha'],
-            'apellido' => ['required', 'string', 'max:255','alpha'],
+            'name' => ['required', 'string', 'max:255'],
+            'apellido' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
         ])->validateWithBag('updateProfileInformation');
@@ -35,7 +35,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             Validator::make($input, [
                 'fecha_nac' => ['required', 'date'],
                 'du' => ['required', 'integer', 'min:8', Rule::unique('users')->ignore($user->id)],
-                'genero' => ['required', Rule::in(['Femenino', 'Masculino']),'string','max:10','alpha'],
+                'genero' => ['required', Rule::in(['Femenino', 'Masculino']),'string','max:10'],
             ])->validateWithBag('updateProfileInformation');
 
             // if (isset($input['photo'])) {

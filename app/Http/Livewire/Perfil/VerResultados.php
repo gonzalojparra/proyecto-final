@@ -157,7 +157,7 @@ class VerResultados extends Component {
             }
             $i++;
         };
-        //return $posicion;
+        return $posicion;
     }
 
 
