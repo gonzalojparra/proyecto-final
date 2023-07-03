@@ -128,8 +128,10 @@ async function cargarPasadas() {
     return;
   }
 
+  const idCompetencia = window.location.pathname.split('/').pop();
+
   try {
-    const response = await fetch(`/api/get-pasadas/${selectedCategoria}`);
+    const response = await fetch(`/api/get-pasadas/${idCompetencia}/${selectedCategoria}`);
     if (!response.ok) {
       throw new Error('Error al buscar pasadas');
     }
@@ -144,6 +146,7 @@ async function cargarPasadas() {
         throw new Error('Error al buscar competidor');
       }
       const competidor = await competidorResponse.json();
+      console.log(competidor);
       const competidorName = competidor ? competidor.name : '';
 
       options += `<option class="pasada" value="${pasadas[i].id}">${competidorName} | Pasada ${pasadas[i].ronda}</option>`;

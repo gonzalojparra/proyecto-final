@@ -19,12 +19,6 @@
 
                     <div class="mb-7 mt-2flex justify-center">
 
-                        <!-- <select id="select-categoria" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option selected disabled>Elegi la categoría</option>
-                            @foreach ( $categorias as $categoria )
-                            <option class="categoria" value="{{$categoria['id']}}">{{ $categoria['nombre'] }} {{ $categoria['edad_desde'] }} | Categoría {{ $categoria['edad_hasta'] }}</option>
-                            @endforeach
-                        </select> -->
                         <select id="select-categoria" onchange="cargarPasadas()" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option selected disabled>Elegi la categoría</option>
                             @foreach ($categorias as $categoria)
