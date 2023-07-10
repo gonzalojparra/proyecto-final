@@ -175,7 +175,7 @@
 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             @if (count($competenciasFinalizadas) > 0)
-            Finalizadas
+            <h3 class="text-white text-2xl mb-5">Finalizadas</h3>
             <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
                 <thead class="text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
