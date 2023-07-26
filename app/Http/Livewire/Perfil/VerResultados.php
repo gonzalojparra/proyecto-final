@@ -165,7 +165,7 @@ class VerResultados extends Component
         return $cosas;
     }
 
-    public function mostrarCompetidoresPuntuados($idCompetencia)
+    /* public function mostrarCompetidoresPuntuados($idCompetencia)
     {
         $competidores = Pasada::join('pasadas_juez', 'pasadas.id', 'pasadas_juez.id_pasada')
             ->join('users', 'users.id', 'pasadas.id_competidor')
@@ -181,6 +181,32 @@ class VerResultados extends Component
 
         $this->competidores = $competidores;
         $this->openCompetidores = true;
+    } */
+
+    public function detallesCompetenciaJuez($idCompetencia)
+    {
+        $this->ronda = (!$this->openCompetidores) ? 1 : $this->ronda;
+
+        $datos = Pasada::join('pasadas_juez', 'pasadas.id', 'pasadas_juez.id_pasada')
+            ->join('users', 'users.id', 'pasadas.id_competidor')
+            ->join('poomsaes', 'poomsaes.id', 'pasadas.id_poomsae')
+            ->select(
+                'pasadas.id_competencia as idCompetencia',
+                'pasadas.ronda as ronda',
+                'pasadas_juez.puntaje_exactitud as exactitud',
+                'pasadas_juez.puntaje_presentacion as presentacion',
+                'poomsaes.nombre as nombrePoom',
+                'users.name as nombre',
+                DB::raw('(select Sum(pj.puntaje_presentacion) from pasadas_juez pj join pasadas pa on pa.id = pj.id_pasada where pa.id_competencia='. $idCompetencia .' and pj.id_juez=' . $this->user->id . ' and pa.id_competidor = users.id ) as puntos_pre'),
+                DB::raw('(select Sum(pj.puntaje_exactitud) from pasadas_juez pj join pasadas pa on pa.id = pj.id_pasada where pa.id_competencia='. $idCompetencia .' and pj.id_juez=' . $this->user->id . ' and pa.id_competidor = users.id ) as puntos_ex'),
+            )
+            ->where('pasadas_juez.id_juez', '=', $this->user->id)
+            ->where('pasadas.id_competencia', '=', $idCompetencia)
+            ->where('pasadas.ronda', '=', $this->ronda)
+            ->get();
+        
+        $this->competidores = $datos;
+        $this->openCompetidores = true;
     }
 
     public function detallesCompetenciaCompetidor($idCompetencia)
@@ -189,7 +215,7 @@ class VerResultados extends Component
 
         $datos = Pasada::join('pasadas_juez', 'pasadas.id', 'pasadas_juez.id_pasada')
             ->join('users', 'users.id', 'pasadas_juez.id_juez')
-            ->join('poomsaes','poomsaes.id','pasadas.id_poomsae')
+            ->join('poomsaes', 'poomsaes.id', 'pasadas.id_poomsae')
             ->select(
                 'pasadas.id_competencia as idCompetencia',
                 'pasadas.calificacion as calificacion',
@@ -197,22 +223,21 @@ class VerResultados extends Component
                 'pasadas_juez.puntaje_exactitud as exactitud',
                 'pasadas_juez.puntaje_presentacion as presentacion',
                 'poomsaes.nombre as nombrePoom',
-                'users.name as nombreJuez',
+                'users.name as nombre',
                 DB::raw('(SELECT SUM(p.calificacion) FROM pasadas p WHERE pasadas.id_competidor = p.id_competidor AND pasadas.id_competencia = p.id_competencia GROUP BY pasadas_juez.id_juez) as total')
             )
             ->where('pasadas.id_competidor', '=', $this->user->id)
             ->where('pasadas.id_competencia', '=', $idCompetencia)
             ->where('pasadas.ronda', '=', $this->ronda)
             ->get();
+
         $this->competidores = $datos;
-        
         $this->openCompetidores = true;
     }
 
     public function pasarRonda($idCompetencia)
     {
-        $this->ronda = ($this->ronda == 1) ? 2 : 1 ;
-        $this->detallesCompetenciaCompetidor($idCompetencia);
-        $this->render();
+        $this->ronda = ($this->ronda == 1) ? 2 : 1;
+        $this->user->roles()->pluck('name')[0] == 'Competidor' ? $this->detallesCompetenciaCompetidor($idCompetencia) : $this->detallesCompetenciaJuez($idCompetencia);
     }
 }
