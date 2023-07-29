@@ -63,6 +63,11 @@
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <span >
+                                    Escuela
+                                </span>
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                <span >
                                     Gal
                                 </span>
                             </th>
@@ -93,6 +98,9 @@
                             </td>
                             <td class="px-6 py-4">
                                 {{$competidores[$i]['categoria']}}
+                            </td>
+                            <td class="px-6 py-4">
+                                escuela
                             </td>
                             <td class="px-6 py-4">
                                 {{$competidores[$i]['gal']}}

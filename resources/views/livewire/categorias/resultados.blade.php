@@ -1,25 +1,55 @@
-<div class="p-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white shadow-xl sm:rounded-lg p-5">
-            <x-resultados />
-            <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccione la categoría</label>
+<div class="p-12 ranking-container">
+<link rel="stylesheet" href="{{ asset('css/estilosRanking.css') }}">
+    <div class="side-menu">
+        <input type="checkbox" id="abrir-menu">
+        <div class="container-menu">
+            <div class="cont-menu">
+            <label for="abrir-menu"class="cerrar-menu text-white">X</label>
+            <h2 class="titulo-filtros text-white">Filtros</h2>
+            <div class="filtros">
+            <div class="filtro-ranking">
+            <label for="countries" class="block mb-2 text-sm font-medium  text-white">Ranking</label>
+            <select wire:model="categoriaSeleccionada" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option>General</option>
+                <option>Competencia 1</option>
+                <option>Competencia 2</option>
+                <option>Competencia 3 (en curso)</option>
+            </select>
+            </div>
+
+            <div class="filtro-categoria">
+            <label for="countries" class="block mb-2 text-sm font-medium text-white">Categoría</label>
             <select wire:model="categoriaSeleccionada" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @foreach($categorias as $categoria)
                 <option>{{$categoria['nombre']}}</option>
                 @endforeach
             </select>
-            <!-- titulo -->
-            <h1 class="mb-4  mt-4 text-4xl font-extrabold text-center leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-dark">Categorias</h1>
-            <hr>
-            <br>
-            
-            <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Graduación</label>
+            </div>
+
+            <div class="filtro-graduacion">
+            <label for="countries" class="block mb-2 text-sm font-medium text-white">Graduación</label>
             <select wire:model="graduacionSeleccionada" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option>todas</option>
                 @foreach($graduaciones as $graduacion)
                 <option>{{$graduacion['nombre']}}</option>
                 @endforeach
             </select>
+            </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 ranking-in">
+
+        <div class="bg-white shadow-xl sm:rounded-lg p-5">
+                        <!-- titulo -->
+        <div class="abrir-menu">
+            <label for="abrir-menu" class="icon-menu">Filtros</label>
+        </div>
+        <h1 class="mb-4  mt-4 text-4xl font-extrabold text-center leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-dark">Ranking [tipo de ranking]</h1>
+            <hr>
+            <x-resultados />
+
             <h3 class="mb-4 mt-4 text-2xl font-extrabold text-center leading-none tracking-tight text-gray-900 dark:text-dark">Ranking general</h3>
 
             <div class="contenedor flex max-w-auto p-6 bg-white border border-gray-100 rounded shadow dark:border-gray-200">
@@ -118,7 +148,7 @@
 
             <br>
             <!-- tabla con resultados (5) -->
-            <div class="relative overflow-x-auto rounded">
+            <div class="relative overflow-x-auto rounded  tabla-rankings">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-200 rounded shadow">
                     <thead class="text-xs text-gray-900 uppercase bg-gray-50 dark:bg-gray-600 dark:text-gray-700">
                         <tr>

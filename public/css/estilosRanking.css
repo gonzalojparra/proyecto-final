@@ -1,0 +1,72 @@
+.ranking-container {
+    display:flex;
+    flex-direction: row;
+}
+
+.container, .abrir-menu, .logo{
+    float: left;
+    line-height: 70px;
+}
+
+.abrir-menu, label{
+    cursor:pointer;
+    font-size:25px;
+}
+
+#abrir-menu{
+    display: none;
+}
+
+.tabla-rankings{
+z-index: 1;
+}
+
+.container-menu{
+    visibility: hidden;
+    opacity: 0;
+    position:absolute;
+    background:rgba(0,0,0,0.5);
+    width:100%;
+    height:120vh;
+    top:0;
+    left:0;
+    transition:all 500ms ease;
+    z-index: 2;
+}
+
+#abrir-menu:checked + .container-menu{
+opacity: 1;
+visibility: visible;
+}
+
+.cont-menu{
+    background:#111827;
+    width:100%;
+    max-width:250px;
+    height: 100%;
+    z-index: 2;
+    position:relative;
+    transition:all 500ms ease;
+    transform:translateX(-100%);
+}
+
+#abrir-menu:checked + .container-menu .cont-menu{
+    transform:translateX(0%)
+    }
+
+.cerrar-menu{
+    position:absolute;
+    right:5px;
+    cursor:pointer;
+}
+
+.filtro-categoria, .filtro-ranking, .filtro-graduacion, .titulo-filtros{
+    padding-top:1rem;
+}
+
+.titulo-filtros{
+    font-size: 30px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+}
