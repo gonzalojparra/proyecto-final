@@ -70,3 +70,80 @@ visibility: visible;
     display: flex;
     justify-content: center;
 }
+
+.podio{
+    background-color: #111827;
+    border-radius: 10px;
+}
+
+.segundo-lugar{
+    border:5px solid #e3e4e5 !important;
+    border-radius: 10px !important;
+}
+.primer-lugar{
+    border:5px solid #ffbf00 !important;
+    border-radius: 10px !important;
+}
+
+.tercer-lugar{
+    border:5px solid #CD7F32 !important;
+    border-radius: 10px !important;
+}
+
+.position-number{
+    font-size: 60px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: -10px;
+}
+
+.medalla{
+    margin-top: 1rem;
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    /* position:relative;
+    top:50px; */
+}
+
+.podio-nombre{
+    margin-left: auto;
+    margin-right: auto;
+}
+.tercero{
+    color:#ac5703;
+}
+
+.segundo{
+    color: #717272;
+}
+
+.primero{
+    color: #e09200 ;
+}
+
+.medalla-tercero{
+    background-color: #CD7F32;
+    border:5px solid #ac5703;
+    
+}
+
+.medalla-segundo{
+    background-color: #e3e4e5;
+    border:5px solid #717272;
+    
+}
+
+.medalla-primero{
+    background-color: #ffbf00 ;
+    border:5px solid #e09200 ;
+    
+}
+
+.contenedor-podio{
+    height: 300px;
+}

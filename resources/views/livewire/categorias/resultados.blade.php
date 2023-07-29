@@ -56,96 +56,99 @@
 
             <h3 class="mb-4 mt-4 text-2xl font-extrabold text-center leading-none tracking-tight text-gray-900 dark:text-dark">[Graduación y categoría]</h3>
 
-            <div class="contenedor flex max-w-auto p-6 bg-white border border-gray-100 rounded shadow dark:border-gray-200">
+            <div class="contenedor-podio contenedor flex max-w-auto p-6 bg-white border border-gray-100 rounded shadow dark:border-gray-200">
 
                 <!-- Puestos -->
-                @if(isset($podio[0]))
-                <a href="#" class="elemento block m-2 p-6  max-w-sm bg-white border border-gray-200 rounded shadow dark:border-gray-400 ">
-                    <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                        <span class="font-medium text-gray-600 dark:text-gray-300">1°</span>
+                @if(isset($podio[1]))
+                <div class=" segundo-lugar elemento block m-2  max-w-sm bg-white shadow ">
+                    <div class="flex justify-center flex-col">
+                        <h5 class="mb-2 ml-auto text-2xl font-bold tracking-tight text-gray-900 podio-nombre inline-flex">{{$podio[1]->name}} {{$podio[1]->apellido}}</h5>
+                        <ul class="style-none text-center font-bold text-md">
+                            <li>{{$podio[1]->clasificacion}} Pts</li>
+                            <li>{{$podio[1]->team->name}}</li>
+                        </ul>
                     </div>
-                    <h5 class="mb-2 ml-auto text-2xl font-bold tracking-tight text-gray-900 inline-flex">{{$podio[0]->name}} {{$podio[0]->apellido}}</h5>
-                    <ul class="style-none text-center font-bold text-md">
-                        <li>{{$podio[0]->clasificacion}} Pts</li>
-                        <li>{{$podio[0]->team->name}}</li>
-                    </ul>
-                    <div class="w-full h-6 bg-gray-200 rounded dark:bg-gray-700 mt-2">
-                        <div class="h-6 bg-amber-500 rounded" style="width: 100%"></div>
+
+                    <div class="medalla medalla-segundo segundo">
+                        <span class="position-number">2</span>
                     </div>
-                </a>
+                </div>
                 @else
-                <a href="#" class="elemento block m-2 p-6  max-w-sm bg-white border border-gray-200 rounded shadow dark:border-gray-400 ">
-                    <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                        <span class="font-medium text-gray-600 dark:text-gray-300">2°</span>
+                <div class="  segundo-lugar elemento block m-2  max-w-sm bg-white shadow ">
+                    <div class="flex justify-center flex-col">
+                        <h5 class="mb-2 mt-3 ml-auto text-2xl font-bold tracking-tight text-gray-600 podio-nombre inline-flex">No hay segundo lugar</h5>
+                        <ul class="style-none text-center font-bold text-md">
+                            <li>&nbsp;</li>
+                            <li>&nbsp;</li>
+                        </ul>
                     </div>
-                    <h5 class="mb-2 ml-auto text-2xl font-bold tracking-tight text-gray-900 inline-flex">-</h5>
-                    <ul class="style-none text-center font-bold text-md">
-                        <li>&nbsp;</li>
-                        <li>&nbsp;</li>
-                    </ul>
-                    <div class="w-full h-6 bg-gray-200 rounded dark:bg-gray-700 mt-2">
-                        <div class="h-6 bg-amber-500 rounded" style="width: 100%"></div>
+                    <div class=" rounded segundo-lugar mt-2" id="segundo-lugar">
+                        &nbsp;
                     </div>
-                </a>
+
+                    <div class="medalla medalla-segundo segundo">
+                        <span class="position-number">2</span>
+                    </div>
+                </div>
                 @endif
 
-                @if(isset($podio[1]))
-                <a href="#" class="elemento block m-2 p-6  max-w-sm bg-white border border-gray-200 rounded shadow dark:border-gray-400 ">
-                    <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                        <span class="font-medium text-gray-600 dark:text-gray-300">2°</span>
+                @if(isset($podio[0]))
+                <div class="primer-lugar elemento block m-2  max-w-sm bg-whiteshadow ">
+                    <div class="flex justify-center flex-col">
+                        <h5 class="mb-2 ml-auto text-2xl font-bold tracking-tight text-gray-900 podio-nombre">{{$podio[0]->name}} {{$podio[0]->apellido}}</h5>
+                        <ul class="style-none text-center font-bold text-md">
+                            <li>{{$podio[0]->clasificacion}} Pts</li>
+                            <li>{{$podio[0]->team->name}}</li>
+                        </ul>
                     </div>
-                    <h5 class="mb-2 ml-auto text-2xl font-bold tracking-tight text-gray-900 inline-flex">{{$podio[1]->name}} {{$podio[1]->apellido}}</h5>
-                    <ul class="style-none text-center font-bold text-md">
-                        <li>{{$podio[1]->clasificacion}} Pts</li>
-                        <li>{{$podio[1]->team->name}}</li>
-                    </ul>
-                    <div class="w-full h-6 bg-gray-200 rounded dark:bg-gray-700 mt-2">
-                        <div class="h-6 bg-amber-500 rounded " style="width: 100%"></div>
+
+                    <div class="medalla medalla-primero primero">
+                        <span class="position-number">1</span>
                     </div>
-                </a>
+                </div>
                 @else
-                <a href="#" class="elemento block m-2 p-6  max-w-sm bg-white border border-gray-200 rounded shadow dark:border-gray-400 ">
-                    <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                        <span class="font-medium text-gray-600 dark:text-gray-300">2°</span>
+                <div class="primer-lugar elemento block m-2 p-6  max-w-sm bg-white shadow ">
+                    <div class="flex justify-center flex-col">
+                        <h5 class="mb-2 mt-3 ml-auto text-2xl font-bold tracking-tight text-gray-900 podio-nombre inline-flex">No hay primer lugar</h5>
+                        <ul class="style-none text-center font-bold text-md">
+                            <li>&nbsp;</li>
+                            <li>&nbsp;</li>
+                        </ul>
                     </div>
-                    <h5 class="mb-2 ml-auto text-2xl font-bold tracking-tight text-gray-900 inline-flex">-</h5>
-                    <ul class="style-none text-center font-bold text-md">
-                        <li>&nbsp;</li>
-                        <li>&nbsp;</li>
-                    </ul>
-                    <div class="w-full h-6 bg-gray-200 rounded dark:bg-gray-700 mt-2">
-                        <div class="h-6 bg-amber-500 rounded" style="width: 100%"></div>
+                    <div class="medalla medalla-primero primero">
+                        <span class="position-number">1</span>
                     </div>
-                </a>
+                </div>
                 @endif
 
                 @if(isset($podio[2]))
-                <a href="#" class="elemento block m-2 p-6  max-w-sm bg-white border border-gray-200 rounded shadow dark:border-gray-400 ">
-                    <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                        <span class="font-medium text-gray-600 dark:text-gray-300">3°</span>
+                <div class="tercer-lugar elemento block m-2  max-w-sm bg-white shadow ">
+                    <div class="flex justify-center flex-col">
+                        <h5 class="mb-2 ml-auto text-2xl font-bold tracking-tight podio-nombre text-gray-900 inline-flex">{{$podio[2]->name}} {{$podio[2]->apellido}}</h5>
+                        <ul class="style-none text-center font-bold text-md">
+                            <li>{{$podio[2]->clasificacion}} Pts</li>
+                            <li>{{$podio[2]->team->name}}</li>
+                        </ul>
                     </div>
-                    <h5 class="mb-2 ml-auto text-2xl font-bold tracking-tight text-gray-900 inline-flex">{{$podio[2]->name}} {{$podio[2]->apellido}}</h5>
-                    <ul class="style-none text-center font-bold text-md">
-                        <li>{{$podio[2]->clasificacion}} Pts</li>
-                        <li>{{$podio[2]->team->name}}</li>
-                    </ul>
-                    <div class="w-full h-6 bg-gray-200 rounded dark:bg-gray-700 mt-2">
-                        <div class="h-6 bg-amber-500 rounded" style="width: 100%"></div>
+                    <div class="medalla medalla-tercero tercero">
+                        <span>3</span>
                     </div>
-                </a>
-                @else <a href="#" class="elemento block m-2 p-6  max-w-sm bg-white border border-gray-200 rounded shadow dark:border-gray-400 ">
-                    <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                        <span class="font-medium text-gray-600 dark:text-gray-300">3°</span>
+
+
+                </div>
+                @else <div class="tercer-lugar elemento block m-2  max-w-sm bg-white shadow ">
+                    <div class="flex justify-center flex-col">
+                        <h5 class="mb-2 mt-5 ml-auto text-2xl font-bold tracking-tight podio-nombre text-gray-600 inline-flex">No hay tercer lugar</h5>
+                        <ul class="style-none text-center font-bold text-md">
+                            <li>&nbsp;</li>
+                            <li>&nbsp;</li>
+                        </ul>
                     </div>
-                    <h5 class="mb-2 ml-auto text-2xl font-bold tracking-tight text-gray-900 inline-flex">-</h5>
-                    <ul class="style-none text-center font-bold text-md">
-                        <li>&nbsp;</li>
-                        <li>&nbsp;</li>
-                    </ul>
-                    <div class="w-full h-6 bg-gray-200 rounded dark:bg-gray-700 mt-2">
-                        <div class="h-6 bg-amber-500 rounded " style="width: 100%"></div>
+
+                    <div class="medalla medalla-tercero tercero">
+                        <span class="position-number">3</span>
                     </div>
-                </a>
+                </div>
                 @endif
             </div>
 
