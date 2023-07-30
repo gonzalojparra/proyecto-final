@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Categorias;
 
 use App\Models\CompetenciaCompetidor;
 use App\Models\Categoria;
+use App\Models\Competencia;
+use App\Models\CompetenciaCategoria;
 use App\Models\Graduacion;
 use App\Models\User;
 use App\Models\Team;
@@ -15,7 +17,7 @@ class Resultados extends Component
 {
 
     public $categorias;
-    public $categoriaSeleccionada = 'Cadetes';
+    public $categoriaSeleccionada = 'cadete';
     public $categoriaPrevia = '';
     protected $compCategoria = [];
     public $msj;
@@ -23,6 +25,9 @@ class Resultados extends Component
     public $graduacionSeleccionada = '10 GUP, Blanco';
     public $graduacionesSelect = [];
     public $graduaciones;
+    public $competenciasEnCurso=[];
+    public $competenciasFinalizadas=[];
+    public $rankingSeleccionado='General (anual)';
     public $competidoresFiltrados = [];
     public $compGraduacion = [];
     public $competidores;
@@ -34,36 +39,39 @@ class Resultados extends Component
 
     public function render()
     {
-
-        //metodo de renderizar la tabla de competencias.
-        // $categorias = Categoria::get();
-        // $categoriasPedidas = Categoria::where('nombre', 'like', '%' . $this->filtro . '%')->get();
-
-        $this->competidores = User::where('id_graduacion', '<>', null)->where('verificado', 1)->orderBy('clasificacion', 'desc')->get();
+        $this->obtenerCompetencias();
+        if($this->rankingSeleccionado!='General (anual)'){
+            $this->obtenerCompetidoresCompetencia();
+        } else {
+            $this->competidores = User::where('id_graduacion', '<>', null)->where('verificado', 1)->orderBy('clasificacion', 'desc')->get();
+        }
+       
         $this->obtenerCategorias();
         $this->obtenerGraduaciones();
-        $this->filtrarCompetidores();
+        $this->filtrarCompetidores($this->competidores);
         $this->obtenerPodio();
-
-
         return view('livewire.categorias.resultados');
     }
 
-    public function filtrarCompetidores()
+    public function filtrarCompetidores($listadoCompetidores)
     {
-        $categoria =  Categoria::where('nombre', $this->categoriaSeleccionada)->get();
-        $categoria = $categoria->toArray();
+        $categoria =  Categoria::where('nombre', $this->categoriaSeleccionada)->first();
+        if (!$categoria) {
+            // Handle the case when the category is not found
+            return;
+        }
+    
         // dd($categoria);
         $fechaActual = time();
 
 
         $compCategoria = array();
-        foreach ($this->competidores as $competidor) {
+        foreach ($listadoCompetidores as $competidor) {
             // $competenciaCompetidor = CompetenciaCompetidor::where('id_competidor', $competidor->id)->get();
             // dd($competenciaCompetidor);
             $fechaNac = strtotime($competidor->fecha_nac);
             $edad = round(($fechaActual - $fechaNac) / 31563000);
-            if ($edad <= $categoria[0]['edad_hasta'] && $edad >= $categoria[0]['edad_desde'] && !in_array($competidor, $compCategoria)) {
+            if ($edad <= $categoria['edad_hasta'] && $edad >= $categoria['edad_desde'] && !in_array($competidor, $compCategoria)) {
                 //$unCompetidor = $competidor->toArray();
                 array_push($compCategoria, $competidor);
             }
@@ -121,7 +129,43 @@ class Resultados extends Component
 
     public function obtenerCategorias()
     {
-        $this->categorias = Categoria::All();
-        $this->categorias = $this->categorias->toArray();
+        if($this->rankingSeleccionado == 'General (anual)'){
+            $this->categorias = Categoria::All();
+            $this->categorias = $this->categorias->toArray();
+        } else {
+            $categorias = CompetenciaCategoria::where('id_competencia', $this->rankingSeleccionado)->get();
+            $categorias = $categorias->toArray();
+            $categoriasArray = [];
+            foreach ($categorias as $categoria) {
+                $categoriaCompetencia = Categoria::where('id', $categoria['id_categoria'])->first();
+                array_push($categoriasArray, $categoriaCompetencia);
+            }
+            $this->categorias = $categoriasArray;
+        }
+
     }
+
+    public function obtenerCompetencias()
+    {
+        $this->competenciasEnCurso =  Competencia::Where('estado', 4)->get();
+        $this->competenciasEnCurso = $this->competenciasEnCurso->toArray();
+        $this->competenciasFinalizadas = Competencia::Where('estado', 5)->get(); 
+        $this->competenciasFinalizadas = $this->competenciasFinalizadas->toArray();
+    }
+
+    public function obtenerCompetidoresCompetencia(){
+        $this->competidores = CompetenciaCompetidor::where ('id_competencia', $this->rankingSeleccionado)->orderBy('calificacion', 'desc')->get();
+        $this->competidores = $this->competidores->toArray();
+        $this->competidores = array_filter($this->competidores, function($competidor) {
+            return $competidor['calificacion'] !== null;
+        });
+        $graduaciones = [];
+        $competidores = [];
+        foreach ($this->competidores as $competidor) {
+            $user = User::where('id', $competidor['id_competidor'])->first();
+            array_push($competidores, $user);
+        }
+        $this->competidores = $competidores;
+    }
+
 }

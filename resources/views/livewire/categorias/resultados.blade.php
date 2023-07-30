@@ -10,11 +10,14 @@
                 <div class="filtros">
                     <div class="filtro-ranking">
                         <label for="countries" class="block mb-2 text-sm font-medium  text-white">Ranking</label>
-                        <select wire:model="categoriaSeleccionada" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option>General</option>
-                            <option>Competencia 1</option>
-                            <option>Competencia 2</option>
-                            <option>Competencia 3 (en curso)</option>
+                        <select wire:model="rankingSeleccionado" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option>General (anual)</option>
+                            @foreach($competenciasEnCurso as $competenciaCurso)
+                            <option value="{{$competenciaCurso['id']}}">{{$competenciaCurso['titulo']}} (en curso)</option>
+                            @endforeach
+                            @foreach($competenciasFinalizadas as $competenciaFin)
+                            <option  value="{{$competenciaFin['id']}}">{{$competenciaFin['titulo']}}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -30,7 +33,6 @@
                     <div class="filtro-graduacion">
                         <label for="countries" class="block mb-2 text-sm font-medium text-white">Graduación</label>
                         <select wire:model="graduacionSeleccionada" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option>todas</option>
                             @foreach($graduaciones as $graduacion)
                             <option>{{$graduacion['nombre']}}</option>
                             @endforeach
