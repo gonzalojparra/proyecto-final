@@ -20,7 +20,7 @@ class Resultados extends Component
     protected $compCategoria = [];
     public $msj;
     public $filtro; // filtro de la tabla
-    public $graduacionSeleccionada = 'todas';
+    public $graduacionSeleccionada = '10 GUP, Blanco';
     public $graduacionesSelect = [];
     public $graduaciones;
     public $competidoresFiltrados = [];
