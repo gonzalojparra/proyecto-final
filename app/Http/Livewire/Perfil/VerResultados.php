@@ -2,12 +2,15 @@
 
 namespace App\Http\Livewire\Perfil;
 
+use App\Models\Categoria;
+use App\Models\CompetenciaCategoria;
 use App\Models\CompetenciaCompetidor;
 use App\Models\CompetenciaJuez;
 use App\Models\Pasada;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Illuminate\Database\Query\Builder;
 use Symfony\Component\VarDumper\Exception\ThrowingCasterException;
 
 class VerResultados extends Component
@@ -165,23 +168,6 @@ class VerResultados extends Component
         return $cosas;
     }
 
-    /* public function mostrarCompetidoresPuntuados($idCompetencia)
-    {
-        $competidores = Pasada::join('pasadas_juez', 'pasadas.id', 'pasadas_juez.id_pasada')
-            ->join('users', 'users.id', 'pasadas.id_competidor')
-            ->select(
-                'users.name as nombre',
-                DB::raw('SUM(pasadas_juez.puntaje_exactitud) as exactitud'),
-                DB::raw('SUM(pasadas_juez.puntaje_presentacion) as presentacion')
-            )
-            ->where('pasadas_juez.id_juez', '=', $this->user->id)
-            ->where('pasadas.id_competencia', '=', $idCompetencia)
-            ->groupBy('pasadas.id_competidor', 'users.name') //aca se incluye el nombre en el grupo para evitar el error 
-            ->get();
-
-        $this->competidores = $competidores;
-        $this->openCompetidores = true;
-    } */
 
     public function detallesCompetenciaJuez($idCompetencia)
     {
@@ -197,14 +183,14 @@ class VerResultados extends Component
                 'pasadas_juez.puntaje_presentacion as presentacion',
                 'poomsaes.nombre as nombrePoom',
                 'users.name as nombre',
-                DB::raw('(select Sum(pj.puntaje_presentacion) from pasadas_juez pj join pasadas pa on pa.id = pj.id_pasada where pa.id_competencia='. $idCompetencia .' and pj.id_juez=' . $this->user->id . ' and pa.id_competidor = users.id ) as puntos_pre'),
-                DB::raw('(select Sum(pj.puntaje_exactitud) from pasadas_juez pj join pasadas pa on pa.id = pj.id_pasada where pa.id_competencia='. $idCompetencia .' and pj.id_juez=' . $this->user->id . ' and pa.id_competidor = users.id ) as puntos_ex'),
+                DB::raw('(select Sum(pj.puntaje_presentacion) from pasadas_juez pj join pasadas pa on pa.id = pj.id_pasada where pa.id_competencia=' . $idCompetencia . ' and pj.id_juez=' . $this->user->id . ' and pa.id_competidor = users.id ) as puntos_pre'),
+                DB::raw('(select Sum(pj.puntaje_exactitud) from pasadas_juez pj join pasadas pa on pa.id = pj.id_pasada where pa.id_competencia=' . $idCompetencia . ' and pj.id_juez=' . $this->user->id . ' and pa.id_competidor = users.id ) as puntos_ex'),
             )
             ->where('pasadas_juez.id_juez', '=', $this->user->id)
             ->where('pasadas.id_competencia', '=', $idCompetencia)
             ->where('pasadas.ronda', '=', $this->ronda)
             ->get();
-        
+
         $this->competidores = $datos;
         $this->openCompetidores = true;
     }
@@ -231,6 +217,8 @@ class VerResultados extends Component
             ->where('pasadas.ronda', '=', $this->ronda)
             ->get();
 
+        dd($this->obtenerCategoria($idCompetencia));
+
         $this->competidores = $datos;
         $this->openCompetidores = true;
     }
@@ -240,4 +228,25 @@ class VerResultados extends Component
         $this->ronda = ($this->ronda == 1) ? 2 : 1;
         $this->user->roles()->pluck('name')[0] == 'Competidor' ? $this->detallesCompetenciaCompetidor($idCompetencia) : $this->detallesCompetenciaJuez($idCompetencia);
     }
+
+    private function obtenerPodioAnual()
+    {
+        
+    }
+
+    private function obtenerCategoria($idCompetencia)
+{
+    $idCategoria = CompetenciaCategoria::join('competencias', 'competencias.id', 'competencia_categoria.id_competencia')
+        ->join('categorias','categorias.id','competencia_categoria.id_categoria')
+        ->select('competencia_categoria.id_categoria')
+        ->whereRaw("
+            (SELECT DATEDIFF(competencias.fecha_inicio, fecha_nac) / 365 
+             FROM users 
+             WHERE users.id = " . $this->user->id . ") BETWEEN categorias.edad_desde AND categorias.edad_hasta
+        ")
+        ->get();
+
+    return $idCategoria;
+}
+
 }
