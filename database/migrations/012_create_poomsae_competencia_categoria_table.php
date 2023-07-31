@@ -22,7 +22,7 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void {
-        Schema::dropIfExists('tabla_pruebas');
+        Schema::dropIfExists('poomsae_competencia_categoria');
     }
 
 };

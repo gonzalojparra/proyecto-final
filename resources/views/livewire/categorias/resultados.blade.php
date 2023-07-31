@@ -52,7 +52,7 @@
                     </span>
                 </label>
             </div>
-            <h1 class="mb-4  mt-4 text-4xl font-extrabold text-center leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-dark">Ranking [tipo de ranking]</h1>
+            <h1 class="mb-4  mt-4 text-4xl font-extrabold text-center leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-dark">Ranking {{$rankingSeleccionado}}</h1>
             <hr>
             <x-resultados />
 
@@ -130,7 +130,7 @@
                         </ul>
                     </div>
                     <div class="medalla medalla-tercero tercero">
-                        <span>3</span>
+                        <span class="position-number">3</span>
                     </div>
 
 

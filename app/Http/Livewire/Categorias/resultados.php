@@ -129,10 +129,7 @@ class Resultados extends Component
 
     public function obtenerCategorias()
     {
-        if($this->rankingSeleccionado == 'General (anual)'){
-            $this->categorias = Categoria::All();
-            $this->categorias = $this->categorias->toArray();
-        } else {
+        if($this->rankingSeleccionado != 'General (anual)'){
             $categorias = CompetenciaCategoria::where('id_competencia', $this->rankingSeleccionado)->get();
             $categorias = $categorias->toArray();
             $categoriasArray = [];
@@ -141,6 +138,10 @@ class Resultados extends Component
                 array_push($categoriasArray, $categoriaCompetencia);
             }
             $this->categorias = $categoriasArray;
+
+        } else {
+            $this->categorias = Categoria::All();
+            $this->categorias = $this->categorias->toArray();
         }
 
     }

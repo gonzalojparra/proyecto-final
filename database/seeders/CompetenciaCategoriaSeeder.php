@@ -29,6 +29,43 @@ class CompetenciaCategoriaSeeder extends Seeder {
                 'id_competencia' => 2,
                 'id_categoria' => 3,
             ],
+            [
+                'id_competencia' => 3,
+                'id_categoria' => 2,
+            ],
+            [
+                'id_competencia' => 3,
+                'id_categoria' => 3,
+            ],
+            [
+                'id_competencia' => 3,
+                'id_categoria' => 1,
+            ],
+            [
+                'id_competencia' => 4,
+                'id_categoria' => 1,
+            ],
+            [
+                'id_competencia' => 4,
+                'id_categoria' => 3,
+            ],
+            [
+                'id_competencia' => 4,
+                'id_categoria' => 2,
+            ],
+            [
+                'id_competencia' => 5,
+                'id_categoria' => 2,
+            ],
+            [
+                'id_competencia' => 5,
+                'id_categoria' => 3,
+            ],
+            [
+                'id_competencia' => 5,
+                'id_categoria' => 1,
+            ],
+            
         ];
 
         foreach( $categorias as $categoria ){

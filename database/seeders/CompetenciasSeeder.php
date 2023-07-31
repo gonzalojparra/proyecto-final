@@ -36,6 +36,43 @@ class CompetenciasSeeder extends Seeder {
             'estado' => 2
         ]);
 
+        Competencia::create([
+            'titulo' => 'Competencia 2',
+            'cant_jueces' => 3,
+            'flyer' => 'competencias/flyerLiga.jpeg',
+            'bases' => 'Bases y condiciones',
+            'invitacion' => 'invitacion',
+            'descripcion' => 'Competicion para todos',
+            'fecha_inicio' => '2023-06-23',
+            'fecha_fin' => '2023-06-30',
+            'estado' => 4
+        ]);
+
+        Competencia::create([
+            'titulo' => 'Competencia 3',
+            'cant_jueces' => 3,
+            'flyer' => 'competencias/flyerLiga.jpeg',
+            'bases' => 'Bases y condiciones',
+            'invitacion' => 'invitacion',
+            'descripcion' => 'Competicion para todos',
+            'fecha_inicio' => '2023-06-23',
+            'fecha_fin' => '2023-06-30',
+            'estado' => 5
+        ]);
+
+        Competencia::create([
+            'titulo' => 'Competencia 4',
+            'cant_jueces' => 3,
+            'flyer' => 'competencias/flyerLiga.jpeg',
+            'bases' => 'Bases y condiciones',
+            'invitacion' => 'invitacion',
+            'descripcion' => 'Competicion para todos',
+            'fecha_inicio' => '2023-06-23',
+            'fecha_fin' => '2023-06-30',
+            'estado' => 4
+        ]);
+
+
         // DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 1)");
         // DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 2)");
         // DB::insert("INSERT INTO competencia_categoria(id_competencia, id_categoria) VALUES(1, 3)");

@@ -59,6 +59,32 @@ class UserSeeder extends Seeder
                 'clasificacion' => 1
             ],
             [
+                'name' => 'Paloma',
+                'apellido' => 'Padilla',
+                'genero' => 'Femenino',
+                'email' => 'palo.p@example.com',
+                'du'=>'12345678',
+                'id_escuela' => 6,
+                'id_graduacion' => 6,
+                'gal' => NULL,
+                'fecha_nac' => '2003-07-19',
+                'clasificacion' => 12
+            ],
+            [
+                'name' => 'Daniela',
+                'apellido' => 'Martinez',
+                'password'=>'12345678',
+                'du'=>'12345678',
+                'genero' => 'Femenino',
+                'email' => 'dani@example.com',
+                'id_escuela' => 4,
+                'id_graduacion' => 6,
+                'gal' => NULL,
+                'fecha_nac' => '2003-09-28',
+                'clasificacion' => 8
+            ],
+           
+            [
                 'name' => 'Juan',
                 'apellido' => 'Loa',
                 'genero' => 'Masculino',
@@ -77,7 +103,7 @@ class UserSeeder extends Seeder
                 'email' => 'vane@example.com',
                 'du'=>'12345678',
                 'id_escuela' => 3,
-                'id_graduacion' => 7,
+                'id_graduacion' => 6,
                 'gal' => NULL,
                 'fecha_nac' => '2003-12-19',
                 'clasificacion' => 16
@@ -89,7 +115,7 @@ class UserSeeder extends Seeder
                 'email' => 'juanL@example.com',
                 'du'=>'12345678',
                 'id_escuela' => 2,
-                'id_graduacion' => 9,
+                'id_graduacion' => 6,
                 'gal' => NULL,
                 'fecha_nac' => '1998-07-19',
                 'clasificacion' => 3
@@ -143,30 +169,91 @@ class UserSeeder extends Seeder
                 'clasificacion' => 9
             ],
             [
-                'name' => 'Paloma',
-                'apellido' => 'Padilla',
+                'name' => 'Sofia',
+                'apellido' => 'Nuñez',
                 'genero' => 'Femenino',
-                'email' => 'palo.p@example.com',
+                'email' => 'soff.p@example.com',
                 'du'=>'12345678',
-                'id_escuela' => 6,
-                'id_graduacion' => 4,
+                'id_escuela' => 9,
+                'id_graduacion' => 1,
                 'gal' => NULL,
-                'fecha_nac' => '2003-07-19',
-                'clasificacion' => 12
+                'fecha_nac' => '2011-07-02',
+                'clasificacion' => 14
             ],
             [
-                'name' => 'Daniela',
-                'apellido' => 'Martinez',
-                'password'=>'12345678',
-                'du'=>'12345678',
+                'name' => 'Mercedes',
+                'apellido' => 'Pomo',
                 'genero' => 'Femenino',
-                'email' => 'dani@example.com',
+                'email' => 'mercedesP@example.com',
+                'du'=>'12345678',
                 'id_escuela' => 4,
-                'id_graduacion' => 6,
+                'id_graduacion' => 5,
                 'gal' => NULL,
-                'fecha_nac' => '2003-09-28',
-                'clasificacion' => 8
+                'fecha_nac' => '2011-07-02',
+                'clasificacion' => 23
             ],
+            [
+                'name' => 'Sheila',
+                'apellido' => 'Mara',
+                'genero' => 'Femenino',
+                'email' => 'Smara@example.com',
+                'du'=>'12345678',
+                'id_escuela' => 1,
+                'id_graduacion' => 5,
+                'gal' => NULL,
+                'fecha_nac' => '2011-07-02',
+                'clasificacion' => 17
+            ],
+            [
+                'name' => 'Laura',
+                'apellido' => 'Marano',
+                'genero' => 'Femenino',
+                'email' => 'lauraam@example.com',
+                'du'=>'12345678',
+                'id_escuela' => 6,
+                'id_graduacion' => 5,
+                'gal' => NULL,
+                'fecha_nac' => '2011-07-02',
+                'clasificacion' => 9
+            ],
+            [
+                'name' => 'Pablo',
+                'apellido' => 'Polar',
+                'genero' => 'Masculino',
+                'email' => 'ppablo@example.com',
+                'du'=>'12345678',
+                'id_escuela' => 8,
+                'id_graduacion' => 5,
+                'gal' => NULL,
+                'fecha_nac' => '2007-07-02',
+                'clasificacion' => 2
+            ],
+            [
+                'name' => 'Mariano',
+                'apellido' => 'Uesa',
+                'genero' => 'Masculino',
+                'email' => 'uesaa@example.com',
+                'du'=>'12345678',
+                'id_escuela' => 5,
+                'id_graduacion' => 5,
+                'gal' => NULL,
+                'fecha_nac' => '2007-07-02',
+                'clasificacion' => 13
+            ],
+            [
+                'name' => 'Armando',
+                'apellido' => 'Estebanquito',
+                'genero' => 'Masculino',
+                'email' => 'armandoEstebanQuito@example.com',
+                'du'=>'12345678',
+                'id_escuela' => 14,
+                'id_graduacion' => 5,
+                'gal' => NULL,
+                'fecha_nac' => '2007-07-02',
+                'clasificacion' => 19
+            ],
+            
+
         ];
 
         foreach ($users as $user) {
