@@ -130,7 +130,6 @@ class Resultados extends Component
         $this->graduaciones = $this->graduaciones->toArray();
     }
 
-
     public function obtenerCategorias()
     {
         if($this->rankingSeleccionado != 'General (anual)'){
@@ -142,12 +141,23 @@ class Resultados extends Component
                 array_push($categoriasArray, $categoriaCompetencia);
             }
             $this->categorias = $categoriasArray;
-
+            $this->ordenarCategorias();
         } else {
             $this->categorias = Categoria::All();
             $this->categorias = $this->categorias->toArray();
         }
 
+    }
+
+    function ordenarCategorias()
+    {
+        $arrAux = array();
+        foreach ($this->categorias as $cat=> $row)
+        {
+            $arrAux[$cat] = is_object($row) ? $arrAux[$cat] = $row->id : $row['id'];
+            $arrAux[$cat] = strtolower($arrAux[$cat]);
+        }
+        array_multisort($arrAux, SORT_ASC, $this->categorias);
     }
 
     public function obtenerCompetencias()
