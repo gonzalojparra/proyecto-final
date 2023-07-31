@@ -197,9 +197,16 @@
                             <td class="px-6 py-4">
                                 {{$unCompetidor->graduacion->nombre}}
                             </td>
+                            @if ($rankingSeleccionado === 'General (anual)')
                             <td class="px-6 py-4">
                                 {{$unCompetidor->clasificacion}}
                             </td>
+                            @endif
+                            @if ($rankingSeleccionado != 'General (anual)')
+                            <td class="px-6 py-4">
+                                {{$calificacionesCompetencia[$unCompetidor->id]}}
+                            </td>
+                            @endif
                         </tr>
                         <?php $i++ ?>
                         @endforeach

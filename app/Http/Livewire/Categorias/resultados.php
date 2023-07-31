@@ -17,7 +17,7 @@ class Resultados extends Component
 {
 
     public $categorias;
-    public $categoriaSeleccionada = 'cadete';
+    public $categoriaSeleccionada = 'Cadetes';
     public $categoriaPrevia = '';
     protected $compCategoria = [];
     public $msj;
@@ -32,7 +32,7 @@ class Resultados extends Component
     public $compGraduacion = [];
     public $competidores;
     public $podio = [];
-
+    public $calificacionesCompetencia = [];
 
     protected $listeners = ['recarga' => 'render'];
 
@@ -57,22 +57,16 @@ class Resultados extends Component
     {
         $categoria =  Categoria::where('nombre', $this->categoriaSeleccionada)->first();
         if (!$categoria) {
-            // Handle the case when the category is not found
             return;
         }
-    
-        // dd($categoria);
-        $fechaActual = time();
 
+        $fechaActual = time();
 
         $compCategoria = array();
         foreach ($listadoCompetidores as $competidor) {
-            // $competenciaCompetidor = CompetenciaCompetidor::where('id_competidor', $competidor->id)->get();
-            // dd($competenciaCompetidor);
             $fechaNac = strtotime($competidor->fecha_nac);
             $edad = round(($fechaActual - $fechaNac) / 31563000);
             if ($edad <= $categoria['edad_hasta'] && $edad >= $categoria['edad_desde'] && !in_array($competidor, $compCategoria)) {
-                //$unCompetidor = $competidor->toArray();
                 array_push($compCategoria, $competidor);
             }
         }
@@ -164,6 +158,7 @@ class Resultados extends Component
         $competidores = [];
         foreach ($this->competidores as $competidor) {
             $user = User::where('id', $competidor['id_competidor'])->first();
+            $this->calificacionesCompetencia[$competidor['id_competidor']] = $competidor['calificacion'];
             array_push($competidores, $user);
         }
         $this->competidores = $competidores;
