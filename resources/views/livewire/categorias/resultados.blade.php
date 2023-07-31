@@ -52,7 +52,10 @@
                     </span>
                 </label>
             </div>
-            <h1 class="mb-4  mt-4 text-4xl font-extrabold text-center leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-dark">Ranking {{$rankingSeleccionado}}</h1>
+            <h1 class="mb-4  mt-4 text-4xl font-extrabold text-center leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-dark">Ranking {{$tituloRanking}}</h1>
+            @if ($competenciaEnCurso)
+            <h3 class="mb-4 mt-4 text-2xl font-extrabold text-center leading-none tracking-tight text-gray-900 dark:text-dark">(En curso)</h3>
+            @endif
             <hr>
             <x-resultados />
 

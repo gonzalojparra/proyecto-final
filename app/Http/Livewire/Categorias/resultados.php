@@ -33,6 +33,8 @@ class Resultados extends Component
     public $competidores;
     public $podio = [];
     public $calificacionesCompetencia = [];
+    public $tituloRanking;
+    public $competenciaEnCurso = false;
 
     protected $listeners = ['recarga' => 'render'];
 
@@ -41,8 +43,16 @@ class Resultados extends Component
     {
         $this->obtenerCompetencias();
         if($this->rankingSeleccionado!='General (anual)'){
+            $competencia = Competencia::where('id', $this->rankingSeleccionado)->first();
+            $this->tituloRanking = $competencia['titulo'];
+            if($competencia['estado']===4){
+                $this->competenciaEnCurso = true;
+            } else {
+                $this->competenciaEnCurso = false;
+            }
             $this->obtenerCompetidoresCompetencia();
         } else {
+            $this->tituloRanking = $this->rankingSeleccionado;
             $this->competidores = User::where('id_graduacion', '<>', null)->where('verificado', 1)->orderBy('clasificacion', 'desc')->get();
         }
        
