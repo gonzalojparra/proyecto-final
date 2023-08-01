@@ -110,10 +110,17 @@ class Resultados extends Component
             $mejorCalificacion = -1;
 
             foreach ($listaCompetidores as $competidor) {
-                if ($competidor['clasificacion'] > $mejorCalificacion && !in_array($competidor, $podio)) {
-                    $mejorCompetidor = $competidor;
-                    $mejorCalificacion = $competidor['clasificacion'];
+                $puntajeCompetidor = null;
+                if($this->rankingSeleccionado != 'General (anual)'){
+                    $puntajeCompetidor = $this->calificacionesCompetencia[$competidor->id];      
+                } else {
+                    $puntajeCompetidor = $competidor['clasificacion'];     
                 }
+                if ($puntajeCompetidor > $mejorCalificacion && !in_array($competidor, $podio)) {
+                    $mejorCompetidor = $competidor;
+                    $mejorCalificacion = $puntajeCompetidor;
+                }
+              
             }
 
             if ($mejorCompetidor !== null) {

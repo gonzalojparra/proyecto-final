@@ -69,7 +69,12 @@
                     <div class="flex justify-center flex-col">
                         <h5 class="mb-2 ml-auto text-2xl font-bold tracking-tight text-gray-900 podio-nombre inline-flex">{{$podio[1]->name}} {{$podio[1]->apellido}}</h5>
                         <ul class="style-none text-center font-bold text-md">
+                            @if ($rankingSeleccionado === 'General (anual)')
                             <li>{{$podio[1]->clasificacion}} Pts</li>
+                            @endif 
+                            @if ($rankingSeleccionado != 'General (anual)')
+                            <li>{{$calificacionesCompetencia[$podio[1]->id]}} Pts</li>
+                            @endif 
                             <li>{{$podio[1]->team->name}}</li>
                         </ul>
                     </div>
@@ -99,7 +104,12 @@
                     <div class="flex justify-center flex-col">
                         <h5 class="mb-2 ml-auto text-xl font-bold tracking-tight text-gray-900 podio-nombre">{{$podio[0]->name}} {{$podio[0]->apellido}}</h5>
                         <ul class="style-none text-center font-bold text-md">
+                        @if ($rankingSeleccionado === 'General (anual)')
                             <li>{{$podio[0]->clasificacion}} Pts</li>
+                            @endif 
+                            @if ($rankingSeleccionado != 'General (anual)')
+                            <li>{{$calificacionesCompetencia[$podio[0]->id]}} Pts</li>
+                            @endif 
                             <li>{{$podio[0]->team->name}}</li>
                         </ul>
                     </div>
@@ -128,7 +138,12 @@
                     <div class="flex justify-center flex-col">
                         <h5 class="mb-2 ml-auto text-xl font-bold tracking-tight podio-nombre text-gray-900 inline-flex">{{$podio[2]->name}} {{$podio[2]->apellido}}</h5>
                         <ul class="style-none text-center font-bold text-md">
+                        @if ($rankingSeleccionado === 'General (anual)')
                             <li>{{$podio[2]->clasificacion}} Pts</li>
+                            @endif 
+                            @if ($rankingSeleccionado != 'General (anual)')
+                            <li>{{$calificacionesCompetencia[$podio[2]->id]}} Pts</li>
+                            @endif 
                             <li>{{$podio[2]->team->name}}</li>
                         </ul>
                     </div>
