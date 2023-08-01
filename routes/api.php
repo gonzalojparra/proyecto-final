@@ -30,6 +30,10 @@ Route::get('/get-pasadas/{competenciaId}/{categoriaId}', [TimerController::class
 Route::get('/get-competidor/{competidorId}', [TimerController::class, 'getCompetidor']);
 Route::get('/get-competencia', [TimerController::class, 'getCompetencia']);
 
+Route::get('/get-pasadasjuez/{idPasada}', [TimerController::class, 'getPasadasJuez']);
+Route::get('/get-puntajes/{idJuez}/{idPasada}', [TimerController::class, 'getPuntajes']);
+Route::get('/get-juezdata/{idJuez}', [TimerController::class, 'getJuezData']);
+
 // Pulsador
 Route::get('/getPasada', [Pulsador::class, 'getPasada']);
 Route::post('/cantJueces/{idPasada}', [Pulsador::class, 'cantJueces']);

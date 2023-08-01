@@ -116,4 +116,42 @@ class TimerController extends Controller {
         return $actualizo;
     }
 
+    public function getPasadasJuez($idPasada) {
+        $pasadasJuez = DB::table('pasadas_juez')
+            ->where('id_pasada', $idPasada)
+            ->get();
+        return json_encode($pasadasJuez);
+    }
+
+    /**
+     * Se verifica que el juez haya enviado su puntaje
+     * Cuando lo envía se recupera este puntaje
+     */
+    public function getPuntajes($idJuez, $idPasada) {
+        $data = DB::table('pasadas_juez')
+            ->where('id_juez', $idJuez)
+            ->where('id_pasada', $idPasada)
+            ->first(); // Use first() to retrieve a single row
+    
+        $puntajes = [];
+    
+        // Check if the data is not null
+        if ($data && $data->puntaje_exactitud !== null && $data->puntaje_presentacion !== null) {
+            $puntajes['puntaje_exactitud'] = $data->puntaje_exactitud;
+            $puntajes['puntaje_presentacion'] = $data->puntaje_presentacion;
+            return response()->json($puntajes); // Return the data as JSON
+        }
+    
+        // The field is null or not found, return an empty JSON object
+        return response()->json($puntajes);
+    }
+
+    public function getJuezData($idJuez) {
+        $juez = User::find($idJuez);
+        if (!$juez) {
+            return response()->json([]);
+        }
+        return response()->json($juez);
+    }
+
 }

@@ -11,6 +11,7 @@ let selectPasada = document.getElementById('select-pasada');
 let tiempo = 90;
 let tiempoTotal = 0;
 let temporizador;
+const intervalIDs = [];
 
 // Métodos
 function iniciar() {
@@ -87,6 +88,7 @@ function detenerTimer(idPasada) {
     .then(json => {
       //console.log(`Se paró el timer, bandera: ${json}`);
       clearInterval(temporizador);
+      intervalIDs.forEach(intervalID => clearInterval(intervalID));
 
       btnDetener.classList.remove('hover:bg-red-600');
       btnDetener.disabled = true;
@@ -166,6 +168,7 @@ btnIniciar.addEventListener('click', () => {
   if (pasadaSeleccionada) {
     const idPasada = pasadaSeleccionada.value;
     iniciarTimer(idPasada);
+    generateDynamicTable(idPasada); // Pass the idPasada here
   }
 });
 
@@ -178,5 +181,170 @@ btnDetener.addEventListener('click', () => {
 });
 
 btnReiniciar.addEventListener('click', () => {
+  intervalIDs.forEach((intervalID) => clearInterval(intervalID));
   window.location.reload();
 });
+
+
+async function fetchAndUpdatePuntaje(rowData, idJuez, idPasada) {
+  const url = `/api/get-puntajes/${idJuez}/${idPasada}`;
+  const puntajeResponse = await fetch(url);
+  if (!puntajeResponse.ok) {
+    throw new Error('Error al buscar puntajes');
+  }
+  const puntajes = await puntajeResponse.json();
+  console.log('puntajes:', puntajes);
+
+  // Se actualiza solo si puntaje_exactitud y puntaje_presentacion están disponibles en la respuesta de la API
+  if (puntajes.puntaje_exactitud !== undefined) {
+    rowData.puntajeExactitud = puntajes.puntaje_exactitud;
+  }
+
+  if (puntajes.puntaje_presentacion !== undefined) {
+    rowData.puntajePresentacion = puntajes.puntaje_presentacion;
+  }
+
+  console.log('rowData before update:', rowData);
+
+  const puntajeExactitudCell = document.querySelector(`#row-${idJuez} .puntaje-exactitud`);
+  const puntajePresentacionCell = document.querySelector(`#row-${idJuez} .puntaje-presentacion`);
+
+  if (puntajeExactitudCell) {
+    puntajeExactitudCell.textContent = rowData.puntajeExactitud;
+  }
+
+  if (puntajePresentacionCell) {
+    puntajePresentacionCell.textContent = rowData.puntajePresentacion;
+  }
+}
+
+function createFetchAndUpdateClosure(rowData, idJuez, idPasada) {
+  return async () => {
+    await fetchAndUpdatePuntaje(rowData, idJuez, idPasada);
+  };
+}
+
+async function generateDynamicTable(idPasada) {
+  // Se vacía la tabla antes de generarla
+  document.getElementById('dynamic-table-container').innerHTML = '';
+
+  const pasadaSeleccionada = document.getElementById('select-pasada').value;
+  if (pasadaSeleccionada === 'Elegi la pasada') {
+    return;
+  }
+
+  const pasada = document.querySelector('.pasada:checked');
+  if (pasada) {
+    const idPasada = pasada.value;
+    try {
+      const url = `/api/get-pasadasjuez/${idPasada}`;
+      const response = await fetch(url);
+      const jueces = await response.json();
+
+      const tableData = [];
+
+      // Fetch y update de puntajes para cada juez
+      for (const juez of jueces) {
+        const idJuez = juez.id_juez;
+
+        const url2 = `/api/get-juezdata/${idJuez}`;
+        const juezData = await fetch(url2);
+        if (!juezData.ok) {
+          throw new Error('Error al buscar juez');
+        }
+
+        const juezDataEncontrado = await juezData.json();
+
+        // Creo un objeto con los datos del juez
+        const rowData = {
+          id: idJuez,
+          name: juezDataEncontrado.name,
+          apellido: juezDataEncontrado.apellido,
+          puntajeExactitud: 0,
+          puntajePresentacion: 0,
+        };
+
+        // Agrego los datos de la fila al array de la tabla
+        tableData.push(rowData);
+
+        const fetchAndUpdateClosure = createFetchAndUpdateClosure(rowData, idJuez, idPasada);
+        await fetchAndUpdateClosure();
+      }
+
+      // Creo la tabla dinámica
+      console.log('tableData before creating the table:', tableData);
+      const table = document.createElement('table');
+      table.classList.add('border', 'border-gray-300', 'mt-4');
+
+      const thead = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      const headers = ['ID', 'Nombre', 'Apellido', 'Puntaje Exactitud', 'Puntaje Presentacion'];
+
+      headers.forEach((headerText) => {
+        const th = document.createElement('th');
+        th.classList.add('border', 'border-gray-300', 'py-2', 'px-4');
+        th.textContent = headerText;
+        headerRow.appendChild(th);
+      });
+
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      tableData.forEach((rowData) => {
+        const row = document.createElement('tr');
+        row.id = `row-${rowData.id}`;
+
+        const idCell = document.createElement('td');
+        idCell.classList.add('border', 'border-gray-300', 'py-2', 'px-4');
+        idCell.textContent = rowData.id;
+        row.appendChild(idCell);
+
+        const nameCell = document.createElement('td');
+        nameCell.classList.add('border', 'border-gray-300', 'py-2', 'px-4');
+        nameCell.textContent = rowData.name;
+        row.appendChild(nameCell);
+
+        const apellidoCell = document.createElement('td');
+        apellidoCell.classList.add('border', 'border-gray-300', 'py-2', 'px-4');
+        apellidoCell.textContent = rowData.apellido;
+        row.appendChild(apellidoCell);
+
+        const puntajeExactitudCell = document.createElement('td');
+        puntajeExactitudCell.classList.add('border', 'border-gray-300', 'py-2', 'px-4', 'puntaje-exactitud');
+        puntajeExactitudCell.textContent = rowData.puntajeExactitud;
+        row.appendChild(puntajeExactitudCell);
+
+        const puntajePresentacionCell = document.createElement('td');
+        puntajePresentacionCell.classList.add('border', 'border-gray-300', 'py-2', 'px-4', 'puntaje-presentacion');
+        puntajePresentacionCell.textContent = rowData.puntajePresentacion;
+        row.appendChild(puntajePresentacionCell);
+
+        tbody.appendChild(row);
+      });
+
+      table.appendChild(tbody);
+
+      document.getElementById('dynamic-table-container').appendChild(table);
+
+      const interval = 5000;
+
+      for (const rowData of tableData) {
+        (async (rowData, idJuez, idPasada) => {
+          while (true) {
+            try {
+              await fetchAndUpdatePuntaje(rowData, idJuez, idPasada);
+              await new Promise(resolve => setTimeout(resolve, interval));
+            } catch (error) {
+              console.error(error);
+              break;
+            }
+          }
+        })(rowData, rowData.id, idPasada);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+}

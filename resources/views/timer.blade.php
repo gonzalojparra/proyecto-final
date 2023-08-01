@@ -22,7 +22,7 @@
                         <select id="select-categoria" onchange="cargarPasadas()" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option selected disabled>Elegi la categoría</option>
                             @foreach ($categorias as $categoria)
-                            <option class="categoria" value="{{ $categoria['id'] }}">{{ $categoria['nombre'] }} {{ $categoria['edad_desde'] }} | Categoría {{ $categoria['edad_hasta'] }}</option>
+                            <option class="categoria" value="{{ $categoria['id'] }}">{{ $categoria['nombre'] }} | {{ $categoria['edad_desde'] }} - {{ $categoria['edad_hasta'] }} años</option>
                             @endforeach
                         </select>
 
@@ -53,17 +53,20 @@
                         </button>
                     </div>
 
-
                     <!-- Tiempo dado  -->
                     <div>
                         <p id="contador" class="text-4xl mt-3 p-auto text-center">&nbsp;</p>
                     </div>
 
-                    <script src="{{ asset('js/timer.js') }}"></script>
-
+                    <div class="mb-7 mt-2 flex justify-center" id="dynamic-table-container">
+                        <!-- Acá se generará la tabla dinamica -->
+                    </div>
+                    
                 </div>
             </div>
         </div>
     </div>
+    
+    <script src="{{ asset('js/timer.js') }}"></script>
 
 </x-app-layout>

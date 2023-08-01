@@ -3,6 +3,12 @@ const divPuntaje = document.querySelector('.puntaje')
 const traerPasada = document.getElementById('traer-pasada');
 const puntaje = 10;
 
+// Helper para obtener el token CSRF, ya que el componente de livewire no es un form
+function getCsrfToken() {
+    const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
+    return csrfTokenMeta ? csrfTokenMeta.content : null;
+}
+
 // Inicio de puntuador
 traerPasada.addEventListener('click', async () => {
     try {
@@ -63,10 +69,12 @@ const esperarJueces = (idPasada) => {
             try {
                 let response;
                 let url = `/api/cantJueces/${idPasada}`;
+                const csrfToken = getCsrfToken(); // Se obtiene el token CSRF
                 response = await fetch(url, {
                     headers: {
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken, // Se incluye el token CSRF en los headers
                     },
                     method: 'POST',
                     body: JSON.stringify({ idPasada }),
@@ -93,10 +101,12 @@ const esperarTimer = (idPasada) => {
             try {
                 console.log(`Esperando timer: ${idPasada}`);
                 let url = `/api/esperarTimer/${idPasada}`;
+                const csrfToken = getCsrfToken(); // Se obtiene el token CSRF
                 const response = await fetch(url, {
                     headers: {
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken, // Se incluye el token CSRF en los headers
                     },
                     method: 'POST',
                     body: JSON.stringify({ idPasada }),
