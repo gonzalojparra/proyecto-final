@@ -259,6 +259,7 @@ class VerResultados extends Component
                 ->whereIn('id_competencia', $idCompetencia)
                 ->where('users.id_graduacion', $grado->id)
                 ->orderBy('users.clasificacion', 'desc')
+                ->groupBy('users.id')
                 ->get();
 
             while ($bool && $i < count($userCompetencia)) {

@@ -36,7 +36,6 @@ class VerCompetencias extends Component
                 $fechaNac = date("Y", strtotime($fechaNac)); // Año de nacimiento del competidor
                 $edad = $fechaActual - $fechaNac;
                 $bandera = false;
-        
                 foreach ($idCategorias as $categoria) {
                     if (($edad >= 12 && $edad <= 14 && $categoria == 1) ||
                         ($edad >= 15 && $edad <= 17 && $categoria == 2) ||
