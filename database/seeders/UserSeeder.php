@@ -167,6 +167,98 @@ class UserSeeder extends Seeder
                 'fecha_nac' => '2003-09-28',
                 'clasificacion' => 8
             ],
+            [
+                'name' => 'precompetitivos',
+                'apellido' => 'precompetitivos',
+                'password'=>'12345678',
+                'du'=>'43216200',
+                'genero' => 'Femenino',
+                'email' => 'precompetitivos@example.com',
+                'id_escuela' => 1,
+                'id_graduacion' => 1,
+                'gal' => NULL,
+                'fecha_nac' => '2014-09-15',
+                'clasificacion' => 0
+            ],
+            [
+                'name' => 'infantiles',
+                'apellido' => 'infantiles',
+                'password'=>'12345678',
+                'du'=>'43216201',
+                'genero' => 'Femenino',
+                'email' => 'infantiles@example.com',
+                'id_escuela' => 2,
+                'id_graduacion' => 2,
+                'gal' => NULL,
+                'fecha_nac' => '2012-07-12',
+                'clasificacion' => 0
+            ],
+            [
+                'name' => 'cadetes',
+                'apellido' => 'cadetes',
+                'password'=>'12345678',
+                'du'=>'43216202',
+                'genero' => 'Femenino',
+                'email' => 'cadetes@example.com',
+                'id_escuela' => 3,
+                'id_graduacion' => 3,
+                'gal' => NULL,
+                'fecha_nac' => '2008-06-30',
+                'clasificacion' => 0
+            ],
+            [
+                'name' => 'juveniles',
+                'apellido' => 'juveniles',
+                'password'=>'12345678',
+                'du'=>'43216203',
+                'genero' => 'Femenino',
+                'email' => 'juveniles@example.com',
+                'id_escuela' => 4,
+                'id_graduacion' => 4,
+                'gal' => NULL,
+                'fecha_nac' => '2005-08-15',
+                'clasificacion' => 0
+            ],
+            [
+                'name' => 'senior1',
+                'apellido' => 'senior1',
+                'password'=>'12345678',
+                'du'=>'43216204',
+                'genero' => 'Femenino',
+                'email' => 'senior1@example.com',
+                'id_escuela' => 5,
+                'id_graduacion' => 5,
+                'gal' => NULL,
+                'fecha_nac' => '1995-11-20',
+                'clasificacion' => 0
+            ],
+            [
+                'name' => 'senior2Master1',
+                'apellido' => 'senior2Master1',
+                'password'=>'12345678',
+                'du'=>'43216205',
+                'genero' => 'Femenino',
+                'email' => 'senior2Master1@example.com',
+                'id_escuela' => 6,
+                'id_graduacion' => 6,
+                'gal' => NULL,
+                'fecha_nac' => '1990-02-14',
+                'clasificacion' => 0
+            ],
+            [
+                'name' => 'master2',
+                'apellido' => 'master2',
+                'password'=>'12345678',
+                'du'=>'43216206',
+                'genero' => 'Femenino',
+                'email' => 'master2@example.com',
+                'id_escuela' => 7,
+                'id_graduacion' => 7,
+                'gal' => NULL,
+                'fecha_nac' => '1968-07-03',
+                'clasificacion' => 0
+            ]
+            
         ];
 
         foreach ($users as $user) {

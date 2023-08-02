@@ -417,13 +417,13 @@ function validarEdad(fecha) {
   const fechaActual = new Date(); //se obtiene la clase date para saber el año actual
   const anioActual = fechaActual.getFullYear(); // devuelve el año actual  
   const edad = anioActual - anioNac;
-  if (edad < 12) {
+  if (edad < 4) {
     // edadInput.style.borderColor = "red";
     fechaNacFeedback.style.color = 'red';
     fechaNacFeedback.style.fontSize = '12px';
-    fechaNacFeedback.innerHTML = 'Debe tener al menos 12 años de edad'
+    fechaNacFeedback.innerHTML = 'Debe tener al menos 4 años de edad'
     return false;
-  } else if (edad >= 12) {
+  } else if (edad >= 4) {
     // edadInput.style.borderColor = "green";
     fechaNacFeedback.innerHTML = '&nbsp'
     return true;

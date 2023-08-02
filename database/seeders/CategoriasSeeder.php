@@ -14,6 +14,20 @@ class CategoriasSeeder extends Seeder {
        //Quité la graduacion y clasificacion (Marti)
         $categorias = [
             [
+                'nombre' => 'Precompetitivos',
+                'edad_desde' => 4,
+                'edad_hasta' => 8,
+                'genero' => 'Masculino y Femenino',
+                'img' => 'inserte link de imagen'
+            ],
+            [
+                'nombre' => 'Infantiles',
+                'edad_desde' => 8,
+                'edad_hasta' => 12,
+                'genero' => 'Masculino y Femenino',
+                'img' => 'inserte link de imagen'
+            ],
+            [
                 'nombre' => 'Cadetes',
                 'edad_desde' => 12,
                 'edad_hasta' => 14,

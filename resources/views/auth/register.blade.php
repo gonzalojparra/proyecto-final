@@ -81,7 +81,7 @@
 
                 <div>
                     <x-label for="fechaNacCompetidor" value="{{ __('Fecha de nacimiento') }}" />
-                    <x-input id="fechaNacCompetidor" class="block mt-1 w-full" type="date" name="fechaNac" :value="old('fechaNac')" autocomplete="fechaNac" min="1960-01-01" />
+                    <x-input id="fechaNacCompetidor" class="block mt-1 w-full" type="date" name="fechaNac" :value="old('fechaNac')" autocomplete="fechaNac" min="1923-01-01" />
                     <div id="fechaNacFeedback" class="input-feedback" for="fechaNacCompetidor">&nbsp;</div>
                 </div>
 

@@ -85,6 +85,9 @@ class TablaCompetidores extends Component {
         $fechaActual = time();
         $fechaNac = strtotime($fechaNac);
         $edad = round(($fechaActual - $fechaNac) / 31563000);
+        if ($edad < 8.0 ) {
+            $categoria = 'Precompetitivos';
+        }
         if ($edad >= 8.0 && $edad <= 11.0) {
             $categoria = 'Infantiles';
         }
@@ -100,7 +103,7 @@ class TablaCompetidores extends Component {
         if ($edad >= 31.0 && $edad <= 50.0) {
             $categoria = 'Senior2-master1';
         }
-        if ($edad >= 50.0) {
+        if ($edad >= 51.0) {
             $categoria = 'Master2';
         }
         return $categoria;

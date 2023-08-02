@@ -108,23 +108,26 @@ class CompetenciaCompetidor extends Component {
         $fechaActual = time();
         $fechaNac = strtotime( $fechaNac );
         $edad = round( ($fechaActual - $fechaNac) / 31563000 );
+        if( $edad < 8.0 ){
+            $categoria = 'Precompetitivos';
+        }
         if( $edad >= 8.0 && $edad <= 11.0 ){
             $categoria = 'Infantiles';
         }
         if( $edad >= 12.0 && $edad <= 14.0 ){
-            $categoria = 'Cadete';
+            $categoria = 'Cadetes';
         }
         if( $edad >= 15.0 && $edad <= 17.0 ){
             $categoria = 'Juveniles';
         }
         if( $edad >= 18.0 && $edad <= 30.0 ){
-            $categoria = 'Senior1';
+            $categoria = 'Senior 1';
         }
         if( $edad >= 31.0 && $edad <= 50.0 ){
-            $categoria = 'Senior2-master1';
+            $categoria = 'Senior 2-Master 1';
         }
-        if( $edad >= 50.0 ){
-            $categoria = 'Master2';
+        if( $edad >= 51.0 ){
+            $categoria = 'Master 2';
         }
         return $categoria;
     }

@@ -36,18 +36,26 @@ class VerCompetencias extends Component
                 $fechaNac = date("Y", strtotime($fechaNac)); // Año de nacimiento del competidor
                 $edad = $fechaActual - $fechaNac;
                 $bandera = false;
+                /*if (($edad < 8 && $categoria == 1) ||
+                        ($edad >= 8 && $edad <= 11 && $categoria == 2) ||
+                        ($edad >= 12 && $edad <= 14 && $categoria == 3) ||
+                        ($edad >= 15 && $edad <= 17 && $categoria == 4) ||
+                        ($edad >= 18 && $edad <= 30 && $categoria == 5) ||
+                        ($edad >= 31 && $edad <= 50 && $categoria == 6) ||
+                        ($edad >= 51 && $categoria == 7) */
         
                 foreach ($idCategorias as $categoria) {
-                    if (($edad >= 12 && $edad <= 14 && $categoria == 1) ||
-                        ($edad >= 15 && $edad <= 17 && $categoria == 2) ||
-                        ($edad >= 18 && $edad <= 30 && $categoria == 3) ||
-                        ($edad >= 31 && $edad <= 50 && $categoria == 4) ||
-                        ($edad >= 50 && $categoria == 5)
-                    ) {
+                    if (($edad < 8 && $categoria == 1) ||
+                    ($edad >= 8 && $edad <= 11 && $categoria == 2) ||
+                    ($edad >= 12 && $edad <= 14 && $categoria == 3) ||
+                    ($edad >= 15 && $edad <= 17 && $categoria == 4) ||
+                    ($edad >= 18 && $edad <= 30 && $categoria == 5) ||
+                    ($edad >= 31 && $edad <= 50 && $categoria == 6) ||
+                    ($edad >= 51 && $categoria == 7)) {
                         $bandera = true;
                     }
                 }
-        
+                // dd($bandera);
                 if ($bandera) {
                     $competenciasPublicas[] = $competencia;
                 }

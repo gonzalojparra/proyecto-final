@@ -60,7 +60,7 @@ class Agregar extends Component
         $this->reset();
         $this->open = false;
     }
-    
+
     public function show($parametros)
     {
         $this->emit('recarga');
@@ -101,10 +101,10 @@ class Agregar extends Component
         $urlInvitacion = $this->invitacion->store('competencias/invitacion', 'public');
         // guardamos el array con las categorias asignadas a la competencia.
         $categoria = $validate['categoria'];
-        
+
         // Iniciamos la transaccion para multiples operaciones.
         DB::beginTransaction();
-        
+
         try {
 
             // Creamos una competencia.
@@ -125,9 +125,6 @@ class Agregar extends Component
                 throw new Exception("Error al agregar competencia. Agrega categorias e intenta de nuevo.");
             }
 
-
-
-
             session()->flash('msj', 'Competencia creada exitosamente.');
             // Confirmamos las transacciones si no hubo ningun error.
             DB::commit();
@@ -142,27 +139,31 @@ class Agregar extends Component
         $this->emit('recarga');
     }
 
-    public function crearCompetenciaCategoriaYPoomsaes($categoria, $competencia){
-        // Obtenemos todas las graduaciones para asignarle 2 poomsaes a cada una.
-        $graduaciones = Graduacion::get();
-        // Creamos un registro por cada categoria que se asigno a la competencia.
-        foreach ($categoria as $idCategoria) {
+    
 
-            // Crear registros en la tabla CompetenciaCategoria, segun las categorias asignadas a la competencia creada.
+    public function crearCompetenciaCategoriaYPoomsaes($categoria, $competencia)
+    {
+        $poomsaeEleccion = Poomsae::where('nombre', 'A elección')->first();
+        // dd($poomsaeEleccion);
+        $graduaciones = Graduacion::get();
+
+        foreach ($categoria as $idCategoria) {
             $competenciaCategoria = CompetenciaCategoria::create([
                 'id_competencia' => $competencia->id,
                 'id_categoria' => $idCategoria,
             ]);
 
-
-            // Sorteamos los poomsaes para cada graduacion de cada categoria.
             if (count($graduaciones) > 0) {
                 foreach ($graduaciones as $graduacion) {
-
-                    // Obtenemos un poomsae aleatorio para la primer pasada.
-                    $poomsaeRandom1 = Poomsae::inRandomOrder()->first();
-                    // Obtenemos un poomsae aleatorio para la segunda pasada.
-                    $poomsaeRandom2 = Poomsae::inRandomOrder()->first();
+                    if ($idCategoria === 1) {
+                        // Para la categoría 1 (Precompetitivos), asignamos 'A elección' para ambas pasadas.
+                        $poomsaeRandom1 = $poomsaeEleccion;
+                        $poomsaeRandom2 = $poomsaeEleccion;
+                    } else {
+                        // Para las demás categorías, obtenemos poomsaes aleatorios para ambas pasadas.
+                        $poomsaeRandom1 = Poomsae::inRandomOrder()->first();
+                        $poomsaeRandom2 = Poomsae::inRandomOrder()->first();
+                    }
 
                     $poomsaeC = PoomsaeCompetenciaCategoria::create([
                         'id_competencia_categoria' => $competenciaCategoria->id,
@@ -171,12 +172,14 @@ class Agregar extends Component
                         'id_graduacion' => $graduacion->id,
                     ]);
                 }
-                return true;
             } else {
                 return false;
             }
         }
+        return true;
     }
+
+
 
     public function update()
     {
@@ -185,7 +188,7 @@ class Agregar extends Component
         $datosModificados = array();
 
         // Validamos que el nuevo dato sea diferente al actual para cambiarlo.
-        if ($this->titulo != $competencia->titulo){
+        if ($this->titulo != $competencia->titulo) {
             $this->validate([
                 'titulo' => ['required', 'max:120', 'unique:competencias'],
             ]);
@@ -194,7 +197,7 @@ class Agregar extends Component
             $datosModificados[] = 'titulo';
         }
 
-        if ($this->descripcion != $competencia->descripcion){
+        if ($this->descripcion != $competencia->descripcion) {
             $this->validate([
                 'descripcion' => ['required', 'max:120'],
             ]);
@@ -203,7 +206,7 @@ class Agregar extends Component
             $datosModificados[] = 'descripcion';
         }
 
-        if ($this->fecha_inicio != $competencia->fecha_inicio){
+        if ($this->fecha_inicio != $competencia->fecha_inicio) {
             $this->validate([
                 'fecha_inicio' => ['required', 'date', 'after_or_equal:today', 'before:fecha_fin'],
             ]);
@@ -212,7 +215,7 @@ class Agregar extends Component
             $datosModificados[] = 'fecha inicio';
         }
 
-        if ($this->fecha_fin != $competencia->fecha_fin){
+        if ($this->fecha_fin != $competencia->fecha_fin) {
             $this->validate([
                 'fecha_fin' => ['required', 'date', 'after:fecha_inicio'],
             ]);
@@ -221,7 +224,7 @@ class Agregar extends Component
             $datosModificados[] = 'fecha fin';
         }
 
-        if ($this->bases != null){
+        if ($this->bases != null) {
             Storage::disk('public')->delete($competencia->bases);
             $urlBases = $this->bases->store('competencias/bases', 'public');
             $this->validate([
@@ -232,7 +235,7 @@ class Agregar extends Component
             $datosModificados[] = 'bases';
         }
 
-        if ($this->flyer != null){
+        if ($this->flyer != null) {
             Storage::disk('public')->delete($competencia->flyer);
             $urlImagen = $this->flyer->store('competencias', 'public');
             $this->validate([
@@ -243,7 +246,7 @@ class Agregar extends Component
             $datosModificados[] = 'flyer';
         }
 
-        if ($this->invitacion != null){
+        if ($this->invitacion != null) {
             Storage::disk('public')->delete($competencia->invitacion);
             $urlInvitacion = $this->invitacion->store('competencias/invitacion', 'public');
             $this->validate([
@@ -254,11 +257,11 @@ class Agregar extends Component
             $datosModificados[] = 'invitacion';
         }
 
-        if ($seModifico){
-            if (count($datosModificados) > 1){
+        if ($seModifico) {
+            if (count($datosModificados) > 1) {
                 $items = collect($datosModificados)->slice(0, -1)->implode(', ');
                 $items .= ' y ' . last($datosModificados);
-            } else{
+            } else {
                 $items = $datosModificados[0];
             }
             $msj = "Se actualizo: $items, en la competencia $competencia->titulo";
@@ -274,15 +277,15 @@ class Agregar extends Component
     {
         $cantJueces = CompetenciaJuez::where('id_competencia', $id)->count();
         // Verificamos que esta la cantidad de jueces necesaria para pasar de estado.
-        if ($cantJueces == 3 || $cantJueces == 5 || $cantJueces == 7){
+        if ($cantJueces == 3 || $cantJueces == 5 || $cantJueces == 7) {
             $competencia = Competencia::find($id);
             $competencia->estado = 2;
             $competencia->save();
             $this->emit('recarga');
             $this->emit('msjAccion', [true, 'Se abrieron las inscripciones correctamente.']);
             $this->open = false;
-        } else{
-            $msj = 'Se deben inscribir 3, 5 o 7 jueces para abrir inscripciones. Hay '.$cantJueces.' Inscriptos';
+        } else {
+            $msj = 'Se deben inscribir 3, 5 o 7 jueces para abrir inscripciones. Hay ' . $cantJueces . ' Inscriptos';
             $this->emit('msjAccion', [false, $msj]);
             $this->open = false;
         }
@@ -340,7 +343,8 @@ class Agregar extends Component
     }
 
     // Competencia en estado 5 la modificamos a estado 0
-    public function delete($id) {
+    public function delete($id)
+    {
         $competencia = Competencia::find($id);
         $competencia->estado = 0;
         $competencia->save();
@@ -350,7 +354,8 @@ class Agregar extends Component
     }
 
 
-    public function crearPasadasJuez($id){
+    public function crearPasadasJuez($id)
+    {
         $competenciaJuez = CompetenciaJuez::where('id_competencia', $id)
             ->where('aprobado', 1)
             ->get();

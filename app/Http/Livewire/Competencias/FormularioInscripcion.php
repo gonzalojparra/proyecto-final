@@ -297,20 +297,26 @@ class FormularioInscripcion extends Component
         $fechaActual = time();
         $fechaNac = strtotime($this->fechaNac);
         $edad = round(($fechaActual - $fechaNac) / 31563000);
-        if ($edad >= 12.0 && $edad <= 14.0) {
+        if ($edad < 8.0) { 
             $this->idCategoria = 1;
         }
-        if ($edad >= 15.0 && $edad <= 17.0) {
+        if ($edad >= 8.0 && $edad <= 11.0) {
             $this->idCategoria = 2;
         }
-        if ($edad >= 18.0 && $edad <= 30.0) {
+        if ($edad >= 12.0 && $edad <= 14.0) {
             $this->idCategoria = 3;
         }
-        if ($edad >= 31.0 && $edad <= 50.0) {
+        if ($edad >= 15.0 && $edad <= 17.0) {
             $this->idCategoria = 4;
         }
-        if ($edad >= 50.0) {
+        if ($edad >= 18.0 && $edad <= 30.0) {
             $this->idCategoria = 5;
+        }
+        if ($edad >= 31.0 && $edad <= 50.0) {
+            $this->idCategoria = 6;
+        }
+        if ($edad >= 51.0) {
+            $this->idCategoria = 7;
         }
 
         foreach ($categoriasPermitidas as $categoria) {
