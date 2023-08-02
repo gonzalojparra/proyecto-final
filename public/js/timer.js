@@ -168,7 +168,7 @@ btnIniciar.addEventListener('click', () => {
   if (pasadaSeleccionada) {
     const idPasada = pasadaSeleccionada.value;
     iniciarTimer(idPasada);
-    generateDynamicTable(idPasada);
+    generateDynamicTable();
   }
 });
 
@@ -352,6 +352,11 @@ async function generateDynamicTable() {
           if (allJudgesCompleted && !mostrarResultadosEmitted) {
             // Se setea la bandera a true para evitar multiples emisiones
             mostrarResultadosEmitted = true;
+
+            // Ocultar resultados y mostrar "Pasada cerrada"
+            document.getElementById('dynamic-table-container').style.display = 'none';
+            document.getElementById('pasadaCerrada').style.display = 'block';
+
             console.log('Todos los jueces enviaron sus puntajes');
             const resultados = idPasada;
             const newTabUrl = `/vista-pantalla-grande/${idPasada}`;

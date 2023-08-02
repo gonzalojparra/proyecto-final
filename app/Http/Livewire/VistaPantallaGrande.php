@@ -20,10 +20,11 @@ class VistaPantallaGrande extends Component {
 
     public function mount($idPasada) {
         $this->idPasada = $idPasada;
-        // Se filtran las pasadas que ya tienen una calificación promediada
-        $this->pasadas = Pasada::whereNotNull('calificacion')->get();
+        $this->pasadas = Pasada::whereNotNull('calificacion')
+            ->orderBy('calificacion', 'desc')
+            ->get();
         $this->pasada = $this->getPasadaObject($idPasada);
-        $this->competidor = $this->getCompetidorObject();
+        $this->competidor = $this->getCompetidorObject($this->pasada->id_competidor);
         $this->poomsae = $this->getPoomsaeObject();
         $this->competencia = $this->getCompetenciaObject();
     }
@@ -41,8 +42,7 @@ class VistaPantallaGrande extends Component {
         return $pasada;
     }
 
-    public function getCompetidorObject() {
-        $id_competidor = $this->pasada->id_competidor;
+    public function getCompetidorObject($id_competidor) {
         $competidor = User::find($id_competidor);
         return $competidor;
     }

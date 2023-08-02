@@ -1,7 +1,29 @@
-<div>
+<style>
+    .hover-bg-green:hover {
+        background-color: #34D399; /* Verde para la primer card */
+    }
+
+    .hover-bg-yellow:hover {
+        background-color: #FBBF24; /* Amarillo para la segunda card */
+    }
+
+    .hover-bg-red:hover {
+        background-color: #F87171; /* Rojo para la tercer card */
+    }
+</style>
+
+<div class="p-10 flex grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5 justify-center">
     @livewireScripts
-    @foreach($pasadas as $pasada)
-    <div class="card flex justify-center items-center p-5">
+    @foreach($pasadas as $index => $pasada)
+    @php
+        $competidor = $this->getCompetidorObject($pasada->id_competidor);
+    @endphp
+    <div class="{{ $index < 3 ? 'border-blue-500' : 'border-gray-200' }} card flex justify-center items-center p-5 rounded-lg shadow hover:bg-gray-100 hover:shadow-md transition duration-300 ease-in-out
+        @if ($index === 0) hover-bg-green
+        @elseif ($index === 1) hover-bg-yellow
+        @elseif ($index === 2) hover-bg-red
+        @endif
+        ">
         <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700">
             <h5 class="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white">
                 {{ $competidor->name }} {{ $competidor->apellido }}
