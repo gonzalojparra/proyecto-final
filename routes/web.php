@@ -14,7 +14,7 @@ use App\Mail\MailPrueba;
 use Illuminate\Support\Facades\Mail;
 use Whoops\Run;
 use App\Http\Controllers\TimerController;
-
+use App\Http\Livewire\VistaPantallaGrande;
 
 // Navegacion PUBLICA
 Route::get('/', function () {
@@ -93,3 +93,5 @@ Route::post('/competidores/create', [CompetidorController::class, 'buscarCompeti
 Route::post('/competidores/buscarPaises', [CompetidorController::class, 'buscarPaises'])->name('competidores.buscarPaises');
 Route::post('/competidores/buscarColegio', [CompetidorController::class, 'buscarColegio'])->name('competidores.buscarColegio');
 Route::post('/obtenerEscuelas',)->name('acciones.obtenerEscuelas');
+
+Route::view('/vista-pantalla-grande/{idPasada}', 'vista-pantalla-grande')->name('vista-pantalla-grande');

@@ -131,7 +131,7 @@ class TimerController extends Controller {
         $data = DB::table('pasadas_juez')
             ->where('id_juez', $idJuez)
             ->where('id_pasada', $idPasada)
-            ->first(); // Use first() to retrieve a single row
+            ->first();
     
         $puntajes = [];
     
@@ -139,10 +139,9 @@ class TimerController extends Controller {
         if ($data && $data->puntaje_exactitud !== null && $data->puntaje_presentacion !== null) {
             $puntajes['puntaje_exactitud'] = $data->puntaje_exactitud;
             $puntajes['puntaje_presentacion'] = $data->puntaje_presentacion;
-            return response()->json($puntajes); // Return the data as JSON
+            return response()->json($puntajes);
         }
     
-        // The field is null or not found, return an empty JSON object
         return response()->json($puntajes);
     }
 

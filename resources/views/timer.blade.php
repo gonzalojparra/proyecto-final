@@ -1,5 +1,7 @@
 <x-app-layout>
     @section('title', 'Temporizador')
+    @livewireScripts()
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Temporizador') }}
@@ -61,12 +63,23 @@
                     <div class="mb-7 mt-2 flex justify-center" id="dynamic-table-container">
                         <!-- Acá se generará la tabla dinamica -->
                     </div>
-                    
+
                 </div>
             </div>
         </div>
     </div>
-    
+
+
     <script src="{{ asset('js/timer.js') }}"></script>
+
+    <script>
+        window.livewire.on('mostrarResultados', (resultados, newTabUrl) => {
+            // Recibe los datos directamente sin desencriptar
+            console.log(resultados); // Verifica que los resultados se reciben correctamente
+            console.log(newTabUrl);
+            window.open(newTabUrl, '_blank');
+        });
+    </script>
+
 
 </x-app-layout>

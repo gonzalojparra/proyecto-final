@@ -168,7 +168,7 @@ btnIniciar.addEventListener('click', () => {
   if (pasadaSeleccionada) {
     const idPasada = pasadaSeleccionada.value;
     iniciarTimer(idPasada);
-    generateDynamicTable(idPasada); // Pass the idPasada here
+    generateDynamicTable(idPasada);
   }
 });
 
@@ -183,6 +183,10 @@ btnDetener.addEventListener('click', () => {
 btnReiniciar.addEventListener('click', () => {
   intervalIDs.forEach((intervalID) => clearInterval(intervalID));
   window.location.reload();
+});
+
+window.livewire.on('mostrarResultados', (resultados, newTabUrl) => {
+  window.open(newTabUrl, '_blank');
 });
 
 
@@ -204,8 +208,6 @@ async function fetchAndUpdatePuntaje(rowData, idJuez, idPasada) {
     rowData.puntajePresentacion = puntajes.puntaje_presentacion;
   }
 
-  console.log('rowData before update:', rowData);
-
   const puntajeExactitudCell = document.querySelector(`#row-${idJuez} .puntaje-exactitud`);
   const puntajePresentacionCell = document.querySelector(`#row-${idJuez} .puntaje-presentacion`);
 
@@ -224,9 +226,11 @@ function createFetchAndUpdateClosure(rowData, idJuez, idPasada) {
   };
 }
 
-async function generateDynamicTable(idPasada) {
+async function generateDynamicTable() {
   // Se vacía la tabla antes de generarla
   document.getElementById('dynamic-table-container').innerHTML = '';
+
+  const resultados = [];
 
   const pasadaSeleccionada = document.getElementById('select-pasada').value;
   if (pasadaSeleccionada === 'Elegi la pasada') {
@@ -272,7 +276,7 @@ async function generateDynamicTable(idPasada) {
       }
 
       // Creo la tabla dinámica
-      console.log('tableData before creating the table:', tableData);
+      console.log('tableData antes de crear la tabla:', tableData);
       const table = document.createElement('table');
       table.classList.add('border', 'border-gray-300', 'mt-4');
 
@@ -327,24 +331,50 @@ async function generateDynamicTable(idPasada) {
 
       document.getElementById('dynamic-table-container').appendChild(table);
 
-      const interval = 5000;
 
-      for (const rowData of tableData) {
-        (async (rowData, idJuez, idPasada) => {
-          while (true) {
-            try {
-              await fetchAndUpdatePuntaje(rowData, idJuez, idPasada);
-              await new Promise(resolve => setTimeout(resolve, interval));
-            } catch (error) {
-              console.error(error);
+      const interval = 6000;
+      const completedJudges = new Set();
+      let mostrarResultadosEmitted = false;
+
+      async function fetchAndUpdatePuntajeAndUpdateState(rowData, idJuez, idPasada) {
+        try {
+          await fetchAndUpdatePuntaje(rowData, idJuez, idPasada);
+          completedJudges.add(idJuez);
+
+          let allJudgesCompleted = true;
+          for (const juez of tableData) {
+            if (juez.puntajeExactitud === 0 || juez.puntajePresentacion === 0) {
+              allJudgesCompleted = false;
               break;
             }
           }
+
+          if (allJudgesCompleted && !mostrarResultadosEmitted) {
+            // Se setea la bandera a true para evitar multiples emisiones
+            mostrarResultadosEmitted = true;
+            console.log('Todos los jueces enviaron sus puntajes');
+            const resultados = idPasada;
+            const newTabUrl = `/vista-pantalla-grande/${idPasada}`;
+            window.livewire.emit('mostrarResultados', resultados, newTabUrl);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      for (const rowData of tableData) {
+        (async (rowData, idJuez, idPasada) => {
+          await fetchAndUpdatePuntajeAndUpdateState(rowData, idJuez, idPasada);
+          const intervalId = setInterval(async () => {
+            await fetchAndUpdatePuntajeAndUpdateState(rowData, idJuez, idPasada);
+          }, interval);
         })(rowData, rowData.id, idPasada);
       }
+
     } catch (error) {
       console.error(error);
     }
   }
 
 }
+
