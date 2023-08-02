@@ -177,7 +177,7 @@ class UserSeeder extends Seeder
                 'id_escuela' => 1,
                 'id_graduacion' => 1,
                 'gal' => NULL,
-                'fecha_nac' => '2014-09-15',
+                'fecha_nac' => '2017-09-15',
                 'clasificacion' => 0
             ],
             [
@@ -190,7 +190,7 @@ class UserSeeder extends Seeder
                 'id_escuela' => 2,
                 'id_graduacion' => 2,
                 'gal' => NULL,
-                'fecha_nac' => '2017-07-12',
+                'fecha_nac' => '2014-07-12',
                 'clasificacion' => 0
             ],
             [
