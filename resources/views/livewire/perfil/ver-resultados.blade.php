@@ -287,7 +287,9 @@
                             <td class="px-2 py-2 uppercase">
                                 Puntos Promediados ronda {{$ronda}}
                             </td>
-                            <td>-</td>
+                            <td class="px-2 py-2">
+                                <h4 class="uppercase">tiempo realizado</h4><span>{{$competidor->tiempo}} seg </span>
+                            </td>
                             <td>-</td>
                             <td class="px-2 py-2 uppercase text-xl">
                                 {{$competidor->calificacion}}
@@ -311,6 +313,7 @@
                     <td class="px-2 py-2 uppercase">
                         <h4>Puntos Total Concurso</h4> <span class="text-2xl">{{$competidor->total}}</span>
                     </td>
+
                     <td class="px-2 py-2 uppercase">
                         <h4>Ranking Anual</h4> <span class="text-2xl">{{$posicionAnual}}° lugar</span>
                     </td>

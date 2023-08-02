@@ -210,6 +210,7 @@ class VerResultados extends Component
                 'pasadas.id_competencia as idCompetencia',
                 'pasadas.calificacion as calificacion',
                 'pasadas.ronda as ronda',
+                'pasadas.tiempo_presentacion as tiempo',
                 'pasadas_juez.puntaje_exactitud as exactitud',
                 'pasadas_juez.puntaje_presentacion as presentacion',
                 'poomsaes.nombre as nombrePoom',
