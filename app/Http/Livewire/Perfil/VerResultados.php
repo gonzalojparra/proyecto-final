@@ -6,6 +6,7 @@ use App\Models\Categoria;
 use App\Models\CompetenciaCategoria;
 use App\Models\CompetenciaCompetidor;
 use App\Models\CompetenciaJuez;
+use App\Models\Graduacion;
 use App\Models\Pasada;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,7 @@ class VerResultados extends Component
     public $open = false;
     public $openCompetidores = false;
     public $posicion;
+    public $posicionAnual;
     public $competidores;
     public $catParticipantes;
     public $vista = 1;
@@ -113,6 +115,7 @@ class VerResultados extends Component
 
     private function obtenerPosicion($idCompetencia)
     {
+
         $resultados = Pasada::where('id_competencia', $idCompetencia)
             ->join('users', 'users.id', 'pasadas.id_competidor')
             ->select(
@@ -129,6 +132,7 @@ class VerResultados extends Component
 
         $i = 0;
         $bool = true;
+        $posicion = null;
 
         while ($bool && $i < count($resultados)) {
             if ($resultados[$i]->id === $this->user->id) {
@@ -216,9 +220,8 @@ class VerResultados extends Component
             ->where('pasadas.id_competencia', '=', $idCompetencia)
             ->where('pasadas.ronda', '=', $this->ronda)
             ->get();
-
-        dd($this->obtenerCategoria($idCompetencia));
-
+        $this->posicionAnual = $this->obtenerCategoria();
+        
         $this->competidores = $datos;
         $this->openCompetidores = true;
     }
@@ -229,24 +232,42 @@ class VerResultados extends Component
         $this->user->roles()->pluck('name')[0] == 'Competidor' ? $this->detallesCompetenciaCompetidor($idCompetencia) : $this->detallesCompetenciaJuez($idCompetencia);
     }
 
-    private function obtenerPodioAnual()
-    {
-        
-    }
 
-    private function obtenerCategoria($idCompetencia)
-{
-    $idCategoria = CompetenciaCategoria::join('competencias', 'competencias.id', 'competencia_categoria.id_competencia')
-        ->join('categorias','categorias.id','competencia_categoria.id_categoria')
-        ->select('competencia_categoria.id_categoria')
-        ->whereRaw("
+    private function obtenerCategoria()
+    {
+        $categoriaUser = CompetenciaCategoria::join('competencias', 'competencias.id', 'competencia_categoria.id_competencia')
+            ->join('categorias', 'categorias.id', 'competencia_categoria.id_categoria')
+            ->select('competencia_categoria.id_competencia as idcompetencia', 'competencia_categoria.id_categoria as categoria', 'competencias.fecha_inicio')
+            ->whereRaw("
             (SELECT DATEDIFF(competencias.fecha_inicio, fecha_nac) / 365 
              FROM users 
              WHERE users.id = " . $this->user->id . ") BETWEEN categorias.edad_desde AND categorias.edad_hasta
-        ")
-        ->get();
+        ")->get();
 
-    return $idCategoria;
-}
+        $grado = Graduacion::find($this->user->id_graduacion);
+        $bool = true;
+        $i = 0;
+        $posicion = null;
 
+        if (count($categoriaUser) > 0) {
+            foreach ($categoriaUser as $valor) {
+                $idCompetencia[] = $valor->idcompetencia;
+            }
+            $userCompetencia = CompetenciaCompetidor::join('users', 'users.id', 'competencia_competidor.id_competidor')
+                ->select('users.clasificacion', 'users.id', 'users.name')
+                ->whereIn('id_competencia', $idCompetencia)
+                ->where('users.id_graduacion', $grado->id)
+                ->orderBy('users.clasificacion', 'desc')
+                ->get();
+
+            while ($bool && $i < count($userCompetencia)) {
+                if ($userCompetencia[$i]->id === $this->user->id) {
+                    $bool = true;
+                    $posicion = $i + 1;
+                }
+                $i++;
+            };
+        }
+        return $posicion;
+    }
 }
