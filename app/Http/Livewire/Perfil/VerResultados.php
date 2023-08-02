@@ -106,7 +106,7 @@ class VerResultados extends Component
 
         if (!empty($cosa)) {
             for ($i = 0; $i < count($cosa); $i++) {
-                $cosa[$i]['posicion'] = $this->obtenerPosicion($cosa[$i]['idCompetencia']);
+                $cosa[$i]['posicion'] = $this->obtenerPosicion($cosa[$i]['idCompetencia'])."°";
             }
         }
 
