@@ -143,9 +143,10 @@ class Agregar extends Component
 
     public function crearCompetenciaCategoriaYPoomsaes($categoria, $competencia)
     {
-        $poomsaeEleccion = Poomsae::where('nombre', 'A elección')->first();
+        $poomsaeEleccion = Poomsae::latest('id')->first();
         // dd($poomsaeEleccion);
         $graduaciones = Graduacion::get();
+        // $poomsaes = Poomsae::
 
         foreach ($categoria as $idCategoria) {
             $competenciaCategoria = CompetenciaCategoria::create([
@@ -155,14 +156,14 @@ class Agregar extends Component
 
             if (count($graduaciones) > 0) {
                 foreach ($graduaciones as $graduacion) {
-                    if ($idCategoria === 1) {
+                    if ($idCategoria == 1) {
                         // Para la categoría 1 (Precompetitivos), asignamos 'A elección' para ambas pasadas.
                         $poomsaeRandom1 = $poomsaeEleccion;
                         $poomsaeRandom2 = $poomsaeEleccion;
                     } else {
                         // Para las demás categorías, obtenemos poomsaes aleatorios para ambas pasadas.
-                        $poomsaeRandom1 = Poomsae::inRandomOrder()->first();
-                        $poomsaeRandom2 = Poomsae::inRandomOrder()->first();
+                        $poomsaeRandom1 = Poomsae::whereNotIn('id', [$poomsaeEleccion->id])->inRandomOrder()->first();
+                        $poomsaeRandom2 = Poomsae::whereNotIn('id', [$poomsaeEleccion->id])->inRandomOrder()->first();
                     }
 
                     $poomsaeC = PoomsaeCompetenciaCategoria::create([
@@ -178,7 +179,6 @@ class Agregar extends Component
         }
         return true;
     }
-
 
 
     public function update()

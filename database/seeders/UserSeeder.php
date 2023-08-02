@@ -190,7 +190,7 @@ class UserSeeder extends Seeder
                 'id_escuela' => 2,
                 'id_graduacion' => 2,
                 'gal' => NULL,
-                'fecha_nac' => '2012-07-12',
+                'fecha_nac' => '2017-07-12',
                 'clasificacion' => 0
             ],
             [
@@ -203,7 +203,7 @@ class UserSeeder extends Seeder
                 'id_escuela' => 3,
                 'id_graduacion' => 3,
                 'gal' => NULL,
-                'fecha_nac' => '2008-06-30',
+                'fecha_nac' => '2010-06-30',
                 'clasificacion' => 0
             ],
             [
@@ -216,7 +216,7 @@ class UserSeeder extends Seeder
                 'id_escuela' => 4,
                 'id_graduacion' => 4,
                 'gal' => NULL,
-                'fecha_nac' => '2005-08-15',
+                'fecha_nac' => '2007-08-15',
                 'clasificacion' => 0
             ],
             [

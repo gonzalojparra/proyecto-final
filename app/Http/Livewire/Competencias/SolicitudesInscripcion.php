@@ -87,124 +87,35 @@ class SolicitudesInscripcion extends Component
 
 
 
-    // public function crearPasadaCompetidor($idCompetidor)
-    // {
-    //     $idCompetencia = $this->idCompetencia;
 
-    //     $competidor = CompetenciaCompetidor::where('id_competidor', $idCompetidor)
-    //         ->where('id_competencia', $idCompetencia)
-    //         ->first();
-
-    //     if (!$competidor) {
-    //         throw new \Exception('Competidor no encontrado.');
-    //     }
-
-    //     // Categoría "Precompetitivos": Ambas pasadas deben ser a elección
-    //     if ($competidor->id_categoria == 1) {
-    //         $poomsaeEleccion = Poomsae::where('nombre', 'A elección')->get();
-
-    //         Pasada::create([
-    //             'ronda' => 1,
-    //             'id_poomsae' => $poomsaeEleccion->id,
-    //             'id_competidor' => $idCompetidor,
-    //             'id_competencia' => $idCompetencia,
-    //         ]);
-
-    //         Pasada::create([
-    //             'ronda' => 2,
-    //             'id_poomsae' => $poomsaeEleccion->id,
-    //             'id_competidor' => $idCompetidor,
-    //             'id_competencia' => $idCompetencia,
-    //         ]);
-    //     } else if ($competidor->id_categoria == 4 || $competidor->id_categoria == 5 || $competidor->id_categoria == 6 || $competidor->id_categoria == 7) {
-    //         // Categorías "Juveniles", "Senior 1", "Senior 2" y "Master 1": Segunda pasada según las reglas de sorteo
-
-    //         // Obtener los poomsaes disponibles para la segunda pasada según la categoría del competidor
-    //         if ($competidor->id_categoria == 4) {
-    //             $poomsaesDisponibles = Poomsae::where('nombre', 'like', '%SA CHANG%')->get();
-    //         } 
-    //         if ($competidor->id_categoria == 5) {
-    //             $poomsaesDisponibles = Poomsae::where('nombre', 'like', '%PYONKWONG%')->get();
-    //         } 
-    //         if ($competidor->id_categoria == 6) {
-    //             $poomsaesDisponibles = Poomsae::where('nombre', 'like', '%PYONKWONG%')->get();
-    //         } 
-
-    //         // Seleccionar un poomsae aleatorio de la lista de poomsaes disponibles para la primera pasada
-    //         $poomsaePrimeraPasada = $poomsaesDisponibles->random();
-
-    //         Pasada::create([
-    //             'ronda' => 1,
-    //             'id_poomsae' => $poomsaePrimeraPasada->id,
-    //             'id_competidor' => $idCompetidor,
-    //             'id_competencia' => $idCompetencia,
-    //         ]);
-
-    //         // Para la segunda pasada, asegurarnos de que cumpla con las reglas también
-    //         // Excluir el poomsae de la primera pasada de la lista de disponibles
-    //         $poomsaesSegundaPasada = $poomsaesDisponibles->whereNotIn('id', [$poomsaePrimeraPasada->id]);
-
-    //         // Seleccionar un poomsae aleatorio de la lista restante para la segunda pasada
-    //         $poomsaeSegundaPasada = $poomsaesSegundaPasada->random();
-
-    //         Pasada::create([
-    //             'ronda' => 2,
-    //             'id_poomsae' => $poomsaeSegundaPasada->id,
-    //             'id_competidor' => $idCompetidor,
-    //             'id_competencia' => $idCompetencia,
-    //         ]);
-    //     } else {
-    //         // Otras categorías: Segunda pasada según las reglas de sorteo para cada graduación y categoría
-
-    //         $poomsaeCategoria = PoomsaeCompetenciaCategoria::where('id_competencia_categoria', $competidor->id_categoria)
-    //             ->where('id_graduacion', $competidor->user->id_graduacion)
-    //             ->first();
-
-    //         if (!$poomsaeCategoria) {
-    //             throw new \Exception('Poomsae no encontrado para la graduación y categoría del competidor.');
-    //         }
-
-    //         $idPoomsae1 = $poomsaeCategoria->id_poomsae1;
-    //         $idPoomsae2 = $poomsaeCategoria->id_poomsae2;
-
-    //         Pasada::create([
-    //             'ronda' => 1,
-    //             'id_poomsae' => $idPoomsae1,
-    //             'id_competidor' => $idCompetidor,
-    //             'id_competencia' => $idCompetencia,
-    //         ]);
-
-    //         Pasada::create([
-    //             'ronda' => 2,
-    //             'id_poomsae' => $idPoomsae2,
-    //             'id_competidor' => $idCompetidor,
-    //             'id_competencia' => $idCompetencia,
-    //         ]);
-    //     }
-    // }
-
-    // Función para asignar los poomsaes a los competidores
-    public function asignarPasadaCompetidor($idCompetidor)
+    public function crearPasadaCompetidor($idCompetidor)
     {
         $idCompetencia = $this->idCompetencia;
-
 
         $competidor = CompetenciaCompetidor::where('id_competidor', $idCompetidor)
             ->where('id_competencia', $idCompetencia)
             ->first();
+            
+            // dd($competidor->id);
+            // $poomsaeEleccion = Poomsae::latest('id')->first();
+            // dd($competidor->id == 6);
+            // dd($competidor->id_categoria);
+            // dd( $poomsaeAsignado = Poomsae::where('nombre', 'like', '%SAH CHANG%')->first());
 
-
+            // dd( $poomsaeRandom = Poomsae::inRandomOrder()->first());
+    //         $poomsaeCategoria = PoomsaeCompetenciaCategoria::where('id_competencia_categoria', $competidor->id_categoria)
+    // ->where('id_graduacion', $competidor->user->id_graduacion)
+    // ->first();
+    //         dd($poomsaeCategoria->id_poomsae2);
+        
         if (!$competidor) {
             throw new \Exception('Competidor no encontrado.');
         }
 
-
-        //  dd($competidor->id_categoria);
         // Verificar si el competidor pertenece a la categoría "Precompetitivos"
         if ($competidor->id_categoria == 1) {
-            // Asignar un Poomsae a elección
-            $poomsaeEleccion = Poomsae::where('nombre', 'A elección')->first();
-
+            // Asignar el ultimo Poomsae de la bd donde dice que es a a elección
+            $poomsaeEleccion = Poomsae::latest('id')->first();
 
             Pasada::create([
                 'ronda' => 1,
@@ -213,64 +124,61 @@ class SolicitudesInscripcion extends Component
                 'id_competencia' => $idCompetencia,
             ]);
 
-
-            // Para la segunda pasada, asignamos otro Poomsae a elección
-            $poomsaeRandom = Poomsae::where('nombre', 'A elección')->inRandomOrder()->first();
-
-
+    
             Pasada::create([
                 'ronda' => 2,
-                'id_poomsae' => $poomsaeRandom->id,
+                'id_poomsae' => $poomsaeEleccion->id,
                 'id_competidor' => $idCompetidor,
                 'id_competencia' => $idCompetencia,
             ]);
-        } else if ($competidor->id_categoria == 4 || $competidor->id_categoria == 5 || $competidor->id_categoria == 6 || $competidor->id_categoria == 7) {
+
+        } 
+        else if ($competidor->id_categoria == 4 || $competidor->id_categoria == 5 || $competidor->id_categoria == 6 || $competidor->id_categoria == 7) {
             // Asignar el poomsae correspondiente según la regla para la categoría "Juvenil" y superiores
-            // Por ejemplo, para "Juveniles" asignamos 'SA CHANG' y para "Senior 1" asignamos 'PYONKWONG'
-            $poomsaeJuveniles = Poomsae::where('nombre', 'like', '%SA CHANG%')->first();
-            $poomsaeSenior1 = Poomsae::where('nombre', 'like', '%PYONKWONG%')->first();
-
-
+           
             if ($competidor->id_categoria == 4) {
-                $poomsaeAsignado = $poomsaeJuveniles->id;
+                $poomsaeAsignado = Poomsae::where('nombre', 'like', '%SAH CHANG%')->first();
+            } elseif ($competidor->id_categoria == 5) {
+                $poomsaeAsignado = Poomsae::where('nombre', 'like', '%PYONKWONG%')->first();
+            } elseif ($competidor->id_categoria == 6) {
+                $poomsaeAsignado = Poomsae::where('nombre', 'like', '%SIPJIN%')->first();
             } else {
-                $poomsaeAsignado = $poomsaeSenior1->id;
+                $poomsaeAsignado = Poomsae::where('nombre', 'like', '%HANSU%')->first();
             }
-
 
             Pasada::create([
                 'ronda' => 1,
-                'id_poomsae' => $poomsaeAsignado,
+                'id_poomsae' => $poomsaeAsignado->id,
                 'id_competidor' => $idCompetidor,
                 'id_competencia' => $idCompetencia,
             ]);
 
-
             // Para la segunda pasada, asignamos el poomsae aleatorio como antes
-            $poomsaeRandom = Poomsae::inRandomOrder()->first();
+            $poomsaeRandom = PoomsaeCompetenciaCategoria::where('id_competencia_categoria', $competidor->id_categoria)
+                ->where('id_graduacion', $competidor->user->id_graduacion)
+                ->first();
 
+            $idPoomsaeRandom =  $poomsaeRandom->id_poomsae2;
 
             Pasada::create([
                 'ronda' => 2,
-                'id_poomsae' => $poomsaeRandom->id,
+                'id_poomsae' => $idPoomsaeRandom,
                 'id_competidor' => $idCompetidor,
                 'id_competencia' => $idCompetencia,
             ]);
-        } else {
+        } 
+        else{
             // Para categorías inferiores a "Juveniles", seguimos asignando poomsaes aleatorios como antes
             $poomsaeCategoria = PoomsaeCompetenciaCategoria::where('id_competencia_categoria', $competidor->id_categoria)
                 ->where('id_graduacion', $competidor->user->id_graduacion)
                 ->first();
 
-
             if (!$poomsaeCategoria) {
                 throw new \Exception('Poomsae no encontrado para la graduación y categoría del competidor.');
             }
 
-
             $idPoomsae1 = $poomsaeCategoria->id_poomsae1;
             $idPoomsae2 = $poomsaeCategoria->id_poomsae2;
-
 
             Pasada::create([
                 'ronda' => 1,
@@ -278,7 +186,6 @@ class SolicitudesInscripcion extends Component
                 'id_competidor' => $idCompetidor,
                 'id_competencia' => $idCompetencia,
             ]);
-
 
             Pasada::create([
                 'ronda' => 2,
@@ -294,6 +201,7 @@ class SolicitudesInscripcion extends Component
     public function aceptar($rol, $id, $actualizacion = null)
     {
         $usuario = Auth::user();
+        
         /* $participante = CompetenciaJuez::find($id); */
         if ($rol == "Competidor") {
             $participante = CompetenciaCompetidor::find($id);
