@@ -26,10 +26,10 @@
 
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased ">
     <x-banner />
 
-    <div class="min-h-1/2 bg-gray-900">
+    <div class="w-full bg-gray-900">
         @livewire('navigation-menu')
 
         <!-- Page Heading -->
@@ -72,7 +72,7 @@
                     </li>
                 </ul>
 
-                <ul class="wrapper">
+                <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
                     <li class="icon vicky">
                         <span class="tooltip">Vicky</span>
                         <span><i class="fab fa-facebook-f"></i></span>

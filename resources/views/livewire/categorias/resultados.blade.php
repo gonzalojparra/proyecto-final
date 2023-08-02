@@ -26,7 +26,7 @@
 
                 <!-- Puestos -->
                 @if(isset($podio[0]))
-                <a href="#" class="elemento block m-2 p-6  max-w-sm bg-white border border-gray-200 rounded shadow dark:border-gray-400 ">
+                <a href="#" class="elemento block m-2 p-3 max-w-sm bg-white border border-gray-200 rounded shadow dark:border-gray-400 ">
                     <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                         <span class="font-medium text-gray-600 dark:text-gray-300">1°</span>
                     </div>
