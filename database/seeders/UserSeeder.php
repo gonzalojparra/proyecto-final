@@ -115,7 +115,7 @@ class UserSeeder extends Seeder
                 'email' => 'juanL@example.com',
                 'du'=>'12345678',
                 'id_escuela' => 2,
-                'id_graduacion' => 6,
+                'id_graduacion' => 15,
                 'gal' => NULL,
                 'fecha_nac' => '1998-07-19',
                 'clasificacion' => 3

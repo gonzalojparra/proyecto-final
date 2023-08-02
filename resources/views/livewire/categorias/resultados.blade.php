@@ -16,7 +16,7 @@
                             <option value="{{$competenciaCurso['id']}}">{{$competenciaCurso['titulo']}} (en curso)</option>
                             @endforeach
                             @foreach($competenciasFinalizadas as $competenciaFin)
-                            <option  value="{{$competenciaFin['id']}}">{{$competenciaFin['titulo']}}</option>
+                            <option value="{{$competenciaFin['id']}}">{{$competenciaFin['titulo']}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -71,10 +71,10 @@
                         <ul class="style-none text-center font-bold text-md">
                             @if ($rankingSeleccionado === 'General (anual)')
                             <li>{{$podio[1]->clasificacion}} Pts</li>
-                            @endif 
+                            @endif
                             @if ($rankingSeleccionado != 'General (anual)')
                             <li>{{$calificacionesCompetencia[$podio[1]->id]}} Pts</li>
-                            @endif 
+                            @endif
                             <li>{{$podio[1]->team->name}}</li>
                         </ul>
                     </div>
@@ -104,12 +104,12 @@
                     <div class="flex justify-center flex-col">
                         <h5 class="mb-2 ml-auto text-xl font-bold tracking-tight text-gray-900 podio-nombre">{{$podio[0]->name}} {{$podio[0]->apellido}}</h5>
                         <ul class="style-none text-center font-bold text-md">
-                        @if ($rankingSeleccionado === 'General (anual)')
+                            @if ($rankingSeleccionado === 'General (anual)')
                             <li>{{$podio[0]->clasificacion}} Pts</li>
-                            @endif 
+                            @endif
                             @if ($rankingSeleccionado != 'General (anual)')
                             <li>{{$calificacionesCompetencia[$podio[0]->id]}} Pts</li>
-                            @endif 
+                            @endif
                             <li>{{$podio[0]->team->name}}</li>
                         </ul>
                     </div>
@@ -138,12 +138,12 @@
                     <div class="flex justify-center flex-col">
                         <h5 class="mb-2 ml-auto text-xl font-bold tracking-tight podio-nombre text-gray-900 inline-flex">{{$podio[2]->name}} {{$podio[2]->apellido}}</h5>
                         <ul class="style-none text-center font-bold text-md">
-                        @if ($rankingSeleccionado === 'General (anual)')
+                            @if ($rankingSeleccionado === 'General (anual)')
                             <li>{{$podio[2]->clasificacion}} Pts</li>
-                            @endif 
+                            @endif
                             @if ($rankingSeleccionado != 'General (anual)')
                             <li>{{$calificacionesCompetencia[$podio[2]->id]}} Pts</li>
-                            @endif 
+                            @endif
                             <li>{{$podio[2]->team->name}}</li>
                         </ul>
                     </div>
@@ -233,4 +233,15 @@
             </div>
         </div>
     </div>
+    <script>
+    document.addEventListener('livewire:load', function() {
+        // Función para realizar la llamada AJAX cada cierto tiempo
+        function actualizarDatos() {
+            Livewire.emit('actualizarDatos'); // Emitir evento personalizado al componente Livewire
+        }
+        setInterval(actualizarDatos, 10000); // Llamada cada 60 segundos (ajusta el intervalo según tus necesidades)
+    });
+</script>
 </div>
+
+

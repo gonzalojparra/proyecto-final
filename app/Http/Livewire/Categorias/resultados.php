@@ -36,8 +36,15 @@ class Resultados extends Component
     public $tituloRanking;
     public $competenciaEnCurso = false;
 
-    protected $listeners = ['recarga' => 'render'];
+    protected $listeners = ['recarga' => 'render', 'actualizarDatos' => 'actualizarDatos'];
 
+    public function mount()
+    {
+        $this->obtenerCategorias();
+        $this->obtenerGraduaciones();
+        $this->actualizarDatos(); // Ejecutar la función actualizarDatos() al cargar el componente
+        $this->listeners['actualizarDatos'] = 'actualizarDatos'; // Configurar la escucha del evento 'actualizarDatos'
+    }
 
     public function render()
     {
@@ -55,9 +62,7 @@ class Resultados extends Component
             $this->tituloRanking = $this->rankingSeleccionado;
             $this->competidores = User::where('id_graduacion', '<>', null)->where('verificado', 1)->orderBy('clasificacion', 'desc')->get();
         }
-       
         $this->obtenerCategorias();
-        $this->obtenerGraduaciones();
         $this->filtrarCompetidores($this->competidores);
         $this->obtenerPodio();
         return view('livewire.categorias.resultados');
@@ -189,6 +194,21 @@ class Resultados extends Component
             array_push($competidores, $user);
         }
         $this->competidores = $competidores;
+    }
+
+    public function actualizarDatos()
+    {
+        // Mantener la categoría seleccionada antes de actualizar los datos
+        $categoriaActual = $this->categoriaSeleccionada;
+
+        // Actualizar la lista de competidores desde la base de datos
+        $this->competidores = User::where('id_graduacion', '<>', null)->where('verificado', 1)->orderBy('clasificacion', 'desc')->get();
+
+        // Filtrar los competidores y actualizar la lista compGraduacion
+        $this->filtrarCompetidores($this->competidores);
+
+        // Restaurar la categoría seleccionada después de la actualización
+        $this->categoriaSeleccionada = $categoriaActual;
     }
 
 }
